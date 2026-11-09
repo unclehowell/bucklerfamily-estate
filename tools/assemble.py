@@ -132,6 +132,13 @@ def fetch_split_repo(repo, out, theme):
         return 0, f"clone failed: {err}", {}
 
     meta = {'repo_branch': clone_branch}
+    # Record the exact dedicated-repository commit so the Q&A release watcher can
+    # compare this published site build with the source repository HEAD.
+    rev = sh("git rev-parse HEAD", cwd=work, t=20)
+    if rev.returncode != 0 or not re.fullmatch(r"[0-9a-f]{40}", (rev.stdout or "").strip()):
+        shutil.rmtree(work, ignore_errors=True)
+        return 0, "could not identify dedicated repository commit", meta
+    meta['repo_commit'] = rev.stdout.strip()
     build = SPLIT_BUILDS.get(tid) or theme.get('build')
     root = work / (theme.get('root') or '')
     if build:
