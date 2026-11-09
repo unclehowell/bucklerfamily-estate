@@ -2,7 +2,7 @@ name: Publish Q&A source updates
 
 on:
   schedule:
-    - cron: "30 5 * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 permissions:
