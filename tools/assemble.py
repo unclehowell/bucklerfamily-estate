@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """assemble.py — copy every theme's site out of its mirrored branch (or a read-only crawl of its live site when it
 has no static branch output) into dist/<theme>/. Never writes to datro or to any old subdomain. — Sion's Tab agent"""
-import json, os, subprocess, shutil, sys, pathlib, time
+import json, os, subprocess, shutil, sys, pathlib, time, re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CFG = json.load(open(ROOT / 'themes.json'))
 DIST = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else 'dist')
