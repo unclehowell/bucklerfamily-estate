@@ -436,6 +436,10 @@
     "redactions": {
      "type": "integer",
      "description": "How many passages of this message are black-blocked in the public text."
+    },
+    "headers_only": {
+     "type": "boolean",
+     "description": "True for subject-access correspondence: sender, date and subject are shown, no transcript is published."
     }
    }
   },

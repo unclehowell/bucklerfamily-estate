@@ -12,14 +12,15 @@ re-padded. Always sort ids by their number, not as text. Ids are never reused.
 
 ## Files
 - `index.json` — metadata only, one row per record: id, timestamp, direction, correspondent(s), sender as shown, subject line, thread, whether
-  the transcript is public, the part that holds the record, attachment count, message id, linked EV request record, redaction count.
+  the transcript is public, the part that holds the record, attachment count, message id, linked EV request record, redaction count, headers only (1 for subject-access correspondence).
   Read-models (the ERP, the email archive) read this.
 - `emails-01.json` … `emails-23.json` — the records (core schema), in date order, about 350 KB each.
 
 ## Counts (build of 2026-11-10)
 - 1138 records, EV-0906 to EV-2045: 1056 from the email archive (with its text) and 82 from the case-mail index that the archive does not
   hold yet (metadata only, transcript "not yet transcribed").
-- Every archived message is shown: 1056 transcripts public. Nothing is held back.
+- Every message is shown. Subject-access correspondence (32 messages) shows its headers only (sender, date, subject line) and no
+  transcript; 1025 other transcripts are public. A copy of any original can be requested through the catalogue.
 - Redaction: 782 records carry 6221 black-blocked passages, the minimum for public display:
   email addresses, phone numbers, postal addresses, personal data, names of private individuals, the house word list and the two withheld
   digit strings. The originals are not published anywhere in this repository; a copy can be requested through the catalogue.
