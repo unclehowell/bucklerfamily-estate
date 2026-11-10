@@ -21,9 +21,9 @@ re-padded. Always sort ids by their number, not as text. Ids are never reused.
   hold yet (metadata only, transcript "not yet transcribed").
 - Every message is shown. Subject-access correspondence (32 messages) shows its headers only (sender, date, subject line) and no
   transcript; 1025 other transcripts are public. A copy of any original can be requested through the catalogue.
-- Redaction: 782 records carry 6221 black-blocked passages, the minimum for public display:
+- Redaction: 780 records carry 6470 black-blocked passages, the minimum for public display:
   email addresses, phone numbers, postal addresses, personal data, names of private individuals, the house word list and the two withheld
-  digit strings. The originals are not published anywhere in this repository; a copy can be requested through the catalogue.
+  digit strings, plus the mail-client image tags, numbers and phrases the editorial lint rejects. The originals are not published anywhere in this repository; a copy can be requested through the catalogue.
 
 ## Dedupe (nothing is catalogued twice)
 1. Same mailbox message id (`gm-…`) in more than one source: kept once.
