@@ -362,7 +362,8 @@
     "attachments": {"type": "integer"},
     "dedupe_key": {"type": "string", "description": "sha1(date to the minute | sender | subject), normalised; second dedupe key."},
     "origin": {"type": "string"},
-    "transcript_public": {"type": "boolean"}
+    "transcript_public": {"type": "boolean"},
+    "ev": {"type": ["string", "null"], "description": "The evidence record (EV-…) of the request this message belongs to, where the case-mail index names one."}
    }
   },
   "public": {
