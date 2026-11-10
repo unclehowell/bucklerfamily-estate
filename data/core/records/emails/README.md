@@ -12,7 +12,8 @@ new id prefix `EM`, new `email` block). No existing record is changed.
 ## Counts (build of 2026-11-10)
 - 1138 records, EM-0001 to EM-1138: 1056 from the email archive (with its redacted text) and
   82 from the case-mail index that the archive does not hold yet (metadata only, transcript "not yet transcribed").
-- Transcripts public: 742. Held for editorial review: 325 (the archive copy is unchanged; the record still exists).
+- Transcripts public: 698. Held for editorial review: 369 (the archive copy is unchanged; the record still exists).
+  Correspondents that are not a listed public body show as "an unlisted correspondent", with no personal name and no transcript, until confirmed.
 
 ## Dedupe (nothing is catalogued twice)
 1. Same mailbox message id (`gm-…`) in more than one source: kept once.
