@@ -404,6 +404,14 @@ try:
             print('post office catalogue refreshed:', len(_pv_old.get('records') or []), '->', len(_pv_new['records']))
 except Exception as _e:   # the mail catalogue must never stop a build
     print('post office catalogue refresh failed:', _e)
+# 10 Nov 2026: emails are catalogue records (kind email, EM-…; data/core/records/emails/). The Post Office reads the catalogue's
+# email index first (/email/view/catalogue-emails.json, metadata only) and falls back to /email/view/index.json. Nothing is deleted.
+try:
+    _ce_src = ROOT / 'data' / 'core' / 'records' / 'emails' / 'index.json'; _ce_dst = DIST / 'email' / 'view' / 'catalogue-emails.json'
+    if _ce_src.is_file() and _ce_dst.parent.is_dir():
+        shutil.copy2(_ce_src, _ce_dst); print('post office: catalogue email index copied,', json.load(open(_ce_src, encoding='utf-8')).get('count'), 'records')
+except Exception as _e:   # never stops a build
+    print('post office: catalogue email index copy failed:', _e)
 # Cross-institution route status map (snapshot dated from the dartboard source branch).
 import dartboard_options
 dartboard_options.run(DIST)
