@@ -350,7 +350,7 @@
    "type": "object",
    "description": "kind=email only (schema 0.4.0): one email message, catalogued as an artifact (EM-NNNN). Metadata for read-models (ERP, email archive); the redacted text sits in transcript when public.",
    "properties": {
-    "message_id": {"type": "string", "description": "Archive id gm-<mailbox message id>; first dedupe key."},
+    "message_id": {"type": ["string", "null"], "description": "Archive id gm-<mailbox message id>; first dedupe key. Null where the id is withheld."},
     "thread_id": {"type": ["string", "null"]},
     "thread_slug": {"type": ["string", "null"]},
     "conversation": {"type": ["string", "null"]},
