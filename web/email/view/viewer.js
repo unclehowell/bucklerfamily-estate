@@ -2,7 +2,7 @@
    from the case-mail catalogue copied into this compartment (/email/view/index.json, from datro@wayback wayback/api/index.json)
    and the redacted message texts already in the Wayback Vault (/wayback/mail/<id>.txt). Same origin only, no outbound requests.
    With no id it lists every thread, newest first. - Sion's Tab agent, 25 Oct 2026
-   v3 (10 Nov 2026): every email is now a catalogue record (EM-…). The list reads the catalogue's email index first
+   v3 (10 Nov 2026): every email is now a catalogue record (EV-0906 onwards, the EV series). The list reads the catalogue's email index first
    (/email/view/catalogue-emails.json, copied from the catalogue on each build, metadata only) and falls back to /email/view/index.json;
    each message links its catalogue record. Message texts are still the vault's redacted copies. - Cedwyn editors */
 (function () {
