@@ -916,6 +916,20 @@
   "served_by": "worker",
   "slot": 56,
   "group": "research"
+ },
+ {
+  "id": "piano-hero",
+  "title": "Piano Hero",
+  "cy": "Arwr y Piano",
+  "es": "Héroe del Piano",
+  "live": "https://bucklerfamily.estate/piano-hero/",
+  "hosts": [],
+  "paths": [],
+  "desc": "Every institution in the record is a piano key and every quarter since 1988 a row, with a note wherever that body was active; play rolls the years down onto the keys. Served by its own Worker (unclehowell/cedwyn-piano-hero). Webapp 58 of 59.",
+  "path": "/piano-hero/",
+  "served_by": "worker",
+  "slot": 58,
+  "group": "interactive"
  }
 ],
  "allowed_tile_templates": [
