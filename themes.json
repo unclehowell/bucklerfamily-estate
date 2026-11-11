@@ -933,10 +933,11 @@
     },
     {
       "id": "uptime",
+      "slot": 59,
       "title": "Uptime",
       "cy": "Ar gael",
       "es": "Disponibilidad",
-      "live": "https://cedwyn.bucklerfamily.estate/uptime/",
+      "live": "https://bucklerfamily.estate/uptime/",
       "hosts": [],
       "paths": [],
       "desc": "Whether Archwilio (the Welsh Historic Environment Records) and its record GGAT02038s answer, with Coflein and Heneb checked at the same moment as controls; checked twice a day at 06:00 and 18:00 UTC, with 90 days of outages. Live data from the change-monitor Worker at /uptime/uptime.json; page from unclehowell/cedwyn-uptime.",

@@ -704,7 +704,7 @@
    "central_view": false
   },
   {
-   "slot": null,
+   "slot": 59,
    "nav_no": null,
    "app": "uptime",
    "repo": "unclehowell/cedwyn-uptime",
