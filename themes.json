@@ -902,6 +902,20 @@
   "dir": "",
   "slot": 41,
   "group": "interactive"
+ },
+ {
+  "id": "preservation",
+  "title": "Preservation Register",
+  "cy": "Cofrestr Diogelu Cofnodion",
+  "es": "Registro de Conservación",
+  "live": "https://bucklerfamily.estate/preservation/",
+  "hosts": [],
+  "paths": [],
+  "desc": "Register of records preservation notices: the date each institution was first asked to preserve, and not destroy, the records it holds, and the replies on file. Served by its own Worker. Webapp 56 of 59.",
+  "path": "/preservation/",
+  "served_by": "worker",
+  "slot": 56,
+  "group": "research"
  }
 ],
  "allowed_tile_templates": [

@@ -94,7 +94,10 @@ _areas_pub = []
 for _c, _area in zip(chain, _areas):
     _p = _area.get('path') or '/' + _area['id'] + '/'
     _al = sorted({'/' + s + '/' for s in _area.get('source_themes', []) if s not in _slotted} - {_p})
-    _built = any((DIST / x.strip('/')).is_dir() for x in [_p] + _al)
+    # nav 1.4.1 (cedwyn#497, 8 Nov 2026; landed on main 11 Nov 2026, same change as PR #525): an area whose source themes all carry
+    # their own slot (Arcade: nft-art 52, cyberspace 53) has no aliases left, so "built" must still count those sources' folders;
+    # otherwise the area drops out of the chain and every label after it reads one less, "N of 58". - Sion's Tab agent
+    _built = any((DIST / x.strip('/')).is_dir() for x in [_p] + _al + ['/' + s + '/' for s in _area.get('source_themes', [])])
     _areas_pub.append({'id': _area['id'], 'path': _p, 'title': _c[1], 'cy': _c[3], 'es': _c[4], 'group': _c[2],
                        'aliases': _al, 'skip_in': _c[5], 'built': _built,
                        'slot': _area.get('serendipity_slot'), 'of': _area_doc.get('parcel_total', 59)})
@@ -333,6 +336,10 @@ lines += [
     "/wiki/wp-content/uploads/2026/10/2026-05-28_rcahmw_rc26-0205_les08-order-form-2021.docx /wayback/go/?u=https%3A%2F%2Fgithub.com%2Funclehowell%2Fdatro%2Fblob%2Fwayback%2Fwayback%2Fpdf%2Ffoi%2F2026-05-28_rcahmw_rc26-0205_les08-order-form-2021.docx 302",
     # 31 Oct 2026 (P-122): Cedwyn does not carry the Vault's PDFs; they live on the Vault's media host (R2), which answers
     # 404 for a missing file (no loop). The Legal Wiki's own uploads stay on the wiki. Exact-path rules above still win.
+    # 11 Nov 2026 (cedwyn#497): the Preservation register (webapp 56) is served by its own Worker on the apex only; on any other
+    # host (cedwyn.) its nav link would 404, so it goes to the apex address. - Sion's Tab agent
+    "/preservation/* https://bucklerfamily.estate/preservation/:splat 302",
+    "/preservation https://bucklerfamily.estate/preservation/ 302",
     "/wayback/pdf/* https://wayback.bucklerfamily.estate/pdf/:splat 302",
     "/wiki/wp-content/uploads/* https://greathousefarmwiki.wordpress.com/wp-content/uploads/:splat 302",
     "/research/wp-content/uploads/* https://greathousefarmwiki.wordpress.com/wp-content/uploads/:splat 302",
