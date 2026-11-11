@@ -17,7 +17,7 @@ permissions:
   actions: write
   issues: write
 concurrency:
-  group: webapps-refresh
+  group: evidence-resync   # shared with evidence-resync-daily: the two never push to the data branch at once
   cancel-in-progress: false
 jobs:
   refresh:
@@ -45,7 +45,7 @@ jobs:
           git add resync
           if git diff --cached --quiet; then exit 0; fi
           git commit -q -m "resync: webapps refresh snapshot $(date -u +%F) (cedwyn#582) — Sion's Tab agent"
-          git push origin HEAD:evidence-resync
+          for i in 1 2 3; do git pull -q --rebase origin evidence-resync && git push origin HEAD:evidence-resync && exit 0; sleep 5; done; exit 1
       - name: Note on the tracking issue
         env:
           GH_TOKEN: ${{ github.token }}

@@ -17,7 +17,7 @@ permissions:
   contents: write
   issues: write
 concurrency:
-  group: evidence-resync
+  group: evidence-resync   # shared with webapps-refresh-twice-weekly
   cancel-in-progress: false
 jobs:
   resync:
@@ -47,7 +47,7 @@ jobs:
           git add resync
           if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
           git commit -q -m "resync: daily candidates $(date -u +%F) (cedwyn#582) — Sion's Tab agent"
-          git push origin HEAD:evidence-resync
+          for i in 1 2 3; do git pull -q --rebase origin evidence-resync && git push origin HEAD:evidence-resync && exit 0; sleep 5; done; exit 1
       - name: Comment on the tracking issue when something is new
         if: ${{ inputs.dry_run != true && hashFiles('comment.md') != '' }}
         env:
