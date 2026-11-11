@@ -519,6 +519,13 @@
       "mode": "split-repo",
       "min_files": 1,
       "deploy": "repo"
+    },
+    {
+      "app": "Language Forensics",
+      "repo": "unclehowell/coming-soon-57",
+      "page": "/language-forensics/",
+      "mode": "split-repo",
+      "deploy": "repo"
     }
   ]
 }
