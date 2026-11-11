@@ -1,0 +1,14 @@
+# Dead-link redirects (11 Nov 2026). Addresses on bucklerfamily.estate / cedwyn.bucklerfamily.estate that went out in
+# email (or in a page an email linked) and now answered 404. One exact path per line: "<old path> <target> 301".
+# tools/site.py reads this file into _redirects as exact-path rules; it skips any line with * or : in the old path,
+# so nothing here can turn into a catch-all. Default target is the catalogue; a path whose page moved goes to its new home.
+# Audit: work/dead-links/ (sent-urls.csv, status.csv, RESULT.md). — Sion's Tab agent
+/ai-policy/ https://bucklerfamily.estate/dartboard/ai-policy/ 301
+/ai-policy https://bucklerfamily.estate/dartboard/ai-policy/ 301
+/press/ https://bucklerfamily.estate/dartboard/press/ 301
+/press https://bucklerfamily.estate/dartboard/press/ 301
+/enquire/ https://bucklerfamily.estate/dartboard/enquire/ 301
+/enquire https://bucklerfamily.estate/dartboard/enquire/ 301
+/free https://bucklerfamily.estate/ebooks/free/ 301
+/app/admin/enquiry/ https://bucklerfamily.estate/catalogue/ 301
+/app/admin/file/ https://bucklerfamily.estate/catalogue/ 301

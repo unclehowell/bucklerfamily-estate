@@ -241,6 +241,14 @@ lines += ['/email/api /email/api/ 301', '/email/api/records /email/view/index.js
           '/email/api/openapi.json /email/api/ 302', '/email/api/export /email/api/ 302', '/email/api/export/ /email/api/ 302',
           '/email/api/message /email/view/ 302', '/email/api/search /email/view/ 302', '/email/api/thread /email/view/ 302']
 lines += ['/graphql /graphql/ 301', '/catalogue /catalogue/ 301']
+# 11 Nov 2026 (dead links sent in email): exact-path 301s for addresses that went out in mail and now 404 —
+# data/redirects/dead-links.txt, one "<old path> <target> 301" per line; patterns (* or :) are refused so no catch-all. - Sion's Tab agent
+_dead = ROOT / 'data' / 'redirects' / 'dead-links.txt'
+if _dead.exists():
+    for _l in _dead.read_text(encoding='utf-8').splitlines():
+        _p = _l.split()
+        if len(_p) >= 2 and not _l.lstrip().startswith('#') and '*' not in _p[0] and ':' not in _p[0] and _l.strip() not in lines:
+            lines.append(' '.join(_p[:3]))
 # 31 Oct 2026 (P-117): funnel pings (basecamp.js track(): GET /_cedwyn/ev/<event>/<book>/<page>) answer 200 from a tiny file instead of
 # 404 (GET) / 405 (POST); the zone's request analytics still count the original path (work/outreach/funnel_events.py).
 lines += ['/_cedwyn/ev/* /_cedwyn/ev.txt 200']
