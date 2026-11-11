@@ -2,8 +2,9 @@ name: evidence-resync-daily
 # cedwyn#582. Daily: gathers NEW evidence/artifact CANDIDATES (never records) from mail (box-side export), spills and
 # online search into resync/candidates/ on the orphan branch evidence-resync, then comments on #582 when anything is new.
 # Catalogue lock: add-only review file; never edits/moves/deletes a record, never opens or merges a PR, never applies
-# owner-approved. Never dispatches a site build. Runs without any key; an optional ANTHROPIC_API_KEY or OPENAI_API_KEY
-# repo secret adds a scope/kind label to online candidates. — Sion's Tab agent
+# owner-approved. Never dispatches a site build. Runs without any key; an optional NVIDIA_API_KEY (tried first),
+# ANTHROPIC_API_KEY or OPENAI_API_KEY repo secret adds a scope/kind label to online candidates. A provider that answers
+# 401/429 or times out falls through to the next; the run never fails on a label. — Sion's Tab agent
 on:
   schedule:
     - cron: '20 6 * * *'   # 06:20 UTC daily (after the box-side mail export at ~05:40 London)
@@ -33,6 +34,8 @@ jobs:
         run: curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
       - name: Collect candidates
         env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NVIDIA_MODEL: ${{ vars.NVIDIA_MODEL }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           RESYNC_LLM_MODEL: ${{ vars.RESYNC_LLM_MODEL }}

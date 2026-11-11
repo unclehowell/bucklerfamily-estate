@@ -11,7 +11,8 @@ Sources
   (c) online : a fixed query set against free JSON APIs (Internet Archive advanced search, TNA Discovery, Wikidata),
                kept only when a scope term is present, and dropped when the catalogue (/api/catalogue) or the
                online-gap-finder ledger (resync/seen-online-gap-finder.json) already carries the source.
-Optional: with ANTHROPIC_API_KEY or OPENAI_API_KEY set, each online candidate gets a scope/kind label; without, skipped.
+Optional: with NVIDIA_API_KEY (tried first), ANTHROPIC_API_KEY or OPENAI_API_KEY set, each online candidate gets a
+scope/kind label; a failing provider falls through to the next; with none, labelling is skipped and the run goes on.
 
 Usage: python3 resync.py --data <checkout of branch evidence-resync> [--dry-run] [--max-online 60]
 Stdlib only. â€” Sion's Tab agent
@@ -236,35 +237,100 @@ PROMPT = ("You screen archive search hits for a local-history catalogue about TÅ
           '"line": "<one neutral sentence, max 25 words, describing what the record is>"}. Hit: ')
 
 
+NVIDIA_URL = "https://integrate.api.nvidia.com/v1/chat/completions"   # OpenAI-compatible NIM endpoint
+NVIDIA_DEFAULT_MODEL = "google/gemma-3-12b-it"   # listed on integrate.api.nvidia.com/v1/models, Nov 2026
+NVIDIA_GAP = 1.6   # seconds between NVIDIA calls: keeps a run under the free tier's 40 requests a minute
+_off, _strikes, _last = set(), {}, {}
+
+
+def llm_providers():
+    """Providers to try, in order: NVIDIA (NVIDIA_API_KEY) first, then Anthropic, then OpenAI. Keys are read from the
+    environment only and never printed, logged or written anywhere. A provider switched off this run is left out."""
+    order = [("nvidia", "NVIDIA_API_KEY"), ("anthropic", "ANTHROPIC_API_KEY"), ("openai", "OPENAI_API_KEY")]
+    return [p for p, k in order if os.environ.get(k) and p not in _off]
+
+
+def _model(p):
+    rm = os.environ.get("RESYNC_LLM_MODEL") or ""
+    if p == "nvidia":
+        # NVIDIA ids look like org/model; a RESYNC_LLM_MODEL meant for another provider (no slash) is not used here.
+        return os.environ.get("NVIDIA_MODEL") or (rm if "/" in rm else "") or NVIDIA_DEFAULT_MODEL
+    if p == "anthropic":
+        return (rm if rm.startswith("claude") else "") or "claude-haiku-4-5"
+    return (rm if rm and "/" not in rm and not rm.startswith("claude") else "") or "gpt-4o-mini"
+
+
+def _call(p, text):
+    if p == "nvidia":
+        wait = NVIDIA_GAP - (time.time() - _last.get(p, 0))
+        if wait > 0:
+            time.sleep(wait)
+        _last[p] = time.time()
+        body = {"model": _model(p), "messages": [{"role": "user", "content": text}], "max_tokens": 300,
+                "temperature": 0.2}
+        req = urllib.request.Request(NVIDIA_URL, data=json.dumps(body).encode(),
+                                     headers={"authorization": "Bearer " + os.environ["NVIDIA_API_KEY"],
+                                              "content-type": "application/json", "accept": "application/json",
+                                              "user-agent": UA})
+        with urllib.request.urlopen(req, timeout=45) as r:
+            return json.loads(r.read())["choices"][0]["message"].get("content") or ""
+    if p == "anthropic":
+        body = {"model": _model(p), "max_tokens": 200, "messages": [{"role": "user", "content": text}]}
+        req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=json.dumps(body).encode(),
+                                     headers={"x-api-key": os.environ["ANTHROPIC_API_KEY"],
+                                              "anthropic-version": "2023-06-01", "content-type": "application/json"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read())["content"][0]["text"]
+    body = {"model": _model(p), "messages": [{"role": "user", "content": text}], "max_tokens": 200}
+    req = urllib.request.Request("https://api.openai.com/v1/chat/completions", data=json.dumps(body).encode(),
+                                 headers={"authorization": "Bearer " + os.environ["OPENAI_API_KEY"],
+                                          "content-type": "application/json"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return json.loads(r.read())["choices"][0]["message"]["content"]
+
+
+def _parse(out):
+    out = re.sub(r"<think>.*?</think>", "", out or "", flags=re.S)
+    for m in reversed(list(re.finditer(r"\{[^{}]*\}", out, re.S))):
+        try:
+            lab = json.loads(m.group(0))
+        except ValueError:
+            continue
+        if isinstance(lab, dict) and "in_scope" in lab:
+            return lab
+    return None
+
+
 def llm_label(c):
+    """One scope/kind label, or None. Tries each provider in order; a 401/403/404 switches that provider off for the
+    run, a 429, a 5xx or a timeout counts a strike (3 strikes: off for the run) and the next provider is tried. Never
+    raises, so the run never fails here. Error lines carry the provider and the status only."""
     text = PROMPT + json.dumps({k: c.get(k) for k in ("title", "date_display", "holder", "summary")}, ensure_ascii=False)
-    try:
-        if os.environ.get("ANTHROPIC_API_KEY"):
-            body = {"model": os.environ.get("RESYNC_LLM_MODEL") or "claude-haiku-4-5", "max_tokens": 200,
-                    "messages": [{"role": "user", "content": text}]}
-            req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=json.dumps(body).encode(),
-                                         headers={"x-api-key": os.environ["ANTHROPIC_API_KEY"],
-                                                  "anthropic-version": "2023-06-01", "content-type": "application/json"})
-            with urllib.request.urlopen(req, timeout=60) as r:
-                out = json.loads(r.read())["content"][0]["text"]
-        elif os.environ.get("OPENAI_API_KEY"):
-            body = {"model": os.environ.get("RESYNC_LLM_MODEL") or "gpt-4o-mini",
-                    "messages": [{"role": "user", "content": text}], "max_tokens": 200}
-            req = urllib.request.Request("https://api.openai.com/v1/chat/completions", data=json.dumps(body).encode(),
-                                         headers={"authorization": "Bearer " + os.environ["OPENAI_API_KEY"],
-                                                  "content-type": "application/json"})
-            with urllib.request.urlopen(req, timeout=60) as r:
-                out = json.loads(r.read())["choices"][0]["message"]["content"]
-        else:
-            return None
-        m = re.search(r"\{.*\}", out, re.S)
-        lab = json.loads(m.group(0)) if m else None
-        if lab and not public_ok(lab.get("line"))[0]:
-            lab["line"] = ""
-        return lab
-    except Exception as e:
-        print(f"  label failed: {e}", file=sys.stderr)
-        return None
+    for p in llm_providers():
+        why = None
+        try:
+            lab = _parse(_call(p, text))
+            _strikes[p] = 0
+            if not lab:
+                continue
+            if not public_ok(lab.get("line"))[0]:
+                lab["line"] = ""
+            lab["by"] = p
+            return lab
+        except urllib.error.HTTPError as e:
+            why = f"HTTP {e.code}"
+            if e.code in (401, 403, 404):
+                _off.add(p)
+            else:
+                _strikes[p] = _strikes.get(p, 0) + 1
+        except Exception as e:   # timeout, connection reset, bad JSON
+            why = type(e).__name__
+            _strikes[p] = _strikes.get(p, 0) + 1
+        if _strikes.get(p, 0) >= 3:
+            _off.add(p)
+        print(f"  label: {p} answered {why}" + ("; off for this run" if p in _off else "") + ", trying the next",
+              file=sys.stderr)
+    return None
 
 
 def main():
@@ -288,8 +354,12 @@ def main():
     if not ncat:
         print("catalogue unreachable: online step skipped (would not be able to dedupe)")
     labelled = 0
-    if os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY"):
+    if llm_providers():
+        print("LLM labelling, provider order: " + " > ".join(llm_providers()))
         for c in online[: a.max_label]:
+            if not llm_providers():
+                print("every LLM provider is off for this run: labelling stopped, run continues")
+                break
             lab = llm_label(c)
             if lab:
                 c["label"] = lab
