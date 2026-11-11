@@ -702,6 +702,16 @@
    "old_branch": "internetarchive",
    "lane": "github",
    "central_view": false
+  },
+  {
+   "slot": null,
+   "nav_no": null,
+   "app": "uptime",
+   "repo": "unclehowell/cedwyn-uptime",
+   "mode": "split-repo",
+   "old_branch": null,
+   "lane": "github",
+   "central_view": false
   }
  ]
 }

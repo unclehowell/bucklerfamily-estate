@@ -526,6 +526,13 @@
       "page": "/language-forensics/",
       "mode": "split-repo",
       "deploy": "repo"
+    },
+    {
+      "app": "Uptime",
+      "repo": "unclehowell/cedwyn-uptime",
+      "page": "/uptime/",
+      "mode": "split-repo",
+      "deploy": "repo"
     }
   ]
 }
