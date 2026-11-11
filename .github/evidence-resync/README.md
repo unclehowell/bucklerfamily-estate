@@ -9,7 +9,20 @@ Two scheduled workflows keep the central catalogue's intake and the webapps movi
 
 **Catalogue lock.** Both workflows only ADD candidates to a review file. They never write, edit, move or delete a record. They never open or merge a pull request and never apply `owner-approved`. A candidate becomes a record only through the spill / catalogue process, as a `catalogue-change` PR. The daily job never starts a site build.
 
-**Optional keys.** Both workflows run without any secret. If a repo secret `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` is set (Settings → Secrets and variables → Actions), the daily job asks for a one-line scope and kind label on up to 40 online candidates. Only the first key found is used. A repo variable `RESYNC_LLM_MODEL` can name the model.
+**Optional keys.** Both workflows run without any secret. Repo secrets (Settings → Secrets and variables → Actions → Secrets) add a one-line scope and kind label to candidates:
+
+| secret | tried | endpoint | default model |
+|---|---|---|---|
+| `NVIDIA_API_KEY` | first | `https://integrate.api.nvidia.com/v1/chat/completions` (OpenAI-compatible) | `google/gemma-3-12b-it` |
+| `ANTHROPIC_API_KEY` | second | Anthropic Messages API | `claude-haiku-4-5` |
+| `OPENAI_API_KEY` | third | OpenAI Chat Completions | `gpt-4o-mini` |
+
+- The daily job labels up to 40 new online candidates. The twice-weekly job labels up to 40 candidates in `resync/candidates/latest.json` that have no label yet, so the review list reaches the Monday and Thursday build already sorted; its #582 note gives the count.
+- Each label carries `by` (the provider that wrote it). Labels sit on the review list only; no record is touched.
+- A provider that answers 401, 403 or 404 is switched off for that run. A 429, a 5xx or a timeout counts a strike, and three strikes switch it off. Each failed call falls through to the next provider. With no key, or none working, labelling is skipped and the run still passes.
+- NVIDIA calls are spaced 1.6 s apart to stay under the free tier's 40 requests a minute.
+- Repo variables (Actions → Variables) can name the model: `NVIDIA_MODEL` for NVIDIA (an `org/model` id from `https://integrate.api.nvidia.com/v1/models`), `RESYNC_LLM_MODEL` for the others. A `RESYNC_LLM_MODEL` with a slash is also used for NVIDIA when `NVIDIA_MODEL` is unset.
+- Keys are read from the environment only. They are never printed, logged or written to the data branch; error lines name the provider and the HTTP status only.
 
 **Dedupe.** The daily job checks every candidate against `/api/catalogue` (all records), the online gap finder's ledger and its own `resync/seen.json`.
 
