@@ -8,7 +8,7 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/1955-possession-order/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/1962-possession-order/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/1974-licence-letters/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/1990-ggat-archaeological-assessment-great-house-farm-llandough-transcription/,EV-0131,https://bucklerfamily.estate/catalogue/?id=EV-0131,title,catalogue title similarity 0.64
+/research/1990-ggat-archaeological-assessment-great-house-farm-llandough-transcription/,EV-0126,https://bucklerfamily.estate/catalogue/?id=EV-0126,title,1990 GGAT assessment; catalogue EV-0126 (MR-0045 withdrawn as its duplicate)
 /research/agent-index/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/agent-roles/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/ai-agent-index/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
@@ -75,7 +75,7 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/artifacts/ghf-e106-r60-a1/,EV-0438,https://bucklerfamily.estate/catalogue/?id=EV-0438,exact id,page catalogue reference line
 /research/artifacts/ghf-e106-r60-a2/,EV-0438,https://bucklerfamily.estate/catalogue/?id=EV-0438,exact id,page catalogue reference line
 /research/artifacts/ghf-e106-r61-a1/,EV-0424,https://bucklerfamily.estate/catalogue/?id=EV-0424,exact id,page catalogue reference line
-/research/artifacts/ghf-e106-r62-a1/,CC-20261026-A414F0,https://bucklerfamily.estate/catalogue/?id=CC-20261026-A414F0,title,catalogue title similarity 0.65
+/research/artifacts/ghf-e106-r62-a1/,EV-0794,https://bucklerfamily.estate/catalogue/?id=EV-0794,title,same South Wales Police 1189/26 response
 /research/artifacts/ghf-e106-r62-a2/,EV-0783,https://bucklerfamily.estate/catalogue/?id=EV-0783,title,reply attachment R62-A2; same public-body reference as EV-0783
 /research/artifacts/ghf-e106-r63-a1/,EV-0497,https://bucklerfamily.estate/catalogue/?id=EV-0497,exact id,page catalogue reference line
 /research/artifacts/ghf-e106-r64-a1/,EV-0432,https://bucklerfamily.estate/catalogue/?id=EV-0432,exact id,page catalogue reference line
@@ -87,7 +87,7 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/artifacts/ghf-e106-r70-a1/,EV-0174,https://bucklerfamily.estate/catalogue/?id=EV-0174,title,catalogue title similarity 0.64
 /research/artifacts/ghf-e106-r71-a1/,EV-0183,https://bucklerfamily.estate/catalogue/?id=EV-0183,title,catalogue title similarity 0.91
 /research/artifacts/ghf-e106-r72-a1/,EV-0787,https://bucklerfamily.estate/catalogue/?id=EV-0787,title,reply attachment R72-A1; same public-body reference as EV-0787
-/research/artifacts/ghf-e106-r73-a1/,EV-0163,https://bucklerfamily.estate/catalogue/?id=EV-0163,title,catalogue title similarity 0.63
+/research/artifacts/ghf-e106-r73-a1/,EV-0746,https://bucklerfamily.estate/catalogue/?id=EV-0746,title,same HMCTS FOI 260201005 response
 /research/artifacts/ghf-e106-r74-a1/,EV-0192,https://bucklerfamily.estate/catalogue/?id=EV-0192,title,catalogue title similarity 0.67
 /research/artifacts/ghf-e106-r90-a1/,EV-0429,https://bucklerfamily.estate/catalogue/?id=EV-0429,exact id,page catalogue reference line
 /research/artifacts/ghf-e106-r91-a1/,EV-0351,https://bucklerfamily.estate/catalogue/?id=EV-0351,exact id,page catalogue reference line
@@ -119,7 +119,7 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/evidence-library/dbdt123-7-1939-wgr-john-williams-tenancy-agreement-plan/,EV-0023,https://bucklerfamily.estate/catalogue/?id=EV-0023,title,cited on page; title similarity 0.58
 /research/evidence-library/fc-001-wa231076-item-17-form-a13-documents-lodged-at-first-registration/,EV-0059,https://bucklerfamily.estate/catalogue/?id=EV-0059,title,catalogue title similarity 0.66
 /research/evidence-library/fc-001-wa231076-item-17-form-a13/,EV-0059,https://bucklerfamily.estate/catalogue/?id=EV-0059,title,cited on page; title similarity 0.67
-/research/evidence-library/fc-002-wa240304-first-registration-file/,EV-0066,https://bucklerfamily.estate/catalogue/?id=EV-0066,title,cited on page; title similarity 0.52
+/research/evidence-library/fc-002-wa240304-first-registration-file/,,https://bucklerfamily.estate/catalogue/,none,file-level overview of several WA240304 items; no single catalogue record
 /research/evidence-library/fc-003-wa231076-1983-84-registration-activity/,EV-0071,https://bucklerfamily.estate/catalogue/?id=EV-0071,title,cited on page; title similarity 0.89
 /research/evidence-library/fc-004-2-february-1987-amalgamation-application/,EV-0078,https://bucklerfamily.estate/catalogue/?id=EV-0078,title,cited on page; title similarity 0.69
 /research/evidence-library/fc-005-family-solicitors-1984-87-litigation-file/,EV-0073,https://bucklerfamily.estate/catalogue/?id=EV-0073,title,cited on page; title similarity 0.67
@@ -413,7 +413,7 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/evidence/ev-0139-forest-cardiff-goldsworthy-transfer-excision/,EV-0139,https://bucklerfamily.estate/catalogue/?id=EV-0139,exact id,
 /research/evidence/ev-0140-museum-wales-rowel-spur-record/,EV-0140,https://bucklerfamily.estate/catalogue/?id=EV-0140,exact id,
 /research/evidence/ev-0141-royal-signals-association-membership-card/,EV-0141,https://bucklerfamily.estate/catalogue/?id=EV-0141,exact id,
-/research/evidence/ev-0142-vale-ward-representations-complaint-route/,EV-0142,https://bucklerfamily.estate/catalogue/?id=EV-0142,exact id,
+/research/evidence/ev-0142-vale-ward-representations-complaint-route/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/evidence/ev-0143-rcahmw-price-list-rc26-0375/,EV-0143,https://bucklerfamily.estate/catalogue/?id=EV-0143,exact id,
 /research/evidence/ev-0144-hmlr-holding-letter-paper-files/,EV-0144,https://bucklerfamily.estate/catalogue/?id=EV-0144,exact id,
 /research/evidence/ev-0145-land-registry-archive-image-2026/,EV-0145,https://bucklerfamily.estate/catalogue/?id=EV-0145,exact id,
@@ -872,10 +872,10 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/evidence/furniture/photo/p1-109/,AR-0079 (proposed),https://bucklerfamily.estate/catalogue/,none,record proposed in PR #586 as AR-0079; redirects to the catalogue index until merged
 /research/evidence/furniture/photo/p1-110/,AR-0080 (proposed),https://bucklerfamily.estate/catalogue/,none,record proposed in PR #586 as AR-0080; redirects to the catalogue index until merged
 /research/evidence/glamorgan-archives-correspondence/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/evidence/hm-land-registry-correspondence/,EV-0148,https://bucklerfamily.estate/catalogue/?id=EV-0148,title,cited on page; title similarity 0.57
-/research/evidence/ico-correspondence/,EV-0499,https://bucklerfamily.estate/catalogue/?id=EV-0499,title,catalogue title similarity 0.64
-/research/evidence/justice-courts-correspondence/,EV-0151,https://bucklerfamily.estate/catalogue/?id=EV-0151,title,cited on page; title similarity 0.69
-/research/evidence/llandough-community-council-correspondence/,EV-0157,https://bucklerfamily.estate/catalogue/?id=EV-0157,title,cited on page; title similarity 0.68
+/research/evidence/hm-land-registry-correspondence/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/evidence/ico-correspondence/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/evidence/justice-courts-correspondence/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/evidence/llandough-community-council-correspondence/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/evidence/media-coverage-1850-2026/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/evidence/mps-parliament-correspondence/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/evidence/mr-0001/,EV-0246,https://bucklerfamily.estate/catalogue/?id=EV-0246,title,media register entry MR-0001; catalogue has it as EV-0246 (same outlet and date)
@@ -1087,13 +1087,13 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/evidence/persimmon-correspondence/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/evidence/phso-correspondence/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/evidence/public-services-ombudsman-wales-correspondence/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/evidence/rcahmw-correspondence/,MED-0169,https://bucklerfamily.estate/catalogue/?id=MED-0169,title,catalogue title similarity 0.67
-/research/evidence/register/,EV-0009,https://bucklerfamily.estate/catalogue/?id=EV-0009,exact id,page catalogue reference line
+/research/evidence/rcahmw-correspondence/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/evidence/register/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/evidence/senedd-correspondence/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/evidence/south-wales-police-correspondence/,EV-0159,https://bucklerfamily.estate/catalogue/?id=EV-0159,title,catalogue title similarity 0.63
+/research/evidence/south-wales-police-correspondence/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/evidence/vale-of-glamorgan-council-correspondence/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/evidence/wayback-artifact-index/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/evidence/whatdotheyknow-correspondence/,EV-0600,https://bucklerfamily.estate/catalogue/?id=EV-0600,title,cited on page; title similarity 0.55
+/research/evidence/whatdotheyknow-correspondence/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/family-legal-case-control-room/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/family-legal-case-control-room/1955-parcel-a-loss-dossier-woodland-vg41-green/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/family-legal-case-control-room/counter-evidence-disconfirmation/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
@@ -1152,7 +1152,7 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/land-registry-titles/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/land-registry-titles/embed/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/legal-tick-list/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/llandough-community-council-cllr-carroll-correspondence-chronology/,EV-0157,https://bucklerfamily.estate/catalogue/?id=EV-0157,title,cited on page; title similarity 0.71
+/research/llandough-community-council-cllr-carroll-correspondence-chronology/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/llandough-limeworks/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/location-name-nomenclature/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/mary-williams-statement/,EV-0033,https://bucklerfamily.estate/catalogue/?id=EV-0033,title,cited on page; title similarity 0.50
@@ -1249,7 +1249,7 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/missing-records/mr-0086/,MR-0086,https://bucklerfamily.estate/catalogue/?id=MR-0086,exact id,
 /research/missing-records/mr-0087/,MR-0087 (proposed),https://bucklerfamily.estate/catalogue/,none,record proposed in PR #586 as MR-0087; redirects to the catalogue index until merged
 /research/missing-records/mr-0088/,MR-0088 (proposed),https://bucklerfamily.estate/catalogue/,none,record proposed in PR #586 as MR-0088; redirects to the catalogue index until merged
-/research/nomenclature-register/,EV-0165,https://bucklerfamily.estate/catalogue/?id=EV-0165,title,cited on page; title similarity 0.52
+/research/nomenclature-register/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/parcels/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/press-and-archive-leads-october-2026/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/press-reports-1938/,EV-0022,https://bucklerfamily.estate/catalogue/?id=EV-0022,title,cited on page; title similarity 0.68
@@ -1285,18 +1285,18 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/records-access-chronology/foi-reply-register/ghf-e106-r55-llandough-council-section-12-refusal-11-october-2026/,EV-0193,https://bucklerfamily.estate/catalogue/?id=EV-0193,exact id,
 /research/records-access-chronology/foi-reply-register/heneb-her-email-correspondence-catalogue/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/records-access-chronology/foi-reply-register/hm-land-registry-email-correspondence-catalogue/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/records-access-chronology/foi-reply-register/llandough-community-council-email-correspondence-catalogue/,EV-0157,https://bucklerfamily.estate/catalogue/?id=EV-0157,title,cited on page; title similarity 0.72
-/research/records-access-chronology/foi-reply-register/ministry-of-defence-email-correspondence-catalogue/,EV-0151,https://bucklerfamily.estate/catalogue/?id=EV-0151,title,catalogue title similarity 0.64
-/research/records-access-chronology/foi-reply-register/rcahmw-national-monuments-record-email-correspondence-catalogue/,EV-0184,https://bucklerfamily.estate/catalogue/?id=EV-0184,title,cited on page; title similarity 0.67
-/research/records-access-chronology/foi-reply-register/south-wales-police-email-correspondence-catalogue-part-2/,EV-0159,https://bucklerfamily.estate/catalogue/?id=EV-0159,title,catalogue title similarity 0.65
-/research/records-access-chronology/foi-reply-register/south-wales-police-email-correspondence-catalogue-part-3/,CC-20261026-A414F0,https://bucklerfamily.estate/catalogue/?id=CC-20261026-A414F0,title,catalogue title similarity 0.63
-/research/records-access-chronology/foi-reply-register/south-wales-police-email-correspondence-catalogue/,CC-20261026-A414F0,https://bucklerfamily.estate/catalogue/?id=CC-20261026-A414F0,title,catalogue title similarity 0.64
-/research/records-access-chronology/foi-reply-register/vale-of-glamorgan-council-email-correspondence-catalogue-part-2/,EV-0480,https://bucklerfamily.estate/catalogue/?id=EV-0480,title,catalogue title similarity 0.66
-/research/records-access-chronology/foi-reply-register/vale-of-glamorgan-council-email-correspondence-catalogue-part-3/,EV-0480,https://bucklerfamily.estate/catalogue/?id=EV-0480,title,catalogue title similarity 0.65
-/research/records-access-chronology/foi-reply-register/vale-of-glamorgan-council-email-correspondence-catalogue/,EV-0474,https://bucklerfamily.estate/catalogue/?id=EV-0474,title,catalogue title similarity 0.62
+/research/records-access-chronology/foi-reply-register/llandough-community-council-email-correspondence-catalogue/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/records-access-chronology/foi-reply-register/ministry-of-defence-email-correspondence-catalogue/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/records-access-chronology/foi-reply-register/rcahmw-national-monuments-record-email-correspondence-catalogue/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/records-access-chronology/foi-reply-register/south-wales-police-email-correspondence-catalogue-part-2/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/records-access-chronology/foi-reply-register/south-wales-police-email-correspondence-catalogue-part-3/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/records-access-chronology/foi-reply-register/south-wales-police-email-correspondence-catalogue/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/records-access-chronology/foi-reply-register/vale-of-glamorgan-council-email-correspondence-catalogue-part-2/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/records-access-chronology/foi-reply-register/vale-of-glamorgan-council-email-correspondence-catalogue-part-3/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
+/research/records-access-chronology/foi-reply-register/vale-of-glamorgan-council-email-correspondence-catalogue/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/records-access-chronology/foi-reply-register/welsh-government-and-cadw-email-correspondence-catalogue-part-2/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/records-access-chronology/foi-reply-register/welsh-government-and-cadw-email-correspondence-catalogue-part-3/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/records-access-chronology/foi-reply-register/welsh-government-and-cadw-email-correspondence-catalogue/,EV-0156,https://bucklerfamily.estate/catalogue/?id=EV-0156,title,catalogue title similarity 0.63
+/research/records-access-chronology/foi-reply-register/welsh-government-and-cadw-email-correspondence-catalogue/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/records-access-chronology/source-conflicts-register/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/redevelopment/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/reorg/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
@@ -1310,11 +1310,11 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/scrutiny-and-accountability/government-public-authority-involvement/archaeology-data-service-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/barry-preservation-society-civic-trust-forensic-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/bp-archive-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/bp-properties-bp-pension-trust-forensic-institutional-review/,EV-0045,https://bucklerfamily.estate/catalogue/?id=EV-0045,title,cited on page; title similarity 0.50
+/research/scrutiny-and-accountability/government-public-authority-involvement/bp-properties-bp-pension-trust-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/government-public-authority-involvement/bute-estate-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/cadw-forensic-critique-v8-0-0/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/cardiff-city-council-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/cardiff-county-court-forensic-institutional-review/,EV-0041,https://bucklerfamily.estate/catalogue/?id=EV-0041,title,cited on page; title similarity 0.55
+/research/scrutiny-and-accountability/government-public-authority-involvement/cardiff-county-court-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/government-public-authority-involvement/cardiff-registration-service-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/companies-house-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/cotswold-archaeological-trust-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
@@ -1324,7 +1324,7 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/scrutiny-and-accountability/government-public-authority-involvement/darwin-gray-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/debenham-tewson-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/dwr-cymru-welsh-water-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/european-commission-human-rights-strasbourg-forensic-review/,EV-0122,https://bucklerfamily.estate/catalogue/?id=EV-0122,title,cited on page; title similarity 0.57
+/research/scrutiny-and-accountability/government-public-authority-involvement/european-commission-human-rights-strasbourg-forensic-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/government-public-authority-involvement/european-court-human-rights-echr-archives-forensic-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/forest-of-cardiff-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/ggat-forensic-review-and-evidence-schedule-v4-0-3/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
@@ -1344,13 +1344,13 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/scrutiny-and-accountability/government-public-authority-involvement/lakeside-and-llandough-development-company-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/landmark-chambers-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/linklaters-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/llandough-community-council-forensic-institutional-review/,EV-0177,https://bucklerfamily.estate/catalogue/?id=EV-0177,title,cited on page; title similarity 0.67
+/research/scrutiny-and-accountability/government-public-authority-involvement/llandough-community-council-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/government-public-authority-involvement/media-wales-reach-plc-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/ministry-of-defence-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/ministry-of-justice-forensic-institutional-review/,EV-0163,https://bucklerfamily.estate/catalogue/?id=EV-0163,title,catalogue title similarity 0.66
+/research/scrutiny-and-accountability/government-public-authority-involvement/ministry-of-justice-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/government-public-authority-involvement/mountjoy-ltd-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/national-archives-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/national-library-of-wales-forensic-institutional-review/,EV-0418,https://bucklerfamily.estate/catalogue/?id=EV-0418,title,catalogue title similarity 0.66
+/research/scrutiny-and-accountability/government-public-authority-involvement/national-library-of-wales-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/government-public-authority-involvement/nctso-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/npcc-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/parliamentary-archives-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
@@ -1359,13 +1359,13 @@ old_path,catalogue_id,catalogue_url,match_basis,note
 /research/scrutiny-and-accountability/government-public-authority-involvement/response-tactics-response-friction-score/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/royal-mail-group-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/senedd-culture-committee-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/south-wales-police-forensic-institutional-review/,EV-0186,https://bucklerfamily.estate/catalogue/?id=EV-0186,title,catalogue title similarity 0.63
+/research/scrutiny-and-accountability/government-public-authority-involvement/south-wales-police-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/government-public-authority-involvement/south-western-brick-and-tile-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/vale-of-glamorgan-council-forensic-institutional-review/,EV-0474,https://bucklerfamily.estate/catalogue/?id=EV-0474,title,catalogue title similarity 0.65
+/research/scrutiny-and-accountability/government-public-authority-involvement/vale-of-glamorgan-council-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/government-public-authority-involvement/warwick-modern-records-centre-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/welsh-government-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/government-public-authority-involvement/welsh-office-wales-office-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
-/research/scrutiny-and-accountability/government-public-authority-involvement/western-ground-rents-forensic-institutional-review/,EV-0019,https://bucklerfamily.estate/catalogue/?id=EV-0019,title,cited on page; title similarity 0.58
+/research/scrutiny-and-accountability/government-public-authority-involvement/western-ground-rents-forensic-institutional-review/,,https://bucklerfamily.estate/catalogue/,none,overview page covering many records; no single catalogue record
 /research/scrutiny-and-accountability/legal-review-fraud-land-human-rights/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/legal-review-fraud-land-human-rights/legal-review-addendum-6-october-2026-fresh-reassessment/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
 /research/scrutiny-and-accountability/master-scrutiny-issue-register/,,https://bucklerfamily.estate/catalogue/,none,"prose, analysis or navigation page with no single catalogue record"
