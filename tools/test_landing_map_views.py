@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""Static contract checks for the landing-page place modals (landing-map-views.js 2.0.0, owner WhatsApp 18:52 GMT 3 Nov 2026):
-a 2D/3D map block inside the Wales and Patagonia modals, none in Online; each map framed bare (runtime.js hides site chrome in
-frames); every modal tile opens at its own address in the top window. - Sion's Tab agent"""
+"""Static contract checks for the current landing-page map-view script:
+a 2D/3D map block inside the Wales and Patagonia modals, none in Online; maps framed bare; modal tiles open in the top window."""
 import pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -9,12 +8,12 @@ boot = (ROOT / "web" / "_cedwyn" / "ghf" / "ghf-boot.js").read_text(encoding="ut
 views = (ROOT / "web" / "_cedwyn" / "landing-map-views.js").read_text(encoding="utf-8")
 runtime = (ROOT / "web" / "_cedwyn" / "runtime.js").read_text(encoding="utf-8")
 halves = (ROOT / "tools" / "halves.py").read_text(encoding="utf-8")
-assert "landing-map-views.js?v=2.1.0" in boot
+assert "landing-map-views.js?v=2.3.0" in boot
 for label in ("map2d", "map3d", "aria-pressed", "role", "_top"):
     assert label in views, f"missing map-toggle contract: {label}"
 for source in ('"/tithe-h3/"', '"/chubut-h3/"', '"/terrain/"', '"/argentina-3d/"'):
     assert source in views, f"missing map route: {source}"
-# 2.1.0 (owner WhatsApp 10:23 GMT 8 Nov 2026): a collapsed bar, a third button opens/closes the maps, nothing framed while closed
+# 2.1.0: a collapsed bar, a third button opens/closes the maps, nothing framed while closed.
 for label in ("aria-expanded", "aria-controls", "cwv-exp", "cwv-area", 'setAttribute("data-open", "false")'):
     assert label in views, f"missing collapsed-bar contract: {label}"
 assert 'block.getAttribute("data-open") === "true") load(p)' in views, "a closed bar frames no map"
