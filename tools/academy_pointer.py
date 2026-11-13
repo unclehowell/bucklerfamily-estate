@@ -67,10 +67,15 @@ def fetch_academy(d):
 def run(dist):
     d = pathlib.Path(dist); made = []
     n_ac = fetch_academy(d); print('academy_pointer: academy files', n_ac)
-    # Stamp the exact Agent Library source revision into its public manifest. The flow watchdog
+    required = ('index.html', 'agents.json', 'llms.txt', 'work.json')
+    missing = [name for name in required if not (d / 'academy' / name).is_file()]
+    if n_ac <= 0 or missing:
+        raise SystemExit('academy_pointer: required Agent Library output missing: ' + ', '.join(missing or ['entire public/ branch']))
+    # Stamp the exact Agent Library source revision into its public manifest
     # compares this with GitHub's agents branch to detect a library update that was not republished.
     mirror = os.environ.get('MIRROR', 'mirror.git')
     agent_commit = subprocess.run(['git', '--git-dir', mirror, 'rev-parse', '--verify', '-q', 'refs/heads/agents'], capture_output=True, text=True).stdout.strip()
+    if not agent_commit: raise SystemExit('academy_pointer: could not verify agents source-branch commit')
     academy_manifest = d / 'academy' / 'agents.json'
     if n_ac and academy_manifest.is_file() and agent_commit:
         agent_data = json.loads(academy_manifest.read_text(encoding='utf-8'))
