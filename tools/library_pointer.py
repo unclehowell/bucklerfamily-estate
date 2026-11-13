@@ -19,7 +19,10 @@ def run(dist):
             for m in tf.getmembers():
                 if not m.isfile() or not m.name.startswith('public/'): continue
                 dst = out / m.name[len('public/'):]; dst.parent.mkdir(parents=True, exist_ok=True); dst.write_bytes(tf.extractfile(m).read()); n += 1
+        required = ('index.html', 'llms.txt')
+        missing = [name for name in required if not (out / name).is_file()]
+        if n <= 0 or missing: raise RuntimeError('required library output missing: ' + ', '.join(missing or ['empty public/ branch']))
         print('library_pointer: library files', n); return n
     except Exception as e:
-        print('library_pointer: library copy failed:', str(e)[:200]); return 0
+        print('library_pointer: library copy failed:', str(e)[:200]); raise SystemExit(1)
 if __name__ == '__main__': run(sys.argv[1] if len(sys.argv) > 1 else 'dist')
