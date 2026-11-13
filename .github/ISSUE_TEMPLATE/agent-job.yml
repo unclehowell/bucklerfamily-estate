@@ -67,7 +67,7 @@ body:
     id: repository_branch
     attributes:
       label: Repository and target branch
-      placeholder: "unclehowell/cedwyn · main or section/<name>"
+      placeholder: "unclehowell/bucklerfamily-estate · main or section/<name>"
     validations:
       required: true
   - type: textarea
@@ -87,7 +87,7 @@ body:
     attributes:
       label: Existing-issue search
       description: "State the repositories/terms searched and confirm no existing issue already covers this deliverable."
-      placeholder: "Searched unclehowell/cedwyn and relevant app repo; no duplicate found."
+      placeholder: "Searched unclehowell/bucklerfamily-estate and relevant app repo; no duplicate found."
     validations:
       required: true
   - type: checkboxes
