@@ -31,7 +31,7 @@ jobs:
             exit 1
           fi
 
-          REPORT_URL="https://raw.githubusercontent.com/unclehowell/cedwyn/site/_cedwyn/reports/_assemble_report.json"
+          REPORT_URL="https://raw.githubusercontent.com/unclehowell/bucklerfamily-estate/site/_cedwyn/reports/_assemble_report.json"
           HTTP_CODE="$(curl -sS -L -o /tmp/assemble-report.json -w '%{http_code}' "$REPORT_URL?cache_bust=$(date +%s)")"
           DEPLOYED_SHA=""
           if [[ "$HTTP_CODE" == "200" ]]; then
