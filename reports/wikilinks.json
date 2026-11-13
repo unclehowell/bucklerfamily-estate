@@ -1,7 +1,7 @@
 {
- "pages": 6243,
- "glossary_links": 16269,
- "name_links": 20364,
+ "pages": 6245,
+ "glossary_links": 16282,
+ "name_links": 20378,
  "themes": {
   "accounts": 1,
   "argentina": 2,
@@ -36,6 +36,7 @@
   "parcels": 2,
   "patagonia": 1,
   "peekaboo": 1,
+  "preservation": 1,
   "privacy": 1,
   "projects": 155,
   "qa": 11,
@@ -51,6 +52,7 @@
   "thousand-cuts": 1,
   "tithe-h3": 1,
   "title-chain": 1,
+  "tweak": 1,
   "uptime": 1,
   "values": 1,
   "wales": 3,
@@ -62,7 +64,7 @@
  "name_groups": 16,
  "variants": 98,
  "public_variants": 82,
- "agents_link": "/academy/",
- "agent_blocks_hidden": 23506,
- "agent_pages": 11233
+ "agents_link": "/llms.txt",
+ "agent_blocks_hidden": 23515,
+ "agent_pages": 11236
 }
