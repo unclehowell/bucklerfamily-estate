@@ -50,7 +50,7 @@ LLMS = """# Cedwyn
 import os, shutil, subprocess, tarfile, io
 def fetch_academy(d):
     """read branch agents/public into dist/academy (git archive from the build's mirror, else a shallow fetch)"""
-    out = d / 'academy'; repo = os.environ.get('GITHUB_REPOSITORY', 'unclehowell/cedwyn'); mirror = os.environ.get('MIRROR', 'mirror.git')
+    out = d / 'academy'; repo = os.environ.get('GITHUB_REPOSITORY', 'unclehowell/bucklerfamily-estate'); mirror = os.environ.get('MIRROR', 'mirror.git')
     try:
         if subprocess.run(['git', '--git-dir', mirror, 'rev-parse', '--verify', '-q', 'refs/heads/agents'], capture_output=True).returncode != 0:
             if not pathlib.Path(mirror).exists(): subprocess.run(['git', 'init', '-q', '--bare', mirror], check=True)
