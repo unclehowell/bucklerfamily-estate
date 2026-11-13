@@ -2,8 +2,8 @@
  "$schema": "https://json-schema.org/draft/2020-12/schema",
  "$id": "https://cedwyn.bucklerfamily.estate/_cedwyn/core/core-record.schema.json",
  "title": "Cedwyn core record",
- "version": "0.4.0",
- "description": "One record in the Cedwyn central catalogue (data/core/records/*.json). Public text: neutral third person; provenance names the source document only.",
+ "version": "0.5.0",
+ "description": "One record in the BucklerFamily.estate central catalogue. Public text: neutral third person; provenance names the source document only. Version 0.5.0 adds the forensic_assessment record kind and FA identifier series.",
  "type": "object",
  "required": [
   "id",
@@ -14,8 +14,8 @@
  "properties": {
   "id": {
    "type": "string",
-   "pattern": "^(EV|MR|CC|KF|RET|PL|PE|EVT|AR|TS|OBS|TOC)-[A-Z0-9-]+$",
-   "description": "One numbering format throughout the catalogue: PREFIX-NNNN, the number zero-padded to at least 4 digits. Past 9999 the number simply gets longer (EV-10000 … EV-1000000 and beyond); existing ids are never rewritten or re-padded. Sort and compare ids by their number, never as plain strings (EV-10000 comes after EV-9999). Email records (kind email) are numbered in the EV series, continuing after the highest EV in use; the two withheld digit strings are skipped. New ids: next = highest number in the series + 1."
+   "pattern": "^(FA|EV|MR|CC|KF|RET|PL|PE|EVT|AR|TS|OBS|TOC)-[A-Z0-9-]+$",
+   "description": "One numbering format throughout the catalogue: PREFIX-NNNN, the number zero-padded to at least 4 digits. Past 9999 the number simply gets longer; existing IDs are never rewritten or re-padded. FA-NNNN is reserved for published Forensic Assessment reports, each retaining its ID across SemVer revisions. Other record series keep their established numbering rules."
   },
   "kind": {
    "enum": [
@@ -30,7 +30,8 @@
     "testimony",
     "catalogue_candidate",
     "foi_finding",
-    "email"
+    "email",
+    "forensic_assessment"
    ]
   },
   "slug": {
