@@ -3,12 +3,12 @@
   "pages_scanned": 13736,
   "references_checked": {
     "resource": 360217,
-    "nav": 668464
+    "nav": 668473
   },
   "database_backed_paths": 7716,
-  "unique_missing_destinations": 2446,
-  "missing_references": 154846,
-  "missing_navigation_references": 128372,
+  "unique_missing_destinations": 2445,
+  "missing_references": 154845,
+  "missing_navigation_references": 128371,
   "missing_resource_references": 26474,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
