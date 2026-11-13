@@ -70,7 +70,9 @@ jobs:
       - name: Assemble themes
         run: MIRROR=mirror.git python3 tools/assemble.py dist
       - name: Forensic catalogue publication guard (all reports must have an FA ID, SemVer and live public record)
-        run: python3 tools/check_forensic_catalogue.py dist
+        run: |
+          python3 tools/check_forensic_catalogue.py dist
+          node --check dist/forensic/fa.js
       - name: Data views → pages (central catalogue data/core → each app's own _db/view.json → A2UI-style pages; an app whose view fails keeps its static pages)
         run: python3 tools/views.py dist || echo "::warning::views step did not complete; static pages kept"
       - name: Apex site source for the apex themes (BucklerFamilyFarm public/, read-only)
