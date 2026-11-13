@@ -14,7 +14,7 @@ History source: git (the build's shallow checkout is deepened first); if git can
 (the snapshot committed with this file) is used. - Sion's Tab agent"""
 import json, re, sys, html, pathlib, subprocess, datetime, urllib.parse
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-REPO = 'unclehowell/cedwyn'
+REPO = 'unclehowell/bucklerfamily-estate'
 SHOW = 20
 SHELL_VER = '1.1.1'
 RULE = ('Versions are derived from main\'s commit history (the repo has no release tags on main): the first commit is '
