@@ -90,7 +90,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--max-label", type=int, default=40)
     a = ap.parse_args()
-    tok, repo = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY", "unclehowell/cedwyn")
+    tok, repo = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY", "unclehowell/bucklerfamily-estate")
     today = dt.datetime.utcnow().date().isoformat()
     st, cat = http("GET", f"{SITE}/api/catalogue?limit=1")
     kinds = {k["kind"]: k["n"] for k in (cat.get("kinds") or [])} if st == 200 else {}
