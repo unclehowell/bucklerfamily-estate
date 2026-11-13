@@ -915,7 +915,8 @@
       "path": "/preservation/",
       "served_by": "worker",
       "slot": 56,
-      "group": "research"
+      "group": "research",
+      "dir": "public"
     },
     {
       "id": "piano-hero",
@@ -929,7 +930,8 @@
       "path": "/piano-hero/",
       "served_by": "worker",
       "slot": 58,
-      "group": "interactive"
+      "group": "interactive",
+      "dir": "public"
     },
     {
       "id": "uptime",
@@ -1037,6 +1039,18 @@
       "desc": "A dated timeline of military activity and presence around Tŷ Mawr, Llandough, Lavernock, Flat Holm and Penarth; each entry labelled record, testimony or working theory, with what cuts against it.",
       "dir": "",
       "group": "research"
+    },
+    {
+      "id": "tweak",
+      "title": "Tweak",
+      "cy": "Tweak",
+      "es": "Tweak",
+      "live": "https://bucklerfamily.estate/tweak/",
+      "hosts": [],
+      "paths": [],
+      "desc": "Front-end and user-experience defect register, with each item linked to its GitHub issue and a clear repair contract.",
+      "dir": "public",
+      "group": "interactive"
     }
   ],
   "allowed_tile_templates": [
