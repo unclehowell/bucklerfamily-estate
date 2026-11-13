@@ -4,7 +4,7 @@
  "blobs": 5097,
  "blob_bytes": 692644793,
  "blob_skipped_over_cap": 9,
- "edges": 531648,
+ "edges": 531647,
  "nodes": 1687,
  "fts_rows": 16623,
  "captures": 183,
@@ -30,7 +30,7 @@
  "title_theory_refs": 36,
  "blobmap_paths": 7717,
  "blobmap_blobs": 5097,
- "db_version": "2a8ad31d26e3",
+ "db_version": "e387302393c2",
  "db_bytes": 923570176,
  "chunks": 3524,
  "chunk_max_bytes": 262144

@@ -3,12 +3,12 @@
   "pages_scanned": 13736,
   "references_checked": {
     "resource": 360217,
-    "nav": 668475
+    "nav": 668480
   },
   "database_backed_paths": 7717,
   "unique_missing_destinations": 2445,
-  "missing_references": 154845,
-  "missing_navigation_references": 128371,
+  "missing_references": 154844,
+  "missing_navigation_references": 128370,
   "missing_resource_references": 26474,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
@@ -910,7 +910,7 @@
     {
       "kind": "nav",
       "path": "/research/>*.html",
-      "references": 35,
+      "references": 34,
       "examples": [
         {
           "from": "/research/evidence/ev-0124-outline-planning-permission-89-01396-out-residenti/",
