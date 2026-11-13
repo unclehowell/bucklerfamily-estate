@@ -7,7 +7,7 @@ import io, os, pathlib, shutil, subprocess, sys, tarfile
 BRANCH = 'library'
 def run(dist):
     d = pathlib.Path(dist); out = d / 'library'
-    repo = os.environ.get('GITHUB_REPOSITORY', 'unclehowell/cedwyn'); mirror = os.environ.get('MIRROR', 'mirror.git')
+    repo = os.environ.get('GITHUB_REPOSITORY', 'unclehowell/bucklerfamily-estate'); mirror = os.environ.get('MIRROR', 'mirror.git')
     try:
         if not pathlib.Path(mirror).exists(): subprocess.run(['git', 'init', '-q', '--bare', mirror], check=True)
         subprocess.run(['git', '--git-dir', mirror, 'fetch', '-q', '--depth', '1', f'https://github.com/{repo}.git',
