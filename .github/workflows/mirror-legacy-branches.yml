@@ -1,0 +1,48 @@
+name: One-time legacy branch mirror
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/mirror-legacy-branches.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: one-time-legacy-branch-mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - name: Fetch and mirror only the two required branches, with full ancestry
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init --bare mirror.git
+          git -C mirror.git remote add source https://github.com/unclehowell/cedwyn.git
+          git -C mirror.git fetch --no-tags source \
+            +refs/heads/main:refs/heads/main \
+            +refs/heads/site:refs/heads/site
+
+          git -C mirror.git remote add target \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C mirror.git push --force target \
+            +refs/heads/main:refs/heads/main \
+            +refs/heads/site:refs/heads/site
+
+          for branch in main site; do
+            expected="$(git -C mirror.git rev-parse "refs/heads/${branch}")"
+            actual="$(git ls-remote --heads target "${branch}" | awk '{print $1}')"
+            if [ "${actual}" != "${expected}" ]; then
+              echo "::error::${branch} ref mismatch: expected ${expected}, got ${actual}"
+              exit 1
+            fi
+            echo "Verified ${branch}: ${actual}"
+          done
