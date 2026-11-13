@@ -19,7 +19,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for id in 43419670322; do
+          for id in 43421441019; do
             status="$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${id}" --jq '.status')"
             if [ "${status}" = "in_progress" ] || [ "${status}" = "queued" ]; then
               gh api --method POST "/repos/${GITHUB_REPOSITORY}/actions/runs/${id}/force-cancel"
