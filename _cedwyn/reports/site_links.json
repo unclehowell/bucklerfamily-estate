@@ -1,0 +1,28 @@
+{
+ "version": "1.1.0",
+ "added_in_own_footer_or_before_agent_footer": 11248,
+ "no_footer_left_alone": 1777,
+ "already": 0,
+ "sample": [
+  "index.html",
+  "wdtk/index.html",
+  "tweak/index.html",
+  "shop/index.html",
+  "peekaboo/index.html",
+  "graphql/index.html",
+  "title-chain/index.html",
+  "emails/index.html",
+  "releases/index.html",
+  "records/index.html",
+  "privacy/index.html",
+  "fcg/first-seen.html",
+  "fcg/mandate.html",
+  "fcg/index.html",
+  "fcg/standard.html",
+  "fcg/case.html",
+  "fcg/graphql.html",
+  "patagonia/index.html",
+  "hubspot/index.html",
+  "argentina/index.html"
+ ]
+}

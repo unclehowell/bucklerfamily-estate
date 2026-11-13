@@ -1,23 +1,25 @@
 {
- "pages": 109,
+ "pages": 114,
  "missing": [
   "/wales/ebooks/",
-  "/argentina/ebooks/"
+  "/argentina/ebooks/",
+  "/academy/FLYWHEELS/",
+  "/library/snowball/"
  ],
  "sources": {
-  "pages.json": 59,
-  "kissed-frogs": 50,
+  "pages.json": 61,
+  "kissed-frogs": 55,
   "that-old-chestnut": 0,
   "wayback": 2
  },
  "footer_version": "1.0.6",
- "footer_added": 3267,
+ "footer_added": 2468,
  "footer_upgraded": 0,
  "footer_stale_kept": [
-  "/app/index.html",
+  "/fcg/index.html",
   "/chat/index.html",
-  "/fcg/index.html"
+  "/app/index.html"
  ],
- "footer_gb_added": 17,
- "footer_skipped": 21
+ "footer_gb_added": 5,
+ "footer_skipped": 22
 }

@@ -2,7 +2,7 @@
  "schema": "cedwyn_areas/v1",
  "source": "data/site-areas.json + themes.json slot",
  "order": "main menu reading order; previous/next wrap from the last area to the first",
- "count": 39,
+ "count": 41,
  "parcel_total": 59,
  "areas": [
   {
@@ -12,10 +12,7 @@
    "cy": "Y Wici Cyfreithiol",
    "es": "La Wiki Legal",
    "group": "artifacts",
-   "aliases": [
-    "/nomenclature/",
-    "/records/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 1,
@@ -55,7 +52,9 @@
    "es": "La Sala de Mapas",
    "group": "artifacts",
    "aliases": [],
-   "skip_in": [],
+   "skip_in": [
+    "wales"
+   ],
    "built": true,
    "slot": 4,
    "of": 59
@@ -93,9 +92,7 @@
    "cy": "Y Stori",
    "es": "La Historia",
    "group": "story",
-   "aliases": [
-    "/documentary/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 7,
@@ -121,9 +118,7 @@
    "cy": "Albwm y Fferm",
    "es": "El Álbum de la Granja",
    "group": "artifacts",
-   "aliases": [
-    "/fb2/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 9,
@@ -136,11 +131,7 @@
    "cy": "Oriel yr Ardd",
    "es": "La Galería del Jardín",
    "group": "interactive",
-   "aliases": [
-    "/cyberspace/",
-    "/nft-art/",
-    "/terrain/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 10,
@@ -233,9 +224,7 @@
    "cy": "Awdurdodau Cyhoeddus",
    "es": "Autoridades Públicas",
    "group": "research",
-   "aliases": [
-    "/meeting/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 17,
@@ -367,9 +356,7 @@
    "cy": "Swyddfa’r Post",
    "es": "La Oficina de Correos",
    "group": "research",
-   "aliases": [
-    "/emails/"
-   ],
+   "aliases": [],
    "skip_in": [
     "patagonia"
    ],
@@ -562,6 +549,32 @@
    "built": true,
    "slot": 39,
    "of": 59
+  },
+  {
+   "id": "garden",
+   "path": "/garden/",
+   "title": "Flower Garden",
+   "cy": "Gardd Flodau",
+   "es": "Jardín de Flores",
+   "group": "interactive",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 47,
+   "of": 59
+  },
+  {
+   "id": "releases",
+   "path": "/releases/",
+   "title": "The Release Machine",
+   "cy": "Y Peiriant Rhyddhau",
+   "es": "La máquina de publicaciones",
+   "group": "interactive",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 41,
+   "of": 59
   }
  ],
  "nav_version": "1.1.0",
@@ -574,10 +587,7 @@
    "cy": "Y Wici Cyfreithiol",
    "es": "La Wiki Legal",
    "group": "artifacts",
-   "aliases": [
-    "/nomenclature/",
-    "/records/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 1,
@@ -629,7 +639,9 @@
    "es": "La Sala de Mapas",
    "group": "artifacts",
    "aliases": [],
-   "skip_in": [],
+   "skip_in": [
+    "wales"
+   ],
    "built": true,
    "slot": 4,
    "of": 59,
@@ -679,9 +691,7 @@
    "cy": "Y Stori",
    "es": "La Historia",
    "group": "story",
-   "aliases": [
-    "/documentary/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 7,
@@ -715,9 +725,7 @@
    "cy": "Albwm y Fferm",
    "es": "El Álbum de la Granja",
    "group": "artifacts",
-   "aliases": [
-    "/fb2/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 9,
@@ -734,11 +742,7 @@
    "cy": "Oriel yr Ardd",
    "es": "La Galería del Jardín",
    "group": "interactive",
-   "aliases": [
-    "/cyberspace/",
-    "/nft-art/",
-    "/terrain/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 10,
@@ -859,9 +863,7 @@
    "cy": "Awdurdodau Cyhoeddus",
    "es": "Autoridades Públicas",
    "group": "research",
-   "aliases": [
-    "/meeting/"
-   ],
+   "aliases": [],
    "skip_in": [],
    "built": true,
    "slot": 17,
@@ -1029,9 +1031,7 @@
    "cy": "Swyddfa’r Post",
    "es": "La Oficina de Correos",
    "group": "research",
-   "aliases": [
-    "/emails/"
-   ],
+   "aliases": [],
    "skip_in": [
     "patagonia"
    ],
@@ -1301,6 +1301,23 @@
    "sec": false
   },
   {
+   "id": "releases",
+   "path": "/releases/",
+   "title": "The Release Machine",
+   "cy": "Y Peiriant Rhyddhau",
+   "es": "La máquina de publicaciones",
+   "group": "interactive",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 41,
+   "of": 59,
+   "src": "/releases/",
+   "apex": "/releases/",
+   "href": "/releases/",
+   "sec": true
+  },
+  {
    "id": "tithe-h3",
    "path": "/tithe-h3/",
    "src": "/tithe-h3/",
@@ -1309,7 +1326,9 @@
    "es": "Tithe H3",
    "group": "artifacts",
    "aliases": [],
-   "skip_in": [],
+   "skip_in": [
+    "patagonia"
+   ],
    "built": true,
    "slot": 42,
    "of": 59,
@@ -1350,7 +1369,10 @@
    "es": "Spill",
    "group": "interactive",
    "aliases": [],
-   "skip_in": [],
+   "skip_in": [
+    "wales",
+    "patagonia"
+   ],
    "built": true,
    "slot": 44,
    "of": 59,
@@ -1369,7 +1391,10 @@
    "es": "Analítica",
    "group": "interactive",
    "aliases": [],
-   "skip_in": [],
+   "skip_in": [
+    "wales",
+    "patagonia"
+   ],
    "built": true,
    "slot": 45,
    "of": 59,
@@ -1377,6 +1402,277 @@
    "worker": false,
    "apex": "/analytics/",
    "href": "/analytics/",
+   "sec": false
+  },
+  {
+   "id": "chubut-h3",
+   "path": "/chubut-h3/",
+   "src": "/chubut-h3/",
+   "title": "Chubut H3",
+   "cy": "Chubut H3",
+   "es": "Chubut H3",
+   "group": "artifacts",
+   "aliases": [],
+   "skip_in": [
+    "wales"
+   ],
+   "built": true,
+   "slot": 46,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/chubut-h3/",
+   "href": "/chubut-h3/",
+   "sec": false
+  },
+  {
+   "id": "garden",
+   "path": "/garden/",
+   "title": "Flower Garden",
+   "cy": "Gardd Flodau",
+   "es": "Jardín de Flores",
+   "group": "interactive",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 47,
+   "of": 59,
+   "src": "/garden/",
+   "apex": "/garden/",
+   "href": "/garden/",
+   "sec": true
+  },
+  {
+   "id": "documentary",
+   "path": "/documentary/",
+   "src": "/documentary/",
+   "title": "Cedwyn · documentary",
+   "cy": "Cedwyn · rhaglen ddogfen",
+   "es": "Cedwyn · documental",
+   "group": "story",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 48,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/documentary/",
+   "href": "/documentary/",
+   "sec": false
+  },
+  {
+   "id": "nomenclature",
+   "path": "/nomenclature/",
+   "src": "/nomenclature/",
+   "title": "Nomenclature",
+   "cy": "Enwau",
+   "es": "Nomenclatura",
+   "group": "artifacts",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 49,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/nomenclature/",
+   "href": "/nomenclature/",
+   "sec": false
+  },
+  {
+   "id": "records",
+   "path": "/records/",
+   "src": "/records/",
+   "title": "Primary Records",
+   "cy": "Cofnodion Sylfaenol",
+   "es": "Registros Primarios",
+   "group": "artifacts",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 50,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/records/",
+   "href": "/records/",
+   "sec": false
+  },
+  {
+   "id": "fb2",
+   "path": "/fb2/",
+   "src": "/fb2/",
+   "title": "farmbook 2 · Today",
+   "cy": "farmbook 2 · Heddiw",
+   "es": "farmbook 2 · Hoy",
+   "group": "research",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 51,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/fb2/",
+   "href": "/fb2/",
+   "sec": false
+  },
+  {
+   "id": "nft-art",
+   "path": "/nft-art/",
+   "src": "/nft-art/",
+   "title": "The Garden Gallery",
+   "cy": "Oriel yr Ardd",
+   "es": "La Galería del Jardín",
+   "group": "interactive",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 52,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/nft-art/",
+   "href": "/nft-art/",
+   "sec": false
+  },
+  {
+   "id": "cyberspace",
+   "path": "/cyberspace/",
+   "src": "/cyberspace/",
+   "title": "The Digital Estate",
+   "cy": "Yr Ystâd Ddigidol",
+   "es": "La Finca Digital",
+   "group": "interactive",
+   "aliases": [],
+   "skip_in": [
+    "wales",
+    "patagonia"
+   ],
+   "built": true,
+   "slot": 53,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/cyberspace/",
+   "href": "/online/cyberspace/",
+   "sec": false
+  },
+  {
+   "id": "meeting",
+   "path": "/meeting/",
+   "src": "/meeting/",
+   "title": "The Council Chamber",
+   "cy": "Siambr y Cyngor",
+   "es": "La Sala del Consejo",
+   "group": "research",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 54,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/meeting/",
+   "href": "/meeting/",
+   "sec": false
+  },
+  {
+   "id": "emails",
+   "path": "/emails/",
+   "src": "/emails/",
+   "title": "The Post Office · Calendar",
+   "cy": "Swyddfa’r Post · Calendr",
+   "es": "La Oficina de Correos · Calendario",
+   "group": "research",
+   "aliases": [],
+   "skip_in": [
+    "patagonia"
+   ],
+   "built": true,
+   "slot": 55,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/emails/",
+   "href": "/online/emails/",
+   "sec": false
+  },
+  {
+   "id": "preservation",
+   "path": "/preservation/",
+   "src": "/preservation/",
+   "title": "Preservation Register",
+   "cy": "Cofrestr Diogelu Cofnodion",
+   "es": "Registro de Conservación",
+   "group": "research",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 56,
+   "of": 59,
+   "webapp": true,
+   "worker": true,
+   "apex": "/preservation/",
+   "href": "/preservation/",
+   "sec": false
+  },
+  {
+   "id": "language-forensics",
+   "path": "/language-forensics/",
+   "src": "/language-forensics/",
+   "title": "Language Forensics",
+   "cy": "Fforenseg Iaith",
+   "es": "Forense del Lenguaje",
+   "group": "research",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 57,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/language-forensics/",
+   "href": "/language-forensics/",
+   "sec": false
+  },
+  {
+   "id": "piano-hero",
+   "path": "/piano-hero/",
+   "src": "/piano-hero/",
+   "title": "Piano Hero",
+   "cy": "Arwr y Piano",
+   "es": "Héroe del Piano",
+   "group": "interactive",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 58,
+   "of": 59,
+   "webapp": true,
+   "worker": true,
+   "apex": "/piano-hero/",
+   "href": "/piano-hero/",
+   "sec": false
+  },
+  {
+   "id": "uptime",
+   "path": "/uptime/",
+   "src": "/uptime/",
+   "title": "Uptime",
+   "cy": "Ar gael",
+   "es": "Disponibilidad",
+   "group": "research",
+   "aliases": [],
+   "skip_in": [],
+   "built": true,
+   "slot": 59,
+   "of": 59,
+   "webapp": true,
+   "worker": false,
+   "apex": "/uptime/",
+   "href": "/uptime/",
    "sec": false
   }
  ]

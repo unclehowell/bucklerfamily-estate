@@ -1,307 +1,203 @@
-/* Landing-page Tiles / 2D / 3D selector views. Geometry is drawn only from the published GeoJSON. */
+/* Landing place modals: one map block (2D / 3D toggle) drawn inside the modal, above the place's own webapp tiles.
+   2.1.0 (8 Nov 2026, owner WhatsApp 10:23 GMT: "the 2d/3d map toggle needs to be a collapsed bar. With a third toggle to expand/
+   collapse the maps. On both wales and argentina page areas"; cedwyn#528): the block is one slim bar, collapsed by default:
+   2D map | 3D map | Show maps. The third button (aria-expanded) opens and closes the map area; 2D/3D switch the view (and open it
+   when closed). Nothing is framed until the area is open and that view is chosen, so a closed bar loads no map. 3D: Wales =
+   Wales in 3D (LiDAR terrain, served at /terrain/), Patagonia = Great House II in 3D (/argentina-3d/), each its own world.
+   2.0.0 (3 Nov 2026, owner WhatsApp 18:52 GMT): the Wales and Patagonia modals show only their own webapps plus a 2D/3D map inside the
+   modal; Online shows webapps only. 2D: Wales = Tithe H3 (/tithe-h3/), Patagonia = Chubut H3 (/chubut-h3/). 3D: the estate scene with
+   voice (/terrain/, "Start call" then speak) in both. Each map is framed bare: runtime.js 17 hides every piece of site chrome in a frame,
+   so the map shows once, with no second header. A tapped webapp tile leaves the modal and opens at its own address in the top window.
+   Replaces 1.0.0 (Tiles / 2D Map / 3D Map tabs that repeated every tile, a parcel-shape sketch and a framed full page). - Cedwyn editors 
+   2.2.0 (8 Nov 2026, owner WhatsApp 19:41 GMT: "No text above or below the 3d and 2d map in the modal popup when I select wales or
+   patagonia. And all the image icons for wales do not look like wireframe holograms as they should"): in the Wales and Patagonia
+   modals the place title and the section headings are kept for screen readers only, the caption, hint and "Open full screen" line under
+   each map is gone, so only the 2D/3D bar, the map and the close control show; Wales tiles load the line-drawn hologram set (?v=5).
+   2.3.0 (8 Nov 2026, owner WhatsApp 22:33 GMT, "Remove all that text yes", on the "Cedwyn outline · Chubut coast" card that covered
+   the Patagonia 2D map on a phone): each framed map is shown map-only. When a frame loads, a style is put into it (same origin) that hides
+   every text overlay: titles, info cards, captions, stats, legends, layer panels, credits, view and sun buttons, tap cards and popups.
+   The 2D maps fill the frame (only the zoom buttons and the parcel numbers drawn on the Wales map stay); the 3D worlds keep only the canvas.
+   The pages at their own addresses are unchanged.
+   */
 (function () {
   "use strict";
+  var MAPS = {
+    wales: { map2d: "/tithe-h3/", map3d: "/terrain/" },
+    argentina: { map2d: "/chubut-h3/", map3d: "/argentina-3d/" }
+  };
   var COPY = {
-    en: {
-      tiles: "Tiles", map2d: "2D Map", map3d: "3D Map", rides: "Webapp rides",
-      rideNote: "Schematic app directory, not surveyed locations. A webapp slot is an editorial index, not a historic plot number.",
-      boundary: "The complete estate boundary, the requested north-west river line, 59 historic plot polygons and their centres are not georeferenced in this layer. The 1824 Stewart plan (EV-0211) shows the River Ely, but its map image is not registered to modern coordinates. Only the four partial GeoJSON features are drawn.",
-      mapLegend: "Wales source shapes only · select a shape for its recorded source notes",
-      argentinaMap: "No Argentina-specific estate boundary, river or parcel geometry is registered. Wales shapes are not shown here.",
-      noFeatures: "The current GeoJSON returned no polygon features.", geoError: "The published parcel GeoJSON could not be loaded.",
-      zoomIn: "Zoom in", zoomOut: "Zoom out", zoomReset: "Reset zoom", feature: "Source feature", confidence: "Confidence", source: "Source note",
-      sceneWales: "Existing Wales 3D terrain prototype. Its local game coordinates have not been matched to a verified estate boundary; the River Ely segments are not a surveyed river line. The estate silhouette and north-west river line remain pending georeferencing.",
-      sceneArgentina: "No Argentina-specific 3D estate geometry is verified. The Wales scene is not shown here.",
-      sceneTitle: "Existing Wales first-person 3D terrain prototype; estate registration pending", openScene: "Open Wales 3D scene",
-      slot: "Webapp slot", of: "of", h3: "H3 resolution 11 is a proposal in the Bloculus brief. No H3 index or parcel centre is assigned until source-backed centrepoints are verified.",
-      dns: "Parcel-centre subdomains are an interface only; no DNS record is configured."
-    },
-    cy: {
-      tiles: "Teils", map2d: "Map 2D", map3d: "Map 3D", rides: "Reidiau apiau gwe",
-      rideNote: "Cyfeiriadur sgematig o apiau, nid lleoliadau arolwg. Mynegai golygyddol yw slot ap gwe, nid rhif llain hanesyddol.",
-      boundary: "Nid oes ffin lawn yr ystâd, llinell yr afon yn y gogledd-orllewin, 59 polygon llain hanesyddol na’u canolbwyntiau wedi’u geogyfeirio yn yr haen hon. Mae cynllun Stewart 1824 (EV-0211) yn dangos Afon Elái, ond nid yw delwedd y map wedi’i chofrestru â chyfesurynnau modern. Dim ond y pedair nodwedd GeoJSON rannol a ddangosir.",
-      mapLegend: "Siapiau ffynhonnell Cymru yn unig · dewiswch siâp i weld nodiadau ffynhonnell",
-      argentinaMap: "Nid oes ffin, afon na geometreg lleiniau benodol i’r Ariannin wedi’i chofrestru. Ni ddangosir siapiau Cymru yma.",
-      noFeatures: "Ni ddychwelodd GeoJSON cyfredol unrhyw nodweddion polygon.", geoError: "Nid oedd modd llwytho GeoJSON lleiniau cyhoeddedig.",
-      zoomIn: "Chwyddo", zoomOut: "Lleihau", zoomReset: "Ailosod chwyddo", feature: "Nodwedd ffynhonnell", confidence: "Hyder", source: "Nodyn ffynhonnell",
-      sceneWales: "Prototeip tirwedd 3D presennol Cymru. Nid yw ei gyfesurynnau gêm lleol wedi’u paru â ffin ystâd wedi’i gwirio; nid llinell arolwg o’r afon yw segmentau Afon Elái. Mae silwét yr ystâd a llinell yr afon yn aros nes cael geogyfeirio.",
-      sceneArgentina: "Nid oes geometreg ystâd 3D benodol i’r Ariannin wedi’i gwirio. Ni ddangosir golygfa Cymru yma.",
-      sceneTitle: "Prototeip tirwedd 3D presennol Cymru; geogyfeirio’r ystâd yn aros", openScene: "Agor golygfa 3D Cymru",
-      slot: "Slot ap gwe", of: "o", h3: "Cynnig yn unig yn y briff Bloculus yw cydraniad H3 11. Ni roddir mynegai H3 na chanol llain nes gwirio canolbwyntiau â ffynhonnell.",
-      dns: "Rhyngwyneb yn unig yw is-barthau canol lleiniau; nid oes cofnod DNS wedi’i ffurfweddu."
-    },
-    es: {
-      tiles: "Mosaicos", map2d: "Mapa 2D", map3d: "Mapa 3D", rides: "Atracciones web",
-      rideNote: "Directorio esquemático de aplicaciones, no ubicaciones topografiadas. El turno de una aplicación es un índice editorial, no el número histórico de parcela.",
-      boundary: "Esta capa no georreferencia el límite completo de la finca, el río del noroeste, los 59 polígonos históricos ni sus centros. El plano Stewart de 1824 (EV-0211) muestra el río Ely, pero su imagen no está registrada con coordenadas modernas. Solo se dibujan las cuatro entidades GeoJSON parciales.",
-      mapLegend: "Solo formas de fuentes de Gales · seleccione una forma para ver sus notas de origen",
-      argentinaMap: "No hay geometría registrada de límites, río o parcelas específica de Argentina. Aquí no se muestran formas galesas.",
-      noFeatures: "El GeoJSON actual no devolvió polígonos.", geoError: "No se pudo cargar el GeoJSON parcelario publicado.",
-      zoomIn: "Acercar", zoomOut: "Alejar", zoomReset: "Restablecer zoom", feature: "Elemento de la fuente", confidence: "Confianza", source: "Nota de la fuente",
-      sceneWales: "Prototipo de terreno 3D galés existente. Sus coordenadas locales de juego no están vinculadas a un límite verificado de la finca; los segmentos del río Ely no son una línea topográfica. El contorno de la finca y el río del noroeste quedan pendientes de georreferenciación.",
-      sceneArgentina: "No hay geometría 3D de la finca argentina verificada. Aquí no se muestra la escena galesa.",
-      sceneTitle: "Prototipo de terreno 3D galés existente; georreferenciación pendiente", openScene: "Abrir escena 3D de Gales",
-      slot: "Turno de aplicación", of: "de", h3: "La resolución H3 11 es una propuesta del informe Bloculus. No se asignan índices H3 ni centros parcelarios hasta verificar coordenadas de origen.",
-      dns: "Los subdominios del centro parcelario son solo una interfaz; no hay registros DNS configurados."
-    }
+    en: { map2d: "2D map", map3d: "3D map", open: "Open full screen", group: "Map view",
+          t2wales: "Tithe H3 map of the estate fields", t2argentina: "Chubut H3 map: the estate outline at the same distance from the sea",
+          show: "Show maps", hide: "Hide maps",
+          t3wales: "Llandough and Leckwith in 3D on LiDAR terrain", t3argentina: "Tŷ Mawr (Great House) in 3D on the Patagonian steppe",
+          hint3: "Drag to look around, pinch to zoom." },
+    cy: { map2d: "Map 2D", map3d: "Map 3D", open: "Agor ar y sgrin lawn", group: "Golwg map",
+          t2wales: "Map H3 y degwm o gaeau’r ystâd", t2argentina: "Map H3 Chubut: amlinell yr ystâd yr un pellter o’r môr",
+          show: "Dangos mapiau", hide: "Cuddio mapiau",
+          t3wales: "Llandochau a Lecwydd mewn 3D ar dir LiDAR", t3argentina: "Tŷ Mawr mewn 3D ar baith Patagonia",
+          hint3: "Llusgwch i edrych o gwmpas, pinsiwch i chwyddo." },
+    es: { map2d: "Mapa 2D", map3d: "Mapa 3D", open: "Abrir en pantalla completa", group: "Vista del mapa",
+          t2wales: "Mapa H3 del diezmo de los campos de la finca", t2argentina: "Mapa H3 de Chubut: el contorno de la finca a la misma distancia del mar",
+          show: "Mostrar mapas", hide: "Ocultar mapas",
+          t3wales: "Llandough y Leckwith en 3D sobre terreno LiDAR", t3argentina: "Tŷ Mawr (la Casa Grande) en 3D en la estepa patagónica",
+          hint3: "Arrastre para mirar alrededor, pellizque para ampliar." }
   };
   var initialized = false;
   function lang() {
-    var value = (document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+    var value = document.documentElement.getAttribute("lang") || window.__cedwynLang || "en";
+    value = String(value).slice(0, 2).toLowerCase();
     return COPY[value] ? value : "en";
   }
-  function el(tag, cls, value) {
+  function el(tag, cls, text) {
     var node = document.createElement(tag);
     if (cls) node.className = cls;
-    if (value != null) node.textContent = value;
+    if (text != null) node.textContent = text;
     return node;
-  }
-  function keyed(node, key) {
-    node.setAttribute("data-cwv-text", key);
-    node.textContent = COPY[lang()][key];
-    return node;
-  }
-  function updateCopy(root) {
-    var words = COPY[lang()];
-    Array.prototype.forEach.call(root.querySelectorAll("[data-cwv-text]"), function (node) {
-      var key = node.getAttribute("data-cwv-text");
-      if (words[key]) node.textContent = words[key];
-    });
-    Array.prototype.forEach.call(root.querySelectorAll(".cwv-slot"), function (node) {
-      node.textContent = words.slot + " " + node.getAttribute("data-slot") + " " + words.of + " " + node.getAttribute("data-of");
-    });
-    Array.prototype.forEach.call(root.querySelectorAll(".cwv-tabs [role=tab]"), function (node) {
-      var key = node.getAttribute("data-cwv-text");
-      if (words[key]) node.textContent = words[key];
-    });
   }
   function addStyle() {
     if (document.getElementById("cedwyn-landing-map-views-style")) return;
-    var style = el("style");
-    style.id = "cedwyn-landing-map-views-style";
+    var style = el("style"); style.id = "cedwyn-landing-map-views-style";
     style.textContent =
-      ".cwv-tabs{position:sticky;top:0;z-index:4;display:flex;gap:7px;padding:8px 0 12px;margin:0 0 12px;background:#0c1117;border-bottom:1px solid rgba(255,255,255,.15)}" +
-      ".cwv-tabs button{flex:1;min-height:42px;padding:8px 10px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:#121a23;color:#f3f5f7;font:600 13px/1.2 Barlow,system-ui,sans-serif;cursor:pointer}" +
-      ".cwv-tabs button[aria-selected=true]{background:#f3f5f7;color:#101820;border-color:#f3f5f7}.cwv-panel[hidden]{display:none!important}.cwv-panel{min-height:220px}" +
-      ".cwv-map-note{padding:10px 12px;border:1px solid rgba(246,180,14,.45);border-radius:9px;background:rgba(91,67,13,.24);color:#f4dfaa;font-size:13px;line-height:1.5;margin:8px 0}" +
-      ".cwv-map-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(250px,.85fr);gap:14px;align-items:start;margin:12px 0}" +
-      ".cwv-map-frame{min-width:0;padding:10px;border:1px solid rgba(255,255,255,.15);border-radius:12px;background:linear-gradient(145deg,#152a22,#0b1411)}" +
-      ".cwv-map-tools{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px}.cwv-map-tools button{min-height:38px;padding:7px 11px;border:1px solid rgba(255,255,255,.25);border-radius:8px;background:#121a23;color:#f3f5f7;font:600 12px/1.2 system-ui,sans-serif;cursor:pointer}" +
-      ".cwv-map-svg{display:block;width:100%;height:auto;min-height:260px;border-radius:8px;background:#08110e}.cwv-map-svg path{fill:rgba(61,255,168,.26);stroke:#3dffa8;stroke-width:2;vector-effect:non-scaling-stroke;fill-rule:evenodd;cursor:pointer}.cwv-map-svg path[data-confidence=estimated]{fill:rgba(255,190,70,.25);stroke:#ffbf55;stroke-dasharray:7 5}.cwv-feature-info{min-height:44px;margin-top:8px;padding:8px 10px;border-left:3px solid #3dffa8;background:#101b16;font-size:13px;overflow-wrap:anywhere}.cwv-legend{color:#b8c6bf;font-size:12px;margin:6px 2px}" +
-      ".cwv-rides{min-width:0}.cwv-rides h3{margin:2px 0 6px}.cwv-rides-note{color:#b8c6bf;font-size:12px;margin:0 0 8px}.cwv-ride-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px}.cwv-ride-grid .land-app{min-height:68px}.cwv-slot{display:block;margin-top:4px;color:#c9d4ce;font-size:10px;font-weight:500;letter-spacing:.02em}" +
-      ".cwv-status{margin:9px 0;color:#c3cec7;font-size:12px;line-height:1.45}.cwv-frame{display:block;width:100%;height:min(68vh,620px);min-height:340px;border:1px solid rgba(255,255,255,.18);border-radius:11px;background:#0b1114}.cwv-open{display:inline-flex;margin:8px 0;padding:9px 13px;border:1px solid rgba(255,255,255,.3);border-radius:999px;color:#fff;text-decoration:none;font:600 12px/1.2 system-ui,sans-serif}" +
-      "@media(max-width:680px){.cwv-map-layout{grid-template-columns:1fr}.cwv-tabs{gap:5px}.cwv-tabs button{padding:8px 5px;font-size:12px}.cwv-map-svg{min-height:220px}.cwv-frame{min-height:300px;height:58vh}}" +
-      "@media(prefers-reduced-motion:reduce){.cwv-panel *{scroll-behavior:auto!important;transition:none!important}}";
+      ".cwv-map{margin:0 0 16px}.cwv-toggle{display:flex;gap:4px;margin:0;padding:4px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:#0b1114}" +
+      ".cwv-map.cwv-open-area .cwv-toggle{margin:0 0 8px}.cwv-toggle .cwv-exp{flex:0 0 auto;background:transparent;border-color:transparent}" +
+      ".cwv-toggle button:focus-visible{outline:2px solid #0F9DF0;outline-offset:2px}.cwv-area[hidden]{display:none!important}" +
+      ".cwv-toggle button{flex:1;min-height:36px;padding:6px 10px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:#121a23;color:#f3f5f7;font:600 13px/1.2 Barlow,system-ui,sans-serif;cursor:pointer}" +
+      ".cwv-toggle button[aria-pressed=true]{background:#f3f5f7;color:#101820;border-color:#f3f5f7}" +
+      ".cwv-pane[hidden]{display:none!important}.cwv-frame{display:block;width:100%;height:min(60vh,620px);min-height:320px;border:1px solid rgba(255,255,255,.18);border-radius:11px;background:#0b1114}" +
+      ".cwv-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;margin:6px 2px 0;color:#c3cec7;font:500 12px/1.4 system-ui,sans-serif}" +
+      ".cwv-open{display:inline-flex;padding:8px 12px;border:1px solid rgba(255,255,255,.3);border-radius:999px;color:#fff;text-decoration:none;font:600 12px/1.2 system-ui,sans-serif}" +
+      "@media(max-width:680px){.cwv-frame{height:52vh;min-height:300px}}" +
+      ".cwv-bare .land-modal-head{justify-content:flex-end;padding:8px 10px;border-bottom:0;background:transparent}" +
+      ".cwv-bare .land-modal-head h2,.cwv-bare .land-app-section>h3,.cwv-bar{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}" +
+      ".cwv-bare .land-modal-content{padding-top:2px}.cwv-bare .land-app-section{margin-bottom:12px}" +
+      "#modal-wales .land-app>img{background:#00182b}#modal-wales .land-app>img[src$='.svg?v=1'],#modal-wales .land-app>img[src*='.svg']{filter:grayscale(1) sepia(1) hue-rotate(160deg) saturate(4) brightness(.85) contrast(1.2)}";
     document.head.appendChild(style);
   }
-  function featureRings(geometry) {
-    if (!geometry) return [];
-    if (geometry.type === "Polygon") return geometry.coordinates || [];
-    if (geometry.type === "MultiPolygon") {
-      var out = [];
-      (geometry.coordinates || []).forEach(function (polygon) { (polygon || []).forEach(function (ring) { out.push(ring); }); });
-      return out;
-    }
-    return [];
-  }
-  function paintFeatures(svg, collection, detail) {
-    var features = collection && collection.features ? collection.features.filter(function (feature) { return featureRings(feature.geometry).length; }) : [];
-    var points = [];
-    features.forEach(function (feature) {
-      featureRings(feature.geometry).forEach(function (ring) {
-        (ring || []).forEach(function (point) {
-          if (point && isFinite(point[0]) && isFinite(point[1])) points.push(point);
-        });
-      });
+  function words() { return COPY[lang()]; }
+  function relabel(block, region) {
+    var w = words();
+    Array.prototype.forEach.call(block.querySelectorAll("[data-cwv]"), function (node) {
+      var key = node.getAttribute("data-cwv");
+      if (key === "t2" || key === "t3") key = key + region;
+      if (key === "exp") key = block.getAttribute("data-open") === "true" ? "hide" : "show";
+      if (w[key]) node.textContent = w[key] + (node.getAttribute("data-cwv") === "exp" ? (block.getAttribute("data-open") === "true" ? " \u25B4" : " \u25BE") : "");
     });
-    if (!points.length) return 0;
-    var lat0 = points.reduce(function (sum, point) { return sum + point[1]; }, 0) / points.length;
-    var cosine = Math.cos(lat0 * Math.PI / 180);
-    var xs = points.map(function (point) { return point[0] * cosine; });
-    var ys = points.map(function (point) { return point[1]; });
-    var minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
-    var minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
-    var width = Math.max(maxX - minX, 1e-9), height = Math.max(maxY - minY, 1e-9);
-    var scale = Math.min(740 / width, 440 / height), padX = (800 - width * scale) / 2, padY = (500 - height * scale) / 2;
-    features.forEach(function (feature) {
-      var pathData = "";
-      featureRings(feature.geometry).forEach(function (ring) {
-        (ring || []).forEach(function (point, index) {
-          var x = padX + (point[0] * cosine - minX) * scale;
-          var y = 500 - (padY + (point[1] - minY) * scale);
-          pathData += (index ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1) + " ";
-        });
-        pathData += "Z ";
-      });
-      var properties = feature.properties || {};
-      var shape = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      shape.setAttribute("d", pathData);
-      shape.setAttribute("data-confidence", properties.confidence || "unknown");
-      shape.setAttribute("tabindex", "0");
-      shape.setAttribute("role", "button");
-      shape.setAttribute("aria-label", properties.name || properties.id || COPY[lang()].feature);
-      var title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-      title.textContent = properties.name || properties.id || COPY[lang()].feature;
-      shape.appendChild(title);
-      function show() {
-        var words = COPY[lang()];
-        detail.replaceChildren();
-        var name = el("strong", "", properties.name || properties.id || words.feature);
-        detail.appendChild(name);
-        var confidence = el("div", "", words.confidence + ": " + (properties.confidence || "not stated"));
-        detail.appendChild(confidence);
-        if (properties.conf_text) detail.appendChild(el("div", "", properties.conf_text));
-        if (properties.os) detail.appendChild(el("div", "", words.source + ": " + properties.os));
-        if (properties.src) detail.appendChild(el("div", "", words.source + ": " + (Array.isArray(properties.src) ? properties.src.join(", ") : properties.src)));
-      }
-      shape.addEventListener("click", show);
-      shape.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); show(); }
-      });
-      svg.appendChild(shape);
+    Array.prototype.forEach.call(block.querySelectorAll("iframe[data-cwv-title]"), function (frame) {
+      var key = frame.getAttribute("data-cwv-title"); key = key + region;
+      frame.setAttribute("title", w[key] || "");
     });
-    return features.length;
+    block.setAttribute("aria-label", w.group);
   }
-  function sourceMap(region) {
-    var words = COPY[lang()];
-    var box = el("div", "cwv-map-frame");
-    box.appendChild(keyed(el("p", "cwv-map-note"), "boundary"));
-    if (region !== "wales") {
-      box.appendChild(keyed(el("p", "cwv-map-note", words.argentinaMap), "argentinaMap"));
-      return box;
-    }
-    box.appendChild(keyed(el("p", "cwv-legend"), "mapLegend"));
-    var tools = el("div", "cwv-map-tools");
-    var zoomIn = keyed(el("button", "", "＋"), "zoomIn"); zoomIn.setAttribute("type", "button");
-    var zoomOut = keyed(el("button", "", "－"), "zoomOut"); zoomOut.setAttribute("type", "button");
-    var reset = keyed(el("button", "", "1:1"), "zoomReset"); reset.setAttribute("type", "button");
-    tools.appendChild(zoomIn); tools.appendChild(zoomOut); tools.appendChild(reset); box.appendChild(tools);
-    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("class", "cwv-map-svg"); svg.setAttribute("viewBox", "0 0 800 500");
-    svg.setAttribute("role", "img"); svg.setAttribute("aria-label", words.mapLegend); box.appendChild(svg);
-    var detail = el("div", "cwv-feature-info", words.mapLegend); detail.setAttribute("aria-live", "polite"); box.appendChild(detail);
-    var zoom = 1;
-    function setZoom() {
-      var width = 800 / zoom, height = 500 / zoom;
-      svg.setAttribute("viewBox", ((800 - width) / 2) + " " + ((500 - height) / 2) + " " + width + " " + height);
-    }
-    zoomIn.addEventListener("click", function () { zoom = Math.min(4, zoom * 1.25); setZoom(); });
-    zoomOut.addEventListener("click", function () { zoom = Math.max(.65, zoom / 1.25); setZoom(); });
-    reset.addEventListener("click", function () { zoom = 1; setZoom(); });
-    fetch("/maps/data/parcels.geojson", { credentials: "same-origin" }).then(function (response) {
-      if (!response.ok) throw new Error("HTTP " + response.status);
-      return response.json();
-    }).then(function (collection) {
-      if (!paintFeatures(svg, collection, detail)) detail.textContent = COPY[lang()].noFeatures;
-    }).catch(function () { detail.textContent = COPY[lang()].geoError; });
+  // 2.3.0: map-only frames. Per framed page: what to hide and how the map fills the frame. Pages at their own address are not touched.
+  var FILL = "{position:fixed!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;margin:0!important;border:0!important;border-radius:0!important}";
+  var FRAME_CSS = {
+    "/chubut-h3/": "body>*:not(main),.ch3w>*:not(#map),.leaflet-control-layers,.leaflet-tooltip-pane{display:none!important}#map" + FILL,
+    "/tithe-h3/": "body>*:not(main),.th3w>*:not(.th3-mapwrap),.th3-mapwrap>*:not(#map),#h3stat,.th3-stat,#th3ctl,.th3-ctl,#legend,.th3-legend,#panel,.leaflet-tooltip:not(.th3-lbl){display:none!important}.th3-mapwrap" + FILL + "#map" + FILL,
+    "/terrain/": "body>*:not(main),.w3dw>*:not(#w3d),#w3dtop,#w3dinfo,#w3dpar,#w3dcred{display:none!important}",
+    "/argentina-3d/": "body>*:not(main),.a3d-tl,.a3d-tr,.a3d-bar,#night,#card{display:none!important}"
+  };
+  function bareFrame(frame, path) {
+    var w, doc;
+    try { w = frame.contentWindow; doc = frame.contentDocument; } catch (e) { return false; }
+    if (!w || !doc || !doc.head || !doc.body) return false;
+    var where = ""; try { where = w.location.pathname; } catch (e) { return false; }
+    if (where !== path && where.replace(/index\.html$/, "") !== path) return false;
+    if (doc.getElementById("cwv-maponly")) return true;
+    var style = doc.createElement("style"); style.id = "cwv-maponly";
+    style.textContent = "html,body{margin:0!important;padding:0!important;background:#0b1114!important;overflow:hidden!important}" +
+      "#cedwyn-pill,.leaflet-popup-pane{display:none!important}" +
+      ".leaflet-control-attribution{font:400 9px/1.3 system-ui,sans-serif!important;padding:1px 5px!important;background:rgba(11,17,20,.55)!important;color:#cfd8d3!important}.leaflet-control-attribution a{color:#cfd8d3!important}" + (FRAME_CSS[path] || "");
+    doc.head.appendChild(style); doc.documentElement.classList.add("cwv-maponly");
+    [60, 400, 1200].forEach(function (ms) { setTimeout(function () { try { w.dispatchEvent(new w.Event("resize")); } catch (e) {} }, ms); });
+    return true;
+  }
+  function watchFrame(frame, path) {
+    var tries = 0, timer = setInterval(function () { if (bareFrame(frame, path) || ++tries > 120) clearInterval(timer); }, 50);
+  }
+  function pane(mode, region) {
+    var path = MAPS[region][mode], box = el("div", "cwv-pane"); box.setAttribute("data-mode", mode);
+    var frame = el("iframe", "cwv-frame");
+    frame.setAttribute("data-src", path); frame.setAttribute("data-cwv-title", mode === "map2d" ? "t2" : "t3");
+    frame.setAttribute("loading", "lazy"); frame.setAttribute("referrerpolicy", "same-origin");
+    frame.setAttribute("allow", "microphone; autoplay; fullscreen; xr-spatial-tracking");
+    frame.setAttribute("allowfullscreen", "");
+    box.appendChild(frame);   // 2.2.0: no caption, hint or "Open full screen" line under the map (owner, 8 Nov 19:41 GMT)
     return box;
   }
-  function areaMatch(pathname, area, region) {
-    var prefix = "/" + region + "/";
-    if (pathname.indexOf(prefix) === 0) pathname = "/" + pathname.slice(prefix.length);
-    var paths = [area.path].concat(area.aliases || []);
-    return paths.indexOf(pathname) !== -1;
+  function load(box) {
+    var frame = box.querySelector("iframe[data-src]");
+    if (frame && !frame.getAttribute("src")) {
+      var path = frame.getAttribute("data-src");
+      frame.addEventListener("load", function () { bareFrame(frame, path); });
+      frame.setAttribute("src", path); watchFrame(frame, path);
+    }
   }
-  function addRides(container, tilePanel, region) {
-    var words = COPY[lang()];
-    var heading = keyed(el("h3"), "rides"); container.appendChild(heading);
-    container.appendChild(keyed(el("p", "cwv-rides-note"), "rideNote"));
-    var grid = el("div", "cwv-ride-grid"); container.appendChild(grid);
-    var links = Array.prototype.slice.call(tilePanel.querySelectorAll("a.land-app[href]"));
-    if (!links.length) { grid.appendChild(el("p", "", "No app links were found in the current tile view.")); return; }
-    fetch("/areas.json", { credentials: "same-origin" }).then(function (response) {
-      if (!response.ok) throw new Error("HTTP " + response.status);
-      return response.json();
-    }).then(function (registry) {
-      var areas = registry.areas || [];
-      links.forEach(function (link) {
-        var card = link.cloneNode(true);
-        card.classList.add("cwv-ride");
-        var target = new URL(link.href, location.href).pathname;
-        var match = areas.filter(function (area) { return areaMatch(target, area, region); })[0];
-        if (match && match.slot != null) {
-          var label = card.querySelector(".land-app-label") || card;
-          var badge = el("small", "cwv-slot"); badge.setAttribute("data-slot", match.slot);
-          badge.setAttribute("data-of", match.of || registry.parcel_total || 59);
-          badge.textContent = COPY[lang()].slot + " " + match.slot + " " + COPY[lang()].of + " " + (match.of || registry.parcel_total || 59);
-          label.appendChild(badge);
-        }
-        grid.appendChild(card);
+  function show(block, mode) {
+    Array.prototype.forEach.call(block.querySelectorAll(".cwv-toggle button"), function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-mode") === mode ? "true" : "false");
+    });
+    Array.prototype.forEach.call(block.querySelectorAll(".cwv-pane"), function (p) {
+      var on = p.getAttribute("data-mode") === mode; p.hidden = !on; if (on && block.getAttribute("data-open") === "true") load(p);
+    });
+  }
+  function setOpen(block, region, open) {
+    block.setAttribute("data-open", open ? "true" : "false");
+    block.classList.toggle("cwv-open-area", open);
+    var area = block.querySelector(".cwv-area"), exp = block.querySelector(".cwv-exp");
+    area.hidden = !open; exp.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) { var p = block.querySelector(".cwv-pane:not([hidden])"); if (p) load(p); }
+    relabel(block, region);
+  }
+  function mapBlock(region) {
+    var block = el("section", "cwv-map"); block.setAttribute("role", "group"); block.setAttribute("data-open", "false");
+    var toggle = el("div", "cwv-toggle"), areaId = "cwv-area-" + region;
+    ["map2d", "map3d"].forEach(function (mode, i) {
+      var b = el("button"); b.type = "button"; b.setAttribute("data-mode", mode); b.setAttribute("data-cwv", mode);
+      b.setAttribute("aria-pressed", i === 0 ? "true" : "false"); b.setAttribute("aria-controls", areaId);
+      b.addEventListener("click", function () { show(block, mode); if (block.getAttribute("data-open") !== "true") setOpen(block, region, true); });
+      toggle.appendChild(b);
+    });
+    var exp = el("button", "cwv-exp"); exp.type = "button"; exp.setAttribute("data-cwv", "exp");
+    exp.setAttribute("aria-expanded", "false"); exp.setAttribute("aria-controls", areaId);
+    exp.addEventListener("click", function () { setOpen(block, region, block.getAttribute("data-open") !== "true"); });
+    toggle.appendChild(exp);
+    block.appendChild(toggle);
+    var area = el("div", "cwv-area"); area.id = areaId; area.hidden = true;
+    var p2 = pane("map2d", region), p3 = pane("map3d", region); p3.hidden = true;
+    area.appendChild(p2); area.appendChild(p3); block.appendChild(area);
+    relabel(block, region);
+    return block;
+  }
+  function breakOut(dialog) {
+    // A webapp tile leaves the modal: top-level navigation to the tile's own address, never inside the modal or a frame.
+    Array.prototype.forEach.call(dialog.querySelectorAll("a.land-app[href]"), function (a) {
+      a.setAttribute("target", "_top");
+      a.addEventListener("click", function (event) {
+        if (event.defaultPrevented || event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        try { if (typeof dialog.close === "function") dialog.close(); } catch (e) {}
+        try { window.top.location.assign(a.href); } catch (e) { location.assign(a.href); }
       });
-      updateCopy(container);
-    }).catch(function () {
-      links.forEach(function (link) { var card = link.cloneNode(true); card.classList.add("cwv-ride"); grid.appendChild(card); });
     });
-  }
-  function statusNotes(panel) {
-    panel.appendChild(keyed(el("p", "cwv-status"), "h3"));
-    panel.appendChild(keyed(el("p", "cwv-status"), "dns"));
-  }
-  function buildPanel(panel, tilePanel, region, mode) {
-    if (panel.getAttribute("data-built") === "true") return;
-    panel.setAttribute("data-built", "true");
-    var words = COPY[lang()];
-    if (mode === "map2d") {
-      var layout = el("div", "cwv-map-layout");
-      layout.appendChild(sourceMap(region));
-      var rides = el("section", "cwv-rides"); addRides(rides, tilePanel, region); layout.appendChild(rides);
-      panel.appendChild(layout); statusNotes(panel); return;
-    }
-    if (region === "wales") {
-      panel.appendChild(keyed(el("p", "cwv-map-note"), "sceneWales"));
-      var frame = el("iframe", "cwv-frame"); frame.setAttribute("title", words.sceneTitle);
-      frame.setAttribute("loading", "lazy"); frame.setAttribute("referrerpolicy", "same-origin");
-      frame.setAttribute("data-src", "/wales/terrain/"); panel.appendChild(frame);
-      var open = el("a", "cwv-open", words.openScene); open.href = "/wales/terrain/"; panel.appendChild(open);
-    } else {
-      panel.appendChild(keyed(el("p", "cwv-map-note"), "sceneArgentina"));
-    }
-    var appRides = el("section", "cwv-rides"); addRides(appRides, tilePanel, region); panel.appendChild(appRides);
-    statusNotes(panel);
-  }
-  function activate(dialog, tilePanel, panels, tabs, region, index) {
-    Array.prototype.forEach.call(tabs, function (tab, i) {
-      tab.setAttribute("aria-selected", i === index ? "true" : "false");
-      tab.tabIndex = i === index ? 0 : -1;
-    });
-    Array.prototype.forEach.call(panels, function (panel, i) { panel.hidden = i !== index; });
-    if (index > 0) {
-      var mode = index === 1 ? "map2d" : "map3d";
-      buildPanel(panels[index], tilePanel, region, mode);
-      var frame = panels[index].querySelector("iframe[data-src]");
-      if (frame && !frame.getAttribute("src")) frame.setAttribute("src", frame.getAttribute("data-src"));
-    }
-    updateCopy(dialog);
   }
   function enhance(dialog) {
     if (dialog.getAttribute("data-cwv-ready") === "true") return;
     var content = dialog.querySelector(".land-modal-content");
     if (!content) return;
     dialog.setAttribute("data-cwv-ready", "true");
-    var region = dialog.id === "modal-argentina" ? "argentina" : "wales";
-    var tilePanel = el("section", "cwv-panel"); tilePanel.setAttribute("role", "tabpanel");
-    tilePanel.setAttribute("aria-label", COPY[lang()].tiles);
-    while (content.firstChild) tilePanel.appendChild(content.firstChild);
-    var mapPanel = el("section", "cwv-panel"); mapPanel.hidden = true; mapPanel.setAttribute("role", "tabpanel");
-    var threePanel = el("section", "cwv-panel"); threePanel.hidden = true; threePanel.setAttribute("role", "tabpanel");
-    var labels = ["tiles", "map2d", "map3d"], panels = [tilePanel, mapPanel, threePanel];
-    var tabs = el("div", "cwv-tabs"); tabs.setAttribute("role", "tablist"); tabs.setAttribute("aria-label", "Webapp selector view");
-    labels.forEach(function (key, index) {
-      var button = keyed(el("button"), key); button.type = "button"; button.setAttribute("role", "tab");
-      button.setAttribute("aria-selected", index === 0 ? "true" : "false"); button.tabIndex = index === 0 ? 0 : -1;
-      button.addEventListener("click", function () { activate(dialog, tilePanel, panels, tabs.children, region, index); });
-      button.addEventListener("keydown", function (event) {
-        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-          event.preventDefault(); var next = (index + (event.key === "ArrowRight" ? 1 : 2)) % 3;
-          tabs.children[next].focus(); tabs.children[next].click();
-        }
-      });
-      tabs.appendChild(button);
+    breakOut(dialog);
+    var region = dialog.id === "modal-wales" ? "wales" : dialog.id === "modal-argentina" ? "argentina" : "";
+    if (!region) return;   // Online: webapps only
+    dialog.classList.add("cwv-bare");   // 2.2.0: maps and tiles only, no title or headings on screen
+    if (region === "wales") Array.prototype.forEach.call(dialog.querySelectorAll("img[src*='/holo-ghf1-']"), function (img) {
+      img.setAttribute("src", img.getAttribute("src").replace(/\?v=\d+$/, "") + "?v=5");   // the line-drawn hologram set
     });
-    content.appendChild(tabs); content.appendChild(tilePanel); content.appendChild(mapPanel); content.appendChild(threePanel);
-    dialog.addEventListener("ghf-lang-change", function () { updateCopy(dialog); });
-    document.addEventListener("ghf-lang-change", function () { updateCopy(dialog); });
-    updateCopy(dialog);
+    var block = mapBlock(region);
+    content.insertBefore(block, content.firstChild);
+    function opened() { if (dialog.hasAttribute("open") && block.getAttribute("data-open") === "true") { var p = block.querySelector(".cwv-pane:not([hidden])"); if (p) load(p); } }
+    if (window.MutationObserver) new MutationObserver(opened).observe(dialog, { attributes: true, attributeFilter: ["open"] });
+    opened();
+    document.addEventListener("ghf-lang-change", function () { relabel(block, region); });
   }
   function init() {
     if (initialized || !document.body || document.body.getAttribute("data-cedwyn-page") !== "landing") return;
