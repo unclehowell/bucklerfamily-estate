@@ -1,4 +1,4 @@
-name: One-time legacy branch mirror
+name: Full-history legacy branch mirror
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: one-time-legacy-branch-mirror
+  group: cedwyn-full-history-seed-mirror
   cancel-in-progress: false
 
 jobs:
@@ -19,30 +19,93 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 150
     steps:
-      - name: Fetch and mirror only the two required branches, with full ancestry
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fetch central source histories
         shell: bash
         run: |
           set -euo pipefail
           git init --bare mirror.git
           git -C mirror.git remote add source https://github.com/unclehowell/cedwyn.git
-          git -C mirror.git fetch --no-tags source \
-            +refs/heads/main:refs/heads/main \
-            +refs/heads/site:refs/heads/site
-
-          git -C mirror.git remote add target \
-            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git -C mirror.git push --force target \
-            +refs/heads/main:refs/heads/main \
-            +refs/heads/site:refs/heads/site
-
-          for branch in main site; do
-            expected="$(git -C mirror.git rev-parse "refs/heads/${branch}")"
-            actual="$(git ls-remote --heads target "${branch}" | awk '{print $1}')"
-            if [ "${actual}" != "${expected}" ]; then
-              echo "::error::${branch} ref mismatch: expected ${expected}, got ${actual}"
+          git -C mirror.git fetch --no-tags source +refs/heads/main:refs/heads/main +refs/heads/site:refs/heads/site
+          echo 'Fetched main and site full histories.'
+      - name: Fetch auxiliary build-input histories
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C mirror.git fetch --no-tags source +refs/heads/agents:refs/heads/agents +refs/heads/catalogue-emails-v0.4.0:refs/heads/catalogue-emails-v0.4.0 +refs/heads/library:refs/heads/library
+          echo 'Fetched agents, catalogue-emails-v0.4.0 and library full histories.'
+      - name: Push all refs in size-bounded history batches and verify exact heads
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C mirror.git remote add target "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          declare -A expected
+          expected[main]="b97eec0a869d8f99690cd512303c1f9a4d938077"
+          expected[site]="3823cac31a68abb98b5f262aae89e10442448b82"
+          expected[agents]="6572ba5042aae9ba62c8070c71232c78d0b995db"
+          expected[catalogue-emails-v0.4.0]="c5bcbf02d3ea16b41eaaf22d2ca2fb03b26a21bc"
+          expected[library]="34103d75e9726162ee941968c22f7ac6ce2dfd56"
+          push_branch() {
+            local branch="$1" step=1000 count last_index idx sha remote_sha
+            mapfile -t commits < <(git -C mirror.git rev-list --first-parent --reverse "refs/heads/${branch}")
+            count="${#commits[@]}"
+            if [ "$count" -eq 0 ]; then echo "::error::No commits found for ${branch}"; return 1; fi
+            echo "${branch}: ${count} first-parent commits; starting batch size ${step}."
+            last_index=-1
+            while [ "$last_index" -lt "$((count-1))" ]; do
+              idx=$((last_index+step))
+              if [ "$idx" -ge "$count" ]; then idx=$((count-1)); fi
+              sha="${commits[$idx]}"
+              remote_sha="$(git ls-remote --heads target "${branch}" | awk '{print $1}')"
+              if [ -z "$remote_sha" ]; then
+                if git -C mirror.git push target "${sha}:refs/heads/${branch}" 2>&1 | tee /tmp/mirror-push.log; then :
+                else
+                  if grep -Eqi 'pack exceeds maximum allowed size|maximum allowed size|RPC failed|remote end hung up unexpectedly' /tmp/mirror-push.log && [ "$step" -gt 1 ]; then
+                    step=$((step/2)); if [ "$step" -lt 1 ]; then step=1; fi
+                    echo "${branch}: reduced batch size to ${step} after a push-size/transport failure; retrying the same range."
+                    continue
+                  fi
+                  cat /tmp/mirror-push.log; return 1
+                fi
+              elif git -C mirror.git merge-base --is-ancestor "$remote_sha" "$sha"; then
+                if git -C mirror.git push target "${sha}:refs/heads/${branch}" 2>&1 | tee /tmp/mirror-push.log; then :
+                else
+                  if grep -Eqi 'pack exceeds maximum allowed size|maximum allowed size|RPC failed|remote end hung up unexpectedly' /tmp/mirror-push.log && [ "$step" -gt 1 ]; then
+                    step=$((step/2)); if [ "$step" -lt 1 ]; then step=1; fi
+                    echo "${branch}: reduced batch size to ${step} after a push-size/transport failure; retrying the same range."
+                    continue
+                  fi
+                  cat /tmp/mirror-push.log; return 1
+                fi
+              else
+                if git -C mirror.git push --force-with-lease="refs/heads/${branch}:${remote_sha}" target "${sha}:refs/heads/${branch}" 2>&1 | tee /tmp/mirror-push.log; then :
+                else
+                  if grep -Eqi 'pack exceeds maximum allowed size|maximum allowed size|RPC failed|remote end hung up unexpectedly' /tmp/mirror-push.log && [ "$step" -gt 1 ]; then
+                    step=$((step/2)); if [ "$step" -lt 1 ]; then step=1; fi
+                    echo "${branch}: reduced batch size to ${step} after a push-size/transport failure; retrying the same range."
+                    continue
+                  fi
+                  cat /tmp/mirror-push.log; return 1
+                fi
+              fi
+              last_index="$idx"
+              echo "${branch}: transferred through ${sha} ($((idx+1))/${count})."
+              if [ "$last_index" -lt "$((count-1))" ]; then sleep 10; fi
+            done
+            remote_sha="$(git ls-remote --heads target "${branch}" | awk '{print $1}')"
+            if [ "$remote_sha" != "${expected[$branch]}" ]; then
+              echo "::error::Target ${branch} mismatch: expected ${expected[$branch]}, got ${remote_sha}"
+              return 1
+            fi
+            echo "Verified exact ${branch} head: ${remote_sha}"
+          }
+          for branch in main site agents catalogue-emails-v0.4.0 library; do
+            source_sha="$(git -C mirror.git rev-parse "refs/heads/${branch}")"
+            if [ "$source_sha" != "${expected[$branch]}" ]; then
+              echo "::error::Source ${branch} moved: expected ${expected[$branch]}, got ${source_sha}"
               exit 1
             fi
-            echo "Verified ${branch}: ${actual}"
+            push_branch "$branch"
           done
+          echo 'All five source refs were mirrored with their reachable commit history and verified against pinned source heads.'
