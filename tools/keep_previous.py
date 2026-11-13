@@ -14,7 +14,7 @@ def run(dist):
     def count(base):
         return sum(1 for f in base.rglob('*') if f.is_file() and 'db' not in f.relative_to(base).parts[:1]) if base.exists() else 0
     rep = {'checked': {}, 'restored': {}}
-    repo = os.environ.get('GITHUB_REPOSITORY', 'unclehowell/cedwyn'); tmp = pathlib.Path('prev_site')
+    repo = os.environ.get('GITHUB_REPOSITORY', 'unclehowell/bucklerfamily-estate'); tmp = pathlib.Path('prev_site')
     shutil.rmtree(tmp, ignore_errors=True)
     try:
         # the previous published builds, file names only (no file contents fetched until a theme needs them); the last
