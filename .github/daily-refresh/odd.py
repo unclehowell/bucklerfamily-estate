@@ -18,7 +18,7 @@ SITE = "https://cedwyn.bucklerfamily.estate"
 EVEN = "https://ghf-status.righteous.workers.dev/daily-refresh.json"
 UA = "cedwyn-daily-refresh/1.0"
 TOK = os.environ.get("GITHUB_TOKEN", "")
-REPO = os.environ.get("GITHUB_REPOSITORY", "unclehowell/cedwyn")
+REPO = os.environ.get("GITHUB_REPOSITORY", "unclehowell/bucklerfamily-estate")
 DRY = os.environ.get("DRY_RUN", "false").lower() == "true"
 
 
