@@ -1,9 +1,10 @@
 {
- "pages": 13067,
+ "pages": 14051,
  "unwrapped_pages": 99,
  "unwrapped_folds": 634,
  "unbalanced": [],
  "themes": {
+  "academy": 984,
   "accounts": 1,
   "analytics": 1,
   "app": 14,

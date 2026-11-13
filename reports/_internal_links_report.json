@@ -1,15 +1,15 @@
 {
   "audit": "Cedwyn internal HTML/CSS links and fragments",
-  "pages_scanned": 13736,
+  "pages_scanned": 14731,
   "references_checked": {
-    "resource": 360217,
-    "nav": 668480
+    "resource": 367180,
+    "nav": 703640
   },
   "database_backed_paths": 7717,
-  "unique_missing_destinations": 2445,
-  "missing_references": 154844,
-  "missing_navigation_references": 128370,
-  "missing_resource_references": 26474,
+  "unique_missing_destinations": 2444,
+  "missing_references": 74543,
+  "missing_navigation_references": 48066,
+  "missing_resource_references": 26477,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
   "form_or_endpoint_actions_not_checked": {
@@ -18,35 +18,8 @@
   "top_missing_destinations": [
     {
       "kind": "nav",
-      "path": "/academy/FLYWHEELS/snowball.md",
-      "references": 27427,
-      "examples": [
-        {
-          "from": "/",
-          "attribute": "a[href]",
-          "url": "/academy/FLYWHEELS/snowball.md"
-        },
-        {
-          "from": "/",
-          "attribute": "a[href]",
-          "url": "/academy/FLYWHEELS/snowball.md"
-        },
-        {
-          "from": "/404.html",
-          "attribute": "a[href]",
-          "url": "/academy/FLYWHEELS/snowball.md"
-        },
-        {
-          "from": "/404.html",
-          "attribute": "a[href]",
-          "url": "/academy/FLYWHEELS/snowball.md"
-        }
-      ]
-    },
-    {
-      "kind": "nav",
       "path": "/hive/",
-      "references": 13716,
+      "references": 14701,
       "examples": [
         {
           "from": "/",
@@ -67,40 +40,13 @@
           "from": "/tweak/",
           "attribute": "a[href]",
           "url": "/hive/"
-        }
-      ]
-    },
-    {
-      "kind": "nav",
-      "path": "/academy/FLYWHEELS/",
-      "references": 13713,
-      "examples": [
-        {
-          "from": "/",
-          "attribute": "a[href]",
-          "url": "/academy/FLYWHEELS/"
-        },
-        {
-          "from": "/404.html",
-          "attribute": "a[href]",
-          "url": "/academy/FLYWHEELS/"
-        },
-        {
-          "from": "/wdtk/",
-          "attribute": "a[href]",
-          "url": "/academy/FLYWHEELS/"
-        },
-        {
-          "from": "/tweak/",
-          "attribute": "a[href]",
-          "url": "/academy/FLYWHEELS/"
         }
       ]
     },
     {
       "kind": "nav",
       "path": "/mcp/",
-      "references": 13713,
+      "references": 14697,
       "examples": [
         {
           "from": "/",
@@ -121,87 +67,6 @@
           "from": "/tweak/",
           "attribute": "a[href]",
           "url": "/mcp/"
-        }
-      ]
-    },
-    {
-      "kind": "nav",
-      "path": "/library/",
-      "references": 13713,
-      "examples": [
-        {
-          "from": "/404.html",
-          "attribute": "a[href]",
-          "url": "/library/"
-        },
-        {
-          "from": "/wdtk/",
-          "attribute": "a[href]",
-          "url": "/library/"
-        },
-        {
-          "from": "/tweak/",
-          "attribute": "a[href]",
-          "url": "/library/"
-        },
-        {
-          "from": "/shop/",
-          "attribute": "a[href]",
-          "url": "/library/"
-        }
-      ]
-    },
-    {
-      "kind": "nav",
-      "path": "/library/snowball/",
-      "references": 13711,
-      "examples": [
-        {
-          "from": "/",
-          "attribute": "a[href]",
-          "url": "/library/snowball/"
-        },
-        {
-          "from": "/404.html",
-          "attribute": "a[href]",
-          "url": "/library/snowball/"
-        },
-        {
-          "from": "/wdtk/",
-          "attribute": "a[href]",
-          "url": "/library/snowball/"
-        },
-        {
-          "from": "/tweak/",
-          "attribute": "a[href]",
-          "url": "/library/snowball/"
-        }
-      ]
-    },
-    {
-      "kind": "nav",
-      "path": "/academy/",
-      "references": 13711,
-      "examples": [
-        {
-          "from": "/",
-          "attribute": "a[href]",
-          "url": "/academy/"
-        },
-        {
-          "from": "/404.html",
-          "attribute": "a[href]",
-          "url": "/academy/"
-        },
-        {
-          "from": "/wdtk/",
-          "attribute": "a[href]",
-          "url": "/academy/"
-        },
-        {
-          "from": "/tweak/",
-          "attribute": "a[href]",
-          "url": "/academy/"
         }
       ]
     },
@@ -910,7 +775,7 @@
     {
       "kind": "nav",
       "path": "/research/>*.html",
-      "references": 34,
+      "references": 35,
       "examples": [
         {
           "from": "/research/evidence/ev-0124-outline-planning-permission-89-01396-out-residenti/",
@@ -4063,6 +3928,141 @@
           "from": "/research/agent-index/",
           "attribute": "a[href]",
           "url": "/research/evidence-library/ghf-e106-r29-a1-dcms-foi2026-06174-response-22-july-2026/"
+        }
+      ]
+    },
+    {
+      "kind": "nav",
+      "path": "/research/evidence-library/ghf-e106-r29-a2-dcms-internal-review-ir2026-06711-19-august-2026/",
+      "references": 5,
+      "examples": [
+        {
+          "from": "/docs/ghf_wiki/ir_dcmsforensicinstitutionalreview/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/evidence-library/ghf-e106-r29-a2-dcms-internal-review-ir2026-06711-19-august-2026/"
+        },
+        {
+          "from": "/docs/ghf_wiki/rg_agentindex/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/evidence-library/ghf-e106-r29-a2-dcms-internal-review-ir2026-06711-19-august-2026/"
+        },
+        {
+          "from": "/docs/ghf_evidence/ev_0164/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/evidence-library/ghf-e106-r29-a2-dcms-internal-review-ir2026-06711-19-august-2026/"
+        },
+        {
+          "from": "/research/agent-index/",
+          "attribute": "a[href]",
+          "url": "/research/evidence-library/ghf-e106-r29-a2-dcms-internal-review-ir2026-06711-19-august-2026/"
+        }
+      ]
+    },
+    {
+      "kind": "nav",
+      "path": "/research/evidence-library/william-buckler-1983-diary-two-handwritten-sums/",
+      "references": 5,
+      "examples": [
+        {
+          "from": "/docs/ghf_wiki/rg_williambuckler1983diarytwohandwrittensum/latest/html/en/",
+          "attribute": "a[href]",
+          "url": "/research/evidence-library/william-buckler-1983-diary-two-handwritten-sums/"
+        },
+        {
+          "from": "/docs/ghf_wiki/rg_agentindex/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/evidence-library/william-buckler-1983-diary-two-handwritten-sums/"
+        },
+        {
+          "from": "/docs/ghf_evidence/ev_0062/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/evidence-library/william-buckler-1983-diary-two-handwritten-sums/"
+        },
+        {
+          "from": "/research/agent-index/",
+          "attribute": "a[href]",
+          "url": "/research/evidence-library/william-buckler-1983-diary-two-handwritten-sums/"
+        }
+      ]
+    },
+    {
+      "kind": "nav",
+      "path": "/research/scrutiny-and-accountability/government-public-authority-involvement/persimmon-forensic-institutional-review/",
+      "references": 5,
+      "examples": [
+        {
+          "from": "/docs/ghf_wiki/ir_persimmonforensicinstitutionalreview/latest/html/en/",
+          "attribute": "a[href]",
+          "url": "/research/scrutiny-and-accountability/government-public-authority-involvement/persimmon-forensic-institutional-review/"
+        },
+        {
+          "from": "/docs/ghf_wiki/rg_agentindex/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/scrutiny-and-accountability/government-public-authority-involvement/persimmon-forensic-institutional-review/"
+        },
+        {
+          "from": "/docs/ghf_wiki/ir_institutionalreviewcoverageregister/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/scrutiny-and-accountability/government-public-authority-involvement/persimmon-forensic-institutional-review/"
+        },
+        {
+          "from": "/research/agent-index/",
+          "attribute": "a[href]",
+          "url": "/research/scrutiny-and-accountability/government-public-authority-involvement/persimmon-forensic-institutional-review/"
+        }
+      ]
+    },
+    {
+      "kind": "nav",
+      "path": "/research/scrutiny-and-accountability/government-public-authority-involvement/office-of-stephen-doughty-mp-forensic-institutional-review/",
+      "references": 5,
+      "examples": [
+        {
+          "from": "/docs/ghf_wiki/ir_officeofstephendoughtympforensicinstitut/latest/html/en/",
+          "attribute": "a[href]",
+          "url": "/research/scrutiny-and-accountability/government-public-authority-involvement/office-of-stephen-doughty-mp-forensic-institutional-review/"
+        },
+        {
+          "from": "/docs/ghf_wiki/rg_agentindex/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/scrutiny-and-accountability/government-public-authority-involvement/office-of-stephen-doughty-mp-forensic-institutional-review/"
+        },
+        {
+          "from": "/docs/ghf_wiki/ir_institutionalreviewcoverageregister/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/scrutiny-and-accountability/government-public-authority-involvement/office-of-stephen-doughty-mp-forensic-institutional-review/"
+        },
+        {
+          "from": "/research/agent-index/",
+          "attribute": "a[href]",
+          "url": "/research/scrutiny-and-accountability/government-public-authority-involvement/office-of-stephen-doughty-mp-forensic-institutional-review/"
+        }
+      ]
+    },
+    {
+      "kind": "nav",
+      "path": "/research/records-access-chronology/foi-reply-register/national-counter-terrorism-security-office-nactso-email-correspondence-catalogue/",
+      "references": 5,
+      "examples": [
+        {
+          "from": "/docs/ghf_wiki/ir_nctsoforensicinstitutionalreview/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/records-access-chronology/foi-reply-register/national-counter-terrorism-security-office-nactso-email-correspondence-catalogue/"
+        },
+        {
+          "from": "/docs/ghf_wiki/rg_agentindex/latest/html/en/1-record.html",
+          "attribute": "a[href]",
+          "url": "/research/records-access-chronology/foi-reply-register/national-counter-terrorism-security-office-nactso-email-correspondence-catalogue/"
+        },
+        {
+          "from": "/docs/ghf_wiki/co_nationalcounterterrorismsecurityofficena/latest/html/en/",
+          "attribute": "a[href]",
+          "url": "/research/records-access-chronology/foi-reply-register/national-counter-terrorism-security-office-nactso-email-correspondence-catalogue/"
+        },
+        {
+          "from": "/research/agent-index/",
+          "attribute": "a[href]",
+          "url": "/research/records-access-chronology/foi-reply-register/national-counter-terrorism-security-office-nactso-email-correspondence-catalogue/"
         }
       ]
     }

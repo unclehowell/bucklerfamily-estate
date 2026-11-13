@@ -3,7 +3,7 @@
  "rewrites": {
   "held-privately-paren": 36,
   "family-archive-noun": 23,
-  "family-held-any": 34,
+  "family-held-any": 38,
   "held-privately-content": 16,
   "mailbox-reply-check": 5,
   "mailbox-body": 3,
@@ -63,7 +63,7 @@
   "holder-family-copy": 1,
   "family-copy-not-uploaded": 1
  },
- "files_changed": 509,
+ "files_changed": 513,
  "json_left": [],
  "left": [
   "fb2/videos.html :: hared a video HR-06 · 19–23 October 2026. Highlight report video, made for the family archive Highlight report HR-06 · 19–23 October 2026 Sou",
@@ -140,6 +140,12 @@
   "projects/estate/asset-register/index.html :: uthor the Executive Publications and media Executive (estate owner) Original held privately; sale edition redacted for privacy (20 Oct 2026) PDF (2,06",
   "projects/estate/asset-register/index.html :: ent file (PDF/DOCX) Publications and media Project Manager (Project Manager) Held privately PDF · n/a kept privately CI-070 Case films (versions ",
   "projects/estate/asset-register/index.html ::  (MP4) with scripts Publications and media Project Manager (Project Manager) Held privately MP4 · n/a kept privately CI-071 Archive media sites (",
+  "academy/architecture/loops.html :: rails: mail is read, never sent or drafted; personal-data material is read but held privately; scope filter: Great House Farm / cedwyn mail only; one wor",
+  "academy/MEMORY/standing-orders.html :: ture images are not artefacts. Material from personal-data requests is read but held privately. 7h. Visitor and destination pages (tours, places) lead wit",
+  "academy/SKILLS/marketing/uk-b2b-cold-calling-tps-ctps-permission-opener.html :: e permission opener: \"Hello, it's [name] calling on behalf of the Cedwyn Estate family archive. This is an unexpected call — can I take 30 seconds to say ",
+  "academy/SKILLS/marketing/british-pilgrimage-trust-route-submission-holy-places-day-walk.html :: te. Waypoint text comes only from Cedwyn catalogue entries (MR-/PX-/CH- IDs held privately for checking) and follows the editorial rules: no banned wo",
+  "academy/SKILLS/marketing/comodoro-trelew-book-fairs-calls-outsider-talk-slot.html ::  Spanish, 30-40 min, title tied to the Welsh settlement and records (e.g. Welsh family archives between Wales and Chubut), with a hands-on part for teache",
+  "academy/SKILLS/marketing/ebook-gifting-christmas-gift-path-guide-email.html :: ink plus a one-page printable/forwardable gift card PDF (\"A gift for you: . Your copy: \"). Add a dropdown custom field \"Gift? yes/no\" only to tai",
   "fb/u/herbert-family.html :: ards Videos and stories Contacts: the whole cast Friends: public statements Family archive timeline Archive photos The Map Room The Legal Wiki Gif",
   "fb/u/esther-williams.html :: ards Videos and stories Contacts: the whole cast Friends: public statements Family archive timeline Archive photos The Map Room The Legal Wiki Gif",
   "fb/u/wgr.html :: ards Videos and stories Contacts: the whole cast Friends: public statements Family archive timeline Archive photos The Map Room The Legal Wiki Gif",
@@ -460,12 +466,6 @@
   "fb/p/p-1855.html ::  Skip to content farmbook a family archive · 1667 to today Search farmbook ",
   "fb/p/p-1855.html ::  Paul Smith · AI host API for AI agents Privacy farmbook · a family archive. Not affiliated with any social network. ← All posts on",
   "fb/p/p-1985-12-09.html ::  Skip to content farmbook a family archive · 1667 to today Search farmbook ",
-  "fb/p/p-1985-12-09.html ::  Paul Smith · AI host API for AI agents Privacy farmbook · a family archive. Not affiliated with any social network. ← All posts on",
-  "fb/p/p-1972-07-25.html :: ook Skip to content farmbook a family archive · 1667 to today Search farmbook ",
-  "fb/p/p-1972-07-25.html ::  Paul Smith · AI host API for AI agents Privacy farmbook · a family archive. Not affiliated with any social network. ← All posts on",
-  "fb/p/p-1962-12-11.html :: ook Skip to content farmbook a family archive · 1667 to today Search farmbook ",
-  "fb/p/p-1962-12-11.html ::  Paul Smith · AI host API for AI agents Privacy farmbook · a family archive. Not affiliated with any social network. ← All posts on",
-  "fb/p/p-1983-03-13.html ::  Skip to content farmbook a family archive · 1667 to today Search farmbook ",
-  "fb/p/p-1983-03-13.html ::  Paul Smith · AI host API for AI agents Privacy farmbook · a family archive. Not affiliated with any social network. ← All posts on"
+  "fb/p/p-1985-12-09.html ::  Paul Smith · AI host API for AI agents Privacy farmbook · a family archive. Not affiliated with any social network. ← All posts on"
  ]
 }

@@ -1,6 +1,6 @@
 {
- "artifacts": 21830,
- "locations": 25897,
+ "artifacts": 21829,
+ "locations": 25896,
  "blobs": 5097,
  "blob_bytes": 692644793,
  "blob_skipped_over_cap": 9,
@@ -30,8 +30,8 @@
  "title_theory_refs": 36,
  "blobmap_paths": 7717,
  "blobmap_blobs": 5097,
- "db_version": "e387302393c2",
- "db_bytes": 923570176,
+ "db_version": "42940550af80",
+ "db_bytes": 923574272,
  "chunks": 3524,
  "chunk_max_bytes": 262144
 }
