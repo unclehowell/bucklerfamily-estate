@@ -1,0 +1,92 @@
+name: Mirror remaining auxiliary histories
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/mirror-remaining-auxiliary.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cedwyn-auxiliary-history-mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Fetch the authoritative auxiliary histories
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init --bare mirror.git
+          git -C mirror.git remote add source https://github.com/unclehowell/cedwyn.git
+          git -C mirror.git fetch --no-tags source \
+            +refs/heads/agents:refs/heads/agents \
+            +refs/heads/library:refs/heads/library
+          test "$(git -C mirror.git rev-parse refs/heads/agents)" = "6572ba5042aae9ba62c8070c71232c78d0b995db"
+          test "$(git -C mirror.git rev-parse refs/heads/library)" = "34103d75e9726162ee941968c22f7ac6ce2dfd56"
+
+      - name: Push full histories without force and verify exact heads
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C mirror.git remote add target "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          push_branch() {
+            local branch="$1" step=1000 count last_index idx sha remote_sha
+            mapfile -t commits < <(git -C mirror.git rev-list --first-parent --reverse "refs/heads/${branch}")
+            count="${#commits[@]}"
+            if [ "$count" -eq 0 ]; then echo "::error::No commits found for ${branch}"; return 1; fi
+
+            remote_sha="$(git -C mirror.git ls-remote --heads target "${branch}" | awk '{print $1}')"
+            last_index=-1
+            if [ -n "$remote_sha" ]; then
+              for i in "${!commits[@]}"; do
+                if [ "${commits[$i]}" = "$remote_sha" ]; then last_index="$i"; break; fi
+              done
+              if [ "$last_index" -lt 0 ]; then
+                echo "::error::Target ${branch} is not an exact first-parent checkpoint; refusing to overwrite."
+                return 1
+              fi
+            fi
+
+            while [ "$last_index" -lt "$((count-1))" ]; do
+              idx=$((last_index+step))
+              if [ "$idx" -ge "$count" ]; then idx=$((count-1)); fi
+              sha="${commits[$idx]}"
+              if git -C mirror.git push target "${sha}:refs/heads/${branch}" 2>&1 | tee /tmp/push.log; then
+                :
+              else
+                if grep -Eqi 'pack exceeds maximum allowed size|maximum allowed size|RPC failed|remote end hung up unexpectedly' /tmp/push.log && [ "$step" -gt 1 ]; then
+                  step=$((step/2))
+                  if [ "$step" -lt 1 ]; then step=1; fi
+                  echo "${branch}: batch reduced to ${step}; retrying same range."
+                  continue
+                fi
+                cat /tmp/push.log
+                return 1
+              fi
+              last_index="$idx"
+              echo "${branch}: transferred through ${sha} ($((idx+1)) of ${count})."
+              if [ "$last_index" -lt "$((count-1))" ]; then sleep 5; fi
+            done
+
+            remote_sha="$(git -C mirror.git ls-remote --heads target "${branch}" | awk '{print $1}')"
+            if [ "$remote_sha" != "${commits[$((count-1))]}" ]; then
+              echo "::error::${branch} head mismatch: expected ${commits[$((count-1))]}, got ${remote_sha}"
+              return 1
+            fi
+            echo "Verified full-history ${branch}: ${remote_sha}"
+          }
+
+          for branch in agents library; do
+            push_branch "$branch"
+          done
+          echo "Both auxiliary histories are present at their pinned source heads. No main/site refs were modified."
