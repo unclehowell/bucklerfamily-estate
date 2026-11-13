@@ -15,7 +15,7 @@ from pathlib import Path
 
 DIST = Path(sys.argv[1] if len(sys.argv) > 1 else "dist")
 APP = DIST / "forensic"
-SEMVER = re.compile(r"^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$")
+SEMVER = re.compile(r"^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
 FA_ID = re.compile(r"^FA-[0-9]{4,}$")
 
 
@@ -82,7 +82,7 @@ def main() -> None:
         if not page.is_file():
             fail(f"published page is missing: {page}")
         html = page.read_text(encoding="utf-8", errors="replace")
-        match = re.search(r'<p\\s+class="fa-kicker">[^<]*?\\bv([0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?)', html)
+        match = re.search(r'<p\s+class="fa-kicker">[^<]*?\bv([0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)', html)
         if not match or match.group(1) != record["version"]:
             fail(f"page header SemVer does not match catalogue for {slug}")
     js_path = APP / "fa.js"
