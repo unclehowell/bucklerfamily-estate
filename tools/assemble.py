@@ -72,7 +72,7 @@ def snapshot(t, out):
     at the commit sections.lock pins, so a build no longer crawls the live Worker sites. Falls back to the crawl when the
     branch or the pinned commit cannot be read. - Sion's Tab agent"""
     br = t['snapshot_branch']; pin = (LOCK.get(t['id']) or {}).get('sha') or ''
-    repo = os.environ.get('GITHUB_REPOSITORY', 'unclehowell/cedwyn')
+    repo = os.environ.get('GITHUB_REPOSITORY', 'unclehowell/bucklerfamily-estate')
     ref = f'refs/heads/{br}'
     if sh(f"git --git-dir={MIRROR} rev-parse --verify -q {ref}").returncode != 0:
         sh(f"git --git-dir={MIRROR} fetch -q --depth 1 https://github.com/{repo}.git +{ref}:{ref}", t=600)
