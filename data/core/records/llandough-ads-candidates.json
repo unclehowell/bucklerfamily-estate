@@ -1,7 +1,23 @@
 {
   "schema": "cedwyn-core/0.5.0",
-  "note": "Pally metadata-only candidates for issue #2. Not public, not an archive capture or a copy of either paper. Complete rights, acquisition, duplicate and display checks before release.",
+  "note": "Metadata-only candidates in a publicly visible GitHub branch; they are not included in the built public catalogue. These candidates contain no report PDFs, full transcriptions, or page capture. ADS metadata identifies ADS Terms of Use and Access; public reproduction remains on hold pending rights-holder clarification.",
   "updated": "2026-11-14",
+  "catalogue_audit": {
+    "observed": "2026-11-14T18:45:27Z",
+    "holbrook_thomas": {
+      "existing_id": "MED-0096",
+      "result": "Existing bibliographic record matches the 2005 Holbrook/Thomas article, pages 1-92. Reuse it; do not create a duplicate.",
+      "catalogue_url": "https://bucklerfamily.estate/api/catalogue?q=MED-0096",
+      "ads_metadata_url": "https://archaeologydataservice.ac.uk/library/browse/details.xhtml?recordId=3189206&recordType=Journal",
+      "ads_collection_doi": "https://doi.org/10.5284/1071962"
+    },
+    "med_0097": {
+      "result": "The existing catalogue title matches the 1994 article, but its linked Cotswold PDF is a different 1979-84 paper. Do not treat that file as the ADS 1994 report.",
+      "catalogue_url": "https://bucklerfamily.estate/api/catalogue?q=MED-0097",
+      "linked_pdf": "https://cotswoldarchaeology.co.uk/wp-content/uploads/2011/07/llandough-pdf-1.pdf"
+    },
+    "rights": "The ADS collection page states data copyright Cotswold Archaeology and applies ADS Terms of Use and Access. ADS library records for both articles also show those terms. No repository copy, full transcription, or page capture is included here."
+  },
   "records": [
     {
       "id": "AR-9050",
@@ -21,7 +37,7 @@
       ],
       "public": false,
       "updated": "2026-11-14",
-      "rev": 1
+      "rev": 2
     },
     {
       "id": "AR-9051",
@@ -29,10 +45,10 @@
       "title": "The Early Medieval Monastic Cemetery at Llandough, Glamorgan: ADS collection page",
       "date": {"display": "2005", "sort": "2005", "precision": "year"},
       "place_text": "Llandough-juxta-Penarth, near Cardiff",
-      "description": "Cotswold Archaeology dataset distributed by the Archaeology Data Service, collection 401, DOI 10.5284/1000252. This candidate refers to the source webpage; no repository-owned capture has been made.",
-      "transcript_status": "Not transcribed; public reproduction permission for the page has not been verified.",
-      "interpretation": "The ADS page places the excavation beside St Dochdwy's church and describes the cemetery and related publications. This is archaeological context; the page does not itself establish the title or boundaries of Great House Farm.",
-      "provenance": {"holder": "Archaeology Data Service", "reference": "Cotswold Archaeology (2005), dataset, DOI 10.5284/1000252", "obtained": "Webpage read 2026-11-14; no capture made"},
+      "description": "Cotswold Archaeology (2005), ADS Collection 401, DOI 10.5284/1000252. Metadata candidate for the source webpage only; no repository-owned capture has been made.",
+      "transcript_status": "Not transcribed; the page carries Cotswold Archaeology copyright and ADS Terms of Use and Access. Permission for a public page capture has not been verified.",
+      "interpretation": "The ADS page reports that Cotswold Archaeology excavated adjacent to St Dochdwy's church in Llandough near Cardiff in 1994, over 0.22 ha, and recorded 1,026 burials. Its archaeological chronology and site context do not establish Great House Farm title or parcel boundaries.",
+      "provenance": {"holder": "Archaeology Data Service; data copyright stated as Cotswold Archaeology", "reference": "ADS Collection 401; DOI 10.5284/1000252; ADS Terms of Use and Access", "obtained": "Webpage read 2026-11-14; no capture made"},
       "scope": {"disposition": "on_hold", "label": "Metadata only; capture pending", "reason": "No repository-owned copy or verified permission for a public page capture."},
       "links": [
         {"rel": "source", "to": "https://archaeologydataservice.ac.uk/archives/view/llandough_cadw_2004/index.cfm"},
@@ -40,7 +56,7 @@
       ],
       "public": false,
       "updated": "2026-11-14",
-      "rev": 1
+      "rev": 2
     }
   ]
 }
