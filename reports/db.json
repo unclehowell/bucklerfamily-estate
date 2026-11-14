@@ -2,9 +2,9 @@
  "artifacts": 21832,
  "locations": 25902,
  "blobs": 5099,
- "blob_bytes": 692708283,
+ "blob_bytes": 692720929,
  "blob_skipped_over_cap": 9,
- "edges": 531669,
+ "edges": 531684,
  "nodes": 1692,
  "fts_rows": 16626,
  "captures": 183,
@@ -30,8 +30,8 @@
  "title_theory_refs": 36,
  "blobmap_paths": 7720,
  "blobmap_blobs": 5099,
- "db_version": "a0644c2da433",
- "db_bytes": 923680768,
+ "db_version": "3042b9e2209f",
+ "db_bytes": 923697152,
  "chunks": 3524,
  "chunk_max_bytes": 262144
 }
