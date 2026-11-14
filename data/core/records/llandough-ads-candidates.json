@@ -1,9 +1,9 @@
 {
   "schema": "cedwyn-core/0.5.0",
-  "note": "Metadata-only candidates in a publicly visible GitHub branch; they are not included in the built public catalogue. These candidates contain no report PDFs, full transcriptions, or page capture. ADS metadata identifies ADS Terms of Use and Access; public reproduction remains on hold pending rights-holder clarification.",
+  "note": "Metadata-only candidates in a publicly visible review branch; they are not included in the built public catalogue. ADS states that all ADS metadata is distributed under CC0 1.0. That licence applies to the metadata represented here; it does not automatically license the report PDFs, full-text transcriptions, or the source webpage content/capture. The source-specific ADS Terms and Cotswold Archaeology copyright notes are recorded below. No report PDFs, full transcriptions, or page capture are included.",
   "updated": "2026-11-14",
   "catalogue_audit": {
-    "observed": "2026-11-14T18:45:27Z",
+    "observed": "2026-11-14T20:02:14Z",
     "holbrook_thomas": {
       "existing_id": "MED-0096",
       "result": "Existing bibliographic record matches the 2005 Holbrook/Thomas article, pages 1-92. Reuse it; do not create a duplicate.",
@@ -16,7 +16,7 @@
       "catalogue_url": "https://bucklerfamily.estate/api/catalogue?q=MED-0097",
       "linked_pdf": "https://cotswoldarchaeology.co.uk/wp-content/uploads/2011/07/llandough-pdf-1.pdf"
     },
-    "rights": "The ADS collection page states data copyright Cotswold Archaeology and applies ADS Terms of Use and Access. ADS library records for both articles also show those terms. No repository copy, full transcription, or page capture is included here."
+    "rights": "ADS's current metadata policy states that all ADS metadata is distributed under CC0 1.0 (https://archaeologydataservice.ac.uk/about/policies/metadata/). This applies to the bibliographic and collection metadata represented here, not automatically to the full article PDFs, full-text transcriptions, or the ADS webpage content/capture. Both article records list ADS Terms of Use and Access. Those terms provide for personal copies for non-commercial research or teaching, restrict access to authorized registered users, and require permission for other uses. The collection page states data copyright Cotswold Archaeology and applies the ADS Terms. This PR contains metadata and short attributed summaries only; it includes no PDF bytes, full transcription, or webpage capture."
   },
   "records": [
     {
@@ -26,18 +26,21 @@
       "date": {"display": "2005", "sort": "2005", "precision": "year"},
       "place_text": "Llandough-juxta-Penarth, near Cardiff",
       "description": "Jeremy K. Knight, Medieval Archaeology 49 (2005), pages 93–107. Bibliographic candidate identified in the Archaeology Data Service (ADS) metadata; the original PDF is not held in this repository.",
-      "transcript_status": "Not transcribed; source bytes not acquired and public reproduction permission not verified.",
+      "transcript_status": "Not transcribed; source PDF bytes were not acquired. ADS's CC0 policy applies to bibliographic metadata, while the ADS article record lists ADS Terms of Use and Access for the source material.",
       "interpretation": "ADS describes this paper as examining the cemetery in relation to the Roman villa and early medieval monastery and their wider context. This bibliographic description alone does not establish an estate title or the boundaries of any holding.",
-      "provenance": {"holder": "Archaeology Data Service", "reference": "Journal record; ADS DOI 10.5284/1071963; publisher DOI 10.1179/007660905x54053", "obtained": "Metadata read 2026-11-14"},
-      "scope": {"disposition": "on_hold", "label": "Metadata only; source and permissions pending", "reason": "No verified repository PDF, full transcription, or authorization to reproduce either publicly."},
+      "provenance": {"holder": "Archaeology Data Service", "reference": "Journal record; ADS DOI 10.5284/1071963; publisher DOI 10.1179/007660905x54053; ADS metadata is CC0 1.0; article record lists ADS Terms of Use and Access", "obtained": "Metadata read 2026-11-14"},
+      "scope": {"disposition": "on_hold", "label": "Metadata only; full-text reproduction not included", "reason": "ADS metadata is CC0 and its policy is linked below. No repository PDF or full-text transcription is included because the article record lists ADS Terms of Use and Access and no authorization for public reproduction has been verified."},
       "links": [
         {"rel": "metadata", "to": "https://archaeologydataservice.ac.uk/library/browse/details.xhtml?recordId=3189216&recordType=Journal"},
         {"rel": "source", "to": "https://archaeologydataservice.ac.uk/catalogue/adsdata/arch-769-1/dissemination/pdf/vol49/49_093_107.pdf"},
-        {"rel": "doi", "to": "https://doi.org/10.5284/1071963"}
+        {"rel": "doi", "to": "https://doi.org/10.5284/1071963"},
+        {"rel": "metadata_policy", "to": "https://archaeologydataservice.ac.uk/about/policies/metadata/"},
+        {"rel": "metadata_licence", "to": "https://creativecommons.org/publicdomain/zero/1.0/"},
+        {"rel": "rights_terms", "to": "https://archaeologydataservice.ac.uk/about/policies/use-access-to-data/ads-terms-of-use-and-access/"}
       ],
       "public": false,
       "updated": "2026-11-14",
-      "rev": 2
+      "rev": 3
     },
     {
       "id": "AR-9051",
@@ -46,17 +49,20 @@
       "date": {"display": "2005", "sort": "2005", "precision": "year"},
       "place_text": "Llandough-juxta-Penarth, near Cardiff",
       "description": "Cotswold Archaeology (2005), ADS Collection 401, DOI 10.5284/1000252. Metadata candidate for the source webpage only; no repository-owned capture has been made.",
-      "transcript_status": "Not transcribed; the page carries Cotswold Archaeology copyright and ADS Terms of Use and Access. Permission for a public page capture has not been verified.",
+      "transcript_status": "Not transcribed or captured; only ADS bibliographic and collection metadata are used. ADS's CC0 policy applies to metadata, not automatically to the source webpage text or a full capture. The page states data copyright Cotswold Archaeology and applies ADS Terms of Use and Access.",
       "interpretation": "The ADS page reports that Cotswold Archaeology excavated adjacent to St Dochdwy's church in Llandough near Cardiff in 1994, over 0.22 ha, and recorded 1,026 burials. Its archaeological chronology and site context do not establish Great House Farm title or parcel boundaries.",
-      "provenance": {"holder": "Archaeology Data Service; data copyright stated as Cotswold Archaeology", "reference": "ADS Collection 401; DOI 10.5284/1000252; ADS Terms of Use and Access", "obtained": "Webpage read 2026-11-14; no capture made"},
-      "scope": {"disposition": "on_hold", "label": "Metadata only; capture pending", "reason": "No repository-owned copy or verified permission for a public page capture."},
+      "provenance": {"holder": "Archaeology Data Service; data copyright stated as Cotswold Archaeology", "reference": "ADS Collection 401; DOI 10.5284/1000252; ADS metadata is CC0 1.0; source page lists ADS Terms of Use and Access", "obtained": "Webpage read 2026-11-14; no capture made"},
+      "scope": {"disposition": "on_hold", "label": "Metadata only; page capture not included", "reason": "ADS metadata is CC0 and its policy is linked below. The source page's text/capture is not treated as CC0; no repository-owned copy or verified public reproduction permission is included."},
       "links": [
         {"rel": "source", "to": "https://archaeologydataservice.ac.uk/archives/view/llandough_cadw_2004/index.cfm"},
-        {"rel": "doi", "to": "https://doi.org/10.5284/1000252"}
+        {"rel": "doi", "to": "https://doi.org/10.5284/1000252"},
+        {"rel": "metadata_policy", "to": "https://archaeologydataservice.ac.uk/about/policies/metadata/"},
+        {"rel": "metadata_licence", "to": "https://creativecommons.org/publicdomain/zero/1.0/"},
+        {"rel": "rights_terms", "to": "https://archaeologydataservice.ac.uk/about/policies/use-access-to-data/ads-terms-of-use-and-access/"}
       ],
       "public": false,
       "updated": "2026-11-14",
-      "rev": 2
+      "rev": 3
     }
   ]
 }
