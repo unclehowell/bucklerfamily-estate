@@ -1,0 +1,46 @@
+{
+  "schema": "cedwyn-core/0.5.0",
+  "note": "Pally metadata-only candidates for issue #2. Not public, not an archive capture or a copy of either paper. Complete rights, acquisition, duplicate and display checks before release.",
+  "updated": "2026-11-14",
+  "records": [
+    {
+      "id": "AR-9050",
+      "kind": "catalogue_candidate",
+      "title": "From Villa to Monastery: Llandough in Context",
+      "date": {"display": "2005", "sort": "2005", "precision": "year"},
+      "place_text": "Llandough-juxta-Penarth, near Cardiff",
+      "description": "Jeremy K. Knight, Medieval Archaeology 49 (2005), pages 93–107. Bibliographic candidate identified in the Archaeology Data Service (ADS) metadata; the original PDF is not held in this repository.",
+      "transcript_status": "Not transcribed; source bytes not acquired and public reproduction permission not verified.",
+      "interpretation": "ADS describes this paper as examining the cemetery in relation to the Roman villa and early medieval monastery and their wider context. This bibliographic description alone does not establish an estate title or the boundaries of any holding.",
+      "provenance": {"holder": "Archaeology Data Service", "reference": "Journal record; ADS DOI 10.5284/1071963; publisher DOI 10.1179/007660905x54053", "obtained": "Metadata read 2026-11-14"},
+      "scope": {"disposition": "on_hold", "label": "Metadata only; source and permissions pending", "reason": "No verified repository PDF, full transcription, or authorization to reproduce either publicly."},
+      "links": [
+        {"rel": "metadata", "to": "https://archaeologydataservice.ac.uk/library/browse/details.xhtml?recordId=3189216&recordType=Journal"},
+        {"rel": "source", "to": "https://archaeologydataservice.ac.uk/catalogue/adsdata/arch-769-1/dissemination/pdf/vol49/49_093_107.pdf"},
+        {"rel": "doi", "to": "https://doi.org/10.5284/1071963"}
+      ],
+      "public": false,
+      "updated": "2026-11-14",
+      "rev": 1
+    },
+    {
+      "id": "AR-9051",
+      "kind": "catalogue_candidate",
+      "title": "The Early Medieval Monastic Cemetery at Llandough, Glamorgan: ADS collection page",
+      "date": {"display": "2005", "sort": "2005", "precision": "year"},
+      "place_text": "Llandough-juxta-Penarth, near Cardiff",
+      "description": "Cotswold Archaeology dataset distributed by the Archaeology Data Service, collection 401, DOI 10.5284/1000252. This candidate refers to the source webpage; no repository-owned capture has been made.",
+      "transcript_status": "Not transcribed; public reproduction permission for the page has not been verified.",
+      "interpretation": "The ADS page places the excavation beside St Dochdwy's church and describes the cemetery and related publications. This is archaeological context; the page does not itself establish the title or boundaries of Great House Farm.",
+      "provenance": {"holder": "Archaeology Data Service", "reference": "Cotswold Archaeology (2005), dataset, DOI 10.5284/1000252", "obtained": "Webpage read 2026-11-14; no capture made"},
+      "scope": {"disposition": "on_hold", "label": "Metadata only; capture pending", "reason": "No repository-owned copy or verified permission for a public page capture."},
+      "links": [
+        {"rel": "source", "to": "https://archaeologydataservice.ac.uk/archives/view/llandough_cadw_2004/index.cfm"},
+        {"rel": "doi", "to": "https://doi.org/10.5284/1000252"}
+      ],
+      "public": false,
+      "updated": "2026-11-14",
+      "rev": 1
+    }
+  ]
+}
