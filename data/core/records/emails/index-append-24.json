@@ -1,0 +1,17 @@
+{
+  "schema": "cedwyn-core/0.4.0",
+  "collection": "emails-index-append",
+  "updated": "2026-11-14T12:00:00Z",
+  "base_count": 1138,
+  "append_count": 5,
+  "resulting_count": 1143,
+  "parts": 24,
+  "records": [
+    ["EV-2046","2026-10-30T09:38:49Z","r",["City of Cardiff Council"],"cardifffoi@houseonthehill.com","Freedom of Information Ref: FOI26520","gt-1a18c2d234d102e2",1,24,0,"gm-1a18c2d234d102e2","",0,0],
+    ["EV-2047","2026-10-30T10:00:52Z","r",["City of Cardiff Council"],"cardifffoi@houseonthehill.com","Freedom of Information Ref: FOI26521","gt-1a18c4154fa3b3cb",1,24,0,"gm-1a18c4154fa3b3cb","",0,0],
+    ["EV-2048","2026-11-11T09:50:07Z","r",["City of Cardiff Council"],"cardifffoi@houseonthehill.com","Freedom of Information Ref: FOI26599","gt-1a1ca03c78a3c570",1,24,0,"gm-1a1ca03c78a3c570","",0,0],
+    ["EV-2049","2026-11-11T09:53:35Z","r",["City of Cardiff Council"],"cardifffoi@houseonthehill.com","Freedom of Information Ref: FOI26600","gt-1a1ca06f75d5bb3e",1,24,0,"gm-1a1ca06f75d5bb3e","",0,0],
+    ["EV-2050","2026-11-12T23:28:28Z","r",["Victorian Society"],"Sarah Jayne","Automatic reply: RE: Casework archive enquiry - Tŷ Mawr (Great House Farm), Llandough-juxta-Penarth, demolished 1988","gt-1a1d2176443d4d5a",1,24,0,"gm-1a1d2176443d4d5a","",0,0]
+  ],
+  "instruction": "Merge these rows into data/core/records/emails/index.json records array; set count=1143 parts=24. Restore base index from blob SHA 5e06b79ac2d5e9d665d4e8660ba38a640bf91abc if still stubbed, then append."
+}
