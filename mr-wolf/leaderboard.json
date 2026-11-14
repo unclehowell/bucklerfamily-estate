@@ -1,7 +1,7 @@
 {
  "schema": "cedwyn_mr_wolf_leaderboard/v1",
- "version": "1.0.0",
- "updated": "2026-11-01",
+ "version": "2.2.0",
+ "updated": "2026-11-14",
  "slot": 40,
  "of": 59,
  "threshold": 100,
@@ -20,7 +20,7 @@
    },
    {
     "key": "c",
-    "label": "Not available then with reasonable diligence",
+    "label": "New: not raised and decided in 1987",
     "max": 50
    },
    {
@@ -31,7 +31,8 @@
   ],
   "mapping": "Each limb comes from the reopen research score 0-5 on the same limb, times 10 (0=nothing, 1=inference or gap, 2=several documented facts, 3=a primary official record shows the anomaly, 4=a primary document proves the limb, 5=admissible originals ready for counsel). Total = sum of the four limbs, 0-200.",
   "threshold_note": "100 = the Takhar threshold plausibly met; 200 = proved beyond doubt on every limb. Ready for counsel needs at least 40 on every limb.",
-  "order": "Score high to low; ties by limb 2 (operative cause), then limb 3."
+  "order": "Score high to low; ties by limb 2 (operative cause), then limb 3.",
+  "limb3_note": "Takhar v Gracefield Developments Ltd [2019] UKSC 13: a party who shows a judgment was obtained by deception need not show it could not have been found with reasonable diligence at the time; the position differs where the point was raised and decided at trial. Limb 3 measures that."
  },
  "source": {
   "reopen_grounds_run": 59,
@@ -43,7 +44,7 @@
   {
    "rank": 1,
    "id": "MW-11",
-   "title": "The licence letters rejected in writing?",
+   "title": "She never accepted permission: 1949–1974 refusals and her reply to the licence letters",
    "score": 80,
    "limbs": {
     "a": 10,
@@ -59,29 +60,279 @@
    },
    "reopen_ground": "R2",
    "seed_score": false,
-   "what": "The decisive finding was that Mary (Nancy) Williams never told BP she rejected the 1974 letters ('she did not, however, do that'). A written rejection, if BP held one while its case said there was none, would go to the heart of the decision.",
+   "what": "The 1987 decision turned on one finding: that Mary (Nancy) Williams never told BP she rejected the 31 October 1974 licence letters. The judgment's own account shows she had no real chance to. The letters were sent to her solicitor, who received them on the morning of 4 November; the judge stayed execution pending her agreement; and BP withdrew the warrant before she had given her solicitor any instructions. In the court's words, BP 'neither sought nor waited for her acceptance'. Every earlier attempt to make her occupation permissive had been refused, she was pleading ownership in an action never heard, and the family record is that she wrote back.",
    "why": {
-    "a": "None yet. It would need BP to have held a written rejection while its case said there was none.",
-    "b": "The court wrote that the result 'may' have been different had she plainly told BP she did not accept the letters.",
-    "c": "The cutting cited as a '1978 article' is the Daily Telegraph of 16 April 1974, six months before the letters, so not a rejection.",
-    "d": "No communication to BP after 4 November 1974 has been found."
+    "a": "None held yet. Rises when her reply, or BP's 1984–86 list of documents, shows a rejection the court was told did not exist.",
+    "b": "This is the reason BP won: the court wrote that 'it may be that the result would have been different' had she plainly rejected the letters.",
+    "c": "The 4 November timing is in the judgment, so it was before the court; her reply, the full refusal chain (1949, 1952, 1954, the 1955 land) and the 1974 TV footage were not.",
+    "d": "No communication to BP after 4 November 1974 is held yet. The judgment's own words (EG [1987] 2 EGLR 168, pp. 170–171) support the timing."
    },
-   "what_would_raise_it": "Any letter from her or her 1974 solicitors to BP Pension Trust, BP Properties or Linklaters & Paines between 4 November 1974 and 26 March 1983, or BP's list of documents in the 1984–86 action.",
-   "status": "Open: letter being traced",
+   "what_would_raise_it": "Her reply, or her 1974 solicitors' letters to BP Pension Trust, BP Properties or Linklaters & Paines (4 November 1974 to 26 March 1983); BP's list of documents in the 1984–86 action; the 1959 and 1965 offer files; the 1955 order and its plan.",
+   "status": "Open: reply being traced",
    "records": [
+    {
+     "id": "GHF-E122",
+     "href": "/research/evidence-library/ghf-e122-1949-surrender-and-re-grant-of-frederick-bucklers-tenancy/"
+    },
+    {
+     "id": "EV-0031",
+     "href": "/research/evidence/ev-0031-1954-buckler-tenancy-attempt/"
+    },
+    {
+     "id": "EV-0032",
+     "href": "/research/evidence/ev-0032-1955-order-14-possession-order/"
+    },
+    {
+     "id": "EV-0039",
+     "href": "/research/evidence/ev-0039-wgr-tenancy-offers-1959-1965/"
+    },
+    {
+     "id": "EV-0049",
+     "href": "/research/evidence/ev-0049-mary-williams-plea-ownership-pleadings/"
+    },
+    {
+     "id": "EV-0050",
+     "href": "/research/evidence/ev-0050-1974-bp-licence-letters/"
+    },
+    {
+     "id": "EV-0080",
+     "href": "/research/evidence/ev-0080-bp-properties-v-buckler-judgment/"
+    },
     {
      "id": "EV-0645",
      "href": "/research/evidence/ev-0645-local-history-book-llandough-penarth-pp64-65/"
+    }
+   ],
+   "argument": {
+    "court": "The letters made her BP's licensee from receipt unless she repudiated them; it 'may be' the result would have been different had she plainly rejected them, and the court found she instead followed advice to do nothing until 11 December 1974.",
+    "ours": "Her answer to permission was always no. The letters asked for no reply, reached her solicitor on the morning of a court hearing, and the warrant was withdrawn before she could give instructions: BP 'neither sought nor waited for her acceptance'. Silence was not acceptance, and she wrote back.",
+    "steps": [
+     {
+      "date": "2 Feb 1949",
+      "event": "John Williams's tenancy surrendered; new yearly tenancy granted to Frederick Buckler (the 1939 plan shows Parcel B, not the house parcel)",
+      "state": "Record held",
+      "rec": "GHF-E122"
+     },
+     {
+      "date": "10 Oct 1952",
+      "event": "Landlord's agents write that they do not propose to proceed with the letting",
+      "state": "Letting dropped",
+      "rec": "EV-0080"
+     },
+     {
+      "date": "1954",
+      "event": "Further attempt to make Frederick a tenant (family archive)",
+      "state": "Not taken up",
+      "rec": "EV-0031"
+     },
+     {
+      "date": "4 Jul 1955",
+      "event": "Possession taken of all the farm except the farmhouse and garden; which land the order covered is unclear on the family's reading",
+      "state": "Ambiguous",
+      "rec": "EV-0032"
+     },
+     {
+      "date": "1959",
+      "event": "Tenancy of the farmhouse and garden offered by Western Ground Rents",
+      "state": "Refused (judgment para 7)",
+      "rec": "EV-0039"
+     },
+     {
+      "date": "Mar 1965",
+      "event": "Tenancy offered again by Western Ground Rents' agents",
+      "state": "Never signed, no rent paid (family archive)",
+      "rec": "EV-0039"
+     },
+     {
+      "date": "3 Jul 1974",
+      "event": "BP Pension Trust's action adjourned part heard; her defence pleads title by adverse possession",
+      "state": "Ownership asserted, never heard",
+      "rec": "EV-0049"
+     },
+     {
+      "date": "19 Sep 1974",
+      "event": "Leave to enforce the 1962 order; warrant to issue but not be enforced until 31 October",
+      "state": "Order made",
+      "rec": ""
+     },
+     {
+      "date": "30 Oct 1974",
+      "event": "Her solicitors appeal: she had 'no opportunity of presenting her case'; stay appointment fixed for 4 November",
+      "state": "Appeal pending, never decided",
+      "rec": "EV-0080"
+     },
+     {
+      "date": "31 Oct 1974",
+      "event": "Licence letters dated; sent to her solicitor, not to her; neither asks for a reply",
+      "state": "Sent",
+      "rec": "EV-0050"
+     },
+     {
+      "date": "4 Nov 1974",
+      "event": "Solicitor receives the letters that morning; BP does not attend; judge stays execution 'pending Mrs Buckler's agreement'; solicitor phones her for instructions",
+      "state": "Her answer awaited by the court",
+      "rec": "EV-0080"
+     },
+     {
+      "date": "By 25 Nov 1974",
+      "event": "BP's solicitors withdraw the warrant 'before she had given any instructions'",
+      "state": "Closed before she could answer",
+      "rec": "EV-0080"
+     },
+     {
+      "date": "After Nov 1974",
+      "event": "Her written reply to the letters (family record)",
+      "state": "Being traced",
+      "rec": ""
+     },
+     {
+      "date": "31 Jul 1987",
+      "event": "Court of Appeal: no repudiation, so licensee from receipt",
+      "state": "Decisive finding",
+      "rec": "EV-0080"
+     },
+     {
+      "date": "2016–2024",
+      "event": "Later courts: the letters came 'out of the blue' (Smith v Molyneaux [2016] UKPC 35 para 28); Buckler is not authority that a unilateral licence ends adverse possession in every case, and the rejection question was left open (Brown v Ridley [2024] UKUT 14 (LC) para 155)",
+      "state": "Authority narrowed",
+      "rec": ""
+     }
+    ]
+   },
+   "priority": 1
+  },
+  {
+   "rank": 10,
+   "id": "MW-01",
+   "title": "The 1939 agreement: John Williams's signature against his real signature on family heirlooms",
+   "score": 40,
+   "limbs": {
+    "a": 10,
+    "b": 10,
+    "c": 10,
+    "d": 10
+   },
+   "limbs_0_5": {
+    "a": 1,
+    "b": 1,
+    "c": 1,
+    "d": 1
+   },
+   "reopen_ground": "R12",
+   "seed_score": false,
+   "what": "A May 1939 agreement by which Western Ground Rents let 5.30 acres of pasture to John Williams the younger, then 72, signed before a bank cashier. The family holds heirlooms carrying his own signature, and the signature on the agreement does not match them. In our framework this letting is where the 'permissive from this date' paper trail begins: the 1949 re-grant, the 1952 withdrawal, the 1955 possession order and, through its ambiguity, the 1962 order the 1987 court relied on.",
+   "why": {
+    "a": "A visible mismatch is a strong indicator, but forgery is shown only by an examiner's comparison.",
+    "b": "The judgment rests on the 1949 surrender and re-grant and the 1962 order, not the 1939 letting itself; the link runs through that chain.",
+    "c": "The heirloom signatures and the agreement were not compared in 1987.",
+    "d": "Dated specimens are held on the heirlooms; the agreement is seen only in an angled photograph, and no examiner has compared them."
+   },
+   "what_would_raise_it": "Photograph the heirloom signatures with dates and provenance; copy page 1 of the agreement at Glamorgan Archives (DBDT123/7); a forensic document examiner's comparison. A finding that he did not sign would lift limbs 1 and 4.",
+   "status": "Open: heirloom specimens held; comparison to arrange",
+   "records": [
+    {
+     "id": "EV-0023",
+     "href": "/research/evidence/ev-0023-1939-wgr-john-williams-tenancy-plan/"
     },
     {
-     "id": "EV-0048",
-     "href": "/research/evidence/ev-0048-telegraph-open-day-ancient-house/"
+     "id": "EV-0285",
+     "href": "/research/evidence/ev-0285-snippets-only-western-mail-1925-1939-naming-great-house-farm-llandough-john-willia/"
+    }
+   ],
+   "score_note": "Rescored 14 Nov 2026 (owner: heirloom specimens held). Previous 20.",
+   "priority": 2
+  },
+  {
+   "rank": 7,
+   "id": "MW-16",
+   "title": "The 12-year paper playbook: registrations without root title, never disclosed to the occupiers",
+   "score": 50,
+   "limbs": {
+    "a": 10,
+    "b": 10,
+    "c": 20,
+    "d": 10
+   },
+   "limbs_0_5": {
+    "a": 1,
+    "b": 1,
+    "c": 2,
+    "d": 1
+   },
+   "reopen_ground": null,
+   "seed_score": true,
+   "what": "Our working framework: while the family's occupation was cast in court as permissive or adverse, the companies themselves used the 12-years-uncontested route on paper, registering land as proprietors without a root title and without telling the family: the woodland (1961 deed, first registered 1982), the green (VG41, 1970) and the farmhouse (1982–83). The 1987 court held that Western Ground Rents' agents walking the land from time to time was not possession, which on our reading is why the company could not take the farmhouse that way and conveyed in 1969.",
+   "why": {
+    "a": "Each registration is on record; no document yet shows a declaration that misstated the occupiers' position.",
+    "b": "The 1987 court did not rely on these registrations; the pattern bears on how the 1962 order and the 1983 title came to be.",
+    "c": "The pattern across all the dated events (the twelve-year chart) was never put to any court.",
+    "d": "Registers and recitals only; the applications and declarations behind them are unread."
+   },
+   "what_would_raise_it": "The first-registration applications and statutory declarations for WA735527, VG41 and WA240304, showing what each said about occupation and the family's ownership plea.",
+   "status": "Open: framework lead (Mr Wolf seed score)",
+   "records": [
+    {
+     "id": "EV-0040",
+     "href": "/research/evidence/ev-0040-1961-wgr-brick-tile-deed/"
+    },
+    {
+     "id": "EV-0044",
+     "href": "/research/evidence/ev-0044-vg41-village-green-registration-1970/"
+    },
+    {
+     "id": "EV-0063",
+     "href": "/research/evidence/ev-0063-hmlr-wa240304-item-11-form-1c/"
+    },
+    {
+     "id": "EV-0169",
+     "href": "/research/evidence/ev-0169-wa735527-title-register-september-2026/"
     },
     {
      "id": "EV-0080",
      "href": "/research/evidence/ev-0080-bp-properties-v-buckler-judgment/"
     }
-   ]
+   ],
+   "priority": 3
+  },
+  {
+   "rank": 17,
+   "id": "MW-04",
+   "title": "July 1955: possession taken beyond the order, and the 1962 order built on its ambiguity",
+   "score": 10,
+   "limbs": {
+    "a": 0,
+    "b": 0,
+    "c": 10,
+    "d": 0
+   },
+   "limbs_0_5": {
+    "a": 0,
+    "b": 0,
+    "c": 1,
+    "d": 0
+   },
+   "reopen_ground": null,
+   "seed_score": true,
+   "what": "Our case: the 1955 order was executed beyond the land it covered, taking the woodland north and the green south of the house, while the farmhouse and garden were left out. The 1962 order on the farmhouse rested on reading that ambiguity one way, and it was the 1962 order that BP enforced in 1974.",
+   "why": {
+    "a": "Neither the order nor the officer's return has been located, so nothing yet shows a knowing over-reach.",
+    "b": "The judgment records possession taken in 1955 of all parts of the farm except the farmhouse and garden, and the 1987 appeal concerned only the farmhouse and garden.",
+    "c": "Catalogue placeholders only; both documents are still being traced.",
+    "d": "No document yet."
+   },
+   "what_would_raise_it": "Trace the 1955 order and the sheriff's or bailiff's return (High Court and sheriff records), then overlay them on the boundary plans. To bear on 1987 it would also have to touch the farmhouse plot.",
+   "status": "Open: records not located (Mr Wolf seed score)",
+   "records": [
+    {
+     "id": "EV-0032",
+     "href": "/research/evidence/ev-0032-1955-order-14-possession-order/"
+    },
+    {
+     "id": "EV-0034",
+     "href": "/research/evidence/ev-0034-writ-possession-execution-return-1955/"
+    }
+   ],
+   "priority": 4
   },
   {
    "rank": 2,
@@ -132,101 +383,88 @@
      "id": "EV-0170",
      "href": "/research/evidence/ev-0170-wa231076-title-register-september-2026/"
     }
-   ]
+   ],
+   "priority": 5
   },
   {
-   "rank": 3,
-   "id": "MW-05",
-   "title": "31 October 1974 licence letters: could BP Properties give a licence?",
-   "score": 70,
+   "rank": 6,
+   "id": "MW-07",
+   "title": "2 February 1987: the two titles merged while the appeal was pending",
+   "score": 50,
    "limbs": {
     "a": 10,
-    "b": 30,
+    "b": 10,
     "c": 20,
     "d": 10
    },
    "limbs_0_5": {
     "a": 1,
-    "b": 3,
+    "b": 1,
     "c": 2,
     "d": 1
    },
-   "reopen_ground": "R1",
+   "reopen_ground": "R3",
    "seed_score": false,
-   "what": "The Court of Appeal answered the 'wrong company' point from the letters' own words that BP Properties Ltd 'had agreed to buy'. Completion came only in May 1975, and HM Land Registry's file adds a plan to that sale dated 23 February 1975.",
+   "what": "HM Land Registry merged the farmhouse title (WA240304) into the main title (WA231076) on 2 February 1987, while the appeal was before the Court of Appeal.",
    "why": {
-    "a": "No record yet shows the writers knew the 'agreed to buy' words were untrue.",
-    "b": "The whole result rests on the licence of BP Properties Ltd: 'from the time of her receipt of the letters, Mrs Buckler was in possession ... by the licence of BP Properties Ltd'.",
-    "c": "The February 1975 plan is new, but the court already knew completion was in May 1975.",
-    "d": "Catalogue entries only; the conveyance and any recital of the contract date are unread."
+    "a": "Who applied, and why at that moment, is unread.",
+    "b": "The court's description of the registration matches the register as merged, but it held the registration date was not why the occupier lost.",
+    "c": "The amalgamation application and plan are listed on HM Land Registry's file (WA231076 item 14).",
+    "d": "Listed, not read."
    },
-   "what_would_raise_it": "Read the 23 May 1975 conveyance (WA240304 item 12) and its plan for the date of the contract for sale. A contract dated after 31 October 1974 would lift limbs 1 and 3.",
-   "status": "Open: conveyance to be read",
+   "what_would_raise_it": "Obtain WA231076 item 14: the application, its plan, the title extents before and after, and any correspondence about the pending appeal.",
+   "status": "Open: record requested (Mr Wolf seed score)",
    "records": [
     {
-     "id": "EV-0050",
-     "href": "/research/evidence/ev-0050-1974-bp-licence-letters/"
+     "id": "EV-0078",
+     "href": "/research/evidence/ev-0078-1987-title-amalgamation-application-plan/"
+    },
+    {
+     "id": "EV-0170",
+     "href": "/research/evidence/ev-0170-wa231076-title-register-september-2026/"
+    }
+   ],
+   "priority": 6
+  },
+  {
+   "rank": 9,
+   "id": "MW-17",
+   "title": "1974 TV footage of Mary (Nancy) Williams, never before the 1987 court",
+   "score": 40,
+   "limbs": {
+    "a": 0,
+    "b": 20,
+    "c": 20,
+    "d": 0
+   },
+   "limbs_0_5": {
+    "a": 0,
+    "b": 2,
+    "c": 2,
+    "d": 0
+   },
+   "reopen_ground": null,
+   "seed_score": true,
+   "what": "Two pieces of 1974 television footage show her on camera, including HTV Report Wales of 1 November 1974, 'Protest at a Cottage In Llandough Over Eviction Plans', three days before her solicitor received the licence letters. The 1987 court found she was 'not asserting' any claim to ownership after the letters; footage of her protesting the eviction in the same week bears directly on that finding.",
+   "why": {
+    "a": "Nothing yet shows BP knew of the footage and kept it back.",
+    "b": "Goes to the court's finding that she asserted no claim to ownership around the letters.",
+    "c": "Not before the court in 1986–87.",
+    "d": "Located but not yet viewed in full or catalogued with archive references."
+   },
+   "what_would_raise_it": "Archive copies with references and broadcast dates, a transcript of what she said, and anything showing BP or its solicitors knew of the coverage.",
+   "status": "Open: footage located (Mr Wolf seed score)",
+   "records": [
+    {
+     "id": "EV-0048",
+     "href": "/research/evidence/ev-0048-telegraph-open-day-ancient-house/"
     },
     {
      "id": "EV-0080",
      "href": "/research/evidence/ev-0080-bp-properties-v-buckler-judgment/"
     }
-   ]
-  },
-  {
-   "rank": 4,
-   "id": "MW-03",
-   "title": "The 31 December 1969 conveyance and the 1971 abstract missing from the title files",
-   "score": 60,
-   "limbs": {
-    "a": 10,
-    "b": 30,
-    "c": 10,
-    "d": 10
-   },
-   "limbs_0_5": {
-    "a": 1,
-    "b": 3,
-    "c": 1,
-    "d": 1
-   },
-   "reopen_ground": "R4",
-   "seed_score": false,
-   "what": "In September 1974 BP Pension Trust obtained leave to enforce the 1962 possession order 'as successors in title to Western Ground Rents'. The 1969 conveyance from Western Ground Rents is not among the documents lodged on either first-registration file.",
-   "why": {
-    "a": "No record yet of anyone knowing a deed was missing or misdescribed.",
-    "b": "The court held that enforcement of the 1962 judgment 'was still open to the landlords at October 31 1974'. Only the judgment creditor or its successor could enforce it.",
-    "c": "HM Land Registry's 2026 lists of first-registration documents leave out the 1969 deed, though both root deeds recite it.",
-    "d": "Absence from a list of lodged documents does not prove the deed did not exist; the deed itself is unread."
-   },
-   "what_would_raise_it": "The 1969 conveyance itself (requested from HM Land Registry and the BP Archive) and the 1974 affidavit for leave: check whether the benefit of the 1962 judgment was expressly passed on.",
-   "status": "Open: records requested",
-   "records": [
-    {
-     "id": "EV-0045",
-     "href": "/research/evidence/ev-0045-1971-abstract-title-bp-pension/"
-    },
-    {
-     "id": "EV-0042",
-     "href": "/research/evidence/ev-0042-llandough-school-conveyance-1965/"
-    },
-    {
-     "id": "EV-0041",
-     "href": "/research/evidence/ev-0041-cardiff-county-court-possession-order-1962/"
-    },
-    {
-     "id": "EV-0309",
-     "href": "/research/evidence/ev-0309-bp-enquiry-on-property-and-litigation-records-1969-1993/"
-    },
-    {
-     "id": "EV-0288",
-     "href": "/research/evidence/ev-0288-snippets-only-press-on-the-1968-69-takeover-battle-for-western-ground-rents-ltd-en/"
-    },
-    {
-     "id": "EV-0169",
-     "href": "/research/evidence/ev-0169-wa735527-title-register-september-2026/"
-    }
-   ]
+   ],
+   "priority": 7
   },
   {
    "rank": 5,
@@ -289,49 +527,107 @@
      "id": "EV-0254",
      "href": "/research/evidence/ev-0254-tna-maf-11-55-5333-llandough-exchange-of-lands-1879/"
     }
-   ]
+   ],
+   "priority": 8
   },
   {
-   "rank": 6,
-   "id": "MW-07",
-   "title": "2 February 1987: the two titles merged while the appeal was pending",
-   "score": 50,
+   "rank": 4,
+   "id": "MW-03",
+   "title": "The 31 December 1969 conveyance and the 1971 abstract missing from the title files",
+   "score": 60,
    "limbs": {
     "a": 10,
-    "b": 10,
+    "b": 30,
+    "c": 10,
+    "d": 10
+   },
+   "limbs_0_5": {
+    "a": 1,
+    "b": 3,
+    "c": 1,
+    "d": 1
+   },
+   "reopen_ground": "R4",
+   "seed_score": false,
+   "what": "In September 1974 BP Pension Trust obtained leave to enforce the 1962 possession order 'as successors in title to Western Ground Rents'. The 1969 conveyance from Western Ground Rents is not among the documents lodged on either first-registration file.",
+   "why": {
+    "a": "No record yet of anyone knowing a deed was missing or misdescribed.",
+    "b": "The court held that enforcement of the 1962 judgment 'was still open to the landlords at October 31 1974'. Only the judgment creditor or its successor could enforce it.",
+    "c": "HM Land Registry's 2026 lists of first-registration documents leave out the 1969 deed, though both root deeds recite it.",
+    "d": "Absence from a list of lodged documents does not prove the deed did not exist; the deed itself is unread."
+   },
+   "what_would_raise_it": "The 1969 conveyance itself (requested from HM Land Registry and the BP Archive) and the 1974 affidavit for leave: check whether the benefit of the 1962 judgment was expressly passed on.",
+   "status": "Open: records requested",
+   "records": [
+    {
+     "id": "EV-0045",
+     "href": "/research/evidence/ev-0045-1971-abstract-title-bp-pension/"
+    },
+    {
+     "id": "EV-0042",
+     "href": "/research/evidence/ev-0042-llandough-school-conveyance-1965/"
+    },
+    {
+     "id": "EV-0041",
+     "href": "/research/evidence/ev-0041-cardiff-county-court-possession-order-1962/"
+    },
+    {
+     "id": "EV-0309",
+     "href": "/research/evidence/ev-0309-bp-enquiry-on-property-and-litigation-records-1969-1993/"
+    },
+    {
+     "id": "EV-0288",
+     "href": "/research/evidence/ev-0288-snippets-only-press-on-the-1968-69-takeover-battle-for-western-ground-rents-ltd-en/"
+    },
+    {
+     "id": "EV-0169",
+     "href": "/research/evidence/ev-0169-wa735527-title-register-september-2026/"
+    }
+   ],
+   "priority": 9
+  },
+  {
+   "rank": 3,
+   "id": "MW-05",
+   "title": "31 October 1974 licence letters: could BP Properties give a licence?",
+   "score": 70,
+   "limbs": {
+    "a": 10,
+    "b": 30,
     "c": 20,
     "d": 10
    },
    "limbs_0_5": {
     "a": 1,
-    "b": 1,
+    "b": 3,
     "c": 2,
     "d": 1
    },
-   "reopen_ground": "R3",
+   "reopen_ground": "R1",
    "seed_score": false,
-   "what": "HM Land Registry merged the farmhouse title (WA240304) into the main title (WA231076) on 2 February 1987, while the appeal was before the Court of Appeal.",
+   "what": "The Court of Appeal answered the 'wrong company' point from the letters' own words that BP Properties Ltd 'had agreed to buy'. Completion came only in May 1975, and HM Land Registry's file adds a plan to that sale dated 23 February 1975.",
    "why": {
-    "a": "Who applied, and why at that moment, is unread.",
-    "b": "The court's description of the registration matches the register as merged, but it held the registration date was not why the occupier lost.",
-    "c": "The amalgamation application and plan are listed on HM Land Registry's file (WA231076 item 14).",
-    "d": "Listed, not read."
+    "a": "No record yet shows the writers knew the 'agreed to buy' words were untrue.",
+    "b": "The whole result rests on the licence of BP Properties Ltd: 'from the time of her receipt of the letters, Mrs Buckler was in possession ... by the licence of BP Properties Ltd'.",
+    "c": "The February 1975 plan is new, but the court already knew completion was in May 1975.",
+    "d": "Catalogue entries only; the conveyance and any recital of the contract date are unread."
    },
-   "what_would_raise_it": "Obtain WA231076 item 14: the application, its plan, the title extents before and after, and any correspondence about the pending appeal.",
-   "status": "Open: record requested (Mr Wolf seed score)",
+   "what_would_raise_it": "Read the 23 May 1975 conveyance (WA240304 item 12) and its plan for the date of the contract for sale. A contract dated after 31 October 1974 would lift limbs 1 and 3.",
+   "status": "Open: conveyance to be read",
    "records": [
     {
-     "id": "EV-0078",
-     "href": "/research/evidence/ev-0078-1987-title-amalgamation-application-plan/"
+     "id": "EV-0050",
+     "href": "/research/evidence/ev-0050-1974-bp-licence-letters/"
     },
     {
-     "id": "EV-0170",
-     "href": "/research/evidence/ev-0170-wa231076-title-register-september-2026/"
+     "id": "EV-0080",
+     "href": "/research/evidence/ev-0080-bp-properties-v-buckler-judgment/"
     }
-   ]
+   ],
+   "priority": 10
   },
   {
-   "rank": 7,
+   "rank": 8,
    "id": "MW-12",
    "title": "1975 conveyance reservations and 'safeguard your future occupation'",
    "score": 50,
@@ -371,10 +667,11 @@
      "id": "EV-0169",
      "href": "/research/evidence/ev-0169-wa735527-title-register-september-2026/"
     }
-   ]
+   ],
+   "priority": 11
   },
   {
-   "rank": 8,
+   "rank": 11,
    "id": "MW-13",
    "title": "Title papers taken from the blanket box (1950)",
    "score": 40,
@@ -414,10 +711,55 @@
      "id": "EV-0048",
      "href": "/research/evidence/ev-0048-telegraph-open-day-ancient-house/"
     }
-   ]
+   ],
+   "priority": 12
   },
   {
-   "rank": 9,
+   "rank": 14,
+   "id": "MW-08",
+   "title": "The 29 March 1961 woodland deed",
+   "score": 20,
+   "limbs": {
+    "a": 10,
+    "b": 0,
+    "c": 10,
+    "d": 0
+   },
+   "limbs_0_5": {
+    "a": 1,
+    "b": 0,
+    "c": 1,
+    "d": 0
+   },
+   "reopen_ground": null,
+   "seed_score": true,
+   "what": "A deed between Western Ground Rents, South Western Brick & Tile and Cardiff City Corporation, known only from its recital on the woodland title WA735527.",
+   "why": {
+    "a": "Gap only: dealing over ground next to the occupied farm without reference to the occupier.",
+    "b": "The 1987 judgment does not rely on it, and the appeal concerned only the farmhouse and garden.",
+    "c": "Known only by recital; never inspected.",
+    "d": "No copy, image or transcript held."
+   },
+   "what_would_raise_it": "Order the deed and its plan recited on WA735527 and overlay the plan on the farm boundary.",
+   "status": "Open: deed orderable (Mr Wolf seed score)",
+   "records": [
+    {
+     "id": "EV-0040",
+     "href": "/research/evidence/ev-0040-1961-wgr-brick-tile-deed/"
+    },
+    {
+     "id": "EV-0166",
+     "href": "/research/evidence/ev-0166-wa735527-title-plan-september-2026/"
+    },
+    {
+     "id": "EV-0136",
+     "href": "/research/evidence/ev-0136-forest-of-cardiff-woodland-transfer-1994/"
+    }
+   ],
+   "priority": 13
+  },
+  {
+   "rank": 12,
    "id": "MW-09",
    "title": "Village green VG41 (1970)",
    "score": 40,
@@ -457,10 +799,11 @@
      "id": "EV-0037",
      "href": "/research/evidence/ev-0037-western-mail-1958-crichel-down/"
     }
-   ]
+   ],
+   "priority": 14
   },
   {
-   "rank": 10,
+   "rank": 13,
    "id": "MW-10",
    "title": "Missing public records and 'no records found' answers",
    "score": 30,
@@ -512,51 +855,13 @@
      "id": "EV-0118",
      "href": "/research/evidence/ev-0118-smr-record-card-1989-building-destroyed/"
     }
-   ]
+   ],
+   "priority": 15
   },
   {
-   "rank": 11,
-   "id": "MW-01",
-   "title": "The May 1939 letting: is the John Williams signature his?",
-   "score": 20,
-   "limbs": {
-    "a": 10,
-    "b": 0,
-    "c": 10,
-    "d": 0
-   },
-   "limbs_0_5": {
-    "a": 1,
-    "b": 0,
-    "c": 1,
-    "d": 0
-   },
-   "reopen_ground": "R12",
-   "seed_score": false,
-   "what": "A May 1939 agreement by which Western Ground Rents let 5.30 acres of pasture to John Williams the younger, signed before a bank cashier. Our case asks whether the signature is his.",
-   "why": {
-    "a": "Gap only. The signature has been seen in one angled phone photograph; no dated specimens of his hand are held yet.",
-    "b": "The 1987 judgment does not mention the 1939 letting. It rested on the 1916 tenancy, the 1949 surrender and re-grant, and the 31 October 1974 letters.",
-    "c": "New catalogue references at The National Archives (wartime farm committee minutes and the National Farm Survey), not yet read.",
-    "d": "Nothing a court could weigh yet: one photograph, no specimens, no examiner."
-   },
-   "what_would_raise_it": "Copy page 1 of the agreement at Glamorgan Archives (DBDT123/7); gather dated signatures of John Williams the younger from 1911 to 1955; then a forensic document examiner's comparison. Even a proved forgery would also need a link to the 1987 decision.",
-   "status": "Open: specimens being gathered",
-   "records": [
-    {
-     "id": "EV-0023",
-     "href": "/research/evidence/ev-0023-1939-wgr-john-williams-tenancy-plan/"
-    },
-    {
-     "id": "EV-0285",
-     "href": "/research/evidence/ev-0285-snippets-only-western-mail-1925-1939-naming-great-house-farm-llandough-john-willia/"
-    }
-   ]
-  },
-  {
-   "rank": 12,
-   "id": "MW-08",
-   "title": "The 29 March 1961 woodland deed",
+   "rank": 15,
+   "id": "MW-18",
+   "title": "The 1988 footage: held by The National Archives, released a month after the 2025 concerns",
    "score": 20,
    "limbs": {
     "a": 10,
@@ -572,32 +877,20 @@
    },
    "reopen_ground": null,
    "seed_score": true,
-   "what": "A deed between Western Ground Rents, South Western Brick & Tile and Cardiff City Corporation, known only from its recital on the woodland title WA735527.",
+   "what": "ITV footage of the 1988 demolition period was acquired by The National Archives (about 2012 on our understanding) and released on 25 July 2025, about a month after the family first raised concerns of concealment in June 2025. Whether it ever aired is unknown.",
    "why": {
-    "a": "Gap only: dealing over ground next to the occupied farm without reference to the occupier.",
-    "b": "The 1987 judgment does not rely on it, and the appeal concerned only the farmhouse and garden.",
-    "c": "Known only by recital; never inspected.",
-    "d": "No copy, image or transcript held."
+    "a": "The release timing is on record; nothing yet shows the footage was held back deliberately.",
+    "b": "It postdates the July 1987 judgment, so it cannot have caused it; it bears on concealment after the event.",
+    "c": "New: released in 2025.",
+    "d": "Accession and release records are not yet held."
    },
-   "what_would_raise_it": "Order the deed and its plan recited on WA735527 and overlay the plan on the farm boundary.",
-   "status": "Open: deed orderable (Mr Wolf seed score)",
-   "records": [
-    {
-     "id": "EV-0040",
-     "href": "/research/evidence/ev-0040-1961-wgr-brick-tile-deed/"
-    },
-    {
-     "id": "EV-0166",
-     "href": "/research/evidence/ev-0166-wa735527-title-plan-september-2026/"
-    },
-    {
-     "id": "EV-0136",
-     "href": "/research/evidence/ev-0136-forest-of-cardiff-woodland-transfer-1994/"
-    }
-   ]
+   "what_would_raise_it": "The National Archives' accession date, access decisions and any closure review for the footage; broadcast logs showing whether it aired.",
+   "status": "Open: records to request (Mr Wolf seed score)",
+   "records": [],
+   "priority": 16
   },
   {
-   "rank": 13,
+   "rank": 16,
    "id": "MW-14",
    "title": "Letters addressed to 'Mrs Buckler'",
    "score": 10,
@@ -629,49 +922,11 @@
      "id": "EV-0050",
      "href": "/research/evidence/ev-0050-1974-bp-licence-letters/"
     }
-   ]
+   ],
+   "priority": 17
   },
   {
-   "rank": 14,
-   "id": "MW-04",
-   "title": "July 1955: possession taken beyond the order",
-   "score": 10,
-   "limbs": {
-    "a": 0,
-    "b": 0,
-    "c": 10,
-    "d": 0
-   },
-   "limbs_0_5": {
-    "a": 0,
-    "b": 0,
-    "c": 1,
-    "d": 0
-   },
-   "reopen_ground": null,
-   "seed_score": true,
-   "what": "Our case asks whether the 1955 Order 14 possession order reached all the ground that was taken on 4 July 1955.",
-   "why": {
-    "a": "Neither the order nor the officer's return has been located, so nothing yet shows a knowing over-reach.",
-    "b": "The judgment records possession taken in 1955 of all parts of the farm except the farmhouse and garden, and the 1987 appeal concerned only the farmhouse and garden.",
-    "c": "Catalogue placeholders only; both documents are still being traced.",
-    "d": "No document yet."
-   },
-   "what_would_raise_it": "Trace the 1955 order and the sheriff's or bailiff's return (High Court and sheriff records), then overlay them on the boundary plans. To bear on 1987 it would also have to touch the farmhouse plot.",
-   "status": "Open: records not located (Mr Wolf seed score)",
-   "records": [
-    {
-     "id": "EV-0032",
-     "href": "/research/evidence/ev-0032-1955-order-14-possession-order/"
-    },
-    {
-     "id": "EV-0034",
-     "href": "/research/evidence/ev-0034-writ-possession-execution-return-1955/"
-    }
-   ]
-  },
-  {
-   "rank": 15,
+   "rank": 18,
    "id": "MW-15",
    "title": "Burials under the farmhouse plot known before 1987?",
    "score": 10,
@@ -703,7 +958,9 @@
      "id": "EV-0293",
      "href": "/research/evidence/ev-0293-llandough-1994-cemetery-excavation-her-ggat02272s-museum-wales-95-56h-burial-631/"
     }
-   ]
+   ],
+   "priority": 18
   }
- ]
+ ],
+ "priority_note": "Our case: the order of importance in the family's working framework (permission never accepted; the 1939 signature; the 12-year paper playbook; the 1955 and 1962 orders). Threshold score: the rubric order. The gauges always use the threshold score."
 }

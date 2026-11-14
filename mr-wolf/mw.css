@@ -1,4 +1,4 @@
-/* Mr Wolf · webapp 40 of 59 · v2.0.0 · gauge dashboard */
+/* Mr Wolf · webapp 40 of 59 · v2.2.0 · gauge dashboard */
 :root{--bg:#f7f2e7;--card:#fbf8f1;--ink:#2b2418;--mute:#6b5f4b;--line:#e2d8c3;--acc:#7a3b12;--trk:#ece2cd;--far:#b4652a;--near:#c48a12;--met:#2f6b2f}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink)}
 body.mw{font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
@@ -55,3 +55,16 @@ dialog.m::backdrop{background:rgba(43,36,24,.45)}
 .m-list li button b{font-size:16px}.m-note{font-size:12px;color:var(--mute)}
 @media (max-width:420px){.chip{font-size:10px}.g4 .card .lbl{font-size:11px}.g4 .sm{font-size:10px}}
 @media (max-width:340px){.g4{grid-template-columns:repeat(2,1fr)}}
+.m-arg{margin:6px 0 10px}.m-court,.m-ours{font-size:14px;padding:6px 10px;border-radius:6px;margin:0 0 6px}
+.m-court{background:var(--trk)}.m-ours{background:#e6efe1;border-left:4px solid var(--met)}
+.tl{list-style:none;margin:8px 0 0;padding:0 0 0 14px;border-left:2px solid var(--line)}
+.tl li{position:relative;display:grid;grid-template-columns:78px 1fr;gap:2px 8px;padding:0 0 8px;font-size:13px;line-height:1.35}
+.tl li::before{content:"";position:absolute;left:-20px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--mute)}
+.tl-no::before{background:var(--met)!important}.tl-open::before{background:var(--near)!important}.tl-court::before{background:var(--far)!important}
+.tl-d{font-weight:700}.tl-s{grid-column:2;font-size:12px;font-weight:600;color:var(--mute)}.tl-no .tl-s{color:var(--met)}.tl-open .tl-s{color:#8a5f00}.tl-court .tl-s{color:var(--far)}
+.m-why{font-size:13px;color:var(--mute)}
+.lb-h{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin:18px 0 6px}.lb-h .sec{margin:0}
+.seg{display:flex;gap:0;align-items:center}.seg button{font-size:12px;padding:5px 9px;border:1px solid var(--line);background:var(--card);color:var(--mute)}
+.seg button:first-child{border-radius:999px 0 0 999px}.seg button[data-sort="score"]{border-radius:0 999px 999px 0;border-left:0}
+.seg button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.seg .seg-i{margin-left:6px;width:26px;height:26px;padding:0;border-radius:50%;font:italic 700 13px Georgia,serif;color:var(--acc)}
