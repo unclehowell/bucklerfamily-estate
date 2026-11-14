@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""site_links.py 1.2.0 - one plain "E-books" link and one plain "New records by email" link in the footer of every built page. - Sion's Tab agent
+"""site_links.py 1.3.0 - one plain "E-books" link and one plain "New records by email" link in the footer of every built page. - Sion's Tab agent
+1.3.0 (14 Nov 2026, Claude): ebooks_ld() Product entries now carry image, description, brand, and per-offer shippingDetails
+(digital, £0, GB, same-day) and hasMerchantReturnPolicy (MerchantReturnNotPermitted), fixing the Google Search Console
+"Merchant listings" critical issue (missing 'image') and the non-critical ones reported on 13 Nov 2026. Markup only.
 1.2.0 (8 Nov 2026, sales fix run 91): the footer line also links the mailing list (/subscribe/). Measured 8 Nov: about 500 outside
 page views a day across cedwyn + apex, 0 outside visits to /subscribe/ ever and 0 organic list signups ever, because no built page
 linked the list page (only the free PDFs did, since sf88). Same plain text link in the same <p>, no strip, chip, button or image.
@@ -84,13 +87,30 @@ def run(dist):
 # the shelf as plain text. ebooks_ld() adds one ItemList of Book/Product entries (title, page, page count, format, free v0.0.1 edition
 # and the newest paid edition as Offers in GBP) from data/ebooks.json, so it follows the prices and editions the shelf already uses.
 # Markup only: nothing visible changes. Idempotent (data-cw-ld="ebooks"). - Sion's Tab agent
+# 1.3.0 (14 Nov 2026): image/description/brand on each Product and shipping/returns on each Offer (Search Console merchant listings).
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = 'https://cedwyn.bucklerfamily.estate'
+COVER = 'https://bucklerfamily.estate/ebook/cover.jpg'   # default cover; a book's own "image" in data/ebooks.json wins
+BRAND = {'@type': 'Brand', 'name': 'Cedwyn'}
+SHIP = {'@type': 'OfferShippingDetails',
+        'shippingRate': {'@type': 'MonetaryAmount', 'value': '0.00', 'currency': 'GBP'},
+        'shippingDestination': {'@type': 'DefinedRegion', 'addressCountry': 'GB'},
+        'deliveryTime': {'@type': 'ShippingDeliveryTime',
+                         'handlingTime': {'@type': 'QuantitativeValue', 'minValue': 0, 'maxValue': 0, 'unitCode': 'DAY'},
+                         'transitTime': {'@type': 'QuantitativeValue', 'minValue': 0, 'maxValue': 0, 'unitCode': 'DAY'}}}
+RETURNS = {'@type': 'MerchantReturnPolicy', 'applicableCountry': 'GB',
+           'returnPolicyCategory': 'https://schema.org/MerchantReturnNotPermitted'}
 
 
 def _gbp(p):
     try: return '%.2f' % float(str(p).replace('£', '').replace(',', '').strip())
     except Exception: return None
+
+
+def _offer(name, price):
+    return {'@type': 'Offer', 'name': name, 'price': price, 'priceCurrency': 'GBP',
+            'availability': 'https://schema.org/InStock', 'url': SITE + '/ebooks/',
+            'shippingDetails': SHIP, 'hasMerchantReturnPolicy': RETURNS}
 
 
 def ebooks_ld(dist):
@@ -101,13 +121,14 @@ def ebooks_ld(dist):
     for i, b in enumerate(data.get('books') or []):
         page = b.get('page') or '/ebooks/'
         url = SITE + (page if page != '/ebooks/' else '/ebooks/#' + str(b.get('id', '')))
-        offers = [{'@type': 'Offer', 'name': '%s — free' % (b.get('free') or 'v0.0.1'), 'price': '0.00',
-                   'priceCurrency': 'GBP', 'availability': 'https://schema.org/InStock', 'url': SITE + '/ebooks/'}]
+        offers = [_offer('%s — free' % (b.get('free') or 'v0.0.1'), '0.00')]
         p = _gbp(b.get('price'))
         if p and p != '0.00':
-            offers.append({'@type': 'Offer', 'name': '%s — £%s' % (b.get('edition', ''), p), 'price': p, 'priceCurrency': 'GBP',
-                           'availability': 'https://schema.org/InStock', 'url': SITE + '/ebooks/'})
+            offers.append(_offer('%s — £%s' % (b.get('edition', ''), p), p))
+        desc = b.get('description') or ('%s: a PDF e-book%s from the Great House Farm (Tŷ Mawr), Llandough record.'
+                                        % (b.get('title'), (', %d pages' % int(b['pages'])) if b.get('pages') else ''))
         book = {'@type': ['Book', 'Product'], 'name': b.get('title'), 'url': url, 'bookFormat': 'https://schema.org/EBook',
+                'image': b.get('image') or COVER, 'description': desc, 'brand': BRAND, 'sku': b.get('id'),
                 'inLanguage': 'en-GB', 'publisher': {'@type': 'Organization', 'name': 'Cedwyn', 'url': SITE + '/'},
                 'offers': offers}
         if b.get('pages'): book['numberOfPages'] = int(b['pages'])
