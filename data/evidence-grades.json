@@ -768,7 +768,7 @@
       "evidence_grade": null,
       "independent_origin_id": "ORIG-EV-0901",
       "aliases": [],
-      "grade_note": "Catalogue index only. The underlying attachments have not yet been imported or read; no grade is assigned.",
+      "grade_note": "Attachment index. The user-supplied copy of Cardiff Council FOI25766 (AR-FOI-0056) has been text-reviewed and transcribed on 14 November 2026; that copy has not been byte-matched to the 28 July email attachment. Other listed attachment binaries remain to be checked. No aggregate evidence grade is assigned.",
       "path": "/research/evidence/ev-0901-foi-response-attachment-catalogue/"
     },
     {
