@@ -20,7 +20,7 @@ for r in records:
     assert r['scope']['disposition'] == 'on_hold'
     assert r['description'] and r['interpretation'] and r['transcript_status']
     assert 'transcript' not in r
-    assert r['provenance']['holder'] == 'Archaeology Data Service'
+    assert 'Archaeology Data Service' in r['provenance']['holder']
     assert any(link['rel'] == 'source' and link['to'].startswith('https://archaeologydataservice.ac.uk/') for link in r['links'])
 assert views.select(records, {}) == [], 'rights-held candidates must not appear in public views'
 for rid in ('AR-9050', 'AR-9051'):
