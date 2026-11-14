@@ -14,7 +14,7 @@ jobs:
         run: |
           python3 << 'PY'
           import json, subprocess
-          blob = subprocess.check_output(["git","show","5e06b79ac2d5e9d665d4e8660ba38a640bf91abc:data/core/records/emails/index.json"], text=True)
+          blob = subprocess.check_output(["git","show","3fa6b52c2dd79e163f84a66ceee122d38897f39b:data/core/records/emails/index.json"], text=True)
           data = json.loads(blob)
           with open("data/core/records/emails/index-append-24.json") as f:
               app = json.load(f)
@@ -27,7 +27,7 @@ jobs:
           data["updated"] = "2026-11-14T12:00:00Z"
           with open("data/core/records/emails/index.json","w") as f:
               json.dump(data, f, ensure_ascii=False, separators=(",",":"))
-          print("restored", data["count"])
+          print("restored", data["count"], "last", data["records"][-1][0])
           PY
       - name: Commit
         run: |
