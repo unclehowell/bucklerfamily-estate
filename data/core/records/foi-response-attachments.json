@@ -4595,7 +4595,7 @@
         "holder": "Cardiff Council — Information Governance Team (House on the Hill portal)",
         "reference": "FOI25766",
         "date": "2026-07-28",
-        "obtained": "User-supplied DOCX copy uploaded and reviewed on 14 November 2026. Uploaded copy: 58,848 bytes; SHA-256 677277345199216fd9117d9ba3f38e856151d7dff3dce69dfaa5d65cef4a0d7e. The copy has not been byte-matched against the attachment referenced in the 28 July 2026 source email.",
+        "obtained": "Attachment metadata recorded from the connected mailbox on 31 October 2026; source email thread 19fa89f636aee4f5. User-supplied DOCX copy uploaded and reviewed on 14 November 2026; uploaded copy: 58,848 bytes; SHA-256 677277345199216fd9117d9ba3f38e856151d7dff3dce69dfaa5d65cef4a0d7e. The copy has not been byte-matched against the attachment referenced in the 28 July 2026 source email.",
         "independent_origin_id": "ORIG-AR-FOI-0056"
       },
       "grade": null,
@@ -4629,6 +4629,16 @@
         {
           "heading": "Source email date",
           "text": "28 July 2026 (date recorded in the source email metadata; no response date appears in the DOCX body)",
+          "form": "term"
+        },
+        {
+          "heading": "Mailbox MIME type",
+          "text": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "form": "term"
+        },
+        {
+          "heading": "Source role",
+          "text": "Cardiff Council information-rights portal attachment identified as the response document for FOI25766; the supplied copy has now been text-reviewed.",
           "form": "term"
         },
         {
@@ -4673,7 +4683,7 @@
         },
         {
           "heading": "Limitations",
-          "text": "The uploaded copy has not been byte-matched to the file attached to the 28 July 2026 source email, and the DOCX binary is not stored or served by this repository. The response does not identify any individual movable item or prove its existence, ownership, provenance or present location.",
+          "text": "The uploaded copy has not been byte-matched to the file attached to the 28 July 2026 source email, and the DOCX binary is not stored or served by this repository. The letter provides no archive catalogue references or list of specific objects; its statement about Glamorgan Archives is the Council's account, not an Archives response or finding aid.",
           "form": "term"
         }
       ],
