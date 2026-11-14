@@ -1,0 +1,27 @@
+name: Llandough candidate checks
+on:
+  push:
+    branches: [pally/llandough-metadata-2026-11-14]
+  pull_request:
+    paths:
+      - 'data/core/records/llandough-ads-candidates.json'
+      - 'tools/test_llandough_ads_candidates.py'
+      - '.github/workflows/llandough-candidate-check.yml'
+permissions:
+  contents: read
+jobs:
+  metadata-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            data/core/schema/core-record.schema.json
+            data/core/records/*.json
+            tools/views.py
+            tools/a2ui_render.py
+            tools/test_llandough_ads_candidates.py
+          sparse-checkout-cone-mode: false
+      - name: Verify candidate metadata and public selection
+        run: python3 tools/test_llandough_ads_candidates.py

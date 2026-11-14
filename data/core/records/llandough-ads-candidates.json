@@ -1,0 +1,51 @@
+{
+  "schema": "cedwyn-core/0.5.0",
+  "note": "Metadata-only candidates in a publicly visible review branch; they are not included in the built public catalogue. ADS states that all ADS metadata is distributed under CC0 1.0. That licence applies to the metadata represented here; it does not automatically license the report PDFs, full-text transcriptions, or the source webpage content/capture. The source-specific ADS Terms and Cotswold Archaeology copyright notes are recorded below. No report PDFs, full transcriptions, or page capture are included.",
+  "updated": "2026-11-14",
+  "catalogue_audit": {
+    "observed": "2026-11-14T20:33:22Z",
+    "holbrook_thomas": {
+      "existing_ids": ["MED-0096", "MED-0097"],
+      "result": "MED-0096 is the bibliographic journal record and MED-0097 is the Cotswold eprint record for the 2005 Holbrook/Thomas report. The MED-0097 URL points to a 92-page Cotswold PDF. The ADS PDF extraction and the indexed text returned for the Cotswold PDF identify Holbrook and Thomas, the 1994 excavation report, and DOI 10.1179/007660905x54044. A browser rendering of the Cotswold first page displayed an inconsistent OCR title word, 'Mosaic' instead of 'Monastic'. The PDFs were not downloaded or compared byte-for-byte, so the textual evidence supports the same publication but not byte-level identity or a preserved local copy.",
+      "catalogue_urls": [
+        "https://bucklerfamily.estate/catalogue/?id=MED-0096",
+        "https://bucklerfamily.estate/catalogue/?id=MED-0097"
+      ],
+      "ads_metadata_url": "https://archaeologydataservice.ac.uk/library/browse/details.xhtml?recordId=3189206&recordType=Journal",
+      "ads_pdf_url": "https://archaeologydataservice.ac.uk/catalogue/adsdata/arch-769-1/dissemination/pdf/vol49/49_001_092.pdf",
+      "cotswold_pdf_url": "https://cotswoldarchaeology.co.uk/wp-content/uploads/2011/07/llandough-pdf-1.pdf"
+    },
+    "knight": {
+      "existing_id": "MED-0098",
+      "result": "The live catalogue already contains Jeremy K. Knight's 2005 article. Do not create a duplicate candidate.",
+      "catalogue_url": "https://bucklerfamily.estate/catalogue/?id=MED-0098",
+      "ads_metadata_url": "https://archaeologydataservice.ac.uk/library/browse/details.xhtml?recordId=3189216&recordType=Journal",
+      "ads_collection_doi": "https://doi.org/10.5284/1071963"
+    }
+  },
+  "rights": "ADS's current metadata policy states that all ADS metadata is distributed under CC0 1.0 (https://archaeologydataservice.ac.uk/about/policies/metadata/). This applies to the bibliographic and collection metadata represented here, not automatically to the full article PDFs, full-text transcriptions, or the ADS webpage content/capture. Both article records list ADS Terms of Use and Access. Those terms provide for personal copies for non-commercial research or teaching, restrict access to authorized registered users, and require permission for other uses. The collection page states data copyright Cotswold Archaeology and applies the ADS Terms. This PR contains metadata and short attributed summaries only; it includes no PDF bytes, full transcription, or webpage capture.",
+  "records": [
+    {
+      "id": "AR-9051",
+      "kind": "catalogue_candidate",
+      "title": "The Early Medieval Monastic Cemetery at Llandough, Glamorgan: ADS collection page",
+      "date": {"display": "2005", "sort": "2005", "precision": "year"},
+      "place_text": "Llandough-juxta-Penarth, near Cardiff",
+      "description": "Cotswold Archaeology (2005), ADS Collection 401, DOI 10.5284/1000252. Metadata candidate for the source webpage only; no repository-owned capture has been made.",
+      "transcript_status": "Not transcribed or captured; only ADS bibliographic and collection metadata are used. ADS's CC0 policy applies to metadata, not automatically to the source webpage text or a full capture. The page states data copyright Cotswold Archaeology and applies ADS Terms of Use and Access.",
+      "interpretation": "The ADS page reports that Cotswold Archaeology excavated adjacent to St Dochdwy's church in Llandough near Cardiff in 1994, over 0.22 ha, and recorded 1,026 burials. Its archaeological chronology and site context do not establish Great House Farm title or parcel boundaries.",
+      "provenance": {"holder": "Archaeology Data Service; data copyright stated as Cotswold Archaeology", "reference": "ADS Collection 401; DOI 10.5284/1000252; ADS metadata is CC0 1.0; source page lists ADS Terms of Use and Access", "obtained": "Webpage read 2026-11-14"},
+      "scope": {"disposition": "on_hold", "label": "Metadata only; page capture not included", "reason": "ADS metadata is CC0 and its policy is linked below. The source page's text/capture is not treated as CC0; no repository-owned copy or verified public reproduction permission is included."},
+      "links": [
+        {"rel": "source", "to": "https://archaeologydataservice.ac.uk/archives/view/llandough_cadw_2004/index.cfm"},
+        {"rel": "doi", "to": "https://doi.org/10.5284/1000252"},
+        {"rel": "metadata_policy", "to": "https://archaeologydataservice.ac.uk/about/policies/metadata/"},
+        {"rel": "metadata_licence", "to": "https://creativecommons.org/publicdomain/zero/1.0/"},
+        {"rel": "rights_terms", "to": "https://archaeologydataservice.ac.uk/about/policies/use-access-to-data/ads-terms-of-use-and-access/"}
+      ],
+      "public": false,
+      "updated": "2026-11-14",
+      "rev": 3
+    }
+  ]
+}
