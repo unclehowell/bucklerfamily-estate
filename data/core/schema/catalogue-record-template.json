@@ -1,0 +1,70 @@
+{
+  "agent": "",
+  "session_id": "",
+  "window_from": "start",
+  "window_to": "",
+  "catalogue_checked": true,
+  "command": "add_to_catalogue",
+  "target": "catalogue",
+  "records": [
+    {
+      "record": {
+        "kind": "",
+        "slug": "",
+        "title": "",
+        "aliases": [],
+        "date": {
+          "display": "",
+          "sort": "",
+          "precision": ""
+        },
+        "place_text": "",
+        "description": "",
+        "transcript": "",
+        "transcript_status": "",
+        "interpretation": "",
+        "provenance": {
+          "holder": "",
+          "reference": "",
+          "date": "",
+          "obtained": "",
+          "independent_origin_id": ""
+        },
+        "grade": null,
+        "scope": {
+          "disposition": "unexplained",
+          "label": "",
+          "reason": "",
+          "distinct_from": [],
+          "tags": []
+        },
+        "places": [],
+        "evidence": [],
+        "detail": [],
+        "sources": [],
+        "related": [],
+        "links": [],
+        "page": "",
+        "origin": "",
+        "reworded": false,
+        "finding": {},
+        "email": {},
+        "public": false,
+        "updated": "",
+        "rev": 0,
+        "notes": [],
+        "event": "",
+        "version": "",
+        "media": {},
+        "made": {},
+        "excluded": [],
+        "description_cited": [],
+        "interpretation_cited": [],
+        "changes": []
+      },
+      "confidence": "low",
+      "conversation_at": "",
+      "source_window_note": ""
+    }
+  ]
+}
