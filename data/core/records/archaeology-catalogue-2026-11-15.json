@@ -1,0 +1,424 @@
+{
+  "schema": "cedwyn-core/0.5.0",
+  "note": "Five source-catalogue records checked 15 November 2026. Each represents the cited public catalogue entry only; underlying objects, archive units and reports remain uninspected. These are deliberately separate records and do not replace or duplicate the existing excavation umbrella record EV-0293.",
+  "updated": "2026-11-15",
+  "records": [
+    {
+      "id": "AR-9052",
+      "kind": "catalogue_candidate",
+      "slug": "",
+      "title": "Amgueddfa Cymru: Early Medieval iron girdle, item 95.56H/1.0",
+      "aliases": [],
+      "date": {
+        "display": "1994",
+        "sort": "1994-00-00",
+        "precision": "year"
+      },
+      "place_text": "Great House Farm, Llandough",
+      "description": "Amgueddfa Cymru – Museum Wales catalogue entry for an iron girdle, item 95.56H/1.0, recorded from Great House Farm, Llandough. The entry gives excavation as the collection method and 1994 as the date; it records a donation on 28 July 1994 and names Ideal Homes Wales Ltd. as the donor to acknowledge if an artefact is displayed.",
+      "transcript": "Early Medieval iron girdle\n\nItem Number: 95.56H/1.0\nCollection Area: Archaeology & Numismatics\n\nFind Information:\nSite Name: Great House Farm, Llandough\nCollection Method: Excavation\nDate: 1994\n\nAcquisition: donation, 28/7/1994\nShould any artefacts be placed on display in any museum, then Ideal Homes Wales Ltd. should be acknowledged as the donor.\n\nMaterial: Iron",
+      "transcript_status": "Direct transcription of the public catalogue entry, checked 15 November 2026; the underlying object, report or archive unit has not been inspected.",
+      "interpretation": "The Museum catalogue identifies an iron girdle and associates its find location with Great House Farm, Llandough and an excavation dated 1994. The donor acknowledgement is catalogue metadata; it does not establish ownership of the land, ownership of the excavation site, or any title interest. The object and excavation report have not been inspected.",
+      "provenance": {
+        "holder": "Amgueddfa Cymru – Museum Wales, Collections Online",
+        "reference": "Item 95.56H/1.0",
+        "date": "1994 excavation; donation 28 July 1994",
+        "obtained": "Public catalogue entry read directly on 2026-11-15",
+        "independent_origin_id": ""
+      },
+      "grade": null,
+      "scope": {
+        "disposition": "catalogue_only",
+        "label": "Catalogue entry only",
+        "reason": "This record describes public catalogue metadata. The underlying object/report/archive contents have not been inspected; it is not proof of land ownership, title or parcel boundaries.",
+        "distinct_from": [],
+        "tags": [
+          "archaeology",
+          "Llandough",
+          "Great House Farm"
+        ]
+      },
+      "places": [
+        "Great House Farm, Llandough",
+        "Llandough-juxta-Penarth"
+      ],
+      "evidence": [],
+      "detail": [
+        {
+          "heading": "Catalogue entry",
+          "text": "Amgueddfa Cymru – Museum Wales catalogue entry for an iron girdle, item 95.56H/1.0, recorded from Great House Farm, Llandough. The entry gives excavation as the collection method and 1994 as the date; it records a donation on 28 July 1994 and names Ideal Homes Wales Ltd. as the donor to acknowledge if an artefact is displayed."
+        },
+        {
+          "heading": "Verification limit",
+          "text": "The public catalogue entry was read directly. The underlying object, report, plans or microfiche have not been inspected."
+        }
+      ],
+      "sources": [
+        {
+          "text": "Amgueddfa Cymru – Museum Wales, Collections Online; Item 95.56H/1.0; accessed 2026-11-15.",
+          "href": null
+        }
+      ],
+      "related": [
+        "EV-0646",
+        "EV-0293"
+      ],
+      "links": [
+        {
+          "rel": "source_catalogue",
+          "to": "https://museum.wales/collections/online/object/d7cb2cc0-6f4f-31eb-b8c1-0ef5faab792e/Early-Medieval-iron-girdle/"
+        }
+      ],
+      "page": "/catalogue/?id=AR-9052",
+      "origin": "public_catalogue_entry",
+      "reworded": false,
+      "finding": {},
+      "email": {},
+      "public": true,
+      "updated": "2026-11-15",
+      "rev": 1,
+      "notes": [],
+      "event": "",
+      "version": "",
+      "media": {},
+      "made": {},
+      "excluded": [],
+      "description_cited": [],
+      "interpretation_cited": [],
+      "changes": []
+    },
+    {
+      "id": "AR-9053",
+      "kind": "catalogue_candidate",
+      "slug": "",
+      "title": "Amgueddfa Cymru: Early Medieval human remains, item 95.56H/1.93",
+      "aliases": [],
+      "date": {
+        "display": "1994",
+        "sort": "1994-00-00",
+        "precision": "year"
+      },
+      "place_text": "Great House Farm, Llandough",
+      "description": "Amgueddfa Cymru – Museum Wales catalogue entry for human remains, item 95.56H/1.93, associated with the 1994 excavation at Great House Farm, Llandough. The page describes skeletal elements, a wooden coffin and stratigraphic placement, and records a donation on 28 July 1994.",
+      "transcript": "Early Medieval human remains\n\nItem Number: 95.56H/1.93\n\nDescription: Near complete skeleton, missing L radius, and one fibula. Possible osteoarthritis in feet. Additional L talus, L patella, R ulna, radius fragment, scapula fragment and clavicle fragments are from another individual.\n\nFind Information:\nSite Name: Great House Farm, Llandough\nCollection Method: Excavation\nDate: 1994\nNotes: Wooden coffin. Above Sk110, below Sk69. Arms both crossed on pelvis, legs straight.\n\nAcquisition: donation, 28/7/1994\nShould any artefacts be placed on display in any museum, then Ideal Homes Wales Ltd. should be acknowledged as the donor.\n\nMaterial: Bone",
+      "transcript_status": "Direct transcription of the public catalogue entry, checked 15 November 2026; the underlying object, report or archive unit has not been inspected.",
+      "interpretation": "The Museum catalogue associates this human-remains accession with the Great House Farm, Llandough excavation and records the stated coffin and stratigraphic context. It is an object-level archaeological catalogue entry, not evidence of ownership or title. The full excavation report and object have not been inspected.",
+      "provenance": {
+        "holder": "Amgueddfa Cymru – Museum Wales, Collections Online",
+        "reference": "Item 95.56H/1.93",
+        "date": "1994 excavation; donation 28 July 1994",
+        "obtained": "Public catalogue entry read directly on 2026-11-15",
+        "independent_origin_id": ""
+      },
+      "grade": null,
+      "scope": {
+        "disposition": "catalogue_only",
+        "label": "Catalogue entry only",
+        "reason": "This record describes public catalogue metadata. The underlying object/report/archive contents have not been inspected; it is not proof of land ownership, title or parcel boundaries.",
+        "distinct_from": [],
+        "tags": [
+          "archaeology",
+          "Llandough",
+          "Great House Farm"
+        ]
+      },
+      "places": [
+        "Great House Farm, Llandough",
+        "Llandough-juxta-Penarth"
+      ],
+      "evidence": [],
+      "detail": [
+        {
+          "heading": "Catalogue entry",
+          "text": "Amgueddfa Cymru – Museum Wales catalogue entry for human remains, item 95.56H/1.93, associated with the 1994 excavation at Great House Farm, Llandough. The page describes skeletal elements, a wooden coffin and stratigraphic placement, and records a donation on 28 July 1994."
+        },
+        {
+          "heading": "Verification limit",
+          "text": "The public catalogue entry was read directly. The underlying object, report, plans or microfiche have not been inspected."
+        }
+      ],
+      "sources": [
+        {
+          "text": "Amgueddfa Cymru – Museum Wales, Collections Online; Item 95.56H/1.93; accessed 2026-11-15.",
+          "href": null
+        }
+      ],
+      "related": [
+        "EV-0293",
+        "MED-0201"
+      ],
+      "links": [
+        {
+          "rel": "source_catalogue",
+          "to": "https://museum.wales/collections/online/object/ad25f335-a056-381b-a26d-bd1cc8d8c3ca/Early-Medieval-human-remains/"
+        }
+      ],
+      "page": "/catalogue/?id=AR-9053",
+      "origin": "public_catalogue_entry",
+      "reworded": false,
+      "finding": {},
+      "email": {},
+      "public": true,
+      "updated": "2026-11-15",
+      "rev": 1,
+      "notes": [],
+      "event": "",
+      "version": "",
+      "media": {},
+      "made": {},
+      "excluded": [],
+      "description_cited": [],
+      "interpretation_cited": [],
+      "changes": []
+    },
+    {
+      "id": "AR-9054",
+      "kind": "catalogue_candidate",
+      "slug": "",
+      "title": "Coflein archive 6416853: LLAN94 publication-report plans",
+      "aliases": [],
+      "date": {
+        "display": "1994",
+        "sort": "1994-00-00",
+        "precision": "year"
+      },
+      "place_text": "Great House Farm, Llandough",
+      "description": "Coflein archive catalogue entry 6416853 describes plans relating to the excavation of an early-medieval monastic cemetery on land at Great House Farm, Llandough. The entry identifies the Cotswold Archaeology Projects Archive, Project 0381, site code LLAN94, and a group of four rolls of graphic material.",
+      "transcript": "Archive Number: 6416853\nDescription: Plans relating to the excavation of an early-medieval monastic cemetery on land at Great House Farm, Llandough. Entitled 'Llandough Publication Report'. Produced by Cotswold Archaeology: Project Number 0381; Site Code LLAN94.\nCollection Name: CA - Cotswold Archaeology Projects Archive\nMedium: 1 group consisting of 4 rolls of material. Graphic.\nOriginator: Cotswold Archaeology\nDate: 1994",
+      "transcript_status": "Direct transcription of the public catalogue entry, checked 15 November 2026; the underlying object, report or archive unit has not been inspected.",
+      "interpretation": "This catalogue entry identifies a four-roll plans group associated with Cotswold Archaeology Project 0381 and LLAN94. The plans themselves, their precise geographical coverage and any parcel references have not been inspected. The entry does not establish title, boundaries or ownership.",
+      "provenance": {
+        "holder": "RCAHMW / Coflein",
+        "reference": "Archive number 6416853; CA – Cotswold Archaeology Projects Archive; Project 0381; site code LLAN94",
+        "date": "1994",
+        "obtained": "Public catalogue entry read directly on 2026-11-15",
+        "independent_origin_id": ""
+      },
+      "grade": null,
+      "scope": {
+        "disposition": "catalogue_only",
+        "label": "Catalogue entry only",
+        "reason": "This record describes public catalogue metadata. The underlying object/report/archive contents have not been inspected; it is not proof of land ownership, title or parcel boundaries.",
+        "distinct_from": [],
+        "tags": [
+          "archaeology",
+          "Llandough",
+          "Great House Farm"
+        ]
+      },
+      "places": [
+        "Great House Farm, Llandough",
+        "Llandough-juxta-Penarth"
+      ],
+      "evidence": [],
+      "detail": [
+        {
+          "heading": "Catalogue entry",
+          "text": "Coflein archive catalogue entry 6416853 describes plans relating to the excavation of an early-medieval monastic cemetery on land at Great House Farm, Llandough. The entry identifies the Cotswold Archaeology Projects Archive, Project 0381, site code LLAN94, and a group of four rolls of graphic material."
+        },
+        {
+          "heading": "Verification limit",
+          "text": "The public catalogue entry was read directly. The underlying object, report, plans or microfiche have not been inspected."
+        }
+      ],
+      "sources": [
+        {
+          "text": "RCAHMW / Coflein; Archive number 6416853; CA – Cotswold Archaeology Projects Archive; Project 0381; site code LLAN94; accessed 2026-11-15.",
+          "href": null
+        }
+      ],
+      "related": [
+        "EV-0293"
+      ],
+      "links": [
+        {
+          "rel": "source_catalogue",
+          "to": "https://coflein.gov.uk/en/archives/6416853"
+        }
+      ],
+      "page": "/catalogue/?id=AR-9054",
+      "origin": "public_catalogue_entry",
+      "reworded": false,
+      "finding": {},
+      "email": {},
+      "public": true,
+      "updated": "2026-11-15",
+      "rev": 1,
+      "notes": [],
+      "event": "",
+      "version": "",
+      "media": {},
+      "made": {},
+      "excluded": [],
+      "description_cited": [],
+      "interpretation_cited": [],
+      "changes": []
+    },
+    {
+      "id": "AR-9055",
+      "kind": "catalogue_candidate",
+      "slug": "",
+      "title": "Coflein archive 6524751: GGAT planning-application archaeological report",
+      "aliases": [],
+      "date": {
+        "display": "August 1990",
+        "sort": "1990-08-00",
+        "precision": "month"
+      },
+      "place_text": "Great House Farm, Llandough",
+      "description": "Coflein archive catalogue entry 6524751 describes a Glamorgan-Gwent Archaeological Trust report entitled 'Land at Great House Farm, Llandough: comments and recommendations on the planning application, assessment of the archaeological implications of development'. The entry dates it to August 1990 and identifies planning application 89/01396/OUT.",
+      "transcript": "Archive Number: 6524751\nDescription: Glamorgan Gwent Archaeological Trust report 'Land at Great House Farm, Llandough: comments and recommendations on the planning application, assessment of the archaeological implications of development,' dated August 1990. Planning application no. 89/01396/OUT.\nCollection Name: AENT - Archaeological Reports/Evaluations (non Trust)\nMedium: 920MB. Graphic, Text, Cartographic.\nOriginator: Glamorgan Gwent Archaeological Trust\nDate: 1990-08",
+      "transcript_status": "Direct transcription of the public catalogue entry, checked 15 November 2026; the underlying object, report or archive unit has not been inspected.",
+      "interpretation": "The catalogue entry establishes the existence of a GGAT report associated with a planning application for land described as Great House Farm, Llandough. The report's recommendations, site area, map coverage and archaeological conclusions have not been inspected. The entry does not prove title or parcel ownership.",
+      "provenance": {
+        "holder": "RCAHMW / Coflein",
+        "reference": "Archive number 6524751; AENT – Archaeological Reports/Evaluations (non Trust); planning application 89/01396/OUT",
+        "date": "August 1990",
+        "obtained": "Public catalogue entry read directly on 2026-11-15",
+        "independent_origin_id": ""
+      },
+      "grade": null,
+      "scope": {
+        "disposition": "catalogue_only",
+        "label": "Catalogue entry only",
+        "reason": "This record describes public catalogue metadata. The underlying object/report/archive contents have not been inspected; it is not proof of land ownership, title or parcel boundaries.",
+        "distinct_from": [],
+        "tags": [
+          "archaeology",
+          "Llandough",
+          "Great House Farm"
+        ]
+      },
+      "places": [
+        "Great House Farm, Llandough",
+        "Llandough-juxta-Penarth"
+      ],
+      "evidence": [],
+      "detail": [
+        {
+          "heading": "Catalogue entry",
+          "text": "Coflein archive catalogue entry 6524751 describes a Glamorgan-Gwent Archaeological Trust report entitled 'Land at Great House Farm, Llandough: comments and recommendations on the planning application, assessment of the archaeological implications of development'. The entry dates it to August 1990 and identifies planning application 89/01396/OUT."
+        },
+        {
+          "heading": "Verification limit",
+          "text": "The public catalogue entry was read directly. The underlying object, report, plans or microfiche have not been inspected."
+        }
+      ],
+      "sources": [
+        {
+          "text": "RCAHMW / Coflein; Archive number 6524751; AENT – Archaeological Reports/Evaluations (non Trust); planning application 89/01396/OUT; accessed 2026-11-15.",
+          "href": null
+        }
+      ],
+      "related": [
+        "EV-0293"
+      ],
+      "links": [
+        {
+          "rel": "source_catalogue",
+          "to": "https://coflein.gov.uk/en/archives/6524751"
+        }
+      ],
+      "page": "/catalogue/?id=AR-9055",
+      "origin": "public_catalogue_entry",
+      "reworded": false,
+      "finding": {},
+      "email": {},
+      "public": true,
+      "updated": "2026-11-15",
+      "rev": 1,
+      "notes": [],
+      "event": "",
+      "version": "",
+      "media": {},
+      "made": {},
+      "excluded": [],
+      "description_cited": [],
+      "interpretation_cited": [],
+      "changes": []
+    },
+    {
+      "id": "AR-9056",
+      "kind": "catalogue_candidate",
+      "slug": "",
+      "title": "Coflein archive 6500905: 1997 Great House Farm excavation microfiche",
+      "aliases": [],
+      "date": {
+        "display": "1997",
+        "sort": "1997-00-00",
+        "precision": "year"
+      },
+      "place_text": "Great House Farm, Llandough",
+      "description": "Coflein archive catalogue entry 6500905 describes a set of 12 microfiche sheets containing records produced during the 1997 excavation of land at Great House Farm, Llandough, carried out by Dr Katherine Watson.",
+      "transcript": "Archive Number: 6500905\nDescription: Set of microfiche copies of records produced during the 1997 excavation of land at Great House Farm, Llandough, carried out by K. Watson.\nCollection Name: EMC - Excavation Microfiche Collection\nMedium: 12 sheets of microfiche. Cartographic, Graphic, Text, Photo.\nOriginator: Dr Katherine Watson\nDate: 1997",
+      "transcript_status": "Direct transcription of the public catalogue entry, checked 15 November 2026; the underlying object, report or archive unit has not been inspected.",
+      "interpretation": "This catalogue entry identifies a 12-sheet microfiche set for the 1997 Great House Farm excavation. The individual records, maps, photographs and exact coverage have not been inspected; no ownership or parcel conclusion follows from the entry alone.",
+      "provenance": {
+        "holder": "RCAHMW / Coflein",
+        "reference": "Archive number 6500905; EMC – Excavation Microfiche Collection",
+        "date": "1997",
+        "obtained": "Public catalogue entry read directly on 2026-11-15",
+        "independent_origin_id": ""
+      },
+      "grade": null,
+      "scope": {
+        "disposition": "catalogue_only",
+        "label": "Catalogue entry only",
+        "reason": "This record describes public catalogue metadata. The underlying object/report/archive contents have not been inspected; it is not proof of land ownership, title or parcel boundaries.",
+        "distinct_from": [],
+        "tags": [
+          "archaeology",
+          "Llandough",
+          "Great House Farm"
+        ]
+      },
+      "places": [
+        "Great House Farm, Llandough",
+        "Llandough-juxta-Penarth"
+      ],
+      "evidence": [],
+      "detail": [
+        {
+          "heading": "Catalogue entry",
+          "text": "Coflein archive catalogue entry 6500905 describes a set of 12 microfiche sheets containing records produced during the 1997 excavation of land at Great House Farm, Llandough, carried out by Dr Katherine Watson."
+        },
+        {
+          "heading": "Verification limit",
+          "text": "The public catalogue entry was read directly. The underlying object, report, plans or microfiche have not been inspected."
+        }
+      ],
+      "sources": [
+        {
+          "text": "RCAHMW / Coflein; Archive number 6500905; EMC – Excavation Microfiche Collection; accessed 2026-11-15.",
+          "href": null
+        }
+      ],
+      "related": [
+        "EV-0293"
+      ],
+      "links": [
+        {
+          "rel": "source_catalogue",
+          "to": "https://coflein.gov.uk/en/archives/6500905"
+        }
+      ],
+      "page": "/catalogue/?id=AR-9056",
+      "origin": "public_catalogue_entry",
+      "reworded": false,
+      "finding": {},
+      "email": {},
+      "public": true,
+      "updated": "2026-11-15",
+      "rev": 1,
+      "notes": [],
+      "event": "",
+      "version": "",
+      "media": {},
+      "made": {},
+      "excluded": [],
+      "description_cited": [],
+      "interpretation_cited": [],
+      "changes": []
+    }
+  ]
+}
