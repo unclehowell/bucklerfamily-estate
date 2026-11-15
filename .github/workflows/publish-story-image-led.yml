@@ -8,6 +8,8 @@ on:
     paths:
       - 'split-repos.json'
       - 'themes.json'
+      - 'tools/assemble.py'
+      - 'tools/rewrite.py'
       - '.github/workflows/publish-story-image-led.yml'
 permissions:
   contents: write
