@@ -1,0 +1,666 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bucklerfamily.estate/_cedwyn/core/catalogue-record-intake.schema.json",
+  "title": "BucklerFamily.estate standard catalogue-record intake",
+  "version": "1.0.0",
+  "source_schema": {
+    "id": "https://cedwyn.bucklerfamily.estate/_cedwyn/core/core-record.schema.json",
+    "version": "0.5.0"
+  },
+  "description": "Fixed-field intake envelope for every new catalogue record. All record fields are present; use empty strings, empty arrays/objects or null where information is not available. Do not infer missing data. The record ID is assigned by the editor after review. Incoming records are always private.",
+  "type": "object",
+  "properties": {
+    "agent": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "window_from": {
+      "type": "string",
+      "description": "Previous intake watermark or 'start'."
+    },
+    "window_to": {
+      "type": "string",
+      "description": "ISO timestamp through which the agent reviewed its accessible session."
+    },
+    "catalogue_checked": {
+      "const": true
+    },
+    "command": {
+      "enum": [
+        "spill",
+        "add_to_catalogue"
+      ]
+    },
+    "target": {
+      "const": "catalogue"
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 25,
+      "items": {
+        "type": "object",
+        "properties": {
+          "record": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "evidence",
+                  "artifact",
+                  "place",
+                  "person_or_body",
+                  "event",
+                  "screening_lead",
+                  "missing_record",
+                  "observation",
+                  "testimony",
+                  "catalogue_candidate",
+                  "foi_finding",
+                  "email",
+                  "forensic_assessment",
+                  ""
+                ]
+              },
+              "slug": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "aliases": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "date": {
+                "type": "object",
+                "properties": {
+                  "display": {
+                    "type": "string"
+                  },
+                  "sort": {
+                    "type": [
+                      "integer",
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "precision": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "display",
+                  "sort",
+                  "precision"
+                ],
+                "additionalProperties": false
+              },
+              "place_text": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "transcript": {
+                "type": "string"
+              },
+              "transcript_status": {
+                "type": "string"
+              },
+              "interpretation": {
+                "type": "string"
+              },
+              "provenance": {
+                "type": "object",
+                "properties": {
+                  "holder": {
+                    "type": "string"
+                  },
+                  "reference": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  },
+                  "obtained": {
+                    "type": "string"
+                  },
+                  "independent_origin_id": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "holder",
+                  "reference",
+                  "date",
+                  "obtained",
+                  "independent_origin_id"
+                ]
+              },
+              "grade": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 5
+              },
+              "scope": {
+                "type": "object",
+                "required": [
+                  "disposition",
+                  "label",
+                  "reason",
+                  "distinct_from",
+                  "tags"
+                ],
+                "properties": {
+                  "disposition": {
+                    "enum": [
+                      "in_scope",
+                      "not_this_property",
+                      "separate_property",
+                      "out_of_scope",
+                      "name_correction",
+                      "dating_correction",
+                      "assertion_only",
+                      "context_only",
+                      "catalogue_only",
+                      "lead_only",
+                      "hypothesis",
+                      "on_hold",
+                      "outside_title_question",
+                      "precedent",
+                      "secondary_copy",
+                      "unexplained"
+                    ],
+                    "default": "unexplained"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "distinct_from": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "places": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "evidence": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "detail": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "heading"
+                  ],
+                  "properties": {
+                    "heading": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "form": {
+                      "enum": [
+                        "section",
+                        "term"
+                      ]
+                    },
+                    "runs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "text"
+                        ],
+                        "properties": {
+                          "text": {
+                            "type": "string"
+                          },
+                          "href": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "text"
+                  ],
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "href": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "pattern": "^/"
+                    }
+                  }
+                }
+              },
+              "related": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "links": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "rel",
+                    "to"
+                  ],
+                  "properties": {
+                    "rel": {
+                      "type": "string"
+                    },
+                    "to": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "page": {
+                "type": "string",
+                "pattern": "^/"
+              },
+              "origin": {
+                "type": "string"
+              },
+              "reworded": {
+                "type": "boolean"
+              },
+              "finding": {
+                "type": "object",
+                "description": "kind=foi_finding only (That Old Chestnut, webapp 38 of 59): one public body's reply to an information request, read for refusal-setup wording and for 'not held' answers that later became records found. Role titles only; quotes pass the public gate.",
+                "properties": {
+                  "class": {
+                    "enum": [
+                      "clear",
+                      "borderline",
+                      "language"
+                    ]
+                  },
+                  "institution": {
+                    "type": "string"
+                  },
+                  "negative_date": {
+                    "type": "string"
+                  },
+                  "positive_date": {
+                    "type": "string"
+                  },
+                  "months_elapsed": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "email_volume": {
+                    "type": "string"
+                  },
+                  "negative_quote": {
+                    "type": "string"
+                  },
+                  "positive_quote": {
+                    "type": "string"
+                  },
+                  "positive_nature": {
+                    "type": "string"
+                  },
+                  "trigger": {
+                    "type": "string"
+                  },
+                  "disclosure_type": {
+                    "type": "string"
+                  },
+                  "conduct": {
+                    "type": "string"
+                  },
+                  "interim_disclosure": {
+                    "type": "string"
+                  },
+                  "terms": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "term": {
+                          "type": "string"
+                        },
+                        "statute": {
+                          "type": "string"
+                        },
+                        "note": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "open": {
+                    "type": "boolean"
+                  },
+                  "held_back": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "email": {
+                "type": "object",
+                "description": "kind=email only (schema 0.4.0): one email message, catalogued as an artifact with an id in the EV series (EV-0906 onwards). Metadata for read-models (ERP, email archive); the redacted text sits in transcript. Redacted passages are black blocks (U+2588); the originals are not published.",
+                "properties": {
+                  "message_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Archive id gm-<mailbox message id>; first dedupe key. Null where the id is withheld."
+                  },
+                  "thread_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "thread_slug": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "conversation": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "direction": {
+                    "enum": [
+                      "sent",
+                      "received"
+                    ]
+                  },
+                  "datetime": {
+                    "type": "string"
+                  },
+                  "from": {
+                    "type": "string",
+                    "description": "Sender as shown (officials by name or role); empty for sent mail."
+                  },
+                  "institutions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "subject": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "Verbatim subject line; null while held for editorial review."
+                  },
+                  "attachments": {
+                    "type": "integer"
+                  },
+                  "dedupe_key": {
+                    "type": "string",
+                    "description": "sha1(date to the minute | sender | subject), normalised; second dedupe key."
+                  },
+                  "origin": {
+                    "type": "string"
+                  },
+                  "transcript_public": {
+                    "type": "boolean"
+                  },
+                  "ev": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "The evidence record (EV-…) of the request this message belongs to, where the case-mail index names one."
+                  },
+                  "redactions": {
+                    "type": "integer",
+                    "description": "How many passages of this message are black-blocked in the public text."
+                  },
+                  "headers_only": {
+                    "type": "boolean",
+                    "description": "True for subject-access correspondence: sender, date and subject are shown, no transcript is published."
+                  }
+                }
+              },
+              "public": {
+                "const": false,
+                "description": "All incoming records remain private until source and editorial review are complete."
+              },
+              "updated": {
+                "type": "string"
+              },
+              "rev": {
+                "type": "integer"
+              },
+              "notes": {
+                "type": "array",
+                "description": "Short paragraphs as runs of text, some linked (root-relative or relative links only).",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "runs"
+                  ],
+                  "properties": {
+                    "class": {
+                      "enum": [
+                        "kf-origin",
+                        "kf-note"
+                      ]
+                    },
+                    "runs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "text"
+                        ],
+                        "properties": {
+                          "text": {
+                            "type": "string"
+                          },
+                          "href": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "event": {
+                "type": "string",
+                "description": "The single dated event a recreation depicts."
+              },
+              "version": {
+                "type": "string",
+                "description": "Record version, shown with the catalogue number."
+              },
+              "media": {
+                "type": "object",
+                "description": "Asset paths for generated recreations: photo, hologram, alt, label."
+              },
+              "made": {
+                "type": "object",
+                "description": "How a generated asset was made: model, date, hologram_method, prompt."
+              },
+              "excluded": {
+                "type": "array",
+                "description": "What a recreation does not show; visible uncertainty."
+              },
+              "description_cited": {
+                "type": "array",
+                "description": "Description paragraphs with citations, A2UI RichParas shape."
+              },
+              "interpretation_cited": {
+                "type": "array",
+                "description": "Interpretation paragraphs with citations, A2UI RichParas shape."
+              },
+              "changes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "note"
+                  ],
+                  "properties": {
+                    "rev": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "kind",
+              "slug",
+              "title",
+              "aliases",
+              "date",
+              "place_text",
+              "description",
+              "transcript",
+              "transcript_status",
+              "interpretation",
+              "provenance",
+              "grade",
+              "scope",
+              "places",
+              "evidence",
+              "detail",
+              "sources",
+              "related",
+              "links",
+              "page",
+              "origin",
+              "reworded",
+              "finding",
+              "email",
+              "public",
+              "updated",
+              "rev",
+              "notes",
+              "event",
+              "version",
+              "media",
+              "made",
+              "excluded",
+              "description_cited",
+              "interpretation_cited",
+              "changes"
+            ],
+            "additionalProperties": false
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "conversation_at": {
+            "type": "string"
+          },
+          "source_window_note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "record",
+          "confidence",
+          "conversation_at",
+          "source_window_note"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "agent",
+    "session_id",
+    "window_from",
+    "window_to",
+    "catalogue_checked",
+    "command",
+    "target",
+    "records"
+  ],
+  "additionalProperties": false
+}
