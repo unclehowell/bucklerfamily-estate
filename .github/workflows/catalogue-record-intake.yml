@@ -1,0 +1,30 @@
+name: Catalogue record intake checks
+on:
+  push:
+    branches: [chatgpt/llan94-catalogue-records-2026-11-15]
+  pull_request:
+    paths:
+      - 'data/core/schema/core-record.schema.json'
+      - 'data/core/schema/catalogue-record-intake.schema.json'
+      - 'data/core/schema/catalogue-record-template.json'
+      - 'data/core/records/archaeology-catalogue-2026-11-15.json'
+      - 'tools/test_catalogue_record_intake.py'
+      - '.github/workflows/catalogue-record-intake.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            data/core/schema/*.json
+            data/core/records/*.json
+            data/evidence-grades.json
+            tools/views.py
+            tools/test_catalogue_record_intake.py
+          sparse-checkout-cone-mode: false
+      - name: Validate fixed-field intake and catalogue records
+        run: python3 tools/test_catalogue_record_intake.py
