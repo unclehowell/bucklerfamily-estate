@@ -1,12 +1,12 @@
 name: publish-story-image-led
-# Rebuild only the image-led Story theme and merge it into the existing
-# Cedwyn site branch without replacing any other public theme.
+# Rebuild only the image-led Story theme from its dedicated repository
+# and merge its output into the existing site branch without replacing other themes.
 on:
   workflow_dispatch:
   push:
-    branches: [main, bpvsbuckler]
+    branches: [main]
     paths:
-      - 'static/bpvsbuckler/**'
+      - 'split-repos.json'
       - 'themes.json'
       - '.github/workflows/publish-story-image-led.yml'
 permissions:
@@ -26,13 +26,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Fetch the current Story theme branch
+      - name: Verify the dedicated Story source
         run: |
-          git init -q --bare mirror.git
-          git -C mirror.git fetch -q --depth 1 "https://github.com/${GITHUB_REPOSITORY}.git" +refs/heads/bpvsbuckler:refs/heads/bpvsbuckler
+          python3 - <<'PY'
+          import json
+          apps = json.load(open("split-repos.json", encoding="utf-8"))["apps"]
+          rows = [a for a in apps if (a.get("page") or "").strip("/") == "story"]
+          assert len(rows) == 1, "Story split-source entry missing or duplicated"
+          assert rows[0].get("repo") == "unclehowell/cedwyn-story", rows[0]
+          assert rows[0].get("deploy") == "repo", rows[0]
+          print("Story is built from unclehowell/cedwyn-story; no legacy bpvsbuckler branch is required.")
+          PY
       - name: Build only the Story theme
         env:
-          MIRROR: mirror.git
           SECTIONS: story
         run: python3 tools/assemble.py dist
       - name: Rewrite and make the Story output self-contained
