@@ -5644,7 +5644,7 @@
         "precision": "source email and letter date"
       },
       "place_text": "Great House Farm / Tŷ Mawr, Llandough-juxta-Penarth records enquiry",
-      "description": "Six-page response letter to ATISN 26-0075. A public derivative masks the requester's email address on page 1. The original unredacted attachment remains in the source mailbox and is not included in this public repository.",
+      "description": "Six-page public derivative of the ATISN 26-0075 response letter. The requester’s email address is masked on page 1; a hidden mailto annotation with the same address was removed when the public copy was rebuilt. The remaining public GOV.WALES link is retained. Original unredacted source bytes remain in the source mailbox.",
       "provenance": {
         "holder": "Welsh Government / Cadw",
         "reference": "ATISN 26-0075",
@@ -5703,7 +5703,7 @@
         },
         {
           "heading": "Public PDF SHA-256",
-          "text": "52409cef98096b7ea99c53402dd636dad40dcf195b708243db01bd0b0ff33c02",
+          "text": "d9e314c0d83620f208c008b7b533560b74f7ca6de50f791226eff6abdce406cd",
           "form": "term"
         },
         {
@@ -5713,7 +5713,7 @@
         },
         {
           "heading": "Binary and redaction status",
-          "text": "Public redacted derivative imported. Original unredacted attachment remains in the source mailbox and is not reproduced in this public repository.",
+          "text": "Public six-page derivative imported. Requester email address masked and hidden mailto annotation removed; no requester email remains in the PDF bytes or extracted text. Original unredacted attachment remains in source mailbox.",
           "form": "term"
         }
       ],
