@@ -1,0 +1,110 @@
+name: split-repo-watch
+# Issue #4 (permanent fix): a merge to the main branch of a split webapp repository (deploy: repo in split-repos.json) did not
+# start the estate build, so a released app stayed stale until someone ran build-cedwyn by hand.
+# This watcher compares each deploy:repo app's main HEAD with the commit stamped for it in the live site's assemble report
+# (site branch, _cedwyn/reports/_assemble_report.json, _split_source.<app>.repo_commit). If any app is ahead and no build-cedwyn
+# run is queued or in progress, it dispatches build.yml once. It uses only this repository's GITHUB_TOKEN (actions: write,
+# contents: read): a workflow_dispatch made with GITHUB_TOKEN does start a run, so no cross-repository secret is needed.
+# Generalises qa-publish-watch.yml (Q&A only) to every deploy:repo app. It never builds, publishes or pushes anything itself.
+# Triggers: schedule (GitHub fires this repo's schedules irregularly, see sync-split-repos.yml), the end of every build-cedwyn
+# run (catches merges that landed while a build was running), a repository_dispatch 'split-repo-deploy' (for an optional
+# notifier in an app repo), and manual dispatch. — Claude (seat 4), 16 Nov 2026
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_run:
+    workflows: [build-cedwyn]
+    types: [completed]
+  repository_dispatch:
+    types: [split-repo-deploy]
+  workflow_dispatch:
+permissions:
+  actions: write
+  contents: read
+concurrency:
+  group: split-repo-watch
+  cancel-in-progress: false
+jobs:
+  compare-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main, fetch-depth: 1, sparse-checkout: split-repos.json, sparse-checkout-cone-mode: false }
+      - name: Compare every deploy:repo app with the last published build
+        id: compare
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # Set only when a build-cedwyn run just finished: an app commit older than that run's start was already available to it,
+          # so it is not a reason to build again (stops a successful build from re-triggering itself for an app it does not stamp).
+          AFTER_RUN_START: ${{ github.event.workflow_run.run_started_at }}
+        run: |
+          set -euo pipefail
+          curl -sS -L -o /tmp/report.json "https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/site/_cedwyn/reports/_assemble_report.json?cb=$(date +%s)" || echo '{}' > /tmp/report.json
+          python3 - <<'PY'
+          import json, os, subprocess
+          apps = json.load(open('split-repos.json'))['apps']
+          try:
+              stamps = json.load(open('/tmp/report.json')).get('_split_source', {})
+          except Exception:
+              stamps = {}
+          deployed = {}
+          for v in stamps.values():
+              if isinstance(v, dict) and v.get('repo'):
+                  deployed[v['repo']] = v.get('repo_commit', '')
+          ahead, seen = [], set()
+          for a in apps:
+              repo = a.get('repo')
+              if a.get('deploy') != 'repo' or not repo or repo in seen:
+                  continue
+              seen.add(repo)
+              branch = a.get('branch_in_repo') or 'main'
+              try:
+                  out = subprocess.run(['git', 'ls-remote', 'https://github.com/%s.git' % repo, 'refs/heads/' + branch],
+                                       capture_output=True, text=True, timeout=60).stdout.split()
+              except Exception as e:
+                  print('skip %s: %s' % (repo, e)); continue
+              head = out[0] if out else ''
+              if len(head) != 40:
+                  print('skip %s: no readable %s' % (repo, branch)); continue
+              if repo not in deployed:
+                  # Not stamped in the report (e.g. served by another step): never dispatch for it, or every build would re-trigger.
+                  print('not stamped, ignored: %s' % repo); continue
+              if deployed[repo] != head:
+                  since = os.environ.get('AFTER_RUN_START', '')
+                  if since:
+                      try:
+                          when = json.loads(subprocess.run(['gh', 'api', 'repos/%s/commits/%s' % (repo, head), '--jq', '{d: .commit.committer.date}'],
+                                                           capture_output=True, text=True, timeout=60).stdout)['d']
+                      except Exception:
+                          when = ''
+                      if when and when < since:
+                          print('older than the build that just ran, ignored: %s %s (%s)' % (repo, head[:12], when)); continue
+                  ahead.append('%s %s -> %s' % (repo, deployed[repo][:12], head[:12]))
+          print('%d deploy:repo apps checked, %d ahead of the live site' % (len(seen), len(ahead)))
+          for x in ahead:
+              print('  ahead: ' + x)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('changed=%s\n' % ('true' if ahead else 'false'))
+          PY
+      - name: Avoid queuing a duplicate full-site build
+        id: queue
+        if: steps.compare.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          RUNS="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow build.yml --limit 20 --json status)"
+          if echo "$RUNS" | jq -e 'any(.[]; .status == "queued" or .status == "in_progress" or .status == "pending" or .status == "waiting")' >/dev/null; then
+            echo "dispatch=false" >> "$GITHUB_OUTPUT"
+            echo "A build-cedwyn run is already queued or running; when it completes this watcher runs again."
+          else
+            echo "dispatch=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Dispatch the estate build
+        # After a FAILED build, do not re-dispatch automatically (prevents a loop of failing builds); the next scheduled run retries.
+        if: steps.compare.outputs.changed == 'true' && steps.queue.outputs.dispatch == 'true' && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run build.yml --repo "$GITHUB_REPOSITORY" --ref main

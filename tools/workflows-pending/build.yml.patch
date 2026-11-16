@@ -1,0 +1,15 @@
+diff --git a/.github/workflows/build.yml b/.github/workflows/build.yml
+index 266ebbe5..aa4dbe3e 100644
+--- a/.github/workflows/build.yml
++++ b/.github/workflows/build.yml
+@@ -8,6 +8,10 @@ on:
+         description: 'Run every build step but do NOT publish to branch site or write reports to main (for testing build speed-ups)'
+         type: boolean
+         default: false
++  # Issue #4: split webapp repositories (deploy: repo) can ask for a build directly. split-repo-watch.yml covers the case
++  # with no notifier by comparing each app's main with the commit stamped in the live assemble report.
++  repository_dispatch:
++    types: [split-repo-deploy]
+   push:
+     branches: [main]
+     paths: ['tools/**', 'web/**', 'data/**', 'themes.json', 'split-repos.json', '.github/workflows/build.yml']
