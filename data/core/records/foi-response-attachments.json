@@ -1,7 +1,7 @@
 {
   "schema": "cedwyn-core/0.1.0",
   "note": "Discrete source-attachment occurrences from FOI/EIR and associated information-rights correspondence. Each record preserves the attachment filename, source authority, response date, request reference, declared MIME type and current byte-ingestion state. An entry records metadata only until the unchanged original bytes are imported and hashed.",
-  "updated": "2026-11-01",
+  "updated": "2026-11-16",
   "records": [
     {
       "id": "AR-FOI-0001",
@@ -5630,6 +5630,112 @@
       "reworded": false,
       "public": true,
       "updated": "2026-10-31",
+      "rev": 1
+    },
+    {
+      "id": "AR-FOI-0068",
+      "kind": "artifact",
+      "slug": "ar-foi-0068",
+      "title": "Welsh Government / Cadw — ATISN 26-0075 response letter (16 November 2026; public copy redacts requester email)",
+      "aliases": [],
+      "date": {
+        "display": "16 November 2026",
+        "sort": "2026-11-16",
+        "precision": "source email and letter date"
+      },
+      "place_text": "Great House Farm / Tŷ Mawr, Llandough-juxta-Penarth records enquiry",
+      "description": "Six-page response letter to ATISN 26-0075. A public derivative masks the requester's email address on page 1. The original unredacted attachment remains in the source mailbox and is not included in this public repository.",
+      "provenance": {
+        "holder": "Welsh Government / Cadw",
+        "reference": "ATISN 26-0075",
+        "date": "2026-11-16",
+        "obtained": "Attachment to a response email received on 16 November 2026 at 11:19 UTC. Public derivative created by redacting the requester's email address only.",
+        "independent_origin_id": "ORIG-AR-FOI-0068"
+      },
+      "grade": null,
+      "scope": {
+        "disposition": "in_scope",
+        "label": "Official information-rights response — public redacted derivative",
+        "reason": "Primary correspondence about Great House Farm / Tŷ Mawr. The public PDF masks the requester's email address; the source letter's substantive wording is otherwise retained.",
+        "tags": [
+          "FOI-EIR",
+          "Llandough",
+          "email-attachment",
+          "pdf",
+          "Cadw",
+          "Welsh-Government"
+        ]
+      },
+      "places": [],
+      "evidence": [
+        "EV-0901"
+      ],
+      "detail": [
+        {
+          "heading": "Original attachment filename",
+          "text": "ATISN 26-0075 - 2026-11-16 - Response Letter.pdf",
+          "form": "term"
+        },
+        {
+          "heading": "Source authority and reference",
+          "text": "Welsh Government / Cadw · ATISN 26-0075",
+          "form": "term"
+        },
+        {
+          "heading": "Source email date and time",
+          "text": "16 November 2026 · 11:19 UTC",
+          "form": "term"
+        },
+        {
+          "heading": "Mailbox MIME type",
+          "text": "application/pdf",
+          "form": "term"
+        },
+        {
+          "heading": "Source role",
+          "text": "Official six-page response letter to ATISN 26-0075.",
+          "form": "term"
+        },
+        {
+          "heading": "Public derivative",
+          "text": "response-redacted.pdf and transcription-redacted.txt. The requester's email address is masked; no other substantive text has been intentionally changed.",
+          "form": "term"
+        },
+        {
+          "heading": "Public PDF SHA-256",
+          "text": "52409cef98096b7ea99c53402dd636dad40dcf195b708243db01bd0b0ff33c02",
+          "form": "term"
+        },
+        {
+          "heading": "Public transcription SHA-256",
+          "text": "c04451e4cd53abe9418cc7f88404f7cb0b5418cc56f9d5fdb6597a8f77d63267",
+          "form": "term"
+        },
+        {
+          "heading": "Binary and redaction status",
+          "text": "Public redacted derivative imported. Original unredacted attachment remains in the source mailbox and is not reproduced in this public repository.",
+          "form": "term"
+        }
+      ],
+      "sources": [
+        {
+          "text": "Public archive page and redacted documents",
+          "href": "/evidence/archives/records/atisn-26-0075-2026-11-16/"
+        },
+        {
+          "text": "Attachment occurrence in the central FOI response attachment catalogue",
+          "href": "/research/evidence/ev-0901-foi-response-attachment-catalogue/#AR-FOI-0068"
+        }
+      ],
+      "related": [
+        "EV-0901",
+        "EV-0156"
+      ],
+      "page": "/evidence/archives/records/atisn-26-0075-2026-11-16/#attachment",
+      "origin": "gmail-archive-review-2026-11-16",
+      "reworded": false,
+      "public": true,
+      "updated": "2026-11-16",
       "rev": 1
     }
   ]
