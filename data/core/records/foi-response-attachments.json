@@ -1,7 +1,7 @@
 {
   "schema": "cedwyn-core/0.1.0",
   "note": "Discrete source-attachment occurrences from FOI/EIR and associated information-rights correspondence. Each record preserves the attachment filename, source authority, response date, request reference, declared MIME type and current byte-ingestion state. An entry records metadata only until the unchanged original bytes are imported and hashed.",
-  "updated": "2026-11-01",
+  "updated": "2026-11-17",
   "records": [
     {
       "id": "AR-FOI-0001",
@@ -5630,6 +5630,130 @@
       "reworded": false,
       "public": true,
       "updated": "2026-10-31",
+      "rev": 1
+    },
+    {
+      "id": "AR-FOI-0068",
+      "kind": "artifact",
+      "slug": "ar-foi-0068",
+      "title": "National Library of Wales — response concerning 1974 Report Wales Llandough protests (17 November 2026; letter FOI/2026/17; body FOI/2026/16)",
+      "aliases": [
+        "FOI/2026/16",
+        "FOI/2026/17",
+        "ITV/HTV Report Wales Llandough protests"
+      ],
+      "date": {
+        "display": "17 November 2026",
+        "sort": "2026-11-17",
+        "precision": "letter date"
+      },
+      "place_text": "Llandough-juxta-Penarth — 1974 ITV/HTV Report Wales recordings",
+      "description": "Four-page National Library of Wales letter dated 17 November 2026. The heading identifies FOI/2026/17, while the opening paragraph says that the letter responds to FOI/2026/16, received on 28 October 2026. The quoted request concerns two ITV/HTV Report Wales catalogue entries: 11 April 1974, CAN 2775 item 4, and 1 November 1974, CAN 2904 item 8. NLW says the items were transferred from ITV Wales under an arrangement agreed in 2011 and checked on 29 October 2026. It reports both as 16mm colour with commag sound, undigitised, in good condition and not viewable until digitised. For recorded information about transfer, loss, withdrawal or disposal, NLW states: “Information not held.” These are statements in the Library's response; the letter is not an independent examination of the physical recordings or an inventory of preservation copies.",
+      "provenance": {
+        "holder": "National Library of Wales",
+        "reference": "Letter heading FOI/2026/17; opening paragraph states response to FOI/2026/16",
+        "date": "2026-11-17",
+        "obtained": "User-supplied copy uploaded 17 November 2026 as FOI2026-17.pdf; four pages; 342,724 bytes; SHA-256 36805ec885e0f32b62ba5acfa95a72300004930a91a4c4b69109ab12fd42930b. This hash identifies the supplied copy only. It has not been byte-matched to an NLW master or email attachment, and the PDF binary is not stored in this repository.",
+        "independent_origin_id": "ORIG-AR-FOI-0068"
+      },
+      "grade": null,
+      "scope": {
+        "disposition": "in_scope",
+        "label": "Official FOI response — uploaded copy reviewed; binary not stored in repository",
+        "reason": "Official information-request response about the existence, format, condition and access state of two 1974 Llandough television-archive items. The separate preservation action request is not answered in this letter.",
+        "tags": [
+          "FOI-EIR",
+          "NLW",
+          "Llandough",
+          "ITV",
+          "HTV",
+          "Report-Wales",
+          "1974",
+          "pdf"
+        ]
+      },
+      "places": [],
+      "evidence": [
+        "EV-0901"
+      ],
+      "detail": [
+        {
+          "heading": "Original filename",
+          "text": "FOI2026-17.pdf",
+          "form": "term"
+        },
+        {
+          "heading": "Source authority and references",
+          "text": "National Library of Wales · letter heading FOI/2026/17; opening paragraph says response to FOI/2026/16 received 28 October 2026. The two references conflict with the earlier tracking allocation and are preserved as written.",
+          "form": "term"
+        },
+        {
+          "heading": "Letter date",
+          "text": "17 November 2026",
+          "form": "term"
+        },
+        {
+          "heading": "Source role",
+          "text": "Four-page official response by the Director of Collections to the FOI portion of a request about two ITV/HTV Report Wales catalogue entries.",
+          "form": "term"
+        },
+        {
+          "heading": "Holdings, format and condition",
+          "text": "NLW says both items were checked on 29 October 2026; both are 16mm colour with commag sound, undigitised, in good condition, and cannot be viewed until digitised.",
+          "form": "term"
+        },
+        {
+          "heading": "Catalogue entries",
+          "text": "11 April 1974 — “People Protesting Against Redevelopment of a Cottage at Llandough” — CAN 2775, item 4. 1 November 1974 — “Protest at a Cottage in Llandough Over Eviction Plans” — CAN 2904, item 8.",
+          "form": "term"
+        },
+        {
+          "heading": "Transfer and provenance",
+          "text": "NLW states that the items were transferred from ITV Wales under an arrangement agreed with ITV Wales in 2011.",
+          "form": "term"
+        },
+        {
+          "heading": "Transfer, loss, withdrawal or disposal records",
+          "text": "NLW's response is: “Information not held.” This records the Library's stated position; it does not establish that the recordings were destroyed or that no transfer documentation ever existed.",
+          "form": "term"
+        },
+        {
+          "heading": "Limits and separate preservation request",
+          "text": "The letter says it addresses the FOI portion only. The original request separately asked for urgent preservation action and referral to the person responsible for Screen and Sound Archive preservation decisions. This letter gives no confirmation that the preservation request was referred or actioned, no digitisation timetable, and no item-by-item account of physical versus digital/preservation-copy checks. It also does not explain any “never viewed” notation.",
+          "form": "term"
+        },
+        {
+          "heading": "Catalogue records supplied",
+          "text": "The letter says full catalogue-record copies are attached and gives two public catalogue links. The supplied four-page PDF copy contains the letter; no separate catalogue-record appendices were included in this upload.",
+          "form": "term"
+        },
+        {
+          "heading": "Binary and hash status",
+          "text": "Supplied PDF: 342,724 bytes; SHA-256 36805ec885e0f32b62ba5acfa95a72300004930a91a4c4b69109ab12fd42930b. This is a hash of the uploaded copy only, not a byte-match to an NLW master or original email attachment. The binary is not stored or served by this repository.",
+          "form": "term"
+        }
+      ],
+      "sources": [
+        {
+          "text": "User-supplied four-page PDF copy, FOI2026-17.pdf, uploaded 17 November 2026; text reviewed and SHA-256 recorded. The PDF copy itself is not hosted in the repository."
+        },
+        {
+          "text": "NLW catalogue record for CAN 2904, item 8 (as linked in the response letter)",
+          "href": "https://discover.library.wales/permalink/44WHELF_NLW/k2tb4f/alma99282370902419"
+        },
+        {
+          "text": "NLW catalogue record for CAN 2775, item 4 (as linked in the response letter)",
+          "href": "https://discover.library.wales/permalink/44WHELF_NLW/k2tb4f/alma99282557002419"
+        }
+      ],
+      "related": [
+        "EV-0901"
+      ],
+      "page": "/research/evidence/ev-0901-foi-response-attachment-catalogue/#AR-FOI-0068",
+      "origin": "user-uploaded-source-2026-11-17",
+      "reworded": false,
+      "public": true,
+      "updated": "2026-11-17",
       "rev": 1
     }
   ]
