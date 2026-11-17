@@ -1,13 +1,13 @@
 name: evidence-resync-daily
-# bucklerfamily-estate#19. Daily: gathers NEW evidence/artifact CANDIDATES (never records) from mail (box-side export), spills and
-# online search into resync/candidates/ on the orphan branch evidence-resync, then comments on #19 when anything is new.
+# Daily: reads project-labelled Gmail (read-only), redacts and triages with NVIDIA, and adds mail/spill/online CANDIDATES
+# (never records) to resync/candidates/ on the private orphan branch evidence-resync. Comments on #19 when new candidates arrive.
 # Catalogue lock: add-only review file; never edits/moves/deletes a record, never opens or merges a PR, never applies
 # owner-approved. Never dispatches a site build. Runs without any key; an optional NVIDIA_API_KEY (tried first),
 # ANTHROPIC_API_KEY or OPENAI_API_KEY repo secret adds a scope/kind label to online candidates. A provider that answers
 # 401/429 or times out falls through to the next; the run never fails on a label. — Sion's Tab agent
 on:
   schedule:
-    - cron: '20 6 * * *'   # 06:20 UTC daily (after the box-side mail export at ~05:40 London)
+    - cron: '20 6 * * *'   # 06:20 UTC daily; Gmail is queried directly through a read-only OAuth grant
   workflow_dispatch:
     inputs:
       dry_run:
@@ -27,11 +27,30 @@ jobs:
     env:
       ISSUE: '19'
     steps:
-      - name: Data branch (tiny orphan branch, not the site)
-        uses: actions/checkout@v4
-        with: { ref: evidence-resync, path: data, fetch-depth: 1 }
-      - name: Script from this commit (no full checkout of the site repo)
-        run: curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
+      - name: Bootstrap private data branch
+        env:
+          GH_TOKEN: __DOLLAR__{{ github.token }}
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/bootstrap-data-branch.sh" -o bootstrap.sh
+          bash bootstrap.sh data
+      - name: Scripts from this commit (no full checkout of the public site)
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
+          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/gmail_export.py" -o gmail_export.py
+      - name: Read scoped Gmail and create privacy-filtered candidate summaries
+        env:
+          GMAIL_CLIENT_ID: __DOLLAR__{{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: __DOLLAR__{{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: __DOLLAR__{{ secrets.GMAIL_REFRESH_TOKEN }}
+          GMAIL_QUERY: __DOLLAR__{{ vars.GMAIL_QUERY }}
+          NVIDIA_API_KEY: __DOLLAR__{{ secrets.NVIDIA_API_KEY }}
+          NVIDIA_MODEL: __DOLLAR__{{ vars.NVIDIA_MODEL }}
+        run: |
+          if [ "__DOLLAR__{{ github.event_name }}" = "workflow_dispatch" ] && [ "__DOLLAR__{{ inputs.dry_run }}" = "true" ]; then
+            python3 gmail_export.py --out data/resync/gmail/export.json --seen data/resync/gmail/processed.json --dry-run
+          else
+            python3 gmail_export.py --out data/resync/gmail/export.json --seen data/resync/gmail/processed.json
+          fi
       - name: Collect candidates
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
