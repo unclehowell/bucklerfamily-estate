@@ -1,6 +1,6 @@
 name: evidence-resync-daily
-# Daily: reads project-labelled Gmail (read-only), redacts and triages with NVIDIA, and adds mail/spill/online CANDIDATES
-# (never records) to resync/candidates/ on the private orphan branch evidence-resync. Comments on #19 when new candidates arrive.
+# Daily: reads project-labelled Gmail (read-only), redacts and triages with NVIDIA, and stores candidates only in a private
+# operations repository. No email-derived detail is written to this public repository's branches, logs or issue comments.
 # Catalogue lock: add-only review file; never edits/moves/deletes a record, never opens or merges a PR, never applies
 # owner-approved. Never dispatches a site build. Runs without any key; an optional NVIDIA_API_KEY (tried first),
 # ANTHROPIC_API_KEY or OPENAI_API_KEY repo secret adds a scope/kind label to online candidates. A provider that answers
@@ -29,9 +29,10 @@ jobs:
     steps:
       - name: Bootstrap private data branch
         env:
-          GH_TOKEN: __DOLLAR__{{ github.token }}
+          OPS_REPO: ${{ vars.OPS_REPO || 'unclehowell/bucklerfamily-ops-private' }}
+          OPS_REPO_TOKEN: ${{ secrets.OPS_REPO_TOKEN }}
         run: |
-          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/bootstrap-data-branch.sh" -o bootstrap.sh
+          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/bootstrap-data-branch.sh" -o bootstrap.sh
           bash bootstrap.sh data
       - name: Scripts from this commit (no full checkout of the public site)
         run: |
