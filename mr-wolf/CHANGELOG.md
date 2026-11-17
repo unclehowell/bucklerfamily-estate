@@ -1,4 +1,41 @@
+# Changelog
+
+## 4.1.1 — 17 November 2026
+- Preserved the existing tree-first and gauge-second interface; moved the new proof-position analysis into a compact, closed-by-default disclosure beneath the original header.
+- Reused the live app's existing cream/brown palette, serif heading and restrained border treatment. The full-screen Legal Threshold Tree remains the default view.
+- Documented that the standalone `.pages.dev` project is preview-only; production at `bucklerfamily.estate/mr-wolf/` is assembled and published by the estate's central build after this app repository's approved changes reach `main`.
+
+## 4.1.0 — 17 November 2026
+- Added a route-by-route proof-position panel separating the documented 1974 unilateral-licence mechanism from proof of dishonesty, the 1982–83 registration disclosure gap from deliberate concealment, and public-body record-holding from state participation.
+- Expanded MW-11 with the 1959/1965 tenancy-offer context, Mary's 1974 ownership plea (known to BP), the court's precise no-repudiation finding, and the missing evidence that could contradict it. No score increase: the post-letter repudiation/knowledge record remains unheld.
+- Expanded MW-02 with the separate WA231076 and WA240304 application dates, Linklaters & Paines as applicant's solicitors on both, the 19 April / 25 May 2026 HMLR positions, the 30 July 43-item file schedule, and the exact outstanding application, examination and notice records. No score increase: Forms 1C/1E and any required declaration remain unread.
+- Added the historical 1982–83 legal framework: Land Registration Act 1925 ss.14, 53, 70(1)(g), 115–116. Explicitly warns not to apply the later 2003 Rules r.28 / Form DI retrospectively.
+- Clarified that s.70(1)(g) could protect pre-existing rights of an occupier on first registration; actual occupation alone did not create ownership. The s.70 enquiry exception is not a general first-registration notice rule; s.53 caution and s.14 (only if required by the Registrar) are treated separately.
+- Directly read the archived HMLR Stage 2 response (EV-0153) and 30 July document schedule (EV-0161); verified the 43-item inventory and public-inspection route. EV-0370 remains file-pending and is not used as substantive proof.
+- Preserved evidence-only scoring. The dashboard now explains that /200 scores are internal triage markers, not probabilities; the 1939 signature lead is not a finding and is not part of the 1987 judgment's reasoning.
+
 # Changelog — Mr Wolf (webapp 40 of 59)
+
+## [4.0.1] - 2026-11-16
+### Fixed
+- Tree view record windows on the live site: the estate runtime rewrites root-relative fetch paths into the app folder (`/api/catalogue/EV-0080` became `/mr-wolf/api/catalogue/EV-0080`, a 404), so every catalogue leaf showed "unavailable". Source URLs are now made absolute (same origin) before fetching.
+
+## [4.0.0] - 2026-11-16
+### Added
+- **Legal Threshold Tree** (owner Master Build Prompt, 16 Nov 2026; cedwyn-mr-wolf#20), now the landing view. A toggle at the top switches between Tree view and Gauge view.
+- `legal-tree.json`: 57 legal nodes on three pathways: domestic courts (fresh action to set aside; CPR 52.30 reopening; new evidence; what the 1987 decision rested on), the legal tests for fraud, deliberate concealment and government involvement, the European pathway for application 14464/88, and register rectification as a separate remedy. Every legal node cites its authority with a verification level.
+- `evidence-links.json`: 59 leaves on 44 canonical records (catalogue, That Old Chestnut, Dartboard, research mirror), each with relationship, strength for that element, reason, weaknesses, alternatives and assessment date.
+- Record modals load each record live from its source and end with VIEW WEBAPP; honest unavailable state when a source cannot be reached.
+- `tools/test_tree.py`: data-integrity test (`--online` resolves every leaf record).
+### Fixed
+- Gauge view: pending items that said "no record exists in the catalogue" now cite the catalogue's own placeholders where they exist (MR-0080 her written reply, MR-0081 the 1974 footage, EV-0700 and EV-0701 the National Archives files), and the Companies House reply of 3 November 2026 (EV-0710, held) is now listed as held. Scores unchanged.
+- Gauge view: the 1886 inscription comparator was cited as EV-0902; in the canonical catalogue EV-0902 is a different record (South Wales Echo, 24 March 1989). It is now cited by its research-mirror page, and the pending heirloom item points to MR-0075.
+### Note
+- "Fraud" appears in this app only as the name of the legal test the authorities use. It describes the law, not anyone's conduct.
+
+## [3.0.2] - 2026-11-16
+### Changed
+- Removed the decorative “What's the time, Mr Wolf?” tagline from the page header. The title, parcel navigation, scoring explanation and evidence dashboard remain.
 
 ## [3.0.1] - 2026-11-15
 ### Changed
