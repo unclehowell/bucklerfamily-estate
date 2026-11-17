@@ -1,6 +1,6 @@
 name: evidence-resync-daily
-# cedwyn#582. Daily: gathers NEW evidence/artifact CANDIDATES (never records) from mail (box-side export), spills and
-# online search into resync/candidates/ on the orphan branch evidence-resync, then comments on #582 when anything is new.
+# bucklerfamily-estate#19. Daily: gathers NEW evidence/artifact CANDIDATES (never records) from mail (box-side export), spills and
+# online search into resync/candidates/ on the orphan branch evidence-resync, then comments on #19 when anything is new.
 # Catalogue lock: add-only review file; never edits/moves/deletes a record, never opens or merges a PR, never applies
 # owner-approved. Never dispatches a site build. Runs without any key; an optional NVIDIA_API_KEY (tried first),
 # ANTHROPIC_API_KEY or OPENAI_API_KEY repo secret adds a scope/kind label to online candidates. A provider that answers
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      ISSUE: '582'
+      ISSUE: '19'
     steps:
       - name: Data branch (tiny orphan branch, not the site)
         uses: actions/checkout@v4
@@ -45,11 +45,11 @@ jobs:
         if: ${{ inputs.dry_run != true }}
         run: |
           cd data
-          git config user.name "cedwyn-evidence-resync"
+          git config user.name "bucklerfamily-estate-evidence-resync"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add resync
           if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
-          git commit -q -m "resync: daily candidates $(date -u +%F) (cedwyn#582) — Sion's Tab agent"
+          git commit -q -m "resync: daily candidates $(date -u +%F) (bucklerfamily-estate#19) — Sion's Tab agent"
           for i in 1 2 3; do git pull -q --rebase origin evidence-resync && git push origin HEAD:evidence-resync && exit 0; sleep 5; done; exit 1
       - name: Comment on the tracking issue when something is new
         if: ${{ inputs.dry_run != true && hashFiles('comment.md') != '' }}
