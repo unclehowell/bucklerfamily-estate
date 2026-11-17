@@ -1,10 +1,8 @@
 name: evidence-resync-daily
-# Daily: reads project-labelled Gmail (read-only), redacts and triages with NVIDIA, and stores candidates only in a private
-# operations repository. No email-derived detail is written to this public repository's branches, logs or issue comments.
-# Catalogue lock: add-only review file; never edits/moves/deletes a record, never opens or merges a PR, never applies
-# owner-approved. Never dispatches a site build. Runs without any key; an optional NVIDIA_API_KEY (tried first),
-# ANTHROPIC_API_KEY or OPENAI_API_KEY repo secret adds a scope/kind label to online candidates. A provider that answers
-# 401/429 or times out falls through to the next; the run never fails on a label. — Sion's Tab agent
+# Daily: reads selected project-labelled Gmail (read-only), redacts and triages with NVIDIA, then writes review candidates
+# only to the private operations repository. The public source repository, Actions logs and issue comments carry counts only.
+# Requires OPS_REPO_TOKEN and the private operations repository. Gmail ingest additionally requires OAuth + NVIDIA secrets.
+# Add-only review intake: never edits catalogue records, opens/merges app PRs, applies owner-approved or publishes app data.
 on:
   schedule:
     - cron: '20 6 * * *'   # 06:20 UTC daily; Gmail is queried directly through a read-only OAuth grant
