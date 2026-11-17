@@ -395,8 +395,8 @@ def main():
     state.update(runs=int(state.get("runs", 0)) + 1, last_run=dt.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
                  last_counts=day["counts"])
     print(json.dumps(day["counts"]))
-    for c in new[:15]:
-        print(f"  [{c['source']}] {c['title'][:100]}")
+    # Candidate titles and summaries stay in private storage; never echo email-derived text to public Actions logs.
+    print(f"  {len(new)} new candidate(s) collected; details are stored in the private operations repository.")
     if a.dry_run:
         print("dry run: nothing written")
         return
@@ -405,16 +405,13 @@ def main():
     save(os.path.join(D, "resync/seen.json"), seen)
     save(os.path.join(D, "resync/state.json"), state)
     if a.comment_out and new:
-        lines = [f"**Evidence resync {TODAY}:** {len(new)} new candidate(s) for review: mail {len(mail)}, "
-                 f"spills {len(spills)}, online {len(online)}" + (f" ({labelled} labelled)" if labelled else "") + ".",
-                 "", f"File: `resync/candidates/{TODAY}.json` on branch `evidence-resync` (rolling list: "
-                 "`resync/candidates/latest.json`). Add-only: nothing here is a record yet; the spill / catalogue "
-                 "process decides, through a `catalogue-change` PR.", ""]
-        for c in new[:20]:
-            lines.append(f"- [{c['source']}] {c['title'][:140]}" + (f" ({c['date_display']})" if c.get("date_display") else ""))
-        if len(new) > 20:
-            lines.append(f"- … and {len(new) - 20} more in the file")
-        lines += ["", "— Sion's Tab agent (evidence-resync workflow)"]
+        # The public issue comment carries counts only; all candidate text remains in the private operations repo.
+        lines = [f"**Evidence resync {TODAY}:** {len(new)} new candidate(s) for owner review "
+                 f"(mail {len(mail)}, spills {len(spills)}, online {len(online)}).",
+                 "", "Candidate details are held in the private operations repository on its `evidence-resync` branch. "
+                 "No candidate has been promoted to the public catalogue or either webapp. This comment contains "
+                 "counts only; no email-derived subjects or summaries are published.", "",
+                 "— BucklerFamily.estate evidence-resync workflow"]
         with open(a.comment_out, "w") as f:
             f.write("\n".join(lines) + "\n")
     with open(os.environ.get("GITHUB_OUTPUT", os.devnull), "a") as f:
