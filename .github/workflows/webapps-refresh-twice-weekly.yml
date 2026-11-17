@@ -28,13 +28,16 @@ jobs:
     env:
       ISSUE: '19'
     steps:
-      - name: Data branch (tiny orphan branch)
-        uses: actions/checkout@v4
-        with: { ref: evidence-resync, path: data, fetch-depth: 1 }
-      - name: Script from this commit
+      - name: Bootstrap private data branch
+        env:
+          GH_TOKEN: __DOLLAR__{{ github.token }}
         run: |
-          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/refresh.py" -o refresh.py
-          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
+          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/bootstrap-data-branch.sh" -o bootstrap.sh
+          bash bootstrap.sh data
+      - name: Scripts from this commit
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/refresh.py" -o refresh.py
+          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
       - name: Snapshot the central DB, dispatch one build if none is running
         id: r
         env:
