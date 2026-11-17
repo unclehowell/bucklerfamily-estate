@@ -124,9 +124,13 @@ def from_mail(data, seen, cat):
         if cat and len(t) > 12 and t[:80] in cat:
             seen[key] = {"skipped": "already in the catalogue", "at": TODAY}
             continue
+        targets = [x for x in (r.get("target_apps") or []) if x in ("that-old-chestnut", "dartboard")]
         out.append({"key": key, "source": "mail", "title": clean(r.get("title"), 200),
                     "date_display": clean(r.get("date"), 60), "holder": clean(r.get("holder"), 120),
                     "type": clean(r.get("type"), 80), "summary": clean(r.get("summary"), 400),
+                    "target_apps": targets, "direction": clean(r.get("direction"), 20),
+                    "has_attachments": bool(r.get("has_attachments")), "review_required": True,
+                    "triage_by": clean(r.get("triage_by"), 40),
                     "proposed_kind": "catalogue_candidate", "url": "", "scope_terms": in_scope(r.get("title"), r.get("summary"))})
     return out
 
