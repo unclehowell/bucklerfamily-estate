@@ -319,7 +319,8 @@ def page(p, rel, dist, themes, cards, n, added, untouched, samples):
             cu = BASE + cu
         elif cu.startswith(('https://cedwyn.bucklerfamily.estate/', 'http://cedwyn.bucklerfamily.estate/',
                             'https://www.bucklerfamily.estate/', 'http://www.bucklerfamily.estate/')):
-            cu = BASE + cu.split('/', 3)[3]
+            parts = cu.split('/', 3)
+            cu = BASE + ('/' + parts[3] if len(parts) > 3 and parts[3] else '/')
         if cu != attrs(cm.group(0)).get('href', ''):
             head_clean = head_clean.replace(cm.group(0), '<link rel="canonical" href="%s">' % esc(cu), 1)
         if cu.startswith(BASE + '/'): url = cu
