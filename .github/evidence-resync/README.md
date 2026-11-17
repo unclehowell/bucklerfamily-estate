@@ -1,60 +1,86 @@
-# Evidence resync and daily Gmail/NVIDIA review intake
+# Daily Gmail / NVIDIA review intake and webapp refresh
 
-This workflow is for the BucklerFamily.estate/Cedwyn research apps. It does not use DATRO.
+Scope: BucklerFamily.estate and the Cedwyn research apps only. DATRO is out of scope.
+
+## Important storage boundary
+
+The source repository `unclehowell/bucklerfamily-estate` is public. It must contain workflow code only, never Gmail-derived summaries, message hashes, raw email or review queues.
+
+Create a separate **private** GitHub repository named `unclehowell/bucklerfamily-ops-private`. It stores all review data on an orphan branch called `evidence-resync`. The branch is not a Pages deployment branch and is not connected to Cloudflare Pages. If the private repository is missing or inaccessible, the scheduled jobs stop at the bootstrap step; they must not fall back to storing data in the public repository.
 
 ## Daily flow
 
-1. At 06:20 UTC, GitHub Actions queries only the selected GHF and Cedwyn Gmail labels using a Gmail OAuth grant with the read-only `gmail.readonly` scope.
-2. `gmail_export.py` fetches up to 25 recent matching messages. It does not modify Gmail, send mail, change labels, fetch attachment content or store raw Gmail bodies. It redacts common contact details, signatures and quoted chains before sending the remaining text to NVIDIA NIM.
-3. NVIDIA returns a cautious classification and a neutral public-safe summary, with routing hints for `that-old-chestnut` and/or `dartboard`. Outputs that fail the safety checks are discarded.
-4. The export contains only a hashed message key, date, organisation, type, title, summary, app routing and review flags. `resync.py` deduplicates these against prior mail candidates and the central catalogue, then adds new items to `resync/candidates/` on the orphan `evidence-resync` branch.
-5. The workflow comments on the tracking issue when candidates arrive. Nothing is written into either app's public data, and nothing is sent from Gmail. Human review and an app-source change are required before publication.
+1. At 06:20 UTC, GitHub Actions queries only selected GHF/Cedwyn Gmail labels using an owner-authorised OAuth grant with the read-only `gmail.readonly` scope.
+2. `gmail_export.py` fetches up to 25 matching recent messages. It never modifies Gmail, sends mail, changes labels, reads attachment content or stores raw message bodies. It redacts common personal/contact details, signatures and quoted chains before sending the remaining text to NVIDIA NIM.
+3. NVIDIA classifies relevant correspondence and proposes a neutral summary and routing hint for `that-old-chestnut` and/or `dartboard`. Outputs that fail the safety checks are discarded.
+4. The exporter writes only to the private operations checkout: a hashed message key, date, organisation, type, title, summary, target app(s), direction, attachment-presence flag and review-required marker.
+5. `resync.py` deduplicates mail, spill and online candidates, then appends them to the private operations review queue. The public issue comment and Actions log contain counts only, never candidate titles or summaries.
+6. Every candidate remains a proposal. Nothing is published into either app's public data and no email is sent. Human review and an app-source change are required before publication.
 
-The exporter keeps only hashes of processed Gmail message IDs for 60 days, so ignored or already-reviewed messages are not repeatedly sent to NVIDIA. The original message IDs and message bodies are never written to the branch. Messages with attachment content are not opened; only the presence of an attachment is recorded.
+Only SHA-256 hashes of processed Gmail message IDs are retained (60 days) to avoid repeatedly processing the same message. The original message IDs, raw bodies and attachment content are never saved. The exporter records only whether an attachment was present; a person must inspect the original attachment before promotion.
 
 ## App publication path
 
-- **That Old Chestnut:** update its source data in `unclehowell/cedwyn-that-old-chestnut`. The central `bucklerfamily-estate` build assembles it into the public Cedwyn site.
-- **Dartboard:** update `unclehowell/cedwyn-dartboard`. Its own Cloudflare Pages project deploys from `main`.
-- The existing daily change-gated webapp refresh checks for source changes. The existing site build regenerates data views from the central catalogue. Neither is allowed to promote AI candidates automatically.
+- **That Old Chestnut:** reviewed changes go to the dedicated source repository `unclehowell/cedwyn-that-old-chestnut`. The central `bucklerfamily-estate` build assembles it into the Cedwyn Pages site.
+- **Dartboard:** reviewed changes go to `unclehowell/cedwyn-dartboard`. Its Cloudflare Pages project deploys from `main`.
+- The central daily change-gated refresh and existing Pages integrations handle deployment once source changes are merged. AI candidates themselves never trigger publication.
 
-## Required GitHub Actions secrets
+## Required private operations repository setup
 
-Add these under `unclehowell/bucklerfamily-estate` → Settings → Secrets and variables → Actions → Secrets:
+Create `unclehowell/bucklerfamily-ops-private` as **Private**, with an empty initial README or other default branch. Then create a fine-grained GitHub token restricted to that repository with **Contents: Read and write**. Do not grant access to other repositories or administration.
+
+In the public source repository `unclehowell/bucklerfamily-estate`, add this Actions secret:
 
 | Secret | Purpose |
 |---|---|
-| `NVIDIA_API_KEY` | NVIDIA API Catalog / hosted NIM key |
+| `OPS_REPO_TOKEN` | Fine-grained token with Contents read/write on the private operations repo |
+
+Add this Actions variable (optional; the workflow defaults to the suggested repo name):
+
+| Variable | Purpose |
+|---|---|
+| `OPS_REPO` | Private repository in owner/name format |
+
+The workflows bootstrap or fetch the orphan `evidence-resync` branch in that private repository using this token. They never push data to a branch of the public source repository.
+
+## Required Gmail and NVIDIA Actions secrets
+
+In `unclehowell/bucklerfamily-estate` → Settings → Secrets and variables → Actions → Secrets, add:
+
+| Secret | Purpose |
+|---|---|
+| `NVIDIA_API_KEY` | NVIDIA API Catalog hosted NIM key |
 | `GMAIL_CLIENT_ID` | Google OAuth client ID |
 | `GMAIL_CLIENT_SECRET` | Google OAuth client secret |
-| `GMAIL_REFRESH_TOKEN` | Offline refresh token authorised by the owner for Gmail read-only access |
+| `GMAIL_REFRESH_TOKEN` | Owner-authorised offline refresh token for Gmail read-only access |
 
-Use the scope `https://www.googleapis.com/auth/gmail.readonly` only. Do not grant send, compose, modify, labels or full-mailbox scopes. The refresh token belongs in Actions Secrets; never commit it, paste it into an issue, or send it in chat.
+The only Gmail scope needed is `https://www.googleapis.com/auth/gmail.readonly`. Do not grant send, compose, modify, labels or full-mailbox access. Do not paste credentials into this repository, an issue, a PR comment or chat. Store them only as GitHub Actions secrets.
 
-## Optional GitHub Actions variables
+Google's Gmail API requires OAuth 2.0 credentials; offline access is needed for the scheduled workflow to refresh an access token while you are not present. Google classifies `gmail.readonly` as a restricted scope, so Google Cloud's consent/verification requirements may apply to the OAuth app.
+
+## Optional Actions variables
 
 | Variable | Purpose |
 |---|---|
 | `NVIDIA_MODEL` | NVIDIA model ID; defaults to `google/gemma-3-12b-it` |
-| `GMAIL_QUERY` | Override the default project-label query when needed |
+| `GMAIL_QUERY` | Override the default project-label query |
 
-The default Gmail query is limited to GHF/Authorities, GHF/Action needed, GHF/Awaiting reply, GHF/Evidence & attachments, the vetted GHF auto-reply label, and Cedwyn/Case + Cedwyn/Institutions labels. Sales, Social, Receipts and the general inbox are excluded. Confirm the label set in Gmail before the first live run; if labels are renamed or recreated, update the query.
+The current default query is limited to vetted GHF automatic replies, GHF authority/action/evidence labels and Cedwyn case/institution labels. It excludes Sales, Social, Receipts and general inbox mail. Confirm the selected labels before first live use; amend the query if labels are renamed or recreated.
 
 ## Human-in-the-loop rules
 
-- Check the source message and attachments yourself before promoting a candidate.
-- Confirm institution, date, direction, official reference, document/attachment, wording and the app it belongs in.
-- For That Old Chestnut, confirm whether it is an FOI/EIR or records-disclosure reply, and whether it belongs in the curated chestnut list.
-- For Dartboard, confirm the institution, applicable avenue/ring, outcome/status, references and whether any deadline needs a hand-check.
-- Do not publish private contact details, private family/health information, unredacted attachments, AI inferences or a claim of wrongdoing.
-- Keep source evidence and derivative summaries distinct. An AI summary is an index aid, not evidence and not a finding.
+- Check the original Gmail message and any attachment before promoting a candidate.
+- Confirm the institution, date, sender role, direction, official reference, wording, document and correct app.
+- For That Old Chestnut, confirm that the item belongs to the FOI/EIR or records-disclosure register and fits the curated list.
+- For Dartboard, confirm the party, applicable avenue/ring, outcome/status, evidence reference and any deadline by hand.
+- Keep artifact, evidence, allegation, institutional position and inference distinct. An AI summary is an index aid, not evidence or a finding.
+- Never publish private contact information, private family/health details, unredacted attachments, AI inference or a finding of wrongdoing on the strength of the model output alone.
 
-## Private data branch
+## Schedules and manual test
 
-Both daily ingestion and twice-weekly catalogue snapshots use `bootstrap-data-branch.sh` to create or fetch the small orphan `evidence-resync` branch. This branch is not a Pages deployment branch and is not served publicly. It contains only the privacy-filtered review snapshots and hashed processing watermarks, never raw email.
+- `evidence-resync-daily`: 06:20 UTC every day; workflow dispatch supports `dry_run=true`.
+- `webapps-refresh-twice-weekly`: 06:40 UTC Monday and Thursday; a manual dispatch defaults to dry-run.
+- Test the daily workflow with `dry_run=true` first. A dry run prints counts only and writes neither the export nor the processed-message watermark.
+- Only run a normal dispatch after the private repo, token, Gmail OAuth and NVIDIA key are configured and the default Gmail label query has been checked.
 
-## Manual test
-
-Run `evidence-resync-daily` with `dry_run=true`. The exporter prints counts only and writes neither the Gmail export nor the processed-message watermark. Once the owner has added the secrets and reviewed the query, run a normal workflow dispatch and inspect the candidate file before merging any app-content change.
-
-— BucklerFamily.estate daily evidence workflow
+— BucklerFamily.estate evidence-resync
