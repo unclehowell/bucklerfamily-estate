@@ -30,9 +30,10 @@ jobs:
     steps:
       - name: Bootstrap private data branch
         env:
-          GH_TOKEN: __DOLLAR__{{ github.token }}
+          OPS_REPO: ${{ vars.OPS_REPO || 'unclehowell/bucklerfamily-ops-private' }}
+          OPS_REPO_TOKEN: ${{ secrets.OPS_REPO_TOKEN }}
         run: |
-          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/bootstrap-data-branch.sh" -o bootstrap.sh
+          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/bootstrap-data-branch.sh" -o bootstrap.sh
           bash bootstrap.sh data
       - name: Scripts from this commit
         run: |
