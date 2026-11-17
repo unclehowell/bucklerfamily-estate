@@ -19,7 +19,7 @@ LLMS = """# Cedwyn
 - /academy/llms.txt : the academy map for language models
 - /academy/agents.json : read order, rules, flywheels and files as JSON
 - /academy/work.json : discovery index only; verify and claim work on its canonical GitHub issue
-- GitHub Issues: https://github.com/unclehowell/cedwyn/issues — canonical for project scope, ownership, status, blockers, decisions and acceptance
+- GitHub Issues: https://github.com/unclehowell/bucklerfamily-estate/issues — canonical for project scope, ownership, status, blockers, decisions and acceptance
 - Claim existing work by commenting on its issue; create a new issue only after searching for duplicates
 - Keep HubSpot recipient-facing drafts and private correspondence metadata out of public issues, comments, branches, PRs and reports
 - /academy/FLYWHEELS/flow-watch.md : mandatory anti-stagnation protocol for every agent
