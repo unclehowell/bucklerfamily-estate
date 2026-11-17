@@ -56,7 +56,7 @@ In `unclehowell/bucklerfamily-estate` → Settings → Secrets and variables →
 
 The only Gmail scope needed is `https://www.googleapis.com/auth/gmail.readonly`. Do not grant send, compose, modify, labels or full-mailbox access. Do not paste credentials into this repository, an issue, a PR comment or chat. Store them only as GitHub Actions secrets.
 
-Google's Gmail API requires OAuth 2.0 credentials; offline access is needed for the scheduled workflow to refresh an access token while you are not present. Google classifies `gmail.readonly` as a restricted scope, so Google Cloud's consent/verification requirements may apply to the OAuth app.
+Google's Gmail API requires OAuth 2.0 credentials; offline access is needed for the scheduled workflow to refresh an access token while you are not present. Google classifies `gmail.readonly` as a restricted scope, so Google Cloud's consent/verification requirements may apply to the OAuth app. Do not leave an external OAuth consent screen in **Testing** for a long-running schedule: Google says refresh tokens issued in Testing expire after seven days. Move the app to an appropriate production state and complete any verification Google requires before relying on unattended daily runs.
 
 ## Optional Actions variables
 
