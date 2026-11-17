@@ -1,8 +1,8 @@
 {
  "files": 38769,
  "changed": 19269,
- "sub": 33570,
- "ext": 94782,
+ "sub": 33578,
+ "ext": 94787,
  "cdn": 3228,
  "boot_added": 3078,
  "boot_moved": 15096,
@@ -344,7 +344,7 @@
   ],
   "not_found_n": 4179
  },
- "vendored": 180,
+ "vendored": 186,
  "vendor_failed": [
   [
    "/_ext/s-ssl.wordpress.com/i/logo/wpcom-gray-white.png",
@@ -352,27 +352,12 @@
    "HTTP Error 403: Forbidden"
   ],
   [
-   "/_ext/cdn.jsdelivr.net/gh/unclehowell/cedwyn-movie@68dc4d2a031a6481ab65d741ad69431c8ff1a282/extras/parcels-1841-30s.webm",
-   "https://cdn.jsdelivr.net/gh/unclehowell/cedwyn-movie@68dc4d2a031a6481ab65d741ad69431c8ff1a282/extras/parcels-1841-30s.webm",
-   "The read operation timed out"
-  ],
-  [
-   "/_ext/cdn.jsdelivr.net/gh/unclehowell/cedwyn-movie@main/extras/parcels-1841.webm",
-   "https://cdn.jsdelivr.net/gh/unclehowell/cedwyn-movie@main/extras/parcels-1841.webm",
-   "The read operation timed out"
-  ],
-  [
    "/_ext/s-ssl.wordpress.com/i/logo/wpcom-gray-white.png",
    "https://s-ssl.wordpress.com/i/logo/wpcom-gray-white.png",
    "HTTP Error 403: Forbidden"
-  ],
-  [
-   "/_ext/cdn.jsdelivr.net/gh/unclehowell/cedwyn-movie@main/extras/parcels-1841.webm",
-   "https://cdn.jsdelivr.net/gh/unclehowell/cedwyn-movie@main/extras/parcels-1841.webm",
-   "The read operation timed out"
   ]
  ],
- "vendor_failed_n": 5,
+ "vendor_failed_n": 2,
  "allowed_tile_templates": [
   "https://mapseries-tilesets.s3.amazonaws.com/os/6inchsecond/{z}/{x}/{y}.png",
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
