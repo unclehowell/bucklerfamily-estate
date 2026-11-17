@@ -36,18 +36,18 @@ jobs:
           bash bootstrap.sh data
       - name: Scripts from this commit (no full checkout of the public site)
         run: |
-          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
-          curl -fsSL "https://raw.githubusercontent.com/__DOLLAR__{{ github.repository }}/__DOLLAR__{{ github.sha }}/.github/evidence-resync/gmail_export.py" -o gmail_export.py
+          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
+          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/gmail_export.py" -o gmail_export.py
       - name: Read scoped Gmail and create privacy-filtered candidate summaries
         env:
-          GMAIL_CLIENT_ID: __DOLLAR__{{ secrets.GMAIL_CLIENT_ID }}
-          GMAIL_CLIENT_SECRET: __DOLLAR__{{ secrets.GMAIL_CLIENT_SECRET }}
-          GMAIL_REFRESH_TOKEN: __DOLLAR__{{ secrets.GMAIL_REFRESH_TOKEN }}
-          GMAIL_QUERY: __DOLLAR__{{ vars.GMAIL_QUERY }}
-          NVIDIA_API_KEY: __DOLLAR__{{ secrets.NVIDIA_API_KEY }}
-          NVIDIA_MODEL: __DOLLAR__{{ vars.NVIDIA_MODEL }}
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          GMAIL_QUERY: ${{ vars.GMAIL_QUERY }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NVIDIA_MODEL: ${{ vars.NVIDIA_MODEL }}
         run: |
-          if [ "__DOLLAR__{{ github.event_name }}" = "workflow_dispatch" ] && [ "__DOLLAR__{{ inputs.dry_run }}" = "true" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
             python3 gmail_export.py --out data/resync/gmail/export.json --seen data/resync/gmail/processed.json --dry-run
           else
             python3 gmail_export.py --out data/resync/gmail/export.json --seen data/resync/gmail/processed.json
