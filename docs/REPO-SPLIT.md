@@ -1,87 +1,64 @@
-# REPO SPLIT — agent instructions (activated 5 Nov 2026)
+# Repository split — active production architecture
 
-**Issue:** [#188](https://github.com/unclehowell/cedwyn/issues/188)  
-**Inventory:** [`split-repos.json`](../split-repos.json) on `main`  
-**Sync workflow:** [`.github/workflows/sync-split-repos.yml`](../.github/workflows/sync-split-repos.yml)
+**Canonical central repository:** [`unclehowell/bucklerfamily-estate`](https://github.com/unclehowell/bucklerfamily-estate)  
+**App inventory:** [`split-repos.json`](../split-repos.json) on `main`  
+**Current migration tracking:** [Issue #4](https://github.com/unclehowell/bucklerfamily-estate/issues/4) (direct-source app deployment) · [Issue #19](https://github.com/unclehowell/bucklerfamily-estate/issues/19) (retire the old central repository as an active source)
 
-## What changed
+## Source of truth
 
-Every durable Cedwyn webapp now has its **own GitHub repository**. Those separate repositories are the **source of truth** (`"mode": "split-repo"` in `split-repos.json`).
+`unclehowell/bucklerfamily-estate` is the active central repository for the BucklerFamily.estate production build, catalogue data, site-wide tooling, shared runtime assets, workflows and public engineering issues.
 
-The monorepo `unclehowell/cedwyn` still:
+The central build runs from this repository's `main` branch and publishes the assembled site to this repository's `site` branch. Cloudflare Pages serves that branch. The Cloudflare Pages project is still internally named `cedwyn` and retains the existing custom-domain bindings; that internal project name is not the GitHub source repository.
 
-- holds `main`, the unified catalogue, and site-wide tooling
-- keeps the **old theme branches** (e.g. `section/wales-3d`, `hive`, `chess`) so the live build and every path on `bucklerfamily.estate` keep working
-- runs `sync-split-repos` on a schedule (and on demand): for each app in `split-repo` mode it copies that app’s separate repo `main` **into** the old branch (shallow, no force-push, empty mirrors skipped)
-- runs `build-cedwyn` which still assembles the live site from those theme branches into the Cloudflare Pages project
+The workflow's historical display name is `build-cedwyn`. It runs **inside `unclehowell/bucklerfamily-estate`**. Its name does not mean it checks out or builds from the retired `unclehowell/cedwyn` repository.
 
-**Nothing was deleted.** Old branches remain. Domain paths are unchanged.
+The old central repository `unclehowell/cedwyn` is historical only. Do not use it for new central-site changes, production builds, issue tracking, or as a fallback source.
+
+## Dedicated webapp repositories
+
+Every durable webapp with a `deploy: "repo"` entry in `split-repos.json` is assembled directly from its dedicated repository (normally its `main` branch). The build records the exact repository, commit and output directory in its assembly report. If a declared repository or its `index.html` is missing, the build fails for that app; it does not fall back to an old branch from `unclehowell/cedwyn`.
+
+Examples include:
+
+| App | Dedicated source | Public path |
+|---|---|---|
+| Mr Wolf | `unclehowell/cedwyn-mr-wolf` | `/mr-wolf/` |
+| Hive | `unclehowell/cedwyn-hive` | `/hive/` |
+| Chessboard | `unclehowell/cedwyn-chess` | `/chess/` |
+| Research Library | `unclehowell/cedwyn-research` | `/research/` |
+
+The `cedwyn-` prefix on some dedicated app repository names is a historical naming convention for those individual apps. It does not make `unclehowell/cedwyn` the central repository.
+
+Other source modes are governed by their explicit entries in `themes.json` and `split-repos.json`. Any retained snapshot branches are owned by and read from this repository's own refs; they are not fetched from the retired central repository.
 
 ## Where to send work
 
 | Kind of change | Where to open the PR |
 |---|---|
-| One webapp’s content, assets, worker, or app-local tools | **That webapp’s separate repository** (see table below / `split-repos.json`) |
-| Site-wide rules, catalogue core, shared `_cedwyn` assets, `build.yml`, Academy, lint | **`unclehowell/cedwyn`** on `main` (label `site-wide` when required) |
-| Pin / sections.lock / build-only | `unclehowell/cedwyn` as today |
+| One webapp's content, assets, worker or app-local tools | That webapp's dedicated repository named in `split-repos.json` |
+| Site-wide rules, catalogue core, shared runtime, central build, Academy, lint or navigation | `unclehowell/bucklerfamily-estate` on `main` |
+| Build-only, pin or source-inventory changes | `unclehowell/bucklerfamily-estate` on `main` |
 
-**Do not** open feature PRs against the old monorepo theme branches for apps listed as `split-repo`. Those branches are **mirrors fed by sync**, not the edit target.
+GitHub Issues in `unclehowell/bucklerfamily-estate` are the canonical public engineering work ledger. HubSpot remains restricted to private correspondence and review tasks.
 
 ## How to work on one webapp
 
-1. Read the app’s row in [`split-repos.json`](../split-repos.json).
-2. Clone **only** the separate repo (small, fast):
+1. Read the app's row in [`split-repos.json`](../split-repos.json).
+2. Confirm its declared source repository and `deploy` mode.
+3. Clone that dedicated repository and make app-local changes there.
+4. Open the PR against that repository's `main`.
+5. After merge, the central build assembles the declared source into the matching path on the apex site.
 
-```bash
-git clone --depth 1 https://github.com/unclehowell/cedwyn-<name>.git
-cd cedwyn-<name>
-```
+For site-wide or multi-app changes, work in `unclehowell/bucklerfamily-estate` instead.
 
-3. Branch, edit, open a PR **into that repository’s `main`**.
-4. After merge, `sync-split-repos` (or a manual dispatch) copies `main` into the old branch on `unclehowell/cedwyn`. A later `build-cedwyn` publishes the path on the live domain.
+## Production path
 
-Do **not** clone the full monorepo for a single-webapp job.
+`unclehowell/bucklerfamily-estate` `main` → `build.yml` / `build-cedwyn` → `site` → Cloudflare Pages project (internal name `cedwyn`) → `https://bucklerfamily.estate`.
 
-## What mirror.yml does on the separate repos
+No domain is detached by this repository split. The existing `cedwyn.bucklerfamily.estate` hostname remains a legacy alias; the canonical public site is `bucklerfamily.estate`.
 
-Each separate repo still has `.github/workflows/mirror.yml`. It reads `split-repos.json` on `unclehowell/cedwyn` `main`:
+## Historical records
 
-- **`mode: mirror`** — separate repo copies **from** the old branch (legacy direction).
-- **`mode: split-repo`** (current) — mirror job does not treat the old branch as source; the separate repo is authoritative. Sync runs the other way.
+The former central repository and its old branches remain available for provenance and historical commit links. Old `SPLIT.json` values, migration reports, commit references and the former issue #582 are historical records only. They must not be treated as current build-source configuration or current work-tracking destinations.
 
-## Live domain
-
-Visitors still use one domain:
-
-- https://bucklerfamily.estate / https://cedwyn.bucklerfamily.estate  
-
-Paths such as `/wales/`, `/hive/`, `/chess/` are unchanged. Production is **not** one Cloudflare Pages project per webapp; it remains the unified `build-cedwyn` → `site` branch → Pages project `cedwyn`.
-
-## Temporary / feature branches
-
-Do **not** create permanent separate repositories for short-lived feature or night branches. Only durable webapps listed in `split-repos.json` have their own repos.
-
-## Agent checklist
-
-1. Identify the webapp and its `repo` field in `split-repos.json`.
-2. Confirm `mode` is `split-repo` (it is for the durable set).
-3. Clone that repo only; PR there.
-4. Link the PR to the canonical GitHub Issue for the work.
-5. Do not delete monorepo branches. Do not change production routing or spend without owner authorisation.
-6. Site-wide or multi-app changes stay on `unclehowell/cedwyn` `main`.
-
-## Inventory (durable apps)
-
-Full machine-readable list: [`split-repos.json`](../split-repos.json). Examples:
-
-| App | Separate repo | Old branch | Path |
-|---|---|---|---|
-| Wales 3D | `unclehowell/cedwyn-wales-3d` | `section/wales-3d` | `/wales/` |
-| Hive | `unclehowell/cedwyn-hive` | `hive` | `/hive/` |
-| Chessboard | `unclehowell/cedwyn-chess` | `chess` | `/chess/` |
-| Research Library | `unclehowell/cedwyn-research` | `section/research` | `/research/` |
-| … | … | … | … |
-
-If an app is missing from `split-repos.json`, treat the monorepo branch as source until the inventory is updated via #188.
-
-— Cedwyn maintainers / REPO SPLIT activation 5 Nov 2026
+— BucklerFamily.estate repository instructions
