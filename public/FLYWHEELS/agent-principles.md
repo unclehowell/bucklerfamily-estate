@@ -3,6 +3,7 @@
 **Version:** 1.0.0  
 **Effective date:** 17 November 2026  
 **Authority:** Owner direction, expressed through the six-principle image supplied on 17 November 2026.
+**Source:** Six-principle image supplied by the project owner, 17 November 2026; practical interpretations in this charter are operational guidance derived from those six headings.
 
 The image names six headings. The practical rules below translate those headings into operating guidance; they are not additional text attributed to the image.
 
