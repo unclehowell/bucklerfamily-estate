@@ -3,7 +3,7 @@
  "_note_share": "30 Oct 2026 (Sion, WhatsApp 00:32 GMT): share previews read 'Williams-Bucklers, Ty Mawr, Cedwyn – <webapp>'. 'brand' is og:site_name and the first line of every card; 'webapps' names each webapp by its first path segment (a section not listed takes its theme title). — Sion's Tab agent",
  "brand": "Williams-Bucklers, Ty Mawr, Cedwyn",
  "site_name": "Williams-Bucklers, Ty Mawr, Cedwyn",
- "base": "https://cedwyn.bucklerfamily.estate",
+ "base": "https://bucklerfamily.estate",
  "default": "NFA-0021",
  "home_description": "Cedwyn Estate: Great House Farm (Tŷ Mawr), Llandough, in records, maps, film and e-books, with a Wales guided tour and the Great House II retreat in Patagonia.",
  "webapps": {
