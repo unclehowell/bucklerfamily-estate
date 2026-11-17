@@ -10,12 +10,20 @@ OAUTH = "https://oauth2.googleapis.com/token"
 NVIDIA = "https://integrate.api.nvidia.com/v1/chat/completions"
 MODEL = "google/gemma-3-12b-it"
 # Project mail labels only; excludes Sales, Social, Receipts and general inbox mail.
-QUERY = ("newer_than:7d {label:Label_40 label:Label_43 label:Label_44 label:Label_45 label:Label_46 "
-         "label:Label_47 label:Label_48 label:Label_49 label:Label_50 label:Label_51 label:Label_52 "
-         "label:Label_53 label:Label_54 label:Label_55 label:Label_56 label:Label_57 label:Label_63 "
-         "label:Label_64 label:Label_65 label:Label_66 label:Label_67 label:Label_68 label:Label_69 "
-         "label:Label_70 label:Label_71 label:Label_72 label:Label_73 label:Label_74 label:Label_75 "
-         "label:Label_76 label:Label_77}")
+QUERY = ('newer_than:7d {label:"GHF/auto-replies (vetted)" '
+         'label:"GHF/Authorities/HMLR" label:"GHF/Authorities/Welsh Govt" label:"GHF/Authorities/TNA" '
+         'label:"GHF/Authorities/SWP" label:"GHF/Authorities/Amgueddfa Cymru" label:"GHF/Authorities/ICO" '
+         'label:"GHF/Authorities/Councils" label:"GHF/Authorities/MPs & MSs" label:"GHF/Authorities/MOJ & Courts" '
+         'label:"GHF/Authorities/RCAHMW" label:"GHF/Authorities/Heneb" label:"GHF/Authorities/Others" '
+         'label:"GHF/Action needed" label:"GHF/Awaiting reply" label:"GHF/Evidence & attachments" '
+         'label:"Cedwyn/Case" label:"Cedwyn/Institutions" '
+         'label:"Cedwyn/Institutions/HMLR" label:"Cedwyn/Institutions/SWP" '
+         'label:"Cedwyn/Institutions/Vale of Glamorgan Council" label:"Cedwyn/Institutions/Llandough Community Council" '
+         'label:"Cedwyn/Institutions/Cadw" label:"Cedwyn/Institutions/Welsh Government" '
+         'label:"Cedwyn/Institutions/Glamorgan Archives" label:"Cedwyn/Institutions/NLW" '
+         'label:"Cedwyn/Institutions/ICO" label:"Cedwyn/Institutions/TNA" '
+         'label:"Cedwyn/Institutions/RCAHMW" label:"Cedwyn/Institutions/Heneb" '
+         'label:"Cedwyn/Institutions/MPs & MSs"}')
 TARGETS = {"that-old-chestnut", "dartboard"}
 KINDS = {"substantive reply", "acknowledgement only", "request or chase", "internal review", "formal complaint", "other correspondence"}
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+", re.I)
@@ -23,6 +31,7 @@ PHONE = re.compile(r"(?:\+44|0)\s?\d{2,4}[\s().-]?\d{3,4}[\s().-]?\d{3,4}\b")
 POSTCODE = re.compile(r"\b[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}\b", re.I)
 TITLED = re.compile(r"\b(?:Mr|Mrs|Ms|Miss|Dr|Prof(?:essor)?)\.?\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\b")
 PRIVATE = re.compile(r"\b(?:sort code|account number|national insurance|NI number|NINO)\b", re.I)
+PRIVATE_CONTEXT = re.compile(r"\b(?:medical|health|pregnan\w*|child(?:ren)?|date of birth|\bdob\b|criminal record|personal injury|home address|private family|family circumstances)\b", re.I)
 BANNED = ("alleged", "allegation", "fraud", "stolen", "hearsay", "recollection", "testimony")
 PROMPT = """Return only JSON: in_scope, public_safe (booleans), holder (organisation only), type
 (one of the six supplied kinds), title (neutral, <=140 characters), summary (one or two neutral sentences,
@@ -151,15 +160,16 @@ def main():
         body="\n".join(plain) if plain else "\n".join(rich)
         subject=scrub(h.get("subject","")); body=scrub(body)
         direction="outgoing" if "SENT" in set(msg.get("labelIds",[]) or []) else "incoming"
-        processed[digest]=date; checked+=1
-        if body and date and not PRIVATE.search(body):
+        checked+=1
+        triage_failed=False
+        if body and date and not PRIVATE.search(body) and not PRIVATE_CONTEXT.search(body):
             req={"model":model,"messages":[{"role":"user","content":PROMPT+json.dumps({"date":date,"direction":direction,"subject":subject[:250],"body":body},ensure_ascii=False)}],"max_tokens":500,"temperature":0.1}
             try:
                 result=api("POST",NVIDIA,headers={"Authorization":"Bearer "+os.environ["NVIDIA_API_KEY"]},data=req)
                 choices=result.get("choices") or []
                 label=parse_json((choices[0].get("message") or {}).get("content","")) if choices else None
             except RuntimeError as e:
-                print("NVIDIA triage skipped for one message ("+str(e)+")"); label=None
+                print("NVIDIA triage skipped for one message ("+str(e)+")"); label=None; triage_failed=True
             if label and label.get("in_scope") is True and label.get("public_safe") is True:
                 targets=sorted({str(x) for x in (label.get("target_apps") or []) if str(x) in TARGETS})
                 holder=re.sub(r"\s+"," ",str(label.get("holder",""))).strip()[:120]
@@ -171,6 +181,8 @@ def main():
                     items.append({"key":"gmail-"+digest[:20],"date":date,"holder":holder,"type":kind,"title":title,
                         "summary":summary,"target_apps":targets,"direction":direction,"has_attachments":has_attachment,
                         "review_required":True,"triage_by":"NVIDIA NIM"})
+        if not triage_failed:
+            processed[digest]=date
         time.sleep(1.6)
     cutoff=(dt.datetime.now(dt.timezone.utc).date()-dt.timedelta(days=60)).isoformat()
     processed={k:v for k,v in processed.items() if v>=cutoff}
