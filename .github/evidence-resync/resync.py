@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
-"""Evidence resync, daily (cedwyn#582). Gathers NEW evidence/artifact CANDIDATES from three sources and writes them to a
-review file on the orphan branch `evidence-resync`. Add-only: it never writes a catalogue record, never edits, moves or
-deletes one, never opens or merges a PR and never applies `owner-approved` (catalogue lock). Promotion to a record stays
-with the spill / catalogue process (catalogue-change PR).
+"""Evidence resync, daily. Gathers new mail, spill and online evidence/artifact candidates for owner review.
+It writes only to the orphan evidence-resync branch in the separate PRIVATE operations repository.
+Add-only: it never writes a catalogue record, edits/moves/deletes one, opens/merges a PR or applies owner-approved.
+Promotion to a public record remains a human-reviewed catalogue-change PR.
 
 Sources
-  (a) mail   : resync/gmail/export.json, written once a day by a box-side export of the email-ingest catalogue candidates
-               (public-safe fields only). Gmail itself is not reachable from here.
+  (a) mail   : resync/gmail/export.json, produced by gmail_export.py using selected-label, read-only Gmail OAuth;
+               only redacted AI summaries and review-routing metadata are carried forward, never raw email.
   (b) spills : /spill/api/status?id=SP-NNNNN, scanned forward from the last watermark; new/queued/accepted items are listed.
-  (c) online : a fixed query set against free JSON APIs (Internet Archive advanced search, TNA Discovery, Wikidata),
-               kept only when a scope term is present, and dropped when the catalogue (/api/catalogue) or the
-               online-gap-finder ledger (resync/seen-online-gap-finder.json) already carries the source.
-Optional: with NVIDIA_API_KEY (tried first), ANTHROPIC_API_KEY or OPENAI_API_KEY set, each online candidate gets a
-scope/kind label; a failing provider falls through to the next; with none, labelling is skipped and the run goes on.
-
-Usage: python3 resync.py --data <checkout of branch evidence-resync> [--dry-run] [--max-online 60]
-Stdlib only. — Sion's Tab agent
+  (c) online : fixed queries against Internet Archive, TNA Discovery and Wikidata, deduplicated against the public catalogue
+               and the online-gap-finder ledger.
+Optional NVIDIA_API_KEY (tried first), ANTHROPIC_API_KEY or OPENAI_API_KEY labels online candidates; failures do not
+prevent the review queue from being written. Candidate text and summaries are never printed to public Actions logs.
 """
 import argparse, datetime as dt, json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
 
