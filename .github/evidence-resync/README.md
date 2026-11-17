@@ -2,6 +2,8 @@
 
 Scope: BucklerFamily.estate and the Cedwyn research apps only. DATRO is out of scope.
 
+This site-wide workflow PR is labelled `site-wide`, as required for changes targeting `main`.
+
 ## Important storage boundary
 
 The source repository `unclehowell/bucklerfamily-estate` is public. It must contain workflow code only, never Gmail-derived summaries, message hashes, raw email or review queues.
