@@ -8,6 +8,9 @@ on:
         description: 'Run every build step but do NOT publish to branch site or write reports to main (for testing build speed-ups)'
         type: boolean
         default: false
+  # Split-repo applications can request a rebuild after their main branch changes.
+  repository_dispatch:
+    types: [split-repo-deploy]
   push:
     branches: [main]
     paths: ['tools/**', 'web/**', 'data/**', 'themes.json', 'split-repos.json', '.github/workflows/build.yml']
