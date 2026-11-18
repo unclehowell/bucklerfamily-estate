@@ -1,5 +1,5 @@
 {
- "db_version": "a1dc610752c1",
+ "db_version": "29974172e3c8",
  "paths_served_from_db": 7724,
  "blobs": 5102,
  "files_dropped": {
@@ -11,10 +11,10 @@
  "bytes_dropped": {
   "document": 1254035789,
   "image": 133735253,
-  "data": 42994934,
+  "data": 42995593,
   "audio": 14922925
  },
- "bytes_dropped_total": 1445688901,
+ "bytes_dropped_total": 1445689560,
  "files_kept_as_well": {
   "image": 1106,
   "data": 160,
