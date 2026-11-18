@@ -1,7 +1,7 @@
 {
- "db_version": "9ded7ae840bf",
- "paths_served_from_db": 7723,
- "blobs": 5101,
+ "db_version": "a1dc610752c1",
+ "paths_served_from_db": 7724,
+ "blobs": 5102,
  "files_dropped": {
   "document": 3267,
   "image": 1499,
@@ -17,12 +17,12 @@
  "bytes_dropped_total": 1445688901,
  "files_kept_as_well": {
   "image": 1106,
-  "data": 159,
+  "data": 160,
   "document": 12
  },
  "kept_why": {
   "named in page markup": 748,
-  "link/meta tag": 45,
+  "link/meta tag": 46,
   "css url()": 28,
   "download file (.csv opened by a plain link, outside the service worker)": 24,
   "webapp database / A2UI surface (read without a service worker)": 51,
