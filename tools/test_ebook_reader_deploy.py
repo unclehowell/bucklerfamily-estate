@@ -8,7 +8,7 @@ from ebook_reader_deploy import publish
 
 def main():
     worker_source = (Path(__file__).resolve().parent.parent / "infra" / "cloudflare" / "ebooks-reader-proxy.js").read_text(encoding="utf-8")
-    assert "raw.githubusercontent.com/unclehowell/bucklerfamily-estate/site/reader-root-v132/read/index.html" in worker_source
+    assert "raw.githubusercontent.com/unclehowell/bucklerfamily-estate/22d0203e8bf76c9e15fea01342810aecbb6a5d29/reader-root-v132/read/index.html" in worker_source
     assert 'headers.set("content-type", "text/html; charset=utf-8")' in worker_source
     assert 'headers.set("x-ebook-reader-version", "1.3.2")' in worker_source
 
