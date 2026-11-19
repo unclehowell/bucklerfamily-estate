@@ -32,7 +32,7 @@ jobs:
         with: { node-version: 20 }
       - name: Fast preflight before the full archive rewrite
         run: |
-          python3 -m py_compile tools/site.py tools/headlines.py tools/test_reader_rollout.py tools/test_parcel_stories.py tools/sections.py tools/build_db.py tools/section_dbs.py tools/evidence_observations.py tools/title_theory.py tools/test_evidence_hierarchy.py tools/selfcontain.py tools/test_agent_loader.py tools/test_evidence_pages.py
+          python3 -m py_compile tools/ebook_reader_deploy.py tools/test_ebook_reader_deploy.py tools/site.py tools/headlines.py tools/test_reader_rollout.py tools/test_parcel_stories.py tools/sections.py tools/build_db.py tools/section_dbs.py tools/evidence_observations.py tools/title_theory.py tools/test_evidence_hierarchy.py tools/selfcontain.py tools/test_agent_loader.py tools/test_evidence_pages.py
           node --check web/_cedwyn/agent-tools.js
           node --check web/_cedwyn/parcel-panel.js
           node --check web/_cedwyn/evidence-browser.js
@@ -51,6 +51,7 @@ jobs:
           python3 tools/test_parcel_stories.py
           python3 tools/test_qa_guards.py
           python3 tools/test_reader_rollout.py
+          python3 tools/test_ebook_reader_deploy.py
       - name: Free disk
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
@@ -110,6 +111,9 @@ jobs:
         run: |
           python3 tools/selfcontain.py dist --fix --no-fill
           python3 tools/selfcontain.py dist
+      # Publish the standalone PDF reader from this composed root build to the ebook Pages project.
+      - name: E-book reader subdomain artifact (root repo source; same-origin /api/free)
+        run: python3 tools/ebook_reader_deploy.py dist
       # SEQUENCING: these two guards require the qa_questions.py opt-out patch (data-cw-noclip/data-cw-nolevels
       # on the Q&A pages) to already be merged; landing them before it turns CI red by design.
       - name: App-page collapse guard (interactive list pages must declare data-cw-noclip/data-cw-nolevels on <html>; cw-graph.js NOCLIP must not narrow - HubSpot 536838257890)
