@@ -20,15 +20,14 @@ async function handleRequest(request) {
     return new Response("Not Found", { status: 404 });
   }
 
-  // Fixed upstream host and path prefix: no user-controlled host or open proxy.
-  const suffix = incoming.pathname.slice("/read".length);
-  const upstream = new URL(
-    "https://bucklerfamily.estate/reader-root-v132/read" + suffix + incoming.search
-  );
+  // Fixed, versioned document from the canonical root repository. The query
+  // stays on the public ebook URL and is read by the document's own location.search.
+  // Fetching raw GitHub avoids theme path rewriting and the Pages deployment queue.
+  const upstream = "https://raw.githubusercontent.com/unclehowell/bucklerfamily-estate/site/reader-root-v132/read/index.html";
 
   let response;
   try {
-    response = await fetch(upstream.toString(), {
+    response = await fetch(upstream, {
       method: request.method,
       headers: { "Accept": "text/html" },
       redirect: "follow"
@@ -40,7 +39,19 @@ async function handleRequest(request) {
     });
   }
 
+  if (!response.ok) {
+    return new Response("The e-book reader could not be loaded from the canonical repository.", {
+      status: 502,
+      headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" }
+    });
+  }
+
   const headers = new Headers(response.headers);
+  headers.set("content-type", "text/html; charset=utf-8");
+  headers.set("cache-control", "public, max-age=300");
+  headers.set("x-content-type-options", "nosniff");
+  headers.set("x-ebook-reader-version", "1.3.2");
+  headers.delete("content-length");
   headers.delete("x-frame-options");
 
   // The parent is the main BucklerFamily.estate site. Preserve all other CSP
