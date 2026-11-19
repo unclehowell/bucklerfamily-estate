@@ -6,7 +6,7 @@ name: split-repo-watch
 # run is queued or in progress, it dispatches build.yml once. It uses only this repository's GITHUB_TOKEN (actions: write,
 # contents: read): a workflow_dispatch made with GITHUB_TOKEN does start a run, so no cross-repository secret is needed.
 # Generalises qa-publish-watch.yml (Q&A only) to every deploy:repo app. It never builds, publishes or pushes anything itself.
-# Docs dashboard release: keep the direct-source watcher as the single publisher for docs.bucklerfamily.estate /docs/.
+# Docs dashboard metric drill-down release: publish the interactive gauge, bar and timeline details through the existing direct-source watcher.
 # Triggers: schedule (GitHub fires this repo's schedules irregularly, see sync-split-repos.yml), the end of every build-cedwyn
 # run (catches merges that landed while a build was running), a repository_dispatch 'split-repo-deploy' (for an optional
 # notifier in an app repo), and manual dispatch. — Claude (seat 4), 16 Nov 2026
