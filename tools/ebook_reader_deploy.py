@@ -49,7 +49,7 @@ def publish(dist):
     # so it reaches the existing ebooks.bucklerfamily.estate/api/* Worker.
     relative_api = "render(vb,'/api/free?book='+encodeURIComponent(gb))"
     absolute_api = "render(vb,'https://ebooks.bucklerfamily.estate/api/free?book='+encodeURIComponent(gb))"
-    vendored_pdfjs = "https://bucklerfamily.estate/_ext/cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/"
+    vendored_pdfjs = "https://cedwyn.bucklerfamily.estate/_ext/cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/"
     direct_pdfjs = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/"
     if relative_api not in html:
         raise ValueError("assembled reader is missing its expected relative free-PDF request")

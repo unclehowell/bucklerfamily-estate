@@ -12,6 +12,7 @@ def main():
         source = dist / "ebooks" / "read" / "index.html"
         source.parent.mkdir(parents=True)
         source.write_text(
+            "var PDFJS='https://cedwyn.bucklerfamily.estate/_ext/cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/'; "
             "var BOOK_KEY=/^[a-z0-9-]+(?:@[0-9a-z.\\-]+)?$/; "
             "if(BOOK_KEY.test(gb))render(vb,'/api/free?book='+encodeURIComponent(gb));",
             encoding="utf-8",
