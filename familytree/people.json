@@ -1,12 +1,18 @@
 {
  "name": "The Williams–Buckler family tree",
  "segment": "familytree",
- "version": "0.3.0",
+ "version": "0.4.0",
  "synced_utc": "2026-10-27T19:17:50Z",
  "source": "Cedwyn core catalogue (kind=person) + segment overlay",
  "api": "/api/catalogue?kind=person",
  "living_rule": "no death record and born within the last 110 years: relationship and birth year only; named only at the family’s explicit request",
  "versions": [
+  {
+   "v": "0.4.0",
+   "date": "19 November 2026",
+   "price": "Free",
+   "change": "Clarified that the 29 April 1990 probate entry for William Beverley Buckler is not established as either Bucky or Billy; added Billy’s family-reported 29 May date and recorded the death-certificate and wake-notice gaps."
+  },
   {
    "v": "0.3.0",
    "date": "27 October 2026",
@@ -566,11 +572,11 @@
    "gen": 5,
    "order": 3,
    "born": "25 Aug 1948",
-   "died": "1990",
-   "dates": "1948 – 1990",
+   "died": "1990 (probate entry; identity not established)",
+   "dates": "1948 – 1990 (probate identity not established)",
    "place": "Great House Farm, Llandough, until 1988",
    "side": "wales",
-   "summary": "Son of Nancy and Fred, and brother of William (Billy), in the family account (27 Oct 2026). This tree earlier showed this son as William Beverley (Billy) Buckler. The 1987 judgment’s “Mr Buckler junior” (born 1948, defendant in BP Properties Ltd v Buckler) and the 1990 probate entry for a William Beverley Buckler are being matched between the two brothers.",
+   "summary": "Son of Nancy and Fred, and brother of William (Billy), in the family account (27 Oct 2026). The 1987 judgment’s “Mr Buckler junior” (born 1948) and the 1991 probate entry for William Beverley Buckler (death recorded as 29 April 1990) have not been reliably assigned to either brother; the identity remains unresolved.",
    "parents": [
     {
      "id": "PE-0008",
@@ -591,12 +597,12 @@
     },
     {
      "ref": "EV-0274",
-     "label": "Probate calendar 1991: William Beverley Buckler, died 29 April 1990, administration Llandaff 11 July 1991"
+     "label": "Probate calendar 1991: William Beverley Buckler, of Penarth, death recorded as 29 April 1990, administration Llandaff 11 July 1991; possible match to either brother, identity not established"
     }
    ],
    "gaps": [
-    "Which brother the 1987 judgment and the 1990 probate entry refer to: being matched (family account, 27 Oct 2026)",
-    "Death date: 29 April 1990 in the probate calendar (a probable match); another family record gives 29 May 1990"
+    "Which brother the 1987 judgment and 1990 probate entry refer to: identity not established",
+    "Billy’s family-reported death date is 29 May 1990; the separate 29 April 1990 probate entry for William Beverley Buckler is not yet matched to either brother. Death certificate and wake notice remain outstanding."
    ],
    "living": false,
    "col": 3,
