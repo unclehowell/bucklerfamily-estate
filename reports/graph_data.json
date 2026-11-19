@@ -15,12 +15,12 @@
   "own_db": true
  },
  "research": {
-  "points": 52,
+  "points": 53,
   "source": "data/evidence-grades.json",
   "own_db": true
  },
  "docs": {
-  "points": 52,
+  "points": 53,
   "source": "data/evidence-grades.json",
   "own_db": true
  },
