@@ -279,7 +279,8 @@
       "old_branch": "ebooks",
       "page": "/ebooks/",
       "mode": "split-repo",
-      "deploy": "repo"
+      "deploy": "repo",
+      "source_version": "0.1.2"
     },
     {
       "app": "Land Changing Hands",
