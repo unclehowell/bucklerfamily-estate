@@ -11,7 +11,7 @@ from pathlib import Path
 import shutil
 import sys
 
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 REDIRECT = """<!doctype html>
 <html lang="en">
 <head>
@@ -49,9 +49,13 @@ def publish(dist):
     # so it reaches the existing ebooks.bucklerfamily.estate/api/* Worker.
     relative_api = "render(vb,'/api/free?book='+encodeURIComponent(gb))"
     absolute_api = "render(vb,'https://ebooks.bucklerfamily.estate/api/free?book='+encodeURIComponent(gb))"
+    vendored_pdfjs = "https://bucklerfamily.estate/_ext/cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/"
+    direct_pdfjs = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/"
     if relative_api not in html:
         raise ValueError("assembled reader is missing its expected relative free-PDF request")
-    html = html.replace(relative_api, absolute_api)
+    if vendored_pdfjs not in html:
+        raise ValueError("assembled reader is missing the vendored PDF.js URL")
+    html = html.replace(relative_api, absolute_api).replace(vendored_pdfjs, direct_pdfjs)
     reader.write_text(html, encoding="utf-8")
     (target / "index.html").write_text(REDIRECT, encoding="utf-8")
     print(f"ebook_reader_deploy v{VERSION}: published {reader} ({reader.stat().st_size} bytes)")
