@@ -18,8 +18,8 @@ def main():
         )
         out = publish(dist)
         assert out.read_text(encoding="utf-8") == source.read_text(encoding="utf-8")
-        assert (dist / "ebooks-reader" / "index.html").is_file()
-        assert "bucklerfamily.estate/ebooks/" in (dist / "ebooks-reader" / "index.html").read_text(encoding="utf-8")
+        assert (dist / "reader-root-v131" / "index.html").is_file()
+        assert "bucklerfamily.estate/ebooks/" in (dist / "reader-root-v131" / "index.html").read_text(encoding="utf-8")
     print("ebook_reader_deploy tests passed")
 
 
