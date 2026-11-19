@@ -11,7 +11,7 @@ from pathlib import Path
 import shutil
 import sys
 
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 REDIRECT = """<!doctype html>
 <html lang="en">
 <head>
@@ -44,7 +44,15 @@ def publish(dist):
     target = dist / "reader-root-v131"
     reader = target / "read" / "index.html"
     reader.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(source, reader)
+    # The shared runtime prefixes relative /api paths with the current theme.
+    # Keep the free-PDF request explicitly same-origin with the reader iframe,
+    # so it reaches the existing ebooks.bucklerfamily.estate/api/* Worker.
+    relative_api = "render(vb,'/api/free?book='+encodeURIComponent(gb))"
+    absolute_api = "render(vb,'https://ebooks.bucklerfamily.estate/api/free?book='+encodeURIComponent(gb))"
+    if relative_api not in html:
+        raise ValueError("assembled reader is missing its expected relative free-PDF request")
+    html = html.replace(relative_api, absolute_api)
+    reader.write_text(html, encoding="utf-8")
     (target / "index.html").write_text(REDIRECT, encoding="utf-8")
     print(f"ebook_reader_deploy v{VERSION}: published {reader} ({reader.stat().st_size} bytes)")
     return reader
