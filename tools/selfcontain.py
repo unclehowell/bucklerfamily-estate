@@ -49,7 +49,9 @@ GEO_EMPTY = 'data:application/json,%7B%7D'
 GEO_DONE = re.compile(r'(?:https://cedwyn\.bucklerfamily\.estate)?/wayback/go/\?u=https%3A%2F%2Fpublic-api\.wordpress\.com%2Fgeo%2F', re.I)
 NS = {'www.w3.org', 'w3.org', 'schema.org', 'purl.org', 'ogp.me', 'xmlns.com', 'ns.adobe.com', 'www.inkscape.org',
       'sodipodi.sourceforge.net', 'creativecommons.org', 'www.openarchives.org', 'www.sitemaps.org', 'docs.oasis-open.org',
-      'rdfs.org', 'web.resource.org', 'www.google.com/schemas', 'search.yahoo.com', 'ns.attribution.cloudflare.com'}
+      'rdfs.org', 'web.resource.org', 'www.google.com/schemas', 'search.yahoo.com', 'ns.attribution.cloudflare.com',
+      # Keep the dedicated e-book reader on its own origin: its relative /api/free endpoint must stay same-origin inside the modal.
+      'ebooks.bucklerfamily.estate/read/'}
 CDN = {'cdn.jsdelivr.net', 'unpkg.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'ajax.googleapis.com',
        's0.wp.com', 's1.wp.com', 's2.wp.com', 'i0.wp.com', 'i1.wp.com', 'i2.wp.com', 's-ssl.wordpress.com'}   # the WordPress wiki's theme styles, scripts and resized images
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
