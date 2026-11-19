@@ -23,7 +23,7 @@ async function handleRequest(request) {
   // Fixed upstream host and path prefix: no user-controlled host or open proxy.
   const suffix = incoming.pathname.slice("/read".length);
   const upstream = new URL(
-    "https://bucklerfamily.estate/ebooks-reader/read" + suffix + incoming.search
+    "https://bucklerfamily.estate/reader-root-v131/read" + suffix + incoming.search
   );
 
   let response;

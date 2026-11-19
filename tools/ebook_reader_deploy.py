@@ -3,7 +3,7 @@
 
 The root repository owns the composed ebook reader. The reader iframe runs on
 ebooks.bucklerfamily.estate so its /api/free requests stay on the ebook-gate
-Worker's origin. Publish that same built reader under a minimal Pages artifact;
+Worker's origin. Publish that same built reader under a neutral, non-theme Pages path;
 never take the reader from the retired DATRO site.
 — BucklerFamily.estate build
 """
@@ -11,7 +11,7 @@ from pathlib import Path
 import shutil
 import sys
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 REDIRECT = """<!doctype html>
 <html lang="en">
 <head>
@@ -41,7 +41,7 @@ def publish(dist):
     missing = [item for item in required if item not in html]
     if missing:
         raise ValueError("assembled reader does not accept and render bare book keys: " + ", ".join(missing))
-    target = dist / "ebooks-reader"
+    target = dist / "reader-root-v131"
     reader = target / "read" / "index.html"
     reader.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source, reader)
