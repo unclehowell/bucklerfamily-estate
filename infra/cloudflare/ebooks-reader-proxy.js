@@ -23,7 +23,7 @@ async function handleRequest(request) {
   // Fixed, versioned document from the canonical root repository. The query
   // stays on the public ebook URL and is read by the document's own location.search.
   // Fetching raw GitHub avoids theme path rewriting and the Pages deployment queue.
-  const upstream = "https://raw.githubusercontent.com/unclehowell/bucklerfamily-estate/site/reader-root-v132/read/index.html";
+  const upstream = "https://raw.githubusercontent.com/unclehowell/bucklerfamily-estate/22d0203e8bf76c9e15fea01342810aecbb6a5d29/reader-root-v132/read/index.html";
 
   let response;
   try {
