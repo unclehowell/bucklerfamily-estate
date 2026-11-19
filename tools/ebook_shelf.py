@@ -14,13 +14,15 @@ Runs after ebook_editions.py (site.py). Touches only dist/ebooks/index.html:
 - the payment line (#eb-trust) sits below the shelf, just above the questions. tidy() is idempotent and also runs on an already-built page.
 1.2.1 (30 Oct 2026, owner 19:21): the version drop-down is labelled "Select a version" (visible label), newest preselected, options read
   "v0.0.2 — £4.99" / "v0.0.1 — free"; the Buy/Read button still follows the choice (sv-js); 44 px select.
+1.3.1 (19 Nov 2026): the root build also publishes a standalone reader artefact for ebooks.bucklerfamily.estate; it accepts bare and edition-qualified book keys and keeps /api/free on the ebook-gate origin.
 1.3.0 (3 Nov 2026): one "Start free" line under "The books" heading opens the Wiki free first edition (the card's own free link).
 Prices, checkout links and utm parameters are copied from the page as they are; nothing new is created."""
 import json, html, pathlib, re, sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 E = html.escape
-VERSION = '1.3.0'
-VERSIONS = [('1.3.0', '3 Nov 2026', 'One call-to-action line under the heading: the Wiki free first edition in one tap'),
+VERSION = '1.3.1'
+VERSIONS = [('1.3.1', '19 Nov 2026', 'Publish the working PDF reader on the ebook host from the root site build'),
+            ('1.3.0', '3 Nov 2026', 'One call-to-action line under the heading: the Wiki free first edition in one tap'),
             ('1.2.1', '30 Oct 2026', 'Select a version label; price in each option'),
             ('1.2.0', '30 Oct 2026', 'Header, shelf, then questions: book details in an info modal per title; bundle card on the shelf'),
             ('1.1.0', '27 Oct 2026', 'Poster-card shelf; cover opens the free edition; titles link only to a book’s own page'),
