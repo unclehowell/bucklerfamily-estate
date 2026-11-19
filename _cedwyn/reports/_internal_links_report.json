@@ -2,14 +2,14 @@
   "audit": "Cedwyn internal HTML/CSS links and fragments",
   "pages_scanned": 14736,
   "references_checked": {
-    "resource": 367239,
-    "nav": 703654
+    "resource": 367236,
+    "nav": 703658
   },
-  "database_backed_paths": 7724,
+  "database_backed_paths": 7725,
   "unique_missing_destinations": 2427,
   "missing_references": 74542,
-  "missing_navigation_references": 48050,
-  "missing_resource_references": 26492,
+  "missing_navigation_references": 48052,
+  "missing_resource_references": 26490,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
   "form_or_endpoint_actions_not_checked": {
@@ -73,7 +73,7 @@
     {
       "kind": "resource",
       "path": "/blog/rss.xml",
-      "references": 11971,
+      "references": 11970,
       "examples": [
         {
           "from": "/cloudflare/",
@@ -100,7 +100,7 @@
     {
       "kind": "resource",
       "path": "/blog/atom.xml",
-      "references": 11971,
+      "references": 11970,
       "examples": [
         {
           "from": "/cloudflare/",
@@ -235,7 +235,7 @@
     {
       "kind": "nav",
       "path": "/catalogue/",
-      "references": 212,
+      "references": 214,
       "examples": [
         {
           "from": "/404.html",

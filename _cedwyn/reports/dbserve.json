@@ -1,7 +1,7 @@
 {
- "db_version": "a44025720e26",
- "paths_served_from_db": 7724,
- "blobs": 5102,
+ "db_version": "fd5e46196835",
+ "paths_served_from_db": 7725,
+ "blobs": 5103,
  "files_dropped": {
   "document": 3267,
   "image": 1499,
@@ -16,12 +16,12 @@
  },
  "bytes_dropped_total": 1445691055,
  "files_kept_as_well": {
-  "image": 1106,
+  "image": 1107,
   "data": 160,
   "document": 12
  },
  "kept_why": {
-  "named in page markup": 748,
+  "named in page markup": 749,
   "link/meta tag": 46,
   "css url()": 28,
   "download file (.csv opened by a plain link, outside the service worker)": 24,
