@@ -1,15 +1,15 @@
 {
   "audit": "Cedwyn internal HTML/CSS links and fragments",
-  "pages_scanned": 14734,
+  "pages_scanned": 14736,
   "references_checked": {
-    "resource": 367227,
-    "nav": 703632
+    "resource": 367239,
+    "nav": 703654
   },
   "database_backed_paths": 7724,
   "unique_missing_destinations": 2427,
-  "missing_references": 74539,
-  "missing_navigation_references": 48049,
-  "missing_resource_references": 26490,
+  "missing_references": 74542,
+  "missing_navigation_references": 48050,
+  "missing_resource_references": 26492,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
   "form_or_endpoint_actions_not_checked": {
@@ -19,7 +19,7 @@
     {
       "kind": "nav",
       "path": "/hive/",
-      "references": 14703,
+      "references": 14704,
       "examples": [
         {
           "from": "/",
@@ -46,7 +46,7 @@
     {
       "kind": "nav",
       "path": "/mcp/",
-      "references": 14699,
+      "references": 14700,
       "examples": [
         {
           "from": "/",
@@ -73,7 +73,7 @@
     {
       "kind": "resource",
       "path": "/blog/rss.xml",
-      "references": 11970,
+      "references": 11971,
       "examples": [
         {
           "from": "/cloudflare/",
@@ -100,7 +100,7 @@
     {
       "kind": "resource",
       "path": "/blog/atom.xml",
-      "references": 11970,
+      "references": 11971,
       "examples": [
         {
           "from": "/cloudflare/",
@@ -775,7 +775,7 @@
     {
       "kind": "nav",
       "path": "/research/>*.html",
-      "references": 35,
+      "references": 34,
       "examples": [
         {
           "from": "/research/evidence/ev-0006-bute-thomas-agreement-1877/",
