@@ -2,11 +2,23 @@
 """site.py - root of cedwyn.bucklerfamily.estate: theme picker, catalogue/GraphQL pages, the runtime (filled with the
 host map), the archive interface at /wayback/go/, _redirects (old branch names and theme redirects) and _headers.
 - Sion's Tab agent"""
-import json, sys, shutil, pathlib, html, urllib.parse
+import base64, hashlib, json, sys, shutil, pathlib, html, urllib.parse
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CFG = json.load(open(ROOT / 'themes.json'))
 DIST = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else 'dist')
 shutil.copytree(ROOT / 'web', DIST, dirs_exist_ok=True)
+
+# Retain the HMCTS calendar entry image in the published evidence page.
+# The source capture remains separately hashed in the EV-0274 record.
+_ev0274_archive = ROOT / "data" / "source-captures" / "EV-0274-hmcts-calendar-entry-crop.webp.b64"
+if _ev0274_archive.is_file():
+    _ev0274_bytes = base64.b64decode(_ev0274_archive.read_text(encoding="ascii").strip(), validate=True)
+    _ev0274_hash = hashlib.sha256(_ev0274_bytes).hexdigest()
+    if _ev0274_hash != "1c1e4f8db78b15a6e3f3c9a81f1da38fc4a377bb293f0b91d428e77c540339f7":
+        raise ValueError("EV-0274 archived image SHA-256 does not match its evidence record")
+    _ev0274_target = DIST / "research" / "evidence" / "ev-0274-probate-calendar-1991-william-beverley-buckler" / "hmcts-calendar-entry-crop.webp"
+    _ev0274_target.parent.mkdir(parents=True, exist_ok=True)
+    _ev0274_target.write_bytes(_ev0274_bytes)
 
 # Keep the story hero asset in the final shared overlay, after binary deduplication.
 # The Case Office uses the same existing tight-cropped survey photo, without scan margins.
