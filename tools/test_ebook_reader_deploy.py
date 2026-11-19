@@ -21,8 +21,8 @@ def main():
         assert "BOOK_KEY.test(gb)" in published
         assert "render(vb,'https://ebooks.bucklerfamily.estate/api/free?book='+encodeURIComponent(gb))" in published
         assert "render(vb,'/api/free?book='+encodeURIComponent(gb))" not in published
-        assert (dist / "reader-root-v131" / "index.html").is_file()
-        assert "bucklerfamily.estate/ebooks/" in (dist / "reader-root-v131" / "index.html").read_text(encoding="utf-8")
+        assert (dist / "reader-root-v132" / "index.html").is_file()
+        assert "bucklerfamily.estate/ebooks/" in (dist / "reader-root-v132" / "index.html").read_text(encoding="utf-8")
     print("ebook_reader_deploy tests passed")
 
 

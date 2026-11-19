@@ -11,7 +11,7 @@ from pathlib import Path
 import shutil
 import sys
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 REDIRECT = """<!doctype html>
 <html lang="en">
 <head>
@@ -41,7 +41,7 @@ def publish(dist):
     missing = [item for item in required if item not in html]
     if missing:
         raise ValueError("assembled reader does not accept and render bare book keys: " + ", ".join(missing))
-    target = dist / "reader-root-v131"
+    target = dist / "reader-root-v132"
     reader = target / "read" / "index.html"
     reader.parent.mkdir(parents=True, exist_ok=True)
     # The shared runtime prefixes relative /api paths with the current theme.
