@@ -14,7 +14,7 @@ Runs after ebook_editions.py (site.py). Touches only dist/ebooks/index.html:
 - the payment line (#eb-trust) sits below the shelf, just above the questions. tidy() is idempotent and also runs on an already-built page.
 1.2.1 (30 Oct 2026, owner 19:21): the version drop-down is labelled "Select a version" (visible label), newest preselected, options read
   "v0.0.2 — £4.99" / "v0.0.1 — free"; the Buy/Read button still follows the choice (sv-js); 44 px select.
-1.3.2 (19 Nov 2026): the standalone reader keeps the free-PDF request explicitly on ebooks.bucklerfamily.estate/api/free so the shared runtime cannot rewrite it to /ebooks/api; the root build publishes the versioned reader artefact.
+1.3.2 (19 Nov 2026): the standalone reader keeps the free-PDF request explicitly on ebooks.bucklerfamily.estate/api/free so the shared runtime cannot rewrite it to /ebooks/api, and keeps PDF.js on its CORS-capable jsDelivr origin; the root build publishes the versioned reader artefact.
 1.3.1 (19 Nov 2026): the root build also publishes a standalone reader artefact for ebooks.bucklerfamily.estate; it accepts bare and edition-qualified book keys and keeps /api/free on the ebook-gate origin.
 1.3.0 (3 Nov 2026): one "Start free" line under "The books" heading opens the Wiki free first edition (the card's own free link).
 Prices, checkout links and utm parameters are copied from the page as they are; nothing new is created."""
