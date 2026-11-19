@@ -1,15 +1,15 @@
 {
   "audit": "Cedwyn internal HTML/CSS links and fragments",
-  "pages_scanned": 14737,
+  "pages_scanned": 14739,
   "references_checked": {
-    "resource": 367254,
-    "nav": 703694
+    "resource": 367273,
+    "nav": 703747
   },
-  "database_backed_paths": 7725,
-  "unique_missing_destinations": 2435,
+  "database_backed_paths": 7726,
+  "unique_missing_destinations": 2427,
   "missing_references": 74556,
-  "missing_navigation_references": 48056,
-  "missing_resource_references": 26500,
+  "missing_navigation_references": 48060,
+  "missing_resource_references": 26496,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
   "form_or_endpoint_actions_not_checked": {
@@ -19,7 +19,7 @@
     {
       "kind": "nav",
       "path": "/hive/",
-      "references": 14705,
+      "references": 14707,
       "examples": [
         {
           "from": "/404.html",
@@ -46,7 +46,7 @@
     {
       "kind": "nav",
       "path": "/mcp/",
-      "references": 14701,
+      "references": 14703,
       "examples": [
         {
           "from": "/404.html",
@@ -73,7 +73,7 @@
     {
       "kind": "resource",
       "path": "/blog/rss.xml",
-      "references": 11971,
+      "references": 11973,
       "examples": [
         {
           "from": "/chess/404.html",
@@ -100,7 +100,7 @@
     {
       "kind": "resource",
       "path": "/blog/atom.xml",
-      "references": 11971,
+      "references": 11973,
       "examples": [
         {
           "from": "/chess/404.html",
