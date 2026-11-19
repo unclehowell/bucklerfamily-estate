@@ -112,3 +112,32 @@ a:focus-visible,button:focus-visible,svg [tabindex="0"]:focus-visible{outline:2p
 }
 @media(max-width:360px){.dash-gauge{min-height:116px;padding:9px 5px}.gauge-dial{width:68px;height:68px}.gauge-number{font-size:18px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+
+
+/* Interactive metric drill-downs: show the selected records, not a generic site address. */
+.dash-dialog{width:min(760px,calc(100% - 28px));max-height:84vh;overflow:hidden}
+.dash-dialog-inner{display:flex;flex-direction:column;max-height:84vh}
+.dash-dialog-head{align-items:flex-start;gap:16px}
+.dash-dialog-heading{min-width:0;flex:1}
+.dash-dialog-label{display:block}
+.dash-detail-stat{margin-top:10px;color:var(--dash-text);font:500 clamp(25px,5vw,36px)/1.05 ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.dash-detail-note{margin:7px 0 0;color:var(--dash-muted);font-size:11px;line-height:1.5}
+.dash-detail-body{min-height:0;display:flex;flex-direction:column;gap:9px;padding:12px 14px 15px}
+.dash-detail-count{color:var(--dash-apricot);font:700 9px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em}
+.dash-detail-list{min-height:0;max-height:54vh;overflow:auto;display:grid;gap:5px;overscroll-behavior:contain}
+.dash-detail-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:9px 10px;border:1px solid var(--dash-line);border-radius:5px;background:var(--dash-panel-2)}
+.dash-detail-row-main{min-width:0}
+.dash-detail-primary{color:var(--dash-text);font:600 11px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+.dash-detail-primary a{color:inherit;text-decoration:none}
+.dash-detail-primary a:hover{color:var(--dash-apricot);text-decoration:underline}
+.dash-detail-secondary{margin-top:4px;color:var(--dash-muted);font:9px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+.dash-detail-value{color:var(--dash-apricot);font:600 10px/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;text-align:right;white-space:nowrap}
+.dash-detail-empty{padding:18px 10px;color:var(--dash-muted);font:11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;text-align:center}
+@media(max-width:700px){
+  .dash-dialog{max-height:88vh}
+  .dash-dialog-inner{max-height:88vh}
+  .dash-dialog-head{padding:12px}
+  .dash-detail-body{padding:10px 11px 12px}
+  .dash-detail-list{max-height:60vh}
+  .dash-detail-row{gap:7px;padding:8px}
+}
