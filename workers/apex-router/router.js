@@ -2,7 +2,7 @@
 // Sion's Tab agent, 2 Nov 2026. Maintained source: unclehowell/bucklerfamily-estate/workers/apex-router/router.js. VERSION below.
 // One route (bucklerfamily.estate/* + www) -> this Worker. Driven by the site's own registry (/areas.json), so a webapp added
 // to the registry gets its apex path automatically. Content is proxied (rewritten), never bounced to cedwyn.
-const VERSION = '1.1.3';
+const VERSION = '1.1.4';
 const APEX = 'bucklerfamily.estate';
 const OLD = 'cedwyn.bucklerfamily.estate';
 // Paths the apex Pages project (bucklerfamilyfarm) serves itself today (same list the old apex redirect rule exempted).
@@ -11,6 +11,66 @@ const KEEP = ['/ebook', '/licence', '/privacy', '/cookies', '/terms', '/legal', 
 const SECTIONS = ['online', 'argentina', 'wales'];
 const TEXT = /^(text\/|application\/(json|javascript|ld\+json|manifest\+json|xml|rss\+xml|atom\+xml|x-javascript)|image\/svg)/i;
 let REG = null, REG_AT = 0;
+let WIKI_ROUTES = null, WIKI_ROUTES_AT = 0, WIKI_ROUTES_LOADING = null;
+
+// Record-page destinations generated from the complete legacy WordPress/Wiki crosswalk.
+// The source file is shipped with the /wiki/ app; cache it in each Worker isolate.
+function normalWikiPath(path) {
+  let p = path || '/';
+  try { p = decodeURIComponent(p); } catch (e) {}
+  p = p.replace(/\\/{2,}/g, '/');
+  return p.endsWith('/') ? p : p + '/';
+}
+
+async function wikiRouteMap(env) {
+  if (WIKI_ROUTES && Date.now() - WIKI_ROUTES_AT < 300000) return WIKI_ROUTES;
+  if (WIKI_ROUTES_LOADING) return WIKI_ROUTES_LOADING;
+  WIKI_ROUTES_LOADING = (async () => {
+    try {
+      const origin = (env.ORIGIN || '').replace(/\\/+$/, '');
+      const r = await fetch(origin + '/wiki/migration/legacy-wiki-redirects.json', { cf: { cacheTtl: 300 } });
+      if (!r.ok) throw new Error('wiki redirect map HTTP ' + r.status);
+      const j = await r.json();
+      WIKI_ROUTES = j.routes && typeof j.routes === 'object' ? j.routes : {};
+      WIKI_ROUTES_AT = Date.now();
+      return WIKI_ROUTES;
+    } catch (e) {
+      return WIKI_ROUTES || {};
+    } finally {
+      WIKI_ROUTES_LOADING = null;
+    }
+  })();
+  return WIKI_ROUTES_LOADING;
+}
+
+async function redirectLegacyWiki(url, env) {
+  const path = normalWikiPath(url.pathname);
+  if (path === '/wiki/') return Response.redirect('https://' + APEX + '/catalogue/', 301);
+  if (path === '/wiki/evidence/' || path === '/wiki/evidence-library/')
+    return Response.redirect('https://' + APEX + '/catalogue/?kind=evidence', 301);
+  if (!path.startsWith('/wiki/evidence/') && !path.startsWith('/wiki/evidence-library/')) return null;
+  const routes = await wikiRouteMap(env);
+  const item = routes[path];
+  if (!item || !item.canonical_url) return null;
+  return new Response(null, { status: 301, headers: {
+    'location': item.canonical_url,
+    'cache-control': 'public, max-age=300',
+    'x-apex-router': VERSION,
+    'x-wiki-record-route': item.id || 'catalogue'
+  }});
+}
+
+// Convert record links in page HTML as well as redirecting old addresses when they are opened directly.
+function rewriteLegacyRecordLinks(html, routes) {
+  const pattern = /(\\bhref\\s*=\\s*)(["'])(?:https?:\\/\\/(?:www\\.)?(?:greathousefarmwiki\\.wordpress\\.com|bucklerfamily\\.estate|cedwyn\\.bucklerfamily\\.estate))?(\\/(?:wiki\\/)?evidence(?:-library)?\\/[^"'\\s<>]*)\\2/gi;
+  return html.replace(pattern, (all, before, quote, rawPath) => {
+    const pathOnly = rawPath.split(/[?#]/)[0];
+    const key = normalWikiPath(pathOnly.startsWith('/wiki/') ? pathOnly : '/wiki' + pathOnly);
+    const item = routes[key];
+    return item && item.canonical_url ? before + quote + item.canonical_url + quote : all;
+  });
+}
+
 
 async function registry(env) {
   if (REG && Date.now() - REG_AT < 300000) return REG;
@@ -59,7 +119,7 @@ function rewriteText(s) {
           .split('//cedwyn.bucklerfamily.estate').join('//' + APEX);
 }
 
-async function finish(r, reqUrl, path) {
+async function finish(r, reqUrl, path, env) {
   const h = new Headers(r.headers);
   h.set('x-apex-router', VERSION);
   if (r.status >= 300 && r.status < 400) {
@@ -70,6 +130,10 @@ async function finish(r, reqUrl, path) {
   const len = +(h.get('content-length') || 0);
   if (TEXT.test(ct) && len < 3000000 && r.status !== 204 && r.status !== 304) {
     let t = await r.text(), o = rewriteText(t);
+    if (/^text\\/html/i.test(ct)) {
+      const routes = await wikiRouteMap(env);
+      if (routes && Object.keys(routes).length) o = rewriteLegacyRecordLinks(o, routes);
+    }
     // runtime.js maps absolute apex links "/" -> /dartboard/ (themes.json "apex" from the days the dartboard sat on the apex root).
     // The apex root is the site home now; drop that one entry until the themes.json fix ships (CUTOVER.md).
     if (path.startsWith('/_cedwyn/runtime.js')) o = o.split(', ["/", "dartboard"]]').join(']');
@@ -90,6 +154,8 @@ export default {
     if (host === 'www.' + APEX) return Response.redirect('https://' + APEX + url.pathname + url.search, 301);
     if (url.pathname === '/__apex-router') return new Response(JSON.stringify({ version: VERSION, origin: env.ORIGIN }), { headers: { 'content-type': 'application/json' } });
     const path = url.pathname;
+    const wikiRedirect = await redirectLegacyWiki(url, env);
+    if (wikiRedirect) return wikiRedirect;
     // The page runtime prefixes root paths with the webapp folder, so the Cloudflare beacon arrives as /<app>/cdn-cgi/...:
     // hand it to the edge's own /cdn-cgi/ on the apex.
     const cdn = path.match(/^\/[^\/]+(?:\/[^\/]+)*?(\/cdn-cgi\/.*)$/);
@@ -97,7 +163,7 @@ export default {
     const buf = (req.method === 'GET' || req.method === 'HEAD') ? null : await req.arrayBuffer();
     if (isKeep(path)) {
       const k = await fetch(upstreamReq(req, env.APEX_PAGES + path + url.search, buf));
-      if (k.status !== 404) return finish(k, req.url, path);
+      if (k.status !== 404) return finish(k, req.url, path, env);
     }
     let r = await fetch(upstreamReq(req, env.ORIGIN + path + url.search, buf));
     const seg = path.split('/')[1] || '';
@@ -125,6 +191,6 @@ export default {
       }
     }
     // (no catch-all fallback to the apex Pages project: its single-page fallback answers 200 for any path)
-    return finish(r, req.url, path);
+    return finish(r, req.url, path, env);
   }
 };
