@@ -10,6 +10,10 @@
 
 Keep the Cedwyn Snowball programme continuously accurate across HubSpot, GitHub, the public task mirror, Pages, Workers, Hive and external-agent contributions. This is a daily control audit; it is not a five-minute agent executor. The existing Hive/Watch cron monitors the site and branches and does not invoke LLM agents.
 
+## Six standing human-and-AI principles
+
+Apply the canonical BucklerFamily.estate charter at https://bucklerfamily.estate/FLYWHEELS/agent-principles.md: **rely on facts; augment with AI; verify information; retain analogue skills; value human connections; act ethically.** AI output is not evidence or independent corroboration. Verify source identity, provenance, timestamp, scope, completeness and exact status before recording a result. Keep manual checks available; respect people, consent and professional judgement; minimise public data and protect confidential HubSpot material. Preserve evidence against a proposed status change as well as evidence supporting it. These principles supplement, and never relax, the permissions, authentication, privacy and owner-approval gates below.
+
 ## Required inputs
 
 - HubSpot master, WP1–WP10, procurement master, architecture task and confidential review queue.

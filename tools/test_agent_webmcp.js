@@ -12,6 +12,7 @@ async function main() {
   const source = fs.readFileSync(path.join(__dirname, '..', 'web', '_cedwyn', 'agent-tools.js'), 'utf8');
   const registered = [];
   const queries = [];
+  const principlesText = '# Six operating principles\\nRely on facts\\nAugment with AI\\nVerify information\\nAnalogue skills\\nHuman connections\\nEthics';
   let clientLoads = 0;
   const record = {
     ev: 'EV-0001', artifact_id: 1, path: '/research/evidence/ev-0001/',
@@ -75,6 +76,9 @@ async function main() {
   vm.runInNewContext(source, {
     window, document, navigator: {}, location, URL, console: quietConsole,
     fetch: async (url) => {
+      if (String(url).endsWith('/FLYWHEELS/agent-principles.md')) {
+        return { ok: true, headers: { get: () => 'text/markdown' }, text: async () => principlesText };
+      }
       if (String(url).endsWith('/nomenclature/lexicon.json')) {
         return {
           ok: true,
@@ -110,7 +114,7 @@ async function main() {
   assert.equal(status.api, 'document.modelContext');
   assert.equal(status.verified, true);
   assert.equal(status.registered, true);
-  assert.equal(registered.length, 17, 'all seventeen tools must register');
+  assert.equal(registered.length, 18, 'all eighteen tools must register');
   for (const name of [
     'get_cedwyn_flow_watch_health',
     'get_cedwyn_flow_watch_events',
@@ -119,6 +123,17 @@ async function main() {
     assert.ok(registered.some(tool => tool.name === name), name + ' must be registered');
   }
   assert.equal(clientLoads, 0, 'catalogue client must load only when called');
+
+  const principlesTool = registered.find(item => item.name === 'get_cedwyn_agent_principles');
+  assert.ok(principlesTool, 'principles resource tool should be registered');
+  const principlesResult = await principlesTool.execute({}, {});
+  assert.equal(principlesResult.path, '/FLYWHEELS/agent-principles.md');
+  assert.match(principlesResult.text, /Analogue skills/);
+  assert.match(principlesResult.text, /Human connections/);
+
+  const resourceTool = registered.find(item => item.name === 'list_case_public_resources');
+  const resources = await resourceTool.execute({}, {});
+  assert.ok(resources.some(r => r.path === '/FLYWHEELS/agent-principles.md'));
 
   const nomenclatureTool = registered.find(item => item.name === 'search_cedwyn_nomenclature');
   assert.ok(nomenclatureTool, 'nomenclature search tool should be registered');
@@ -138,6 +153,6 @@ async function main() {
   assert.equal(result.record.assessment.interpretation, 'Interpretation kept separate.');
   assert.equal(clientLoads, 1, 'registered tool should lazy-load the catalogue client');
   assert.ok(queries.length >= 5, 'registered tool must issue central database queries');
-  console.log('WebMCP smoke test passed: 17 registered and verified, including nomenclature lookup and three flow-watch resources; Level 1 record read through registered tool.');
+  console.log('WebMCP smoke test passed: 18 tools registered and verified; principles resource, nomenclature lookup and Level 1 record access tested.');
 }
 main().catch(err => { console.error(err); process.exitCode = 1; });
