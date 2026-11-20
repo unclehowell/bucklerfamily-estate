@@ -1,0 +1,85 @@
+{
+ "schema": "core-record/0.1",
+ "source": "Additive, public-safe wording records for That Old Chestnut; kept separate from the private-audit-generated base catalogue.",
+ "note": "Only reviewed response wording and neutral summaries are included. Existing evidence/artifact records are not rewritten. Source identifiers are retained as text where the current central catalogue destination is not resolved.",
+ "complete": true,
+ "generated": "2026-11-20T12:42Z",
+ "records": [
+  {
+   "id": "TOC-F09",
+   "kind": "foi_finding",
+   "title": "National Police Chiefs’ Council · response of 9 October 2026",
+   "date": {
+    "display": "2026-10-09",
+    "sort": "2026-10-09",
+    "precision": "day"
+   },
+   "provenance": {
+    "holder": "National Police Chiefs’ Council",
+    "reference": "FOI 3065/2026 response letter and Annex B; historic evidence-index identifier EV-0191 (catalogue destination not resolved in this release)",
+    "date": "2026-10-09"
+   },
+   "scope": {
+    "disposition": "in_scope",
+    "label": "NPCC search-response wording",
+    "reason": "A public FOI response concerning searches for recorded information.",
+    "tags": [
+     "NPCC",
+     "FOI",
+     "searches"
+    ]
+   },
+   "evidence": [
+    "EV-0191"
+   ],
+   "finding": {
+    "class": "language",
+    "institution": "National Police Chiefs’ Council",
+    "negative_date": "2026-10-09",
+    "positive_date": "",
+    "months_elapsed": null,
+    "email_volume": "",
+    "negative_quote": "The NPCC does not hold information captured by Q4.",
+    "positive_quote": "any results are captured via email",
+    "positive_nature": "The response points to emails disclosed under Q1–Q3 as the recorded search results. Annex B reproduces the retrieval email sent to policing leads, supplied outside FOIA as a goodwill gesture.",
+    "trigger": "FOI 3065/2026 — response to a request for search information relating to FOI 3156/2026 and internal review 3176/2026.",
+    "disclosure_type": "Search terms, repositories and consulted functions identified; Annex B retrieval email supplied outside FOIA.",
+    "conduct": "Q1 identifies two search terms: Great House Farm and Llandough. Q2 identifies five repositories or sources: NPCC shared drives, ChiefsNet, ACPO Archives, the NPCC Counter Terrorism Coordination Committee folder, and the Records of the Association of Chief Police Officers 1856–2005 document. Q3 identifies four consulted functions: NPCC Crime Coordination Committee, NPCC Business Support, Counter Terrorism Coordination Committee and NaCTSO. Q4: no recorded search instructions, logs, notes or file notes held; Annex B is the retrieval email supplied outside FOIA as a goodwill gesture. Q5: no separate results or conclusions held; the response explains that results are captured in emails disclosed through Q1–Q3. Q6: no recorded enquiries concerning custody, transfer, retention or disposal held. This entry describes the response only; it does not establish the underlying 1988 operation.",
+    "interim_disclosure": "Annex B reproduces the information-retrieval email sent to policing leads, supplied outside FOIA.",
+    "terms": [
+     {
+      "term": "Search terms identified",
+      "statute": "FOIA s.1 — recorded information request",
+      "note": "The response lists Great House Farm and Llandough."
+     },
+     {
+      "term": "Repositories and consulted functions identified",
+      "statute": "FOIA s.1 — recorded information request",
+      "note": "The response names five repositories or sources and four consulted functions."
+     },
+     {
+      "term": "No formal search log or instructions held under Q4",
+      "statute": "FOIA s.1 — recorded information held",
+      "note": "Annex B is a retrieval email supplied outside FOIA; it is not described as a search log."
+     },
+     {
+      "term": "Results recorded in emails under Q5",
+      "statute": "FOIA s.1 — recorded information held",
+      "note": "The response points to emails disclosed through Q1–Q3; it identifies no separate result or conclusion record."
+     },
+     {
+      "term": "No custody, transfer, retention or disposal enquiries held under Q6",
+      "statute": "Records-management traceability",
+      "note": "The response identifies no recorded enquiries on these matters."
+     }
+    ],
+    "open": true,
+    "held_back": [],
+    "chestnut": false
+   },
+   "public": true,
+   "updated": "2026-11-20",
+   "rev": 1
+  }
+ ]
+}
