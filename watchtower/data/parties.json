@@ -19,7 +19,7 @@
         {
           "id": "EV-0080",
           "title": "Court of Appeal judgment",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0080-bp-properties-v-buckler-judgment/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0080-bp-properties-v-buckler-judgment/"
         }
       ],
       "watch_checks": [
@@ -27,7 +27,7 @@
         "d744d35f"
       ],
       "wayback_urls": [
-        "https://find-and-update.company-information.service.gov.uk/company/00699446"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Ffind-and-update.company-information.service.gov.uk%2Fcompany%2F00699446"
       ],
       "coverage_status": "partial",
       "next_action": "Keep the judgment/citation watch distinct from the Companies House entry; identify a relevant BP archive page only if one is opened and checked."
@@ -42,22 +42,22 @@
         {
           "id": "EV-0257",
           "title": "Glamorgan Archives D696: WGR records 1938–44",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0257-glamorgan-archives-d696-western-ground-rents-records-custodial-history/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0257-glamorgan-archives-d696-western-ground-rents-records-custodial-history/"
         },
         {
           "id": "EV-0262",
           "title": "TNA LT 13/3048: WGR v City of Cardiff, Lands Tribunal",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0262-tna-lt-13-3048-western-ground-rents-v-cardiff-lands-tribunal-1967/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0262-tna-lt-13-3048-western-ground-rents-v-cardiff-lands-tribunal-1967/"
         },
         {
           "id": "WIKI-0017",
           "title": "Western Ground Rents Ltd research page",
-          "url": "https://research.bucklerfamily.estate/western-ground-rents/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/western-ground-rents/"
         },
         {
           "id": "D696",
           "title": "Glamorgan Archives D696: Western Ground Rents Ltd records",
-          "url": "https://canfod.glamarchives.gov.uk/records/D696"
+          "url": "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcanfod.glamarchives.gov.uk%2Frecords%2FD696"
         }
       ],
       "watch_checks": [
@@ -69,8 +69,8 @@
         "14de73b6"
       ],
       "wayback_urls": [
-        "https://canfod.glamarchives.gov.uk/records/D696",
-        "https://find-and-update.company-information.service.gov.uk/search/companies?q=Western+Ground+Rents+Ltd"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcanfod.glamarchives.gov.uk%2Frecords%2FD696",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Ffind-and-update.company-information.service.gov.uk%2Fsearch%2Fcompanies%3Fq%3DWestern%2BGround%2BRents%2BLtd"
       ],
       "coverage_status": "partial",
       "next_action": "Glamorgan Archives D696 is the directly relevant archival catalogue record; Companies House search is monitored as a search page only. Company profile 00342092 returned not found in this check and is not asserted to be the correct entity."
@@ -85,22 +85,22 @@
         {
           "id": "EV-0613",
           "title": "Bute Glamorgan manorial records 1926–1940",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0613-bute-glamorgan-manorial-records-1926-1940/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0613-bute-glamorgan-manorial-records-1926-1940/"
         },
         {
           "id": "EV-0614",
           "title": "Mountjoy Ltd in the Bute estate catalogue",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0614-mountjoy-ltd-1926-tna-catalogue/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0614-mountjoy-ltd-1926-tna-catalogue/"
         },
         {
           "id": "EV-0624",
           "title": "Mountjoy Ltd formed in 1922",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0624-mountjoy-ltd-formed-1922-bute-estate-company/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0624-mountjoy-ltd-formed-1922-bute-estate-company/"
         },
         {
           "id": "WIKI-3117",
           "title": "Mountjoy Ltd forensic assessment",
-          "url": "https://fcg.bucklerfamily.estate/case/mountjoy-ltd-forensic-institutional-review"
+          "url": "https://cedwyn.bucklerfamily.estate/fcg/case/mountjoy-ltd-forensic-institutional-review"
         }
       ],
       "watch_checks": [
@@ -108,8 +108,8 @@
         "3f986c1b"
       ],
       "wayback_urls": [
-        "https://find-and-update.company-information.service.gov.uk/search/companies?q=Mountjoy+Limited",
-        "https://discovery.nationalarchives.gov.uk/results/r?_q=Mountjoy%20Llandough"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Ffind-and-update.company-information.service.gov.uk%2Fsearch%2Fcompanies%3Fq%3DMountjoy%2BLimited",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fdiscovery.nationalarchives.gov.uk%2Fresults%2Fr%3F_q%3DMountjoy%2520Llandough"
       ],
       "coverage_status": "partial",
       "next_action": "Companies House and The National Archives search pages are now monitored as search/index routes only. No relevant Mountjoy Ltd company profile or catalogue item has yet been verified; do not conflate Bute Estate, Mountjoy, Mount Stuart and Cardiff Castle."
@@ -124,30 +124,30 @@
         {
           "id": "EV-0257",
           "title": "Glamorgan Archives D696: WGR records 1938–44",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0257-glamorgan-archives-d696-western-ground-rents-records-custodial-history/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0257-glamorgan-archives-d696-western-ground-rents-records-custodial-history/"
         },
         {
           "id": "EV-0613",
           "title": "Bute Glamorgan manorial records 1926–1940",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0613-bute-glamorgan-manorial-records-1926-1940/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0613-bute-glamorgan-manorial-records-1926-1940/"
         },
         {
           "id": "EV-0330",
           "title": "Glamorgan Archives: Great House Farm | Cardiff Castle furniture",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0330-glamorgan-archives-great-house-farm-llandough-cardiff-castle-furniture/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0330-glamorgan-archives-great-house-farm-llandough-cardiff-castle-furniture/"
         },
         {
           "id": "NLW-BUTE-ESTATE",
           "title": "Bute Estate Records — National Library of Wales Archives",
-          "url": "https://archives.library.wales/index.php/bute-estate-records"
+          "url": "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Farchives.library.wales%2Findex.php%2Fbute-estate-records"
         }
       ],
       "watch_checks": [
         "93cfaa9f"
       ],
       "wayback_urls": [
-        "https://archives.library.wales/index.php/bute-estate-records",
-        "https://archives.library.wales/index.php/glamorgan-manorial-estate"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Farchives.library.wales%2Findex.php%2Fbute-estate-records",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Farchives.library.wales%2Findex.php%2Fglamorgan-manorial-estate"
       ],
       "coverage_status": "partial",
       "next_action": "Review the Mount Stuart search result and NLW/Bute series correspondence separately; add only a direct archival page that has been opened and verified."
@@ -162,38 +162,38 @@
         {
           "id": "EV-0127",
           "title": "Planning application Form D",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0127-planning-application-form-d-for-approval-of-reserv/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0127-planning-application-form-d-for-approval-of-reserv/"
         },
         {
           "id": "EV-0128",
           "title": "Planning file 92/00671",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0128-ggat-letter-reserved-matters-approval/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0128-ggat-letter-reserved-matters-approval/"
         },
         {
           "id": "EV-0133",
           "title": "Ideal Homes Wales: site location map and planting plan",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0133-planning-drawings-ideal-homes-wales-llandough-farm/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0133-planning-drawings-ideal-homes-wales-llandough-farm/"
         },
         {
           "id": "EV-0135",
           "title": "20-plot site layout drawing",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0135-site-layout-setting-out-drawing-for-20-plot-housin/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0135-site-layout-setting-out-drawing-for-20-plot-housin/"
         },
         {
           "id": "EV-0293",
           "title": "Llandough 1994 cemetery excavation",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0293-llandough-1994-cemetery-excavation-her-ggat02272s-museum-wales-95-56h-burial-631/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0293-llandough-1994-cemetery-excavation-her-ggat02272s-museum-wales-95-56h-burial-631/"
         },
         {
           "id": "CH-00461464",
           "title": "Companies House 00461464: Ideal Homes Wales Ltd / Persimmon Homes (Wales) Ltd company-name history",
-          "url": "https://find-and-update.company-information.service.gov.uk/company/00461464"
+          "url": "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Ffind-and-update.company-information.service.gov.uk%2Fcompany%2F00461464"
         }
       ],
       "watch_checks": [],
       "wayback_urls": [
-        "https://museum.wales/blog/1345/The-suffering-of-burial-631/",
-        "https://find-and-update.company-information.service.gov.uk/company/00461464"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fmuseum.wales%2Fblog%2F1345%2FThe-suffering-of-burial-631%2F",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Ffind-and-update.company-information.service.gov.uk%2Fcompany%2F00461464"
       ],
       "coverage_status": "partial",
       "next_action": "Companies House 00461464 establishes the company-name sequence from Ideal Homes Wales Ltd to Persimmon Homes (Wales) Ltd; obtain the historic development/planning file for the Llandough site separately."
@@ -208,17 +208,17 @@
         {
           "id": "EV-0276",
           "title": "Press set: Ideal Homes / Persimmon and Churchview Close, 1994–1996",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0276-churchview-close-llandough-ideal-homes-persimmon-1994-1996/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0276-churchview-close-llandough-ideal-homes-persimmon-1994-1996/"
         },
         {
           "id": "CH-00461464",
           "title": "Companies House 00461464: Persimmon Homes (Wales) Ltd company-name history",
-          "url": "https://find-and-update.company-information.service.gov.uk/company/00461464"
+          "url": "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Ffind-and-update.company-information.service.gov.uk%2Fcompany%2F00461464"
         }
       ],
       "watch_checks": [],
       "wayback_urls": [
-        "https://find-and-update.company-information.service.gov.uk/company/00461464"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Ffind-and-update.company-information.service.gov.uk%2Fcompany%2F00461464"
       ],
       "coverage_status": "partial",
       "next_action": "Companies House 00461464 records the corporate name change; do not infer that this alone proves title, a site acquisition date or responsibility for the original Llandough development."
@@ -233,17 +233,17 @@
         {
           "id": "EV-0147",
           "title": "HMLR letter on registration history of Tŷ Mawr Farm",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0147-hmlr-letter-ty-mawr-registration-history/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0147-hmlr-letter-ty-mawr-registration-history/"
         },
         {
           "id": "EV-0161",
           "title": "Schedule of first-registration documents",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0161-hmlr-schedule-first-registration-documents/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0161-hmlr-schedule-first-registration-documents/"
         }
       ],
       "watch_checks": [],
       "wayback_urls": [
-        "https://www.gov.uk/government/organisations/land-registry"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fwww.gov.uk%2Fgovernment%2Forganisations%2Fland-registry"
       ],
       "coverage_status": "partial",
       "next_action": "Monitor the official organisation page for institutional changes; keep the register-specific WA231076 / WA240304 documents and HMLR correspondence as separate catalogue records."
@@ -258,21 +258,21 @@
         {
           "id": "EV-0127",
           "title": "Planning application Form D",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0127-planning-application-form-d-for-approval-of-reserv/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0127-planning-application-form-d-for-approval-of-reserv/"
         },
         {
           "id": "EV-0128",
           "title": "Planning file 92/00671",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0128-ggat-letter-reserved-matters-approval/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0128-ggat-letter-reserved-matters-approval/"
         }
       ],
       "watch_checks": [
         "98252de9"
       ],
       "wayback_urls": [
-        "https://www.valeofglamorgan.gov.uk/en/living/planning_and_building_control/Planning/Heritage.aspx",
-        "https://www.valeofglamorgan.gov.uk/files/Living/Planning/Policy/County_Treasures/Llandough.pdf",
-        "https://www.valeofglamorgan.gov.uk/en/living/planning_and_building_control/Planning/Planning-Applications/View-or-Comment-on-a-Planning-Application.aspx"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fwww.valeofglamorgan.gov.uk%2Fen%2Fliving%2Fplanning_and_building_control%2FPlanning%2FHeritage.aspx",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fwww.valeofglamorgan.gov.uk%2Ffiles%2FLiving%2FPlanning%2FPolicy%2FCounty_Treasures%2FLlandough.pdf",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fwww.valeofglamorgan.gov.uk%2Fen%2Fliving%2Fplanning_and_building_control%2FPlanning%2FPlanning-Applications%2FView-or-Comment-on-a-Planning-Application.aspx"
       ],
       "coverage_status": "partial",
       "next_action": "The Council states that current and previous applications may be searched on its Planning Register, and that closed/determined files not online may be requested under EIR. Direct result pages for 89/01396/OUT and 92/00671/RES have not yet been verified; keep them as separate search tasks."
@@ -287,21 +287,21 @@
         {
           "id": "EV-0293",
           "title": "Llandough 1994 cemetery excavation",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0293-llandough-1994-cemetery-excavation-her-ggat02272s-museum-wales-95-56h-burial-631/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0293-llandough-1994-cemetery-excavation-her-ggat02272s-museum-wales-95-56h-burial-631/"
         },
         {
           "id": "EV-0372",
           "title": "Heneb HER source-file request",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0372-heneb-formerly-ggat-historic-environment-record-her-source-file-request-for-great-house/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0372-heneb-formerly-ggat-historic-environment-record-her-source-file-request-for-great-house/"
         }
       ],
       "watch_checks": [
         "34536845"
       ],
       "wayback_urls": [
-        "https://archwilio.org.uk/her/chi3/report/page.php?watprn=GGAT02038s",
-        "https://heneb.org.uk/",
-        "https://heneb.org.uk/historic-environment-records-her/"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Farchwilio.org.uk%2Fher%2Fchi3%2Freport%2Fpage.php%3Fwatprn%3DGGAT02038s",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fheneb.org.uk%2F",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fheneb.org.uk%2Fhistoric-environment-records-her%2F"
       ],
       "coverage_status": "partial",
       "next_action": "The official institutional homepage and HER service page are now monitored separately from Archwilio record GGAT02038s; add individual site records only when verified."
@@ -317,7 +317,7 @@
         "3a678a07"
       ],
       "wayback_urls": [
-        "https://historicengland.org.uk/"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fhistoricengland.org.uk%2F"
       ],
       "coverage_status": "partial",
       "next_action": "Institutional homepage now monitored. The candidate photographic search page returned not found; locate a working Historic England archive/NRHE Llandough result before describing a specific record as present or absent."
@@ -332,15 +332,15 @@
         {
           "id": "EV-0262",
           "title": "TNA LT 13/3048: WGR v City of Cardiff, Lands Tribunal",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0262-tna-lt-13-3048-western-ground-rents-v-cardiff-lands-tribunal-1967/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0262-tna-lt-13-3048-western-ground-rents-v-cardiff-lands-tribunal-1967/"
         }
       ],
       "watch_checks": [
         "94f8617e"
       ],
       "wayback_urls": [
-        "https://cardiff.gov.uk/foi",
-        "https://cardiff.gov.uk/planningapplicationsanddecisions"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcardiff.gov.uk%2Ffoi",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcardiff.gov.uk%2Fplanningapplicationsanddecisions"
       ],
       "coverage_status": "partial",
       "next_action": "These Cardiff Council pages are general FOI and planning-system context only. The historic Llandough planning applications 89/01396/OUT and 92/00671/RES remain Vale of Glamorgan Council matters; do not attribute them to Cardiff."
@@ -355,12 +355,12 @@
         {
           "id": "EV-0330",
           "title": "Glamorgan Archives: Great House Farm | Cardiff Castle furniture",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0330-glamorgan-archives-great-house-farm-llandough-cardiff-castle-furniture/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0330-glamorgan-archives-great-house-farm-llandough-cardiff-castle-furniture/"
         }
       ],
       "watch_checks": [],
       "wayback_urls": [
-        "https://www.cardiffcastle.com/explore/bute-family"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fwww.cardiffcastle.com%2Fexplore%2Fbute-family"
       ],
       "coverage_status": "partial",
       "next_action": "The Bute-family page is contextual background only; identify the actual collection custodian and catalogue location for the Cardiff Castle furniture/Bute-series material before attributing any record to the Castle."
@@ -375,7 +375,7 @@
         {
           "id": "EV-0083",
           "title": "ITV/HTV Wales TV News: Great House Farm eviction and injunction against BP",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0083-itv-wales-report-eviction-injunction/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0083-itv-wales-report-eviction-injunction/"
         }
       ],
       "watch_checks": [
@@ -383,8 +383,8 @@
         "6e452ee4"
       ],
       "wayback_urls": [
-        "https://gwylio-gwrando.llyfrgell.cymru/detail/507738",
-        "https://www.itv.com/presscentre/presscentre/presscentre/itv-archive"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fgwylio-gwrando.llyfrgell.cymru%2Fdetail%2F507738",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fwww.itv.com%2Fpresscentre%2Fpresscentre%2Fpresscentre%2Fitv-archive"
       ],
       "coverage_status": "partial",
       "next_action": "NLW item 507738 is now a separate Wayback target, but its page could not be read during this check. Locate an ITV/HTV-owned catalogue page if one exists; do not infer footage contents or identities."
@@ -399,7 +399,7 @@
         {
           "id": "EV-0083",
           "title": "ITV/HTV Wales TV News: Great House Farm eviction and injunction against BP",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0083-itv-wales-report-eviction-injunction/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0083-itv-wales-report-eviction-injunction/"
         }
       ],
       "watch_checks": [
@@ -411,8 +411,8 @@
         "3919e048"
       ],
       "wayback_urls": [
-        "https://gwylio-gwrando.llyfrgell.cymru/detail/507738",
-        "https://www.library.wales/wales-broadcast-archive"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fgwylio-gwrando.llyfrgell.cymru%2Fdetail%2F507738",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fwww.library.wales%2Fwales-broadcast-archive"
       ],
       "coverage_status": "partial",
       "next_action": "NLW item 507738 is monitored as a distinct audiovisual catalogue record; keep the 39 newspaper-page URLs and catalogue-page retries separate and rate-limited."
@@ -427,19 +427,19 @@
         {
           "id": "EV-0257",
           "title": "Glamorgan Archives D696: WGR records 1938–44",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0257-glamorgan-archives-d696-western-ground-rents-records-custodial-history/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0257-glamorgan-archives-d696-western-ground-rents-records-custodial-history/"
         },
         {
           "id": "EV-0330",
           "title": "Cardiff Castle furniture enquiry",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0330-glamorgan-archives-great-house-farm-llandough-cardiff-castle-furniture/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0330-glamorgan-archives-great-house-farm-llandough-cardiff-castle-furniture/"
         }
       ],
       "watch_checks": [],
       "wayback_urls": [
-        "https://canfod.glamarchives.gov.uk/en/records/DSA/12/1003",
-        "https://canfod.glamarchives.gov.uk/records/D696",
-        "https://canfod.glamarchives.gov.uk/en/records/DB/E/1-8/1-2"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcanfod.glamarchives.gov.uk%2Fen%2Frecords%2FDSA%2F12%2F1003",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcanfod.glamarchives.gov.uk%2Frecords%2FD696",
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcanfod.glamarchives.gov.uk%2Fen%2Frecords%2FDB%2FE%2F1-8%2F1-2"
       ],
       "coverage_status": "partial",
       "next_action": "Compare watched versions of the Canfod DB/E/1-2 catalogue page with the local text-preservation copy; check the wording of Plan 19 against the original image when the archive confirms the exact page/image reference. Continue other Llandough catalogue checks without assuming catalogue text proves the manuscript wording."
@@ -454,12 +454,12 @@
         {
           "id": "EV-0301",
           "title": "Archaeology Data Service: Great House Farm archive records enquiry",
-          "url": "https://research.bucklerfamily.estate/evidence/ev-0301-archaeology-data-service-great-house-farm-archive-records-enquiry/"
+          "url": "https://cedwyn.bucklerfamily.estate/research/evidence/ev-0301-archaeology-data-service-great-house-farm-archive-records-enquiry/"
         }
       ],
       "watch_checks": [],
       "wayback_urls": [
-        "https://archaeologydataservice.ac.uk/archives/view/llandough_cadw_2004/index.cfm"
+        "https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Farchaeologydataservice.ac.uk%2Farchives%2Fview%2Fllandough_cadw_2004%2Findex.cfm"
       ],
       "coverage_status": "partial",
       "next_action": "Check the exact landing page's earliest Wayback CDX timestamp; keep that result separate from the 8 Feb 2020 associated PDF capture and from ADS organisation-wide pages."
