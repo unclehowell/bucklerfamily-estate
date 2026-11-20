@@ -1,13 +1,11 @@
 name: evidence-resync-daily
-# bucklerfamily-estate#19. Daily: gathers NEW evidence/artifact CANDIDATES (never records) from mail (box-side export), spills and
-# online search into resync/candidates/ on the orphan branch evidence-resync, then comments on #19 when anything is new.
-# Catalogue lock: add-only review file; never edits/moves/deletes a record, never opens or merges a PR, never applies
-# owner-approved. Never dispatches a site build. Runs without any key; an optional NVIDIA_API_KEY (tried first),
-# ANTHROPIC_API_KEY or OPENAI_API_KEY repo secret adds a scope/kind label to online candidates. A provider that answers
-# 401/429 or times out falls through to the next; the run never fails on a label. — Sion's Tab agent
+# Daily: reads selected project-labelled Gmail (read-only), redacts and triages with NVIDIA, then writes review candidates
+# only to the private operations repository. The public source repository, Actions logs and issue comments carry counts only.
+# Requires OPS_REPO_TOKEN and the private operations repository. Gmail ingest additionally requires OAuth + NVIDIA secrets.
+# Add-only review intake: never edits catalogue records, opens/merges app PRs, applies owner-approved or publishes app data.
 on:
   schedule:
-    - cron: '20 6 * * *'   # 06:20 UTC daily (after the box-side mail export at ~05:40 London)
+    - cron: '20 6 * * *'   # 06:20 UTC daily; Gmail is queried directly through a read-only OAuth grant
   workflow_dispatch:
     inputs:
       dry_run:
@@ -25,13 +23,33 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      ISSUE: '19'
+      ISSUE: '27'
     steps:
-      - name: Data branch (tiny orphan branch, not the site)
-        uses: actions/checkout@v4
-        with: { ref: evidence-resync, path: data, fetch-depth: 1 }
-      - name: Script from this commit (no full checkout of the site repo)
-        run: curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
+      - name: Bootstrap private data branch
+        env:
+          OPS_REPO: ${{ vars.OPS_REPO || 'unclehowell/bucklerfamily-ops-private' }}
+          OPS_REPO_TOKEN: ${{ secrets.OPS_REPO_TOKEN }}
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/bootstrap-data-branch.sh" -o bootstrap.sh
+          bash bootstrap.sh data
+      - name: Scripts from this commit (no full checkout of the public site)
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
+          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/gmail_export.py" -o gmail_export.py
+      - name: Read scoped Gmail and create privacy-filtered candidate summaries
+        env:
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          GMAIL_QUERY: ${{ vars.GMAIL_QUERY }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NVIDIA_MODEL: ${{ vars.NVIDIA_MODEL }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            python3 gmail_export.py --out data/resync/gmail/export.json --seen data/resync/gmail/processed.json --dry-run
+          else
+            python3 gmail_export.py --out data/resync/gmail/export.json --seen data/resync/gmail/processed.json
+          fi
       - name: Collect candidates
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
@@ -49,7 +67,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add resync
           if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
-          git commit -q -m "resync: daily candidates $(date -u +%F) (bucklerfamily-estate#19) — Sion's Tab agent"
+          git commit -q -m "resync: daily candidates $(date -u +%F) (bucklerfamily-estate#27) — Sion's Tab agent"
           for i in 1 2 3; do git pull -q --rebase origin evidence-resync && git push origin HEAD:evidence-resync && exit 0; sleep 5; done; exit 1
       - name: Comment on the tracking issue when something is new
         if: ${{ inputs.dry_run != true && hashFiles('comment.md') != '' }}

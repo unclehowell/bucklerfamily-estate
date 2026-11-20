@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
-"""Evidence resync, daily (cedwyn#582). Gathers NEW evidence/artifact CANDIDATES from three sources and writes them to a
-review file on the orphan branch `evidence-resync`. Add-only: it never writes a catalogue record, never edits, moves or
-deletes one, never opens or merges a PR and never applies `owner-approved` (catalogue lock). Promotion to a record stays
-with the spill / catalogue process (catalogue-change PR).
+"""Evidence resync, daily. Gathers new mail, spill and online evidence/artifact candidates for owner review.
+It writes only to the orphan evidence-resync branch in the separate PRIVATE operations repository.
+Add-only: it never writes a catalogue record, edits/moves/deletes one, opens/merges a PR or applies owner-approved.
+Promotion to a public record remains a human-reviewed catalogue-change PR.
 
 Sources
-  (a) mail   : resync/gmail/export.json, written once a day by a box-side export of the email-ingest catalogue candidates
-               (public-safe fields only). Gmail itself is not reachable from here.
+  (a) mail   : resync/gmail/export.json, produced by gmail_export.py using selected-label, read-only Gmail OAuth;
+               only redacted AI summaries and review-routing metadata are carried forward, never raw email.
   (b) spills : /spill/api/status?id=SP-NNNNN, scanned forward from the last watermark; new/queued/accepted items are listed.
-  (c) online : a fixed query set against free JSON APIs (Internet Archive advanced search, TNA Discovery, Wikidata),
-               kept only when a scope term is present, and dropped when the catalogue (/api/catalogue) or the
-               online-gap-finder ledger (resync/seen-online-gap-finder.json) already carries the source.
-Optional: with NVIDIA_API_KEY (tried first), ANTHROPIC_API_KEY or OPENAI_API_KEY set, each online candidate gets a
-scope/kind label; a failing provider falls through to the next; with none, labelling is skipped and the run goes on.
-
-Usage: python3 resync.py --data <checkout of branch evidence-resync> [--dry-run] [--max-online 60]
-Stdlib only. — Sion's Tab agent
+  (c) online : fixed queries against Internet Archive, TNA Discovery and Wikidata, deduplicated against the public catalogue
+               and the online-gap-finder ledger.
+Optional NVIDIA_API_KEY (tried first), ANTHROPIC_API_KEY or OPENAI_API_KEY labels online candidates; failures do not
+prevent the review queue from being written. Candidate text and summaries are never printed to public Actions logs.
 """
 import argparse, datetime as dt, json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
 
@@ -124,9 +120,13 @@ def from_mail(data, seen, cat):
         if cat and len(t) > 12 and t[:80] in cat:
             seen[key] = {"skipped": "already in the catalogue", "at": TODAY}
             continue
+        targets = [x for x in (r.get("target_apps") or []) if x in ("that-old-chestnut", "dartboard")]
         out.append({"key": key, "source": "mail", "title": clean(r.get("title"), 200),
                     "date_display": clean(r.get("date"), 60), "holder": clean(r.get("holder"), 120),
                     "type": clean(r.get("type"), 80), "summary": clean(r.get("summary"), 400),
+                    "target_apps": targets, "direction": clean(r.get("direction"), 20),
+                    "has_attachments": bool(r.get("has_attachments")), "review_required": True,
+                    "triage_by": clean(r.get("triage_by"), 40),
                     "proposed_kind": "catalogue_candidate", "url": "", "scope_terms": in_scope(r.get("title"), r.get("summary"))})
     return out
 
@@ -391,8 +391,8 @@ def main():
     state.update(runs=int(state.get("runs", 0)) + 1, last_run=dt.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
                  last_counts=day["counts"])
     print(json.dumps(day["counts"]))
-    for c in new[:15]:
-        print(f"  [{c['source']}] {c['title'][:100]}")
+    # Candidate titles and summaries stay in private storage; never echo email-derived text to public Actions logs.
+    print(f"  {len(new)} new candidate(s) collected; details are stored in the private operations repository.")
     if a.dry_run:
         print("dry run: nothing written")
         return
@@ -401,16 +401,13 @@ def main():
     save(os.path.join(D, "resync/seen.json"), seen)
     save(os.path.join(D, "resync/state.json"), state)
     if a.comment_out and new:
-        lines = [f"**Evidence resync {TODAY}:** {len(new)} new candidate(s) for review: mail {len(mail)}, "
-                 f"spills {len(spills)}, online {len(online)}" + (f" ({labelled} labelled)" if labelled else "") + ".",
-                 "", f"File: `resync/candidates/{TODAY}.json` on branch `evidence-resync` (rolling list: "
-                 "`resync/candidates/latest.json`). Add-only: nothing here is a record yet; the spill / catalogue "
-                 "process decides, through a `catalogue-change` PR.", ""]
-        for c in new[:20]:
-            lines.append(f"- [{c['source']}] {c['title'][:140]}" + (f" ({c['date_display']})" if c.get("date_display") else ""))
-        if len(new) > 20:
-            lines.append(f"- … and {len(new) - 20} more in the file")
-        lines += ["", "— Sion's Tab agent (evidence-resync workflow)"]
+        # The public issue comment carries counts only; all candidate text remains in the private operations repo.
+        lines = [f"**Evidence resync {TODAY}:** {len(new)} new candidate(s) for owner review "
+                 f"(mail {len(mail)}, spills {len(spills)}, online {len(online)}).",
+                 "", "Candidate details are held in the private operations repository on its `evidence-resync` branch. "
+                 "No candidate has been promoted to the public catalogue or either webapp. This comment contains "
+                 "counts only; no email-derived subjects or summaries are published.", "",
+                 "— BucklerFamily.estate evidence-resync workflow"]
         with open(a.comment_out, "w") as f:
             f.write("\n".join(lines) + "\n")
     with open(os.environ.get("GITHUB_OUTPUT", os.devnull), "a") as f:
