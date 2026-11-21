@@ -383,6 +383,9 @@ def extract_record_metadata(ev, page_path, html_text):
     combined_row = _row(parser, "repository / reference", "repository and reference")
     access_row = _row(parser, "access", "access note")
     provenance_row = _row(parser, "provenance", "source provenance")
+    summary_row = _row(parser, "summary", "catalogue summary", "public summary")
+    shows_row = _row(parser, "shows", "what it shows")
+    does_not_show_row = _row(parser, "does not show", "doesn't show", "what it does not show")
     analysis_row = _row(parser, "analysis date", "date of analysis")
     updated_row = _row(parser, "updated at", "last updated", "page modified")
 
@@ -478,8 +481,9 @@ def extract_record_metadata(ev, page_path, html_text):
         "repository_reference_text": optional_text(combined_row["value"]),
         "access_note": optional_text(access_row["value"]),
         "provenance_text": optional_text(provenance_row["value"]),
-        "shows_text": _first_paragraph_value(parser.paragraphs, {"shows", "what it shows"}),
-        "does_not_show_text": _first_paragraph_value(parser.paragraphs, {"does not show", "doesn't show", "what it does not show"}),
+        "summary_text": optional_text(summary_row["value"]) or _first_paragraph_value(parser.paragraphs, {"summary", "catalogue summary", "public summary"}),
+        "shows_text": optional_text(shows_row["value"]) or _first_paragraph_value(parser.paragraphs, {"shows", "what it shows"}),
+        "does_not_show_text": optional_text(does_not_show_row["value"]) or _first_paragraph_value(parser.paragraphs, {"does not show", "doesn't show", "what it does not show"}),
         "canonical_url": expected_canonical,
         "html_canonical_url": html_canonical,
         "html_title": html_title,
