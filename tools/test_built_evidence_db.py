@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Integration checks against the exact chunked SQLite catalogue produced by build_db.py."""
+import hashlib
 import json
 import pathlib
 import sqlite3
@@ -171,10 +172,17 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
     con.execute("SELECT * FROM catalogue_entities LIMIT 2").fetchall()
 
     # The site-level loader must be present on a nested evidence page, not only the theme home.
-    evidence_page = DIST / "research" / "evidence" / "ev-0617-twelve-year-limitation-rule-1879-1940" / "index.html"
+    evidence_page = DIST / str(row["path"]).lstrip("/") / "index.html"
     if not evidence_page.is_file():
         raise SystemExit(f"FAIL: expected nested Level 1 evidence page is missing: {evidence_page}")
-    page_html = evidence_page.read_text(encoding="utf-8", errors="replace")
+    page_bytes = evidence_page.read_bytes()
+    page_sha = hashlib.sha256(page_bytes).hexdigest()
+    if page_sha != row["sha"]:
+        raise SystemExit(
+            f"FAIL: the built catalogue artifact hash for EV-0617 is stale "
+            f"({row['sha']} != final page {page_sha})"
+        )
+    page_html = page_bytes.decode("utf-8", errors="replace")
     if 'src="/_cedwyn/agent-tools.js' not in page_html and "src='/_cedwyn/agent-tools.js" not in page_html:
         raise SystemExit("FAIL: central agent tools script not injected on the nested evidence page")
 
