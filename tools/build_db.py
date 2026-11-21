@@ -319,12 +319,7 @@ _metadata_fields = (
     "html_title", "meta_description", "og_title", "og_description", "og_url", "page_modified_at",
     "structured_data_present", "metadata_audit_json"
 )
-con.execute(
-    "INSERT OR REPLACE INTO evidence_metadata(ev," + ",".join(_metadata_fields) + ") VALUES(" +
-    ",".join("?" for _ in range(len(_metadata_fields) + 1)) + ")"
-    .replace("INSERT OR REPLACE INTO evidence_metadata(ev,", "INSERT OR REPLACE INTO evidence_metadata(ev,", 1)
-)
-# Replace the prepared statement above with a stable parameterized insert for each catalogue page.
+# One normalized metadata row per EV record; absent page fields remain NULL/unknown.
 _metadata_sql = "INSERT OR REPLACE INTO evidence_metadata(ev," + ",".join(_metadata_fields) + ") VALUES(" + ",".join("?" for _ in range(len(_metadata_fields) + 1)) + ")"
 for _ev, _rawpath in con.execute("SELECT ev,path FROM evidence_catalogue ORDER BY ev").fetchall():
     _page_path = _rawpath if str(_rawpath).startswith("/") else "/" + str(_rawpath)
