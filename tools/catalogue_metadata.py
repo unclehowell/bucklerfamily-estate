@@ -521,7 +521,28 @@ def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
     parser = _RecordParser()
     parser.feed(head)
     parser.close()
-    if not parser.jsonld:
+
+    def matches_record(value):
+        if isinstance(value, list):
+            return any(matches_record(item) for item in value)
+        if not isinstance(value, dict):
+            return False
+        if value.get("identifier") == ev or value.get("@id") == canonical:
+            return True
+        if value.get("url") == canonical and value.get("name") == title:
+            return True
+        graph = value.get("@graph")
+        return matches_record(graph) if graph is not None else False
+
+    record_schema_present = False
+    for payload in parser.jsonld:
+        try:
+            if matches_record(json.loads(payload)):
+                record_schema_present = True
+                break
+        except (TypeError, ValueError):
+            pass
+    if not record_schema_present:
         structured = json.dumps({
             "@context": "https://schema.org",
             "@type": "CreativeWork",
