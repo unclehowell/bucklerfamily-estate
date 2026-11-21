@@ -5,7 +5,13 @@ on:
     paths:
       - 'tools/**'
       - 'data/artifact-assessments.json'
+      - 'data/catalogue-relationships.json'
+      - 'data/core/records/**'
       - 'data/observations.json'
+      - 'data/parcel-stories.json'
+      - 'data/title-chain.json'
+      - 'data/title-theory.json'
+      - 'data/nomenclature.json'
       - 'data/site-areas.json'
       - 'data/spatial/**'
       - 'web/_cedwyn/**'
@@ -27,11 +33,12 @@ jobs:
           node-version: 20
       - name: Python syntax
         run: |
-          python -m py_compile tools/build_db.py tools/db_export.py tools/section_dbs.py tools/evidence_observations.py tools/site_consolidations.py tools/test_evidence_hierarchy.py tools/test_parcel_stories.py tools/test_landing_map_views.py tools/site.py tools/agent_lint.py
+          python -m py_compile tools/build_db.py tools/catalogue_metadata.py tools/generate_catalogue_relationships.py tools/test_catalogue_metadata.py tools/db_export.py tools/section_dbs.py tools/evidence_observations.py tools/site_consolidations.py tools/test_evidence_hierarchy.py tools/test_parcel_stories.py tools/test_landing_map_views.py tools/site.py tools/agent_lint.py
       - name: JavaScript syntax
         run: |
           node --check web/_cedwyn/cat.js
           node --check web/_cedwyn/evidence-browser.js
+          node --check tools/test_evidence_browser_client.js
           node --check web/_cedwyn/agent-tools.js
           node --check web/_cedwyn/parcel-panel.js
           node --check web/_cedwyn/parcel-modal.js
@@ -40,12 +47,16 @@ jobs:
       - name: Structured data validity
         run: |
           python -m json.tool data/artifact-assessments.json > /dev/null
+          python -m json.tool data/catalogue-relationships.json > /dev/null
+          python tools/generate_catalogue_relationships.py --check
           python -m json.tool data/observations.json > /dev/null
           python -m json.tool data/site-areas.json > /dev/null
           python -m json.tool data/parcel-stories.json > /dev/null
           python -m json.tool data/spatial/cedwyn.json > /dev/null
       - name: Section database and hierarchy tests
         run: |
+          python tools/test_catalogue_metadata.py
+          node tools/test_evidence_browser_client.js
           python tools/test_evidence_hierarchy.py
           python tools/test_parcel_stories.py
           python tools/test_landing_map_views.py

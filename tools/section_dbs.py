@@ -13,7 +13,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 TABLES = (
     "meta", "themes", "artifacts", "locations", "evidence_catalogue",
     "evidence_grades", "evidence_catalogue_meta", "evidence_grade_scale",
-    "evidence_text", "artifact_assessments", "observations", "observation_refs",
+    "evidence_text", "artifact_assessments", "evidence_metadata", "evidence_source_refs",
+    "catalogue_entities", "evidence_relationships", "observations", "observation_refs",
     "section_records", "estate_parcels", "parcel_events", "estate_parcel_model", "estate_parcel_model_events", "layers", "layer_items", "layer_refs", "layer_deps",
     "captures", "nodes", "edges",
 )
@@ -118,6 +119,13 @@ def build_slice(con, dist, area_id, source_ids, chunk_size):
     if area_id == "wiki":
         _assessment_where, _assessment_params = "ev IN (SELECT ev FROM evidence_catalogue)", ()
     copy_table(con, dst, "artifact_assessments", _assessment_where, _assessment_params)
+    # New normalized catalogue tables follow the same evidence-record slice as the register.
+    copy_table(con, dst, "evidence_metadata", "ev IN (SELECT ev FROM evidence_catalogue)")
+    copy_table(con, dst, "evidence_source_refs", "ev IN (SELECT ev FROM evidence_catalogue)")
+    copy_table(con, dst, "evidence_relationships",
+        "source_ev IN (SELECT ev FROM evidence_catalogue) OR target_ev IN (SELECT ev FROM evidence_catalogue)")
+    copy_table(con, dst, "catalogue_entities",
+        "entity_id IN (SELECT entity_id FROM evidence_relationships WHERE entity_id IS NOT NULL)")
     copy_table(con, dst, "observation_refs",
         "observation_id IN (SELECT id FROM observations WHERE " + themes_filter + ")", source_ids)
     copy_table(con, dst, "section_records", themes_filter, source_ids)

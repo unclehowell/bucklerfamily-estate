@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Integration checks against the exact chunked SQLite catalogue produced by build_db.py."""
+import hashlib
 import json
 import pathlib
 import sqlite3
@@ -46,6 +47,7 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
         "evidence_catalogue": 81,
         "evidence_text": 1,
         "artifact_assessments": 81,
+        "evidence_metadata": 81,
         "observations": 3,
         "observation_refs": 18,
     }
@@ -53,6 +55,23 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
     for table, minimum in expected_min.items():
         if counts[table] < minimum:
             raise SystemExit(f"FAIL: {table} has {counts[table]} rows; expected at least {minimum}")
+
+    # These tables must now be populated from the committed source-qualified registry,
+    # not left as empty schema placeholders.
+    normalized_counts = {
+        "evidence_source_refs": count("evidence_source_refs"),
+        "catalogue_entities": count("catalogue_entities"),
+        "evidence_relationships": count("evidence_relationships"),
+    }
+    if counts["evidence_metadata"] != counts["evidence_catalogue"]:
+        raise SystemExit(
+            "FAIL: normalized metadata rows do not cover every catalogue entry "
+            f"({counts['evidence_metadata']} != {counts['evidence_catalogue']})"
+        )
+    if normalized_counts["catalogue_entities"] < 20 or normalized_counts["evidence_relationships"] < 50:
+        raise SystemExit(f"FAIL: source-qualified relationship graph is not populated: {normalized_counts}")
+    if normalized_counts["evidence_source_refs"] < 1:
+        raise SystemExit("FAIL: no structured source references were carried into the built database")
 
     # Execute the same evidence and observation joins used by agent-tools.js.
     row = con.execute(
@@ -74,11 +93,113 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
     if not row["description_status"] or not row["interpretation_status"]:
         raise SystemExit("FAIL: assessment states are missing on the real evidence row")
 
+    metadata = con.execute(
+        """SELECT source_date_text, source_date_start, source_date_end, source_date_precision,
+                  source_date_sort, analysis_date_text, analysis_date_precision,
+                  catalogued_at, updated_at, availability_state, inspection_state,
+                  verification_state, access_state, completeness_state, canonical_url,
+                  html_canonical_url, metadata_audit_json, field_states_json
+             FROM evidence_metadata WHERE ev=?""",
+        ("EV-0617",)
+    ).fetchone()
+    if not metadata:
+        raise SystemExit("FAIL: EV-0617 has no normalized metadata row")
+    if metadata["source_date_precision"] not in ("day", "month", "year", "year_range", "range", "approximate", "unknown", "unparsed"):
+        raise SystemExit("FAIL: source date precision is not a controlled value")
+    if metadata["source_date_sort"] and "-00" in metadata["source_date_sort"]:
+        raise SystemExit("FAIL: pseudo-date leaked into normalized source_date_sort")
+    if not metadata["canonical_url"] or not metadata["canonical_url"].startswith("https://bucklerfamily.estate/"):
+        raise SystemExit("FAIL: canonical URL is not on the apex domain")
+    if metadata["canonical_url"] != metadata["html_canonical_url"]:
+        raise SystemExit("FAIL: database canonical URL does not match the page's preferred canonical route")
+    audit = json.loads(metadata["metadata_audit_json"] or "{}")
+    if not audit.get("canonical_matches_expected") or not audit.get("structured_data_matches_record"):
+        raise SystemExit("FAIL: generated evidence-page metadata does not pass canonical/structured-data audit")
+    field_states = json.loads(metadata["field_states_json"] or "{}")
+    if any(value not in ("present", "unknown", "withheld", "not_applicable") for value in field_states.values()):
+        raise SystemExit("FAIL: metadata field state is outside the controlled vocabulary")
+    # Audit every record page's SEO/structured-data contract, not only the sample row.
+    all_meta = con.execute(
+        """SELECT em.ev,em.html_title,em.meta_description,em.canonical_url,em.html_canonical_url,
+                  em.metadata_audit_json,ec.path,ec.artifact_id,a.sha
+             FROM evidence_metadata em
+             LEFT JOIN evidence_catalogue ec ON ec.ev=em.ev
+             LEFT JOIN artifacts a ON a.id=ec.artifact_id
+             ORDER BY em.ev"""
+    ).fetchall()
+    for item in all_meta:
+        if not item["html_title"] or item["ev"].lower() not in item["html_title"].lower():
+            raise SystemExit(f"FAIL: {item['ev']} has no record-ID title")
+        if not item["meta_description"]:
+            raise SystemExit(f"FAIL: {item['ev']} has no record-specific meta description")
+        if not item["canonical_url"] or item["canonical_url"] != item["html_canonical_url"]:
+            raise SystemExit(f"FAIL: {item['ev']} canonical URL is absent or disagrees with the HTML canonical")
+        item_audit = json.loads(item["metadata_audit_json"] or "{}")
+        for key in ("canonical_matches_expected", "og_url_matches_expected", "structured_data_valid",
+                    "structured_data_matches_record", "title_unique", "description_unique", "canonical_url_unique"):
+            if not item_audit.get(key):
+                raise SystemExit(f"FAIL: {item['ev']} metadata audit {key} is false or missing")
+        # The artifact digest must describe the final HTML after link, navigation,
+        # privacy and file-fit rewrites—not an earlier intermediate page.
+        if item["artifact_id"] is not None:
+            if not item["sha"] or not item["path"]:
+                raise SystemExit(f"FAIL: {item['ev']} has an artifact ID but no path or SHA")
+            page_path = DIST / str(item["path"]).lstrip("/") / "index.html"
+            if not page_path.is_file():
+                raise SystemExit(f"FAIL: {item['ev']} final HTML page is missing: {page_path}")
+            final_sha = hashlib.sha256(page_path.read_bytes()).hexdigest()
+            if final_sha != item["sha"]:
+                raise SystemExit(
+                    f"FAIL: stale artifact hash for {item['ev']}: {item['sha']} != {final_sha}"
+                )
+
+    # Every graph edge must resolve to an existing EV and entity, and must have provenance.
+    dangling = con.execute(
+        """SELECT er.relationship_id FROM evidence_relationships er
+            LEFT JOIN evidence_catalogue ec ON ec.ev=er.source_ev
+            LEFT JOIN catalogue_entities ce ON ce.entity_id=er.entity_id
+            WHERE ec.ev IS NULL OR (er.target_ev IS NULL AND ce.entity_id IS NULL)
+               OR (er.target_ev IS NOT NULL AND NOT EXISTS
+                   (SELECT 1 FROM evidence_catalogue et WHERE et.ev=er.target_ev))
+               OR (COALESCE(er.assertion_text,'')='' AND COALESCE(er.source_note,'')='')
+            LIMIT 1"""
+    ).fetchone()
+    if dangling:
+        raise SystemExit(f"FAIL: unresolved or unprovenanced relationship: {dangling[0]}")
+    source_ref_missing = con.execute(
+        """SELECT sr.source_ref_id FROM evidence_source_refs sr
+            LEFT JOIN evidence_catalogue ec ON ec.ev=sr.ev
+            WHERE ec.ev IS NULL LIMIT 1"""
+    ).fetchone()
+    if source_ref_missing:
+        raise SystemExit(f"FAIL: source reference points to unknown EV: {source_ref_missing[0]}")
+
+    bad_dates = con.execute(
+        """SELECT count(*) FROM evidence_metadata
+            WHERE source_date_sort LIKE '%-00-%'
+               OR source_date_start LIKE '%-00-%'
+               OR source_date_end LIKE '%-00-%'"""
+    ).fetchone()[0]
+    if bad_dates:
+        raise SystemExit(f"FAIL: {bad_dates} invalid pseudo-dates were normalized")
+    # All normalized tables must be present and queryable, including empty manually curated relations.
+    con.execute("SELECT * FROM evidence_source_refs WHERE ev=? LIMIT 2", ("EV-0617",)).fetchall()
+    con.execute("SELECT * FROM evidence_relationships WHERE source_ev=? OR target_ev=? LIMIT 2",
+                ("EV-0617", "EV-0617")).fetchall()
+    con.execute("SELECT * FROM catalogue_entities LIMIT 2").fetchall()
+
     # The site-level loader must be present on a nested evidence page, not only the theme home.
-    evidence_page = DIST / "research" / "evidence" / "ev-0617-twelve-year-limitation-rule-1879-1940" / "index.html"
+    evidence_page = DIST / str(row["path"]).lstrip("/") / "index.html"
     if not evidence_page.is_file():
         raise SystemExit(f"FAIL: expected nested Level 1 evidence page is missing: {evidence_page}")
-    page_html = evidence_page.read_text(encoding="utf-8", errors="replace")
+    page_bytes = evidence_page.read_bytes()
+    page_sha = hashlib.sha256(page_bytes).hexdigest()
+    if page_sha != row["sha"]:
+        raise SystemExit(
+            f"FAIL: the built catalogue artifact hash for EV-0617 is stale "
+            f"({row['sha']} != final page {page_sha})"
+        )
+    page_html = page_bytes.decode("utf-8", errors="replace")
     if 'src="/_cedwyn/agent-tools.js' not in page_html and "src='/_cedwyn/agent-tools.js" not in page_html:
         raise SystemExit("FAIL: central agent tools script not injected on the nested evidence page")
 
@@ -147,5 +268,7 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
         "level_1_record": "EV-0617",
         "level_2_observation": "OBS-0001",
         "observation_reference_count": len(refs),
-        "catalogue_metadata_rows": len(meta)
+        "catalogue_metadata_rows": len(meta),
+        "normalized_record_metadata": True,
+        "invalid_pseudo_dates": int(bad_dates)
     }, ensure_ascii=False))

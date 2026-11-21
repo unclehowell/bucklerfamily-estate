@@ -22,6 +22,10 @@ def seed_schema(con):
         "CREATE TABLE evidence_grade_scale(grade INTEGER PRIMARY KEY, meaning TEXT)",
         "CREATE TABLE evidence_text(aid INTEGER, path TEXT, title TEXT, body TEXT, body_chars INTEGER, truncated INTEGER)",
         "CREATE TABLE artifact_assessments(ev TEXT PRIMARY KEY, artifact_id INTEGER, description TEXT, description_status TEXT, transcript TEXT, transcript_status TEXT, interpretation TEXT, interpretation_status TEXT, source_verification_status TEXT, limitations TEXT, updated_at TEXT)",
+        "CREATE TABLE evidence_metadata(ev TEXT PRIMARY KEY, source_date_text TEXT, source_date_precision TEXT, canonical_url TEXT, field_states_json TEXT)",
+        "CREATE TABLE evidence_source_refs(source_ref_id TEXT PRIMARY KEY, ev TEXT, seq INTEGER, repository TEXT, reference TEXT)",
+        "CREATE TABLE catalogue_entities(entity_id TEXT PRIMARY KEY, entity_type TEXT, preferred_name TEXT, disambiguator TEXT)",
+        "CREATE TABLE evidence_relationships(relationship_id TEXT PRIMARY KEY, source_ev TEXT, target_ev TEXT, entity_id TEXT, relation_type TEXT, assertion_basis TEXT, verification_state TEXT)",
         "CREATE TABLE observations(id TEXT PRIMARY KEY, slug TEXT, seq INTEGER, title TEXT, theme TEXT, observation_type TEXT, status TEXT, summary TEXT, analysis TEXT, limits TEXT, test_questions_json TEXT, related_page TEXT, page_path TEXT, updated_at TEXT)",
         "CREATE TABLE observation_refs(observation_id TEXT, seq INTEGER, ev TEXT, path TEXT, role TEXT, note TEXT, artifact_id INTEGER)",
         "CREATE TABLE section_records(theme TEXT, kind TEXT, id TEXT, seq INTEGER, data TEXT)",
@@ -57,6 +61,16 @@ def seed_schema(con):
         ("EV-0001", 2, "", "not_assessed", "", "not_assessed", "", "not_assessed", "not_assessed", "", "2026-10-29"),
         ("EV-0002", None, "", "not_assessed", "", "not_assessed", "", "not_assessed", "not_assessed", "", "2026-10-29"),
     ])
+    con.executemany("INSERT INTO evidence_metadata VALUES(?,?,?,?,?)", [
+        ("EV-0001", "1955", "year", "https://bucklerfamily.estate/research/evidence/ev-0001-order/", '{"repository_text":"present"}'),
+        ("EV-0002", None, "unknown", "https://bucklerfamily.estate/research/evidence/ev-0002-pending/", '{"repository_text":"unknown"}'),
+    ])
+    con.execute("INSERT INTO evidence_source_refs VALUES(?,?,?,?,?)",
+                ("EV-0001:SRC-1", "EV-0001", 1, "Court archive", "CC/1955/14"))
+    con.execute("INSERT INTO catalogue_entities VALUES(?,?,?,?)",
+                ("PER-0001", "person", "John Williams", "tenant at Great House Farm"))
+    con.execute("INSERT INTO evidence_relationships VALUES(?,?,?,?,?,?,?)",
+                ("REL-0001", "EV-0001", None, "PER-0001", "tenanted_by", "document_wording", "provisional"))
     con.execute("INSERT INTO observations VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (
         "OBS-0001", "twelve-year-period-recurrence", 1, "Twelve-year recurrence", "wiki",
         "chronological_pattern", "working_observation", "Pattern summary", "Analysis", "Limits",
@@ -85,6 +99,10 @@ def main():
         assert check.execute("SELECT title FROM evidence_catalogue WHERE ev='EV-0001'").fetchone()[0] == "1955 order entry"
         assert check.execute("SELECT count(*) FROM evidence_catalogue").fetchone()[0] == 2, "Wiki slice must expose every Level 1 catalogue row, including pending records without linked artifact bytes"
         assert check.execute("SELECT description_status FROM artifact_assessments WHERE ev='EV-0002'").fetchone()[0] == "not_assessed"
+        assert check.execute("SELECT source_date_precision FROM evidence_metadata WHERE ev='EV-0001'").fetchone()[0] == "year"
+        assert check.execute("SELECT repository FROM evidence_source_refs WHERE ev='EV-0001'").fetchone()[0] == "Court archive"
+        assert check.execute("SELECT preferred_name FROM catalogue_entities WHERE entity_id='PER-0001'").fetchone()[0] == "John Williams"
+        assert check.execute("SELECT relation_type FROM evidence_relationships WHERE relationship_id='REL-0001'").fetchone()[0] == "tenanted_by"
         coverage = check.execute(
             "SELECT COUNT(*) AS total, "
             "SUM(CASE WHEN trim(COALESCE(aa.description,''))<>'' THEN 1 ELSE 0 END) AS described, "
