@@ -375,10 +375,11 @@ def build():
             reg.relation(
                 source, target, "cited_in", role="source citation in working parcel-model event",
                 basis="modern_analysis", verification="provisional",
+                role=f"source citation in working parcel event: {event.get('title', 'an event')}",
                 text=(
-                    f"Cited by the working parcel-model event “%s”. This is a source-reference link only; it does not "
-                    "establish a title boundary, ownership, physical taking or surveyed geometry."
-                    % event.get("title", "an event")
+                    "This EV is cited by a working parcel-model event. The link records the analytical "
+                    "citation only; it does not establish the event's interpretation, ownership, title extent "
+                    "or surveyed boundary."
                 ), note=f"data/parcel-stories.json#model_events[{idx}]"
             )
 
@@ -510,7 +511,7 @@ def build():
         ("EV-0080", "ORG-BP-PROPERTIES", "mentions", "party to Court of Appeal proceedings",
          "The 1987 judgment records BP Properties Ltd as the claimant; this is a party designation, not independent proof of the original title instrument.", "document_wording", "provisional", "1987"),
         ("EV-0284", "ORG-CARDIFF-CORPORATION", "mentions", "reported beneficiary of Thomas estate",
-         "A secondary transcription describes an unofficial report that the bulk of Alfred Thomas's property was left to Cardiff Corporation; neither the original will nor any Llandough transfer is established.", "secondary_source", "unverified", "1927"),
+         "A secondary transcription describes an unofficial report that the bulk of Alfred Thomas's property was left to Cardiff Corporation; neither the original will nor any Llandough transfer is established.", "secondary_source", REL_UNVERIFIED, "1927"),
     ]
     for source, target, rel, role, assertion, basis, verification, dt in org_links:
         reg.relation(source, target, rel, role=role, basis=basis, verification=verification,
@@ -523,7 +524,7 @@ def build():
     reg.relation(
         "EV-0006", "ORG-DANIEL-THOMAS-AND-SON", "mentions",
         role="counterparty named in family account of reported 1877 agreement",
-        basis="family_account", verification="unverified",
+        basis="family_account", verification=REL_UNVERIFIED,
         text="Mary Williams's reported account names Daniel Thomas & Son in a 1877 agreement; the agreement and plan are unlocated, so its terms, extent and legal effect remain unestablished.",
         note="data/title-chain.json#freehold[14]; data/parcel-stories.json#model_events"
     )
