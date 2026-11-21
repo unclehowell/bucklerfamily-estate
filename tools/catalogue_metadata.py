@@ -495,6 +495,12 @@ def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
     metadata = metadata or {}
     canonical = CANONICAL_BASE + (page_path if page_path.startswith("/") else "/" + page_path)
     canonical = canonical.rstrip("/") + "/"
+    requested_canonical = optional_text(metadata.get("canonical_url"))
+    if requested_canonical:
+        requested_parts = urlparse(requested_canonical)
+        base_parts = urlparse(CANONICAL_BASE)
+        if requested_parts.scheme == base_parts.scheme and requested_parts.netloc == base_parts.netloc and requested_parts.path:
+            canonical = requested_canonical.rstrip("/") + "/"
     title = optional_text(metadata.get("html_title")) or "Evidence catalogue record"
     if str(ev).lower() not in title.lower():
         title = str(ev) + " — " + title
