@@ -354,6 +354,26 @@ def extract_record_metadata(ev, page_path, html_text):
     modified = optional_text(parser.meta.get("article:modified_time") or parser.meta.get("og:updated_time") or parser.meta.get("last-modified")) or optional_text(updated_row["value"])
     source_date_text = source_date_text
     analysis_date_text = optional_text(analysis_row["value"])
+    def structured_matches(value):
+        if isinstance(value, list):
+            return any(structured_matches(item) for item in value)
+        if not isinstance(value, dict):
+            return False
+        if value.get("identifier") == ev or value.get("@id") == expected_canonical:
+            return True
+        if value.get("url") == expected_canonical and value.get("name") == html_title:
+            return True
+        return structured_matches(value.get("@graph")) if value.get("@graph") is not None else False
+
+    structured_matches_record = False
+    for payload in parser.jsonld:
+        try:
+            if structured_matches(json.loads(payload)):
+                structured_matches_record = True
+                break
+        except (TypeError, ValueError):
+            pass
+
     audit = {
         "title_present": bool(html_title),
         "title_contains_record_id": bool(html_title and ev and ev.lower() in html_title.lower()),
@@ -367,6 +387,7 @@ def extract_record_metadata(ev, page_path, html_text):
         "server_rendered_text_present": bool(html_text and len(re.sub(r"<[^>]+>", " ", html_text)) > 500),
         "structured_data_present": bool(parser.jsonld),
         "structured_data_valid": all(_valid_json(x) for x in parser.jsonld) if parser.jsonld else False,
+        "structured_data_matches_record": structured_matches_record,
         "related_links_present": bool(_row(parser, "related entries")["links"]),
         "explicit_source_date_present": bool(source_date_text),
         "page_modified_date_present": bool(modified),
