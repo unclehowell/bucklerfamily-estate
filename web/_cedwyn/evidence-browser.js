@@ -138,6 +138,7 @@
       }
       if (r.updated_at) field(metaBox, 'Explicit page update date', r.updated_at, 'updated_at');
       if (r.canonical_url) link(metaBox, r.canonical_url, 'Canonical record URL');
+      if (r.summary_text) field(metaBox, 'Catalogue summary (labelled catalogue text, not original source wording)', r.summary_text, '');
       if (r.shows_text) field(metaBox, 'Catalogue explanation · “Shows” (not source wording)', r.shows_text, '');
       if (r.does_not_show_text) field(metaBox, 'Catalogue explanation · “Does not show” (not source wording)', r.does_not_show_text, '');
       if (r.metadata_audit_json) {
@@ -401,7 +402,7 @@
             "em.analysis_date_text, em.analysis_date_start, em.analysis_date_end, em.analysis_date_precision, em.catalogued_at, em.updated_at, em.record_type, em.record_type_label, " +
             "em.evidence_label, em.status_text, em.availability_state, em.inspection_state, em.verification_state, " +
             "em.access_state, em.completeness_state, em.holder_text, em.repository_text, em.reference_text, " +
-            "em.repository_reference_text, em.access_note, em.provenance_text, em.shows_text, em.does_not_show_text, " +
+            "em.repository_reference_text, em.access_note, em.provenance_text, em.summary_text, em.shows_text, em.does_not_show_text, " +
             "em.canonical_url, em.html_canonical_url, em.html_title, em.meta_description, em.og_title, " +
             "em.og_description, em.og_url, em.page_modified_at, em.structured_data_present, em.metadata_audit_json, em.field_states_json, "
           : "";
