@@ -10,7 +10,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Derived chronology; rows preserve record, recital, family account, secondary source and gap categories."
+      "notes": "Derived chronology; individual rows preserve source category (record, recital, family account, secondary source or gap)."
     },
     {
       "entity_id": "ANALYSIS-TITLE-THEORY",
@@ -20,7 +20,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Leading working hypothesis, unproven; not a finding of fact or law. References are leads/citations, not proof."
+      "notes": "Leading working hypothesis, unproven; not a finding of fact or law. References are leads/citations, not a proof of the proposed mechanism."
     },
     {
       "entity_id": "OBS-0001",
