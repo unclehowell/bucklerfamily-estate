@@ -256,7 +256,7 @@ for _ev, (_, _epath) in sorted(_ev_pages.items()):
         (_ev, _aid, _page_path, (_title_row[0] if _title_row else _epath)))
 
 # Normalized record metadata: preserve raw source wording and leave ambiguous values NULL.
-from catalogue_metadata import extract_record_metadata, validate_relationship_registry
+from catalogue_metadata import extract_record_metadata, ensure_catalogue_html_metadata, validate_relationship_registry
 con.executescript("""
 CREATE TABLE IF NOT EXISTS evidence_metadata(
  ev TEXT PRIMARY KEY,
@@ -278,7 +278,8 @@ CREATE TABLE IF NOT EXISTS evidence_metadata(
  canonical_url TEXT, html_canonical_url TEXT, html_title TEXT,
  meta_description TEXT, og_title TEXT, og_description TEXT, og_url TEXT,
  page_modified_at TEXT, structured_data_present INTEGER NOT NULL DEFAULT 0,
- metadata_audit_json TEXT NOT NULL DEFAULT '{}'
+ metadata_audit_json TEXT NOT NULL DEFAULT '{}',
+ field_states_json TEXT NOT NULL DEFAULT '{}'
 ) WITHOUT ROWID;
 CREATE INDEX IF NOT EXISTS evidence_metadata_date_sort ON evidence_metadata(source_date_sort);
 CREATE TABLE IF NOT EXISTS evidence_source_refs(
@@ -317,7 +318,7 @@ _metadata_fields = (
     "holder_text", "repository_text", "reference_text", "repository_reference_text", "access_note",
     "provenance_text", "shows_text", "does_not_show_text", "canonical_url", "html_canonical_url",
     "html_title", "meta_description", "og_title", "og_description", "og_url", "page_modified_at",
-    "structured_data_present", "metadata_audit_json"
+    "structured_data_present", "metadata_audit_json", "field_states_json"
 )
 # One normalized metadata row per EV record; absent page fields remain NULL/unknown.
 _metadata_sql = "INSERT OR REPLACE INTO evidence_metadata(ev," + ",".join(_metadata_fields) + ") VALUES(" + ",".join("?" for _ in range(len(_metadata_fields) + 1)) + ")"
@@ -325,6 +326,12 @@ for _ev, _rawpath in con.execute("SELECT ev,path FROM evidence_catalogue ORDER B
     _page_path = _rawpath if str(_rawpath).startswith("/") else "/" + str(_rawpath)
     _page_file = DIST / (_page_path.rstrip("/") + "/index.html").lstrip("/")
     _page_html = _page_file.read_text("utf-8", errors="replace") if _page_file.is_file() else ""
+    _initial_md, _initial_src = extract_record_metadata(_ev, _page_path, _page_html)
+    if _page_file.is_file():
+        _enriched_html, _head_result = ensure_catalogue_html_metadata(_ev, _page_path, _page_html, _initial_md)
+        if _head_result.get("updated"):
+            _page_file.write_text(_enriched_html, encoding="utf-8")
+            _page_html = _enriched_html
     _md, _src = extract_record_metadata(_ev, _page_path, _page_html)
     con.execute(_metadata_sql, (_ev,) + tuple(_md.get(k) for k in _metadata_fields))
     if _src:
@@ -335,6 +342,28 @@ for _ev, _rawpath in con.execute("SELECT ev,path FROM evidence_catalogue ORDER B
                 "source_ref_id", "ev", "seq", "holder", "repository", "reference",
                 "repository_reference_text", "source_url", "access_note", "provenance_note", "source_text"
             )))
+
+
+# Audit title/description/canonical uniqueness across the complete EV register.
+_title_rows = con.execute("SELECT ev,html_title,meta_description,canonical_url,metadata_audit_json FROM evidence_metadata").fetchall()
+_title_counts, _description_counts, _canonical_counts = {}, {}, {}
+for _row in _title_rows:
+    if _row[1]:
+        _key = _row[1].strip().casefold()
+        _title_counts[_key] = _title_counts.get(_key, 0) + 1
+    if _row[2]:
+        _key = _row[2].strip().casefold()
+        _description_counts[_key] = _description_counts.get(_key, 0) + 1
+    if _row[3]:
+        _key = _row[3].rstrip("/").casefold()
+        _canonical_counts[_key] = _canonical_counts.get(_key, 0) + 1
+for _row in _title_rows:
+    _audit = json.loads(_row[4] or "{}")
+    _audit["title_unique"] = bool(_row[1] and _title_counts.get(_row[1].strip().casefold()) == 1)
+    _audit["description_unique"] = bool(_row[2] and _description_counts.get(_row[2].strip().casefold()) == 1)
+    _audit["canonical_url_unique"] = bool(_row[3] and _canonical_counts.get(_row[3].rstrip("/").casefold()) == 1)
+    con.execute("UPDATE evidence_metadata SET metadata_audit_json=? WHERE ev=?",
+                (json.dumps(_audit, ensure_ascii=False, sort_keys=True), _row[0]))
 
 # Explicit people, places and assertion relationships. No name-based merging or inferred links.
 _relationship_path = ROOT / "data" / "catalogue-relationships.json"
