@@ -117,6 +117,13 @@ class HtmlMetadataEnrichmentTests(unittest.TestCase):
         </head><body>Wiki alias page content.</body></html>"""
         md, _ = extract_record_metadata("EV-0004", "/wiki/evidence/ev-0004-record/", page)
         self.assertEqual(md["canonical_url"], "https://bucklerfamily.estate/research/evidence/ev-0004-record/")
+        enriched, _ = ensure_catalogue_html_metadata(
+            "EV-0004", "/wiki/evidence/ev-0004-record/", page, md
+        )
+        self.assertIn(
+            '<link rel="canonical" href="https://bucklerfamily.estate/research/evidence/ev-0004-record/">',
+            enriched
+        )
         audit = __import__("json").loads(md["metadata_audit_json"])
         self.assertTrue(audit["canonical_matches_expected"])
         self.assertTrue(audit["og_url_matches_expected"])
