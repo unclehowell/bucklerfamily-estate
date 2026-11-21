@@ -257,6 +257,10 @@ def _states(status, evidence_label, access_note=None):
     # Access is deliberately derived only from the dedicated access-note field.
     # Do not infer online/on-site accessibility from a generic status string.
     access_combined = access_text
+    if not access_combined or access_combined in {"unknown", "pending", "not stated"}:
+        # Migrate only explicit access terms from the legacy status field.
+        if re.search(r"\bpaywall(?:ed)?\b|\bappointment required\b|\brestricted access\b|\baccess restricted\b|\bopen access\b|\bonline only\b|\breading room access\b", combined):
+            access_combined = combined
 
     if re.search(r"\bnot located\b|\bnot found\b|\bunable to locate\b|\bcould not locate\b", combined):
         availability = "not_located"
@@ -271,7 +275,7 @@ def _states(status, evidence_label, access_note=None):
     else:
         availability = "unknown"
 
-    if "catalogue text" in combined and re.search(r"\bread\b|\bentries read\b", combined):
+    if re.search(r"\bcatalogue[- ]only\b", combined) or ("catalogue text" in combined and re.search(r"\bread\b|\bentries read\b", combined)):
         inspection = "catalogue_only"
     elif re.search(r"\bpartly read\b|\bpartially read\b", combined):
         inspection = "partly_read"
