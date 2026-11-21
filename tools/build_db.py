@@ -13,6 +13,28 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 CFG = json.load(open(ROOT / 'themes.json'))
 DIST = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else 'dist')
 OUT = DIST / 'db'; OUT.mkdir(parents=True, exist_ok=True)
+# Enrich canonical evidence pages before artifacts are hashed or copied into BLOBs.
+from catalogue_metadata import extract_record_metadata, ensure_catalogue_html_metadata
+_ev_page_candidates = {}
+for _candidate in DIST.rglob("index.html"):
+    _relative = "/" + _candidate.relative_to(DIST).as_posix()
+    _match = re.match(r"^/(research|wiki)/evidence/(ev-[0-9]{4})-[^/]+/index[.]html$", _relative, re.I)
+    if not _match:
+        continue
+    _ev = _match.group(2).upper()
+    _priority = 0 if _match.group(1).lower() == "research" else 1
+    _ev_page_candidates.setdefault(_ev, []).append((_priority, _relative, _candidate))
+for _ev, _candidates in sorted(_ev_page_candidates.items()):
+    _canonical_relative = min(_candidates, key=lambda x: (x[0], x[1]))[1]
+    _canonical_path = _canonical_relative.rsplit("/index.html", 1)[0] + "/"
+    for _priority, _relative, _candidate in _candidates:
+        _html = _candidate.read_text("utf-8", errors="replace")
+        _page_path = _relative.rsplit("/index.html", 1)[0] + "/"
+        _md, _ = extract_record_metadata(_ev, _page_path, _html)
+        _md["canonical_url"] = "https://bucklerfamily.estate" + _canonical_path
+        _enriched, _result = ensure_catalogue_html_metadata(_ev, _canonical_path, _html, _md)
+        if _result.get("updated"):
+            _candidate.write_text(_enriched, encoding="utf-8")
 DBF = pathlib.Path('cedwyn.sqlite3'); DBF.unlink(missing_ok=True)
 CHUNK = int(os.environ.get('DB_CHUNK', 256 * 1024))   # Pages serves whole files (no Range), so each chunk file = one request; 256 KB since stage 3 (theme pages read single files from the DB)
 BLOB_MAX = int(os.environ.get('BLOB_MAX', 2_500_000)); BLOB_TOTAL = int(os.environ.get('BLOB_TOTAL', 700_000_000))
@@ -256,7 +278,7 @@ for _ev, (_, _epath) in sorted(_ev_pages.items()):
         (_ev, _aid, _page_path, (_title_row[0] if _title_row else _epath)))
 
 # Normalized record metadata: preserve raw source wording and leave ambiguous values NULL.
-from catalogue_metadata import extract_record_metadata, ensure_catalogue_html_metadata, validate_relationship_registry
+from catalogue_metadata import validate_relationship_registry
 con.executescript("""
 CREATE TABLE IF NOT EXISTS evidence_metadata(
  ev TEXT PRIMARY KEY,
