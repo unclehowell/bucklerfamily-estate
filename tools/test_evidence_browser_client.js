@@ -54,6 +54,7 @@ const row = {
   holder_text: null, repository_text: 'Court archive', reference_text: 'CC/1955/14',
   repository_reference_text: null, access_note: 'Catalogue online.',
   provenance_text: 'Catalogue entry, not original instrument.',
+  summary_text: 'A catalogue summary, explicitly attributed to the catalogue.',
   shows_text: 'What the judgment records.',
   does_not_show_text: 'The original order itself.',
   canonical_url: 'https://bucklerfamily.estate/research/evidence/ev-0001-order/',
@@ -156,6 +157,10 @@ async function main() {
   assert.ok(ok.registry['[data-coverage]'].textContent.includes('1 records'), 'coverage line populated');
   assert.equal(findAll(results, n => n.textContent === 'Structured record metadata · separate from source interpretation').length, 1,
     'normalized record metadata should render');
+  assert.equal(findAll(results, n => n.textContent === 'Catalogue summary (labelled catalogue text, not original source wording)').length, 1,
+    'explicit catalogue summaries should render with attribution');
+  assert.equal(findAll(results, n => n.textContent.includes('A catalogue summary, explicitly attributed to the catalogue.')).length, 1,
+    'catalogue summary text should render');
   assert.equal(findAll(results, n => n.textContent === 'Availability').length, 1,
     'separate availability state should render');
   assert.equal(findAll(results, n => n.textContent === 'Missing-value semantics · null values are not silently converted to empty strings').length, 1,
