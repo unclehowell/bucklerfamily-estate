@@ -721,6 +721,10 @@ def validate_relationship_registry(doc, known_evs):
         date_precision = optional_text(item.get("date_precision")) or "unknown"
         if date_precision not in {"day", "month", "year", "year_range", "unknown", "unparsed"}:
             raise ValueError("relationship %s has an uncontrolled date_precision" % rel_id)
+        assertion_text = optional_text(item.get("assertion_text"))
+        source_note = optional_text(item.get("source_note"))
+        if not assertion_text and not source_note:
+            raise ValueError("relationship %s needs assertion_text or a source_note pinpointing its evidence" % rel_id)
         if relation_type not in RELATION_TYPES or basis not in ASSERTION_BASES or verification not in VERIFICATION_STATES:
             raise ValueError("relationship %s has an uncontrolled relation, assertion basis or verification state" % rel_id)
         clean_relationships.append({
@@ -731,9 +735,9 @@ def validate_relationship_registry(doc, known_evs):
             "date_end": optional_text(item.get("date_end")),
             "date_precision": date_precision,
             "assertion_basis": basis,
-            "assertion_text": optional_text(item.get("assertion_text")),
+            "assertion_text": assertion_text,
             "verification_state": verification,
-            "source_note": optional_text(item.get("source_note")),
+            "source_note": source_note,
         })
         relation_ids.add(rel_id)
     return clean_entities, clean_relationships
