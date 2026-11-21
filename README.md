@@ -69,7 +69,7 @@ These changes do not make a catalogue entry equivalent to an inspected original.
 
 ### Manual curation boundary
 
-`data/catalogue-relationships.json` is the reviewed authoring registry. It is intentionally empty until each person, place, tenure role, spatial geometry and cross-record relationship has an identifiable source and a documented basis. A person requires a disambiguator; a place name alone is not a unique identifier. Spatial geometry requires CRS, geometry type, transformation method, declared positional uncertainty (a null value means not quantified) and a known source EV. Do not add parcel boundaries or ownership/tenancy claims from a map label or surname match alone.
+`data/catalogue-relationships.json` is the reviewed authoring registry. It is intentionally empty until each person, place, tenure role, spatial geometry and cross-record relationship has an identifiable source and a documented basis. A person requires a disambiguator; a place name alone is not a unique identifier. Spatial geometry requires CRS, geometry type, transformation method, declared positional uncertainty (a null value means not quantified) and a known source EV. Do not add parcel boundaries or ownership/tenancy assertions from a map label or surname match alone.
 
 The browser and GraphQL layer expose these fields, and the section-database builder carries them into relevant read-only slices. The public change takes effect only when this branch is merged and deployed. It does not itself verify every underlying document or populate the still-empty relationship registry.
 
