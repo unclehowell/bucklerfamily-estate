@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from catalogue_metadata import extract_record_metadata, parse_date_range, validate_relationship_registry
+from catalogue_metadata import ensure_catalogue_html_metadata, extract_record_metadata, parse_date_range, validate_relationship_registry
 
 
 class DatePrecisionTests(unittest.TestCase):
@@ -70,15 +70,57 @@ class PageMetadataTests(unittest.TestCase):
         self.assertEqual(md["source_date_precision"], "day")
         self.assertEqual(md["record_type"], "press_report")
         self.assertEqual(md["inspection_state"], "catalogue_only")
-        self.assertEqual(md["access_state"], "open")
+        self.assertEqual(md["access_state"], "on_site")
         self.assertEqual(md["repository_text"], "Glamorgan Archives")
         self.assertEqual(md["reference_text"], "DX/123/4 catalogue")
+        self.assertEqual(__import__("json").loads(md["field_states_json"])["holder_text"], "unknown")
+        self.assertEqual(__import__("json").loads(md["field_states_json"])["reference_text"], "present")
         self.assertIn("public meeting", md["shows_text"])
         self.assertIn("original minutes", md["does_not_show_text"])
         self.assertEqual(md["canonical_url"], "https://bucklerfamily.estate/research/evidence/ev-0001-sample/")
         self.assertEqual(md["catalogued_at"], "2026-11-21")
         self.assertIsNotNone(src)
         self.assertEqual(src["source_url"], "https://archives.example.org/item/123")
+
+
+class HtmlMetadataEnrichmentTests(unittest.TestCase):
+    def test_missing_head_metadata_is_added_and_auditable(self):
+        source = """<!doctype html><html><head><meta charset="utf-8">
+        <title>EV-0002 — Sample archive entry</title></head>
+        <body><h1>EV-0002 — Sample archive entry</h1><p>Catalogue record text.</p></body></html>"""
+        md, _ = extract_record_metadata("EV-0002", "/research/evidence/ev-0002-sample/", source)
+        enriched, result = ensure_catalogue_html_metadata(
+            "EV-0002", "/research/evidence/ev-0002-sample/", source, md
+        )
+        self.assertTrue(result["updated"])
+        self.assertIn('<link rel="canonical" href="https://bucklerfamily.estate/research/evidence/ev-0002-sample/">', enriched)
+        self.assertIn('property="og:title"', enriched)
+        self.assertIn('property="og:description"', enriched)
+        self.assertIn('property="og:url"', enriched)
+        self.assertIn('name="description"', enriched)
+        final_md, _ = extract_record_metadata(
+            "EV-0002", "/research/evidence/ev-0002-sample/", enriched
+        )
+        audit = __import__("json").loads(final_md["metadata_audit_json"])
+        self.assertTrue(audit["canonical_matches_expected"])
+        self.assertTrue(audit["og_url_matches_expected"])
+        self.assertTrue(audit["structured_data_matches_record"])
+
+    def test_existing_unrelated_jsonld_is_preserved_and_record_schema_added(self):
+        source = """<html><head><title>EV-0003 — Sample</title>
+        <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Site"}</script>
+        </head><body>Record</body></html>"""
+        md, _ = extract_record_metadata("EV-0003", "/research/evidence/ev-0003-sample/", source)
+        enriched, _ = ensure_catalogue_html_metadata(
+            "EV-0003", "/research/evidence/ev-0003-sample/", source, md
+        )
+        self.assertIn('"@type": "WebSite"', enriched)
+        self.assertIn('"identifier": "EV-0003"', enriched)
+        final_md, _ = extract_record_metadata(
+            "EV-0003", "/research/evidence/ev-0003-sample/", enriched
+        )
+        audit = __import__("json").loads(final_md["metadata_audit_json"])
+        self.assertTrue(audit["structured_data_matches_record"])
 
 
 class RelationshipValidationTests(unittest.TestCase):
