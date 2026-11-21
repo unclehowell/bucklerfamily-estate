@@ -72,7 +72,7 @@ class PageMetadataTests(unittest.TestCase):
         self.assertEqual(md["inspection_state"], "catalogue_only")
         self.assertEqual(md["access_state"], "on_site")
         self.assertEqual(md["repository_text"], "Glamorgan Archives")
-        self.assertEqual(md["reference_text"], "DX/123/4 catalogue")
+        self.assertEqual(md["reference_text"], "DX/123/4 catalogue repository")
         self.assertEqual(__import__("json").loads(md["field_states_json"])["holder_text"], "unknown")
         self.assertEqual(__import__("json").loads(md["field_states_json"])["reference_text"], "present")
         self.assertIn("public meeting", md["shows_text"])
