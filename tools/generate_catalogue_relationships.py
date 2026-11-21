@@ -137,10 +137,10 @@ class Registry:
         for relationship in relationships:
             if relationship.get("assertion_text"):
                 relationship["assertion_text"] = re.sub(
-                    r"\\bsays\\b", "records", relationship["assertion_text"], flags=re.I
+                    r"\bsays\b", "records", relationship["assertion_text"], flags=re.I
                 )
                 relationship["assertion_text"] = re.sub(
-                    r"\\bunverified\\b", "not independently established",
+                    r"\bunverified\b", "not independently established",
                     relationship["assertion_text"], flags=re.I
                 )
         return {
