@@ -690,7 +690,7 @@
       "date_precision": "year",
       "assertion_basis": "family_account",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#freehold[14]"
     },
     {
@@ -718,7 +718,7 @@
       "date_precision": "unknown",
       "assertion_basis": "family_account",
       "assertion_text": "Mary Williams's reported account names Daniel Thomas & Son in a 1877 agreement; agreement and plan are unlocated, so terms, extent and legal effect remain unestablished.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#freehold[14]; data/parcel-stories.json#model_events"
     },
     {
@@ -858,7 +858,7 @@
       "date_precision": "year",
       "assertion_basis": "family_account",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#occupiers[9]"
     },
     {
@@ -886,7 +886,7 @@
       "date_precision": "year",
       "assertion_basis": "family_account",
       "assertion_text": "Mary Williams's account records she saw a receipt for a 1928 payment “to Alfred Thomas”; receipt is missing and Alfred died in 1927. Actual payee unresolved.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#source-specific-person-role-mapping"
     },
     {
@@ -1656,7 +1656,7 @@
       "date_precision": "unknown",
       "assertion_basis": "family_account",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#freehold[27]"
     },
     {
@@ -1670,7 +1670,7 @@
       "date_precision": "unknown",
       "assertion_basis": "family_account",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#occupiers[22]"
     },
     {
@@ -2314,7 +2314,7 @@
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#occupiers[28]"
     },
     {
@@ -2888,7 +2888,7 @@
       "date_precision": "approximate",
       "assertion_basis": "catalogue_interpretation",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#freehold[11]"
     },
     {
@@ -2916,7 +2916,7 @@
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#occupiers[28]"
     },
     {
@@ -3056,7 +3056,7 @@
       "date_precision": "year",
       "assertion_basis": "catalogue_interpretation",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#occupiers[4]"
     },
     {
@@ -3112,7 +3112,7 @@
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#occupiers[28]"
     },
     {
@@ -3238,7 +3238,7 @@
       "date_precision": "year",
       "assertion_basis": "catalogue_interpretation",
       "assertion_text": "Title-chain row: [object Object] The row preserves source classification and limitations; this citation is not a finding of title, ownership, parcel extent or legal effect.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#freehold[6]"
     },
     {
@@ -3322,7 +3322,7 @@
       "date_precision": "year",
       "assertion_basis": "secondary_source",
       "assertion_text": "Secondary transcription describes an unofficial report about the bulk of Alfred Thomas's property; original will and any Llandough transfer are not established.",
-      "verification_state": "unverified",
+      "verification_state": "not_assessed",
       "source_note": "data/title-chain.json#source-qualified-organization-role-mapping"
     },
     {
