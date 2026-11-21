@@ -29,7 +29,7 @@ RELATION_TYPES = {
     "names_seller", "names_buyer", "names_transferor", "names_transferee",
     "grants_rights_to", "other",
 }
-ASSERTION_BASES = {"document_wording", "catalogue_interpretation", "family_account", "modern_analysis", "unknown"}
+ASSERTION_BASES = {"document_wording", "catalogue_interpretation", "family_account", "secondary_source", "modern_analysis", "unknown"}
 VERIFICATION_STATES = {"verified", "provisional", "unverified", "not_assessed"}
 
 
