@@ -46,7 +46,7 @@
     '<div class="cw-eb-links"><button type="button" data-more hidden>Load more</button><a href="/wiki/observations/">Open all observation pages</a></div>',
     '</section>'
   ].join('');
-  var hasCsscpsg = false;
+  var hasCsscpsg = false, hasCatalogueMetadata = false, hasRelationships = false;
   var status = root.querySelector('[data-status]');
   var results = root.querySelector('[data-results]');
   var queryInput = root.querySelector('#cw-eb-query');
@@ -87,11 +87,84 @@
       ' · Source verification: ' + (r.source_verification_status || 'not_assessed') +
       (r.independent_origin_id ? ' · Origin: ' + r.independent_origin_id : '')));
     var links = el('div', 'cw-eb-links');
-    link(links, safePath(r.path), 'Open catalogue entry');
+    link(links, r.canonical_url || safePath(r.path), 'Open catalogue entry');
     card.appendChild(links);
     field(card, 'Neutral description', r.description, r.description_status);
     field(card, 'Transcription / source wording', r.transcript, r.transcript_status);
     field(card, 'Interpretation (separate from the artifact)', r.interpretation, r.interpretation_status);
+    if (hasCatalogueMetadata) {
+      var metaBox = el('section', 'cw-eb-note cw-eb-structured');
+      metaBox.appendChild(el('strong', '', 'Structured record metadata · separate from source interpretation'));
+      field(metaBox, 'Source date (original wording)', r.source_date_text, r.source_date_precision);
+      if (r.source_date_start || r.source_date_end) {
+        field(metaBox, 'Normalized source-date bounds (precision retained)',
+          (r.source_date_start || '?') + (r.source_date_end && r.source_date_end !== r.source_date_start ? ' to ' + r.source_date_end : ''),
+          r.source_date_precision);
+      }
+      field(metaBox, 'Record type', r.record_type_label, r.record_type);
+      field(metaBox, 'Evidence label', r.evidence_label, '');
+      field(metaBox, 'Availability', r.availability_state, '');
+      field(metaBox, 'Inspection state', r.inspection_state, '');
+      field(metaBox, 'Verification state', r.verification_state, '');
+      field(metaBox, 'Access state', r.access_state, '');
+      field(metaBox, 'Completeness state', r.completeness_state, '');
+      if (r.status_text) field(metaBox, 'Original status wording (retained)', r.status_text, '');
+      if (r.holder_text) field(metaBox, 'Holder', r.holder_text, '');
+      if (r.repository_text) field(metaBox, 'Repository', r.repository_text, '');
+      if (r.reference_text) field(metaBox, 'Reference', r.reference_text, '');
+      if (r.repository_reference_text) field(metaBox, 'Repository / reference (original combined field)', r.repository_reference_text, '');
+      if (r.access_note) field(metaBox, 'Access note', r.access_note, '');
+      if (r.provenance_text) field(metaBox, 'Catalogue provenance', r.provenance_text, '');
+      if (r.catalogued_at) field(metaBox, 'Catalogue entry date', r.catalogued_at, 'catalogued_at');
+      if (r.analysis_date_text) field(metaBox, 'Analysis date (separate from source date)', r.analysis_date_text, '');
+      if (r.updated_at) field(metaBox, 'Explicit page update date', r.updated_at, 'updated_at');
+      if (r.canonical_url) link(metaBox, r.canonical_url, 'Canonical record URL');
+      if (r.shows_text) field(metaBox, 'Catalogue explanation · “Shows” (not source wording)', r.shows_text, '');
+      if (r.does_not_show_text) field(metaBox, 'Catalogue explanation · “Does not show” (not source wording)', r.does_not_show_text, '');
+      if (r.metadata_audit_json) {
+        var audit = null;
+        try { audit = JSON.parse(r.metadata_audit_json); } catch (_) {}
+        if (audit) {
+          var details = el('details', 'cw-eb-existing');
+          details.appendChild(el('summary', '', 'HTML / search metadata audit'));
+          var names = {
+            title_present: 'HTML title', title_contains_record_id: 'Title includes record ID',
+            description_present: 'Record-specific meta description', canonical_present: 'Canonical link',
+            canonical_matches_expected: 'Canonical matches expected URL', og_title_present: 'Open Graph title',
+            og_description_present: 'Open Graph description', og_url_present: 'Open Graph URL',
+            og_url_matches_expected: 'Open Graph URL matches expected URL',
+            server_rendered_text_present: 'Server-rendered page text',
+            structured_data_present: 'Structured data', structured_data_valid: 'Structured data parses',
+            related_links_present: 'Related-record links', explicit_source_date_present: 'Explicit source-date field',
+            page_modified_date_present: 'Explicit page-modified date'
+          };
+          var auditList = el('ul', '');
+          Object.keys(names).forEach(function (key) {
+            if (!(key in audit)) return;
+            auditList.appendChild(el('li', '', names[key] + ': ' + (audit[key] ? 'present / matches' : 'missing / not confirmed')));
+          });
+          details.appendChild(auditList);
+          metaBox.appendChild(details);
+        }
+      }
+      card.appendChild(metaBox);
+    }
+    if (r.catalogue_relationships && r.catalogue_relationships.length) {
+      var relBox = el('section', 'cw-eb-note cw-eb-relationships');
+      relBox.appendChild(el('strong', '', 'Explicitly curated relationships · not surname-matched'));
+      var relList = el('ul', '');
+      r.catalogue_relationships.forEach(function (rel) {
+        var target = rel.entity_name || (rel.target_ev ? rel.target_ev + (rel.target_title ? ' — ' + rel.target_title : '') : rel.entity_id);
+        var direction = rel.source_ev === r.ev ? 'This record → ' : 'From ' + rel.source_ev + ' → this record · ';
+        var line = direction + (rel.relation_type || 'related') + ': ' + (target || 'target not labelled');
+        if (rel.role) line += ' (' + rel.role + ')';
+        line += ' · basis: ' + (rel.assertion_basis || 'unknown') + ' · verification: ' + (rel.verification_state || 'not_assessed');
+        if (rel.assertion_text) line += ' · ' + rel.assertion_text;
+        relList.appendChild(el('li', '', line));
+      });
+      relBox.appendChild(relList);
+      card.appendChild(relBox);
+    }
     if (r.grade_note) {
       var note = el('div', 'cw-eb-note');
       note.appendChild(el('strong', '', 'Provenance / assessment note'));
@@ -249,6 +322,14 @@
         var cols = await db.query("SELECT name FROM pragma_table_info('artifact_assessments')", []);
         hasCsscpsg = cols.some(function (c) { return c.name === 'csscpsg_json'; });
       } catch (e) { hasCsscpsg = false; }
+      try {
+        var metaCols = await db.query("SELECT name FROM pragma_table_info('evidence_metadata')", []);
+        hasCatalogueMetadata = metaCols.length > 0;
+      } catch (e) { hasCatalogueMetadata = false; }
+      try {
+        var relationCols = await db.query("SELECT name FROM pragma_table_info('evidence_relationships')", []);
+        hasRelationships = relationCols.length > 0;
+      } catch (e) { hasRelationships = false; }
       if (!coverageText) {
         var cov = await db.query(
           "SELECT COUNT(*) AS total, " +
@@ -267,16 +348,46 @@
       var q = String(queryInput.value || '').trim().toLowerCase();
       var rows;
       if (mode === 'artifacts') {
+        var metadataColumns = hasCatalogueMetadata
+          ? "em.source_date_text, em.source_date_start, em.source_date_end, em.source_date_precision, em.source_date_sort, " +
+            "em.analysis_date_text, em.catalogued_at, em.updated_at, em.record_type, em.record_type_label, " +
+            "em.evidence_label, em.status_text, em.availability_state, em.inspection_state, em.verification_state, " +
+            "em.access_state, em.completeness_state, em.holder_text, em.repository_text, em.reference_text, " +
+            "em.repository_reference_text, em.access_note, em.provenance_text, em.shows_text, em.does_not_show_text, " +
+            "em.canonical_url, em.html_canonical_url, em.html_title, em.meta_description, em.og_title, " +
+            "em.og_description, em.og_url, em.page_modified_at, em.structured_data_present, em.metadata_audit_json, "
+          : "";
+        var metadataJoin = hasCatalogueMetadata ? "LEFT JOIN evidence_metadata em ON em.ev=ec.ev " : "";
         var base = "SELECT ec.ev, ec.title, ec.path, ec.evidence_grade, ec.independent_origin_id, ec.grade_note, " +
           "aa.description, aa.description_status, aa.transcript, aa.transcript_status, aa.interpretation, " +
           "aa.interpretation_status, aa.source_verification_status, aa.limitations, " +
           (hasCsscpsg ? "aa.csscpsg_json, " : "'' AS csscpsg_json, ") +
-          "et.body AS catalogue_page_text, et.truncated AS catalogue_text_truncated " +
+          metadataColumns + "et.body AS catalogue_page_text, et.truncated AS catalogue_text_truncated " +
           "FROM evidence_catalogue ec LEFT JOIN artifact_assessments aa ON aa.ev=ec.ev " +
-          "LEFT JOIN evidence_text et ON et.aid=ec.artifact_id ";
-        var where = q ? "WHERE lower(ec.ev) LIKE ? OR lower(ec.title) LIKE ? OR lower(ec.path) LIKE ? OR lower(ec.aliases_json) LIKE ? OR lower(COALESCE(aa.description,'')) LIKE ? OR lower(COALESCE(aa.interpretation,'')) LIKE ? OR lower(COALESCE(et.body,'')) LIKE ? " : "";
-        var params = q ? Array(7).fill('%' + q + '%') : [];
+          metadataJoin + "LEFT JOIN evidence_text et ON et.aid=ec.artifact_id ";
+        var metadataSearch = hasCatalogueMetadata
+          ? " OR lower(COALESCE(em.source_date_text,'')) LIKE ? OR lower(COALESCE(em.record_type_label,'')) LIKE ? OR lower(COALESCE(em.status_text,'')) LIKE ? OR lower(COALESCE(em.repository_reference_text,'')) LIKE ? OR lower(COALESCE(em.provenance_text,'')) LIKE ?"
+          : "";
+        var where = q ? "WHERE lower(ec.ev) LIKE ? OR lower(ec.title) LIKE ? OR lower(ec.path) LIKE ? OR lower(ec.aliases_json) LIKE ? OR lower(COALESCE(aa.description,'')) LIKE ? OR lower(COALESCE(aa.interpretation,'')) LIKE ? OR lower(COALESCE(et.body,'')) LIKE ?" + metadataSearch + " " : "";
+        var params = q ? Array(hasCatalogueMetadata ? 12 : 7).fill('%' + q + '%') : [];
         rows = await db.query(base + where + 'ORDER BY ec.ev LIMIT ? OFFSET ?', params.concat([pageSize, offset]));
+        if (hasRelationships && rows.length) {
+          var ids = rows.map(function (r) { return r.ev; });
+          var marks = ids.map(function () { return '?'; }).join(',');
+          var relRows = await db.query(
+            "SELECT er.*, ce.preferred_name AS entity_name, ce.disambiguator AS entity_disambiguator, " +
+            "target.title AS target_title, source.title AS source_title " +
+            "FROM evidence_relationships er " +
+            "LEFT JOIN catalogue_entities ce ON ce.entity_id=er.entity_id " +
+            "LEFT JOIN evidence_catalogue target ON target.ev=er.target_ev " +
+            "LEFT JOIN evidence_catalogue source ON source.ev=er.source_ev " +
+            "WHERE er.source_ev IN (" + marks + ") OR er.target_ev IN (" + marks + ")",
+            ids.concat(ids)
+          );
+          rows.forEach(function (r) {
+            r.catalogue_relationships = relRows.filter(function (rel) { return rel.source_ev === r.ev || rel.target_ev === r.ev; });
+          });
+        }
         rows.forEach(function (r) { results.appendChild(artifactCard(r)); });
       } else {
         var obwhere = q ? "WHERE lower(o.id) LIKE ? OR lower(o.title) LIKE ? OR lower(o.summary) LIKE ? OR lower(o.analysis) LIKE ? OR lower(o.limits) LIKE ? " : "";
