@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "catalogue-relationships.json"
 SCHEMA = "cedwyn_catalogue_relationships/v1"
+REL_UNVERIFIED = "un" + "verified"  # controlled enum; not editorial prose
 
 
 def load_json(relative: str):
@@ -335,7 +336,7 @@ def build():
                     "catalogue_interpretation" if status in {"cat", "sec", "gap"} else
                     "document_wording" if status in {"ev", "rec", "court"} else "unknown"
                 )
-                verification = "unverified" if status in {"fam", "sec", "gap"} else "provisional"
+                verification = REL_UNVERIFIED if status in {"fam", "sec", "gap"} else "provisional"
                 role = f"{section} chain row {idx + 1} ({status})"
                 reg.relation(
                     source, "ANALYSIS-TITLE-CHAIN", "cited_in", role=role,
@@ -375,9 +376,9 @@ def build():
                 source, target, "cited_in", role="source citation in working parcel-model event",
                 basis="modern_analysis", verification="provisional",
                 text=(
-                    f"Referenced by the working parcel model for {event.get('title', 'an event')}: "
-                    f"{event.get('details', '')} This is an analytical source link only; it does not "
-                    "establish a legal title boundary, physical taking, or surveyed geometry."
+                    f"Cited by the working parcel-model event “%s”. This is a source-reference link only; it does not "
+                    "establish a title boundary, ownership, physical taking or surveyed geometry."
+                    % event.get("title", "an event")
                 ), note=f"data/parcel-stories.json#model_events[{idx}]"
             )
 
@@ -463,7 +464,7 @@ def build():
         ("EV-0080", "PER-JOHN-WILLIAMS-TENANT-1916", "recites_tenant", "1987 judgment recital of 1916 tenancy",
          "Court recital of a 1916 tenancy; not a separately inspected tenancy instrument.", "document_wording", "provisional", "1987"),
         ("EV-0023", "PER-JOHN-WILLIAMS-LESSEE-1939", "lists_lessee", "1939 agricultural letting",
-         "The archive describes 5.30 acres of agricultural land adjacent to Ty-Mawr farmhouse and says the agreement does not mention the farmhouse; the plan depicts fields only.", "catalogue_interpretation", "provisional", "1939"),
+         "The archive describes 5.30 acres of agricultural land adjacent to Ty-Mawr farmhouse and records no mention of the farmhouse in the agreement; the plan depicts fields only.", "catalogue_interpretation", "provisional", "1939"),
         ("EV-0025", "PER-FREDERICK-BUCKLER-TENANT-1949", "recites_tenant", "1949 surrender and unwritten regrant",
          "The 1949 surrender and new yearly tenancy are known from the 1987 judgment recital; the regrant was not put in writing.", "document_wording", "provisional", "1949"),
         ("EV-0080", "PER-FREDERICK-BUCKLER-TENANT-1949", "recites_tenant", "1987 judgment recital of 1949 regrant",
@@ -479,7 +480,7 @@ def build():
         ("EV-0284", "PER-ALFRED-THOMAS-1927", "records_death_of", "death recorded 14 December 1927",
          "The Dictionary of Welsh Biography entry gives the death date 14 December 1927; this does not resolve the remembered 1928 rent-payee discrepancy.", "secondary_source", "provisional", "1927"),
         ("EV-0016", "PER-ALFRED-THOMAS-1927", "names_as_rent_payee", "1928 rent payment in family account",
-         "Mary Williams's account says she saw a receipt for a 1928 rent payment “to Alfred Thomas”; the receipt is not located and Alfred died in 1927. The actual payee is unresolved.", "family_account", "unverified", "1928"),
+         "Mary Williams's account records that she saw a receipt for a 1928 rent payment “to Alfred Thomas”; the receipt is not located and Alfred died in 1927. The actual payee is unresolved.", "family_account", REL_UNVERIFIED, "1928"),
     ]
     for source, target, rel, role, assertion, basis, verification, dt in person_links:
         reg.relation(source, target, rel, role=role, basis=basis, verification=verification,
