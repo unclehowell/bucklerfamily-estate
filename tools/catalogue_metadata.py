@@ -917,7 +917,8 @@ def validate_relationship_registry(doc, known_evs):
         date_end = optional_text(item.get("date_end"))
         if date_precision in {"day", "month", "year", "approximate"}:
             parsed_start = parse_date_range(date_start)
-            if not date_start or parsed_start["date_precision"] not in {date_precision, "day" if date_precision == "day" else date_precision}:
+            expected_bound_precision = "year" if date_precision == "approximate" else date_precision
+            if not date_start or parsed_start["date_precision"] != expected_bound_precision:
                 raise ValueError("relationship %s has a date_start inconsistent with date_precision" % rel_id)
             if date_precision == "approximate" and date_end:
                 raise ValueError("relationship %s approximate dates must not invent date_end" % rel_id)
