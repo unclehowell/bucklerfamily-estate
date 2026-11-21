@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from catalogue_metadata import ensure_catalogue_html_metadata, extract_record_metadata, parse_date_range, validate_relationship_registry, visible_body_text_length
+from catalogue_metadata import ensure_catalogue_html_metadata, extract_record_metadata, parse_date_range, validate_relationship_registry, visible_body_text_length, _states
 
 
 class DatePrecisionTests(unittest.TestCase):
@@ -37,6 +37,25 @@ class DatePrecisionTests(unittest.TestCase):
         got = parse_date_range("11 June 1904; 23 March 1905")
         self.assertIsNone(got["date_start"])
         self.assertEqual(got["date_precision"], "unparsed")
+
+    def test_approximate_year_keeps_approximation_and_sort_anchor(self):
+        got = parse_date_range("circa 1824")
+        self.assertEqual(got["date_start"], "1824")
+        self.assertIsNone(got["date_end"])
+        self.assertEqual(got["date_precision"], "approximate")
+        self.assertEqual(got["date_sort"], "1824")
+
+    def test_approximate_year_variants_are_supported(self):
+        for value in ("c. 1841", "ca. 1841", "about 1841", "approximately 1841"):
+            with self.subTest(value=value):
+                self.assertEqual(parse_date_range(value)["date_precision"], "approximate")
+
+    def test_availability_distinguishes_reference_from_copy(self):
+        self.assertEqual(_states("Reference located", "", "")[0], "reference_located")
+        self.assertEqual(_states("Copy held", "", "")[0], "copy_held")
+        self.assertEqual(_states("Not held", "", "")[0], "unavailable")
+        self.assertEqual(_states("Not located", "", "")[0], "not_located")
+
 
 
 class VisibleBodyTextTests(unittest.TestCase):
