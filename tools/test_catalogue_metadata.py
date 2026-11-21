@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from catalogue_metadata import ensure_catalogue_html_metadata, extract_record_metadata, parse_date_range, validate_relationship_registry
+from catalogue_metadata import ensure_catalogue_html_metadata, extract_record_metadata, parse_date_range, validate_relationship_registry, visible_body_text_length
 
 
 class DatePrecisionTests(unittest.TestCase):
@@ -37,6 +37,17 @@ class DatePrecisionTests(unittest.TestCase):
         got = parse_date_range("11 June 1904; 23 March 1905")
         self.assertIsNone(got["date_start"])
         self.assertEqual(got["date_precision"], "unparsed")
+
+
+class VisibleBodyTextTests(unittest.TestCase):
+    def test_script_and_style_text_do_not_count_as_visible_evidence_text(self):
+        source = "<html><head><style>" + ("fake text " * 200) + "</style></head><body>" + \
+                 "<script>" + ("not rendered " * 300) + "</script></body></html>"
+        self.assertEqual(visible_body_text_length(source), 0)
+
+    def test_visible_body_prose_is_counted(self):
+        source = "<html><body><article>" + ("Visible source catalogue text. " * 30) + "</article></body></html>"
+        self.assertGreater(visible_body_text_length(source), 500)
 
 
 class PageMetadataTests(unittest.TestCase):
