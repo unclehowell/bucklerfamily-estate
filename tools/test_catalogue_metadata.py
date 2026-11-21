@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Regression tests for conservative catalogue metadata extraction and relation validation."""
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from catalogue_metadata import ensure_catalogue_html_metadata, extract_record_metadata, parse_date_range, validate_relationship_registry, visible_body_text_length, _states
+from catalogue_metadata import ensure_catalogue_html_metadata, ensure_evidence_alias_redirects, extract_record_metadata, parse_date_range, validate_relationship_registry, visible_body_text_length, _states
 
 
 class DatePrecisionTests(unittest.TestCase):
@@ -121,6 +122,33 @@ class PageMetadataTests(unittest.TestCase):
             "https://archives.example.org/item/123",
             "https://archives.example.org/repository"
         })
+
+
+class LegacyRouteRedirectTests(unittest.TestCase):
+    def test_only_duplicate_wiki_routes_redirect_to_existing_research_routes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dist = Path(tmp)
+            redirect_file = dist / "_redirects"
+            redirect_file.write_text("# existing redirects\n/old-route /new-route 301\n", encoding="utf-8")
+            candidates = {
+                "EV-0001": [
+                    (0, "/research/evidence/ev-0001-record/index.html", dist / "research/index.html"),
+                    (1, "/wiki/evidence/ev-0001-record/index.html", dist / "wiki/index.html"),
+                ],
+                "EV-0002": [
+                    (1, "/wiki/evidence/ev-0002-wiki-only/index.html", dist / "wiki-only/index.html"),
+                ],
+            }
+            rules = ensure_evidence_alias_redirects(dist, candidates)
+            self.assertEqual(rules, [
+                "/wiki/evidence/ev-0001-record/ /research/evidence/ev-0001-record/ 301"
+            ])
+            content = redirect_file.read_text("utf-8")
+            self.assertTrue(content.startswith(rules[0]))
+            self.assertIn("/old-route /new-route 301", content)
+            self.assertEqual(ensure_evidence_alias_redirects(dist, candidates), [])
+
+
 
 
 class HtmlMetadataEnrichmentTests(unittest.TestCase):
