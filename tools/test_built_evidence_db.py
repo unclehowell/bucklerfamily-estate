@@ -86,7 +86,7 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
     ).fetchone()
     if not metadata:
         raise SystemExit("FAIL: EV-0617 has no normalized metadata row")
-    if metadata["source_date_precision"] not in ("day", "month", "year", "year_range", "unknown", "unparsed"):
+    if metadata["source_date_precision"] not in ("day", "month", "year", "year_range", "approximate", "unknown", "unparsed"):
         raise SystemExit("FAIL: source date precision is not a controlled value")
     if metadata["source_date_sort"] and "-00" in metadata["source_date_sort"]:
         raise SystemExit("FAIL: pseudo-date leaked into normalized source_date_sort")
