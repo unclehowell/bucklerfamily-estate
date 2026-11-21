@@ -1,6 +1,6 @@
 {
   "schema": "cedwyn_catalogue_relationships/v1",
-  "policy": "This graph records where catalogue entries, observations, title-chain rows, working parcel-model events and nomenclature indexes cite or describe entities. A citation link is not proof of the proposition in the cited analysis. No person is merged by surname alone. BP Properties, BP Pension Trust, BP Trustees and the BP pension fund are distinct. Tŷ Mawr, Llandough Farm and Great House Farm near Cowbridge are distinct places. No ownership or boundary is inferred from a tithe/rate-book column, a recital, a catalogue heading, a family account or a shared place-name. Every relationship retains its source record, assertion basis, verification state and explanatory source pinpoint.",
+  "policy": "This graph records where catalogue entries, observations, title-chain rows, working parcel-model events and nomenclature indexes cite or describe entities. A citation link is not proof of the proposition in the cited analysis. No person is merged by surname alone. BP Properties, BP Pension Trust, BP Trustees and the BP pension fund are distinct. Tŷ Mawr, Llandough Farm and Great House Farm near Cowbridge are distinct places. No ownership or boundary is inferred from a tithe/rate-book column, a recital, a catalogue heading, a family account or a shared place-name. Every relationship retains its source record, assertion basis, verification state and an explanatory source pinpoint.",
   "entities": [
     {
       "entity_id": "ANALYSIS-TITLE-CHAIN",
