@@ -55,6 +55,23 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
         if counts[table] < minimum:
             raise SystemExit(f"FAIL: {table} has {counts[table]} rows; expected at least {minimum}")
 
+    # These tables must now be populated from the committed source-qualified registry,
+    # not left as empty schema placeholders.
+    normalized_counts = {
+        "evidence_source_refs": count("evidence_source_refs"),
+        "catalogue_entities": count("catalogue_entities"),
+        "evidence_relationships": count("evidence_relationships"),
+    }
+    if counts["evidence_metadata"] != counts["evidence_catalogue"]:
+        raise SystemExit(
+            "FAIL: normalized metadata rows do not cover every catalogue entry "
+            f"({counts['evidence_metadata']} != {counts['evidence_catalogue']})"
+        )
+    if normalized_counts["catalogue_entities"] < 20 or normalized_counts["evidence_relationships"] < 50:
+        raise SystemExit(f"FAIL: source-qualified relationship graph is not populated: {normalized_counts}")
+    if normalized_counts["evidence_source_refs"] < 1:
+        raise SystemExit("FAIL: no structured source references were carried into the built database")
+
     # Execute the same evidence and observation joins used by agent-tools.js.
     row = con.execute(
         """SELECT ec.ev, ec.artifact_id, ec.path, ec.evidence_grade, ec.independent_origin_id,
@@ -86,7 +103,7 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
     ).fetchone()
     if not metadata:
         raise SystemExit("FAIL: EV-0617 has no normalized metadata row")
-    if metadata["source_date_precision"] not in ("day", "month", "year", "year_range", "approximate", "unknown", "unparsed"):
+    if metadata["source_date_precision"] not in ("day", "month", "year", "year_range", "range", "approximate", "unknown", "unparsed"):
         raise SystemExit("FAIL: source date precision is not a controlled value")
     if metadata["source_date_sort"] and "-00" in metadata["source_date_sort"]:
         raise SystemExit("FAIL: pseudo-date leaked into normalized source_date_sort")
@@ -100,6 +117,45 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
     field_states = json.loads(metadata["field_states_json"] or "{}")
     if any(value not in ("present", "unknown", "withheld", "not_applicable") for value in field_states.values()):
         raise SystemExit("FAIL: metadata field state is outside the controlled vocabulary")
+    # Audit every record page's SEO/structured-data contract, not only the sample row.
+    all_meta = con.execute(
+        """SELECT ev,html_title,meta_description,canonical_url,html_canonical_url,metadata_audit_json
+             FROM evidence_metadata ORDER BY ev"""
+    ).fetchall()
+    for item in all_meta:
+        if not item["html_title"] or item["ev"].lower() not in item["html_title"].lower():
+            raise SystemExit(f"FAIL: {item['ev']} has no record-ID title")
+        if not item["meta_description"]:
+            raise SystemExit(f"FAIL: {item['ev']} has no record-specific meta description")
+        if not item["canonical_url"] or item["canonical_url"] != item["html_canonical_url"]:
+            raise SystemExit(f"FAIL: {item['ev']} canonical URL is absent or disagrees with the HTML canonical")
+        item_audit = json.loads(item["metadata_audit_json"] or "{}")
+        for key in ("canonical_matches_expected", "og_url_matches_expected", "structured_data_valid",
+                    "structured_data_matches_record", "title_unique", "description_unique", "canonical_url_unique"):
+            if not item_audit.get(key):
+                raise SystemExit(f"FAIL: {item['ev']} metadata audit {key} is false or missing")
+
+    # Every graph edge must resolve to an existing EV and entity, and must have provenance.
+    dangling = con.execute(
+        """SELECT er.relationship_id FROM evidence_relationships er
+            LEFT JOIN evidence_catalogue ec ON ec.ev=er.source_ev
+            LEFT JOIN catalogue_entities ce ON ce.entity_id=er.entity_id
+            WHERE ec.ev IS NULL OR (er.target_ev IS NULL AND ce.entity_id IS NULL)
+               OR (er.target_ev IS NOT NULL AND NOT EXISTS
+                   (SELECT 1 FROM evidence_catalogue et WHERE et.ev=er.target_ev))
+               OR (COALESCE(er.assertion_text,'')='' AND COALESCE(er.source_note,'')='')
+            LIMIT 1"""
+    ).fetchone()
+    if dangling:
+        raise SystemExit(f"FAIL: unresolved or unprovenanced relationship: {dangling[0]}")
+    source_ref_missing = con.execute(
+        """SELECT sr.source_ref_id FROM evidence_source_refs sr
+            LEFT JOIN evidence_catalogue ec ON ec.ev=sr.ev
+            WHERE ec.ev IS NULL LIMIT 1"""
+    ).fetchone()
+    if source_ref_missing:
+        raise SystemExit(f"FAIL: source reference points to unknown EV: {source_ref_missing[0]}")
+
     bad_dates = con.execute(
         """SELECT count(*) FROM evidence_metadata
             WHERE source_date_sort LIKE '%-00-%'
