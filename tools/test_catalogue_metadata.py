@@ -154,6 +154,33 @@ class RelationshipValidationTests(unittest.TestCase):
                 "relationships": []
             }, {"EV-0001"})
 
+    def test_spatial_geometry_requires_full_provenance(self):
+        doc = {
+            "entities": [{
+                "entity_id": "PLC-0001", "entity_type": "place", "entity_kind": "farm",
+                "preferred_name": "Great House Farm", "crs": "EPSG:27700",
+                "geometry_type": "Polygon", "geometry": {"type": "Polygon", "coordinates": []},
+                "transformation_method": "digitised from EV-0001 plan",
+                "positional_uncertainty_m": None, "geometry_source_ev": "EV-0001"
+            }],
+            "relationships": []
+        }
+        entities, _ = validate_relationship_registry(doc, {"EV-0001"})
+        self.assertEqual(entities[0]["crs"], "EPSG:27700")
+        self.assertIsNone(entities[0]["positional_uncertainty_m"])
+
+    def test_spatial_geometry_without_uncertainty_declaration_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "positional_uncertainty_m"):
+            validate_relationship_registry({
+                "entities": [{
+                    "entity_id": "PLC-0001", "entity_type": "place", "entity_kind": "farm",
+                    "preferred_name": "Great House Farm", "crs": "EPSG:27700",
+                    "geometry_type": "Polygon", "geometry": {"type": "Polygon", "coordinates": []},
+                    "transformation_method": "digitised", "geometry_source_ev": "EV-0001"
+                }],
+                "relationships": []
+            }, {"EV-0001"})
+
     def test_unknown_source_record_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "known source_ev"):
             validate_relationship_registry({
