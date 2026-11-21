@@ -75,7 +75,7 @@ def lint(path, text, unchanged_lines=None):
         if path == 'data/catalogue-relationships.json':
             # "unverified" is a controlled verification_state enum value in the evidence graph,
             # not public editorial prose. Permit it only as the exact value of that field.
-            scan = re.sub(r'("verification_state"\\s*:\\s*")unverified(")', r'\\1not_assessed\\2', scan)
+            scan = re.sub(r'("verification_state"\s*:\s*")unverified(")', r'\1not_assessed\2', scan)
         for name, rx in CHECKS:
             if name == 'private working process' and path.startswith(EXEMPT): continue
             m = rx.search(scan if name == 'banned word' else line)
