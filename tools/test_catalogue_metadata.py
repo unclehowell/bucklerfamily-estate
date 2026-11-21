@@ -416,7 +416,7 @@ class ExistingProjectGraphTests(unittest.TestCase):
         for relation in relationships:
             self.assertNotIn(relation["relationship_id"], rel_ids)
             rel_ids.add(relation["relationship_id"])
-            self.assertRegex(relation["source_ev"], r"^EV-\\d{4}$")
+            self.assertRegex(relation["source_ev"], r"^EV-\d{4}$")
             self.assertIn(relation["entity_id"], entities)
             self.assertIn(relation["assertion_basis"], allowed_basis)
             self.assertIn(relation["verification_state"], allowed_verification)
