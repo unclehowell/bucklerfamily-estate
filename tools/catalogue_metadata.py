@@ -479,6 +479,12 @@ def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
     escaped_title = escape(title, quote=True)
     escaped_url = escape(canonical, quote=True)
 
+    def insert_head_tag(source, tag):
+        marker = re.search(r"</head\s*>", source, re.I)
+        if marker:
+            return source[:marker.start()] + tag + source[marker.start():]
+        return source
+
     def upsert_meta(source, key_name, key_value, content):
         attr = re.escape(key_name)
         value = re.escape(key_value)
@@ -489,7 +495,7 @@ def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
         tag = '<meta %s="%s" content="%s">' % (key_name, key_value, content)
         if pattern.search(source):
             return pattern.sub(lambda _: tag, source, count=1)
-        return source
+        return insert_head_tag(source, tag)
 
     def upsert_canonical(source):
         pattern = re.compile(
@@ -499,7 +505,7 @@ def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
         tag = '<link rel="canonical" href="%s">' % escaped_url
         if pattern.search(source):
             return pattern.sub(lambda _: tag, source, count=1)
-        return source
+        return insert_head_tag(source, tag)
 
     head_match = re.search(r"<head\b[^>]*>", html_text, re.I)
     if not head_match:
