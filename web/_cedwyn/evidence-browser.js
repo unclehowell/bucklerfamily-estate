@@ -46,7 +46,7 @@
     '<div class="cw-eb-links"><button type="button" data-more hidden>Load more</button><a href="/wiki/observations/">Open all observation pages</a></div>',
     '</section>'
   ].join('');
-  var hasCsscpsg = false, hasCatalogueMetadata = false, hasRelationships = false;
+  var hasCsscpsg = false, hasCatalogueMetadata = false, hasRelationships = false, hasSourceRefs = false;
   var status = root.querySelector('[data-status]');
   var results = root.querySelector('[data-results]');
   var queryInput = root.querySelector('#cw-eb-query');
@@ -167,17 +167,38 @@
       }
       card.appendChild(metaBox);
     }
+    if (r.catalogue_source_refs && r.catalogue_source_refs.length) {
+      var sourceBox = el('section', 'cw-eb-note cw-eb-source-refs');
+      sourceBox.appendChild(el('strong', '', 'Structured repository / source references'));
+      var sourceList = el('ul', '');
+      r.catalogue_source_refs.forEach(function (sourceRef) {
+        var details = [];
+        if (sourceRef.holder) details.push('holder: ' + sourceRef.holder);
+        if (sourceRef.repository) details.push('repository: ' + sourceRef.repository);
+        if (sourceRef.reference) details.push('reference: ' + sourceRef.reference);
+        var li = el('li', '', details.join(' · ') || sourceRef.source_text || sourceRef.source_ref_id);
+        if (sourceRef.source_url) link(li, sourceRef.source_url, 'Open cited repository/source page');
+        if (sourceRef.access_note) li.appendChild(el('p', 'cw-eb-meta', 'Access: ' + sourceRef.access_note));
+        if (sourceRef.provenance_note) li.appendChild(el('p', 'cw-eb-meta', 'Provenance: ' + sourceRef.provenance_note));
+        sourceList.appendChild(li);
+      });
+      sourceBox.appendChild(sourceList);
+      card.appendChild(sourceBox);
+    }
     if (r.catalogue_relationships && r.catalogue_relationships.length) {
       var relBox = el('section', 'cw-eb-note cw-eb-relationships');
       relBox.appendChild(el('strong', '', 'Explicitly curated relationships · not surname-matched'));
       var relList = el('ul', '');
       r.catalogue_relationships.forEach(function (rel) {
         var target = rel.entity_name || (rel.target_ev ? rel.target_ev + (rel.target_title ? ' — ' + rel.target_title : '') : rel.entity_id);
+        if (rel.entity_disambiguator) target += ' [' + rel.entity_disambiguator + ']';
         var direction = rel.source_ev === r.ev ? 'This record → ' : 'From ' + rel.source_ev + ' → this record · ';
         var line = direction + (rel.relation_type || 'related') + ': ' + (target || 'target not labelled');
         if (rel.role) line += ' (' + rel.role + ')';
         line += ' · basis: ' + (rel.assertion_basis || 'unknown') + ' · verification: ' + (rel.verification_state || 'not_assessed');
+        if (rel.date_start || rel.date_end) line += ' · date: ' + (rel.date_start || '?') + (rel.date_end && rel.date_end !== rel.date_start ? ' to ' + rel.date_end : '') + ' (' + (rel.date_precision || 'unknown') + ')';
         if (rel.assertion_text) line += ' · ' + rel.assertion_text;
+        if (rel.source_note) line += ' · source note: ' + rel.source_note;
         relList.appendChild(el('li', '', line));
       });
       relBox.appendChild(relList);
@@ -348,6 +369,10 @@
         var relationCols = await db.query("SELECT name FROM pragma_table_info('evidence_relationships')", []);
         hasRelationships = relationCols.length > 0;
       } catch (e) { hasRelationships = false; }
+      try {
+        var sourceRefCols = await db.query("SELECT name FROM pragma_table_info('evidence_source_refs')", []);
+        hasSourceRefs = sourceRefCols.length > 0;
+      } catch (e) { hasSourceRefs = false; }
       if (!coverageText) {
         var cov = await db.query(
           "SELECT COUNT(*) AS total, " +
@@ -389,8 +414,18 @@
         var where = q ? "WHERE lower(ec.ev) LIKE ? OR lower(ec.title) LIKE ? OR lower(ec.path) LIKE ? OR lower(ec.aliases_json) LIKE ? OR lower(COALESCE(aa.description,'')) LIKE ? OR lower(COALESCE(aa.interpretation,'')) LIKE ? OR lower(COALESCE(et.body,'')) LIKE ?" + metadataSearch + " " : "";
         var params = q ? Array(hasCatalogueMetadata ? 12 : 7).fill('%' + q + '%') : [];
         rows = await db.query(base + where + 'ORDER BY ec.ev LIMIT ? OFFSET ?', params.concat([pageSize, offset]));
-        if (hasRelationships && rows.length) {
+        if (rows.length && (hasRelationships || hasSourceRefs)) {
           var ids = rows.map(function (r) { return r.ev; });
+          var marks = ids.map(function () { return '?'; }).join(',');
+          if (hasSourceRefs) {
+            var sourceRows = await db.query(
+              "SELECT * FROM evidence_source_refs WHERE ev IN (" + marks + ") ORDER BY ev,seq", ids
+            );
+            rows.forEach(function (r) {
+              r.catalogue_source_refs = sourceRows.filter(function (sourceRef) { return sourceRef.ev === r.ev; });
+            });
+          }
+          if (hasRelationships) {
           var marks = ids.map(function () { return '?'; }).join(',');
           var relRows = await db.query(
             "SELECT er.*, ce.preferred_name AS entity_name, ce.disambiguator AS entity_disambiguator, " +
@@ -405,6 +440,7 @@
           rows.forEach(function (r) {
             r.catalogue_relationships = relRows.filter(function (rel) { return rel.source_ev === r.ev || rel.target_ev === r.ev; });
           });
+          }
         }
         rows.forEach(function (r) { results.appendChild(artifactCard(r)); });
       } else {
