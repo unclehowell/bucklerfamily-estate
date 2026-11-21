@@ -548,6 +548,43 @@ def _valid_json(value):
 
 
 
+def ensure_evidence_alias_redirects(dist_path, page_candidates):
+    """301 duplicate Wiki EV routes to their Research canonical route where both exist."""
+    dist_path = Path(dist_path)
+    redirect_file = dist_path / "_redirects"
+    existing_lines = redirect_file.read_text("utf-8").splitlines() if redirect_file.is_file() else []
+    existing_sources = set()
+    for line in existing_lines:
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        parts = stripped.split()
+        if len(parts) >= 2:
+            existing_sources.add(parts[0].casefold())
+
+    new_rules = []
+    for _ev, candidates in sorted(page_candidates.items()):
+        research = [item for item in candidates if item[0] == 0]
+        wiki = [item for item in candidates if item[0] == 1]
+        if not research or not wiki:
+            continue
+        target = "/" + research[0][1].lstrip("/")
+        target = target.rsplit("/index.html", 1)[0].rstrip("/") + "/"
+        for _priority, relative_path, _page_file in wiki:
+            source = "/" + relative_path.lstrip("/")
+            source = source.rsplit("/index.html", 1)[0].rstrip("/") + "/"
+            if source == target or source.casefold() in existing_sources:
+                continue
+            if not source.startswith("/wiki/evidence/") or not target.startswith("/research/evidence/"):
+                continue
+            new_rules.append("%s %s 301" % (source, target))
+
+    if new_rules:
+        # Exact route rules precede broad existing rules; existing rules are preserved.
+        redirect_file.write_text("\n".join(new_rules + existing_lines).rstrip() + "\n", encoding="utf-8")
+    return new_rules
+
+
 def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
     """Add record-specific SEO metadata to generated evidence pages, preserving page content."""
     from html import escape
