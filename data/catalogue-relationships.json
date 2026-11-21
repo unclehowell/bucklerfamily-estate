@@ -955,7 +955,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Western Ground Rents” under “Western Ground Rents”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Western Ground Rents” under “Western Ground Rents”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[wgr].variants[0]"
     },
@@ -1333,7 +1333,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Glamorgan County Council” under “Local councils over time”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Glamorgan County Council” under “Local councils over time”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[councils].variants[0]"
     },
@@ -1389,7 +1389,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Ty Mawr” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Ty Mawr” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[tymawr].variants[10]"
     },
@@ -1529,7 +1529,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Western Ground Rents Ltd” under “Western Ground Rents”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Western Ground Rents Ltd” under “Western Ground Rents”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[wgr].variants[2]"
     },
@@ -1543,7 +1543,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Urban District of Penarth” under “Llandough (near Penarth)”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Urban District of Penarth” under “Llandough (near Penarth)”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[llandough].variants[3]"
     },
@@ -1837,7 +1837,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “BP pension fund” under “BP companies”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “BP pension fund” under “BP companies”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[bp].variants[3]"
     },
@@ -1893,7 +1893,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Linklaters & Paines” under “Linklaters”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Linklaters & Paines” under “Linklaters”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[linklaters].variants[0]"
     },
@@ -2383,7 +2383,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “BP Properties Ltd” under “BP companies”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “BP Properties Ltd” under “BP companies”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[bp].variants[2]"
     },
@@ -2411,7 +2411,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “BP Trustees” under “BP companies”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “BP Trustees” under “BP companies”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[bp].variants[4]"
     },
@@ -2425,7 +2425,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Loosemores” under “Loosemores → Hugh James”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Loosemores” under “Loosemores → Hugh James”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[hugh-james].variants[0]"
     },
@@ -2607,7 +2607,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Vale of Glamorgan Borough Council” under “Local councils over time”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Vale of Glamorgan Borough Council” under “Local councils over time”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[councils].variants[5]"
     },
@@ -2635,7 +2635,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “the woodland (title WA735527)” under “Cwm Cydfin woodland”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “the woodland (title WA735527)” under “Cwm Cydfin woodland”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[woodland].variants[3]"
     },
@@ -2649,7 +2649,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Amgueddfa Cymru – Museum Wales” under “Amgueddfa Cymru – Museum Wales”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Amgueddfa Cymru – Museum Wales” under “Amgueddfa Cymru – Museum Wales”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[museum-wales].variants[0]"
     },
@@ -2663,7 +2663,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Great House Farm” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Great House Farm” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[tymawr].variants[9]"
     },
@@ -2677,7 +2677,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Welsh Office” under “Welsh Office → Welsh Government (and Cadw)”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Welsh Office” under “Welsh Office → Welsh Government (and Cadw)”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[welsh-government].variants[0]"
     },
@@ -2761,7 +2761,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Cedfin” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Cedfin” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[tymawr].variants[1]"
     },
@@ -2775,7 +2775,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Ty Mawr Farm” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Ty Mawr Farm” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[tymawr].variants[2]"
     },
@@ -2985,7 +2985,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Cwm Cydfin Wood (Leckwith and Llandough)” under “Cwm Cydfin woodland”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Cwm Cydfin Wood (Leckwith and Llandough)” under “Cwm Cydfin woodland”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[woodland].variants[0]"
     },
@@ -2999,7 +2999,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Leckwith Woods” under “Cwm Cydfin woodland”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Leckwith Woods” under “Cwm Cydfin woodland”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[woodland].variants[1]"
     },
@@ -3013,7 +3013,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Llandough Home Farm” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Llandough Home Farm” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[tymawr].variants[7]"
     },
@@ -3027,7 +3027,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Great house” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Great house” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[tymawr].variants[5]"
     },
@@ -3041,7 +3041,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Greathouse” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Greathouse” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[tymawr].variants[6]"
     },
@@ -3069,7 +3069,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Ty-mawr” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Ty-mawr” under “Tŷ Mawr / Great House”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[tymawr].variants[8]"
     },
@@ -3083,7 +3083,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “HM Land Registry “about to register” notices” under “HM Land Registry”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “HM Land Registry “about to register” notices” under “HM Land Registry”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[hmlr].variants[0]"
     },
@@ -3139,7 +3139,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Welsh Government” under “Welsh Office → Welsh Government (and Cadw)”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Welsh Government” under “Welsh Office → Welsh Government (and Cadw)”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[welsh-government].variants[3]"
     },
@@ -3153,7 +3153,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “WESTERN GROUND RENTS LIMITED” under “Western Ground Rents”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “WESTERN GROUND RENTS LIMITED” under “Western Ground Rents”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[wgr].variants[3]"
     },
@@ -3167,7 +3167,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “BP Properties Limited (00699446)” under “BP companies”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “BP Properties Limited (00699446)” under “BP companies”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[bp].variants[7]"
     },
@@ -3209,7 +3209,7 @@
       "date_end": null,
       "date_precision": "unknown",
       "assertion_basis": "catalogue_interpretation",
-      "assertion_text": "The project nomenclature index lists “Llandough Community Council” under “Local councils over time”. This records the index's classification only; it does not establish that similarly named holdings, people or companies are identical.",
+      "assertion_text": "The project nomenclature index lists “Llandough Community Council” under “Local councils over time”. This records the index's classification only; it does not establish that every similarly named holding, person or company is identical.",
       "verification_state": "provisional",
       "source_note": "data/nomenclature.json#groups[councils].variants[4]"
     },
