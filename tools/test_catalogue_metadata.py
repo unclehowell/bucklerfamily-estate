@@ -372,5 +372,57 @@ class RelationshipValidationTests(unittest.TestCase):
             }, {"EV-0001"})
 
 
+class ExistingProjectGraphTests(unittest.TestCase):
+    def test_populated_graph_preserves_distinct_historical_identities(self):
+        root = Path(__file__).resolve().parent.parent
+        graph = __import__("json").loads(
+            (root / "data" / "catalogue-relationships.json").read_text(encoding="utf-8")
+        )
+        entities = {item["entity_id"]: item for item in graph["entities"]}
+        relationships = graph["relationships"]
+        self.assertGreaterEqual(len(entities), 60)
+        self.assertGreaterEqual(len(relationships), 200)
+
+        # Same personal name, different source identity: never collapse on surname.
+        johns = [
+            item for item in graph["entities"]
+            if item["entity_type"] == "person" and item["preferred_name"] == "John Williams"
+        ]
+        self.assertGreaterEqual(len(johns), 6)
+        self.assertEqual(len({item["entity_id"] for item in johns}), len(johns))
+        self.assertTrue(all(item["disambiguator"] for item in johns))
+
+        # Distinct legal entities and places must remain independently addressable.
+        for entity_id in (
+            "ORG-BP-PROPERTIES", "ORG-BP-PENSION-TRUST", "ORG-BP-TRUSTEES",
+            "ORG-BP-PENSION-FUND", "PLC-LLANDOUGH-PENARTH",
+            "PLC-LLANDOUGH-COWBRIDGE", "PLC-TY-MAWR",
+            "PLC-LLANDOUGH-FARM", "PLC-GREAT-HOUSE-COWBRIDGE",
+            "PER-MARY-WILLIAMS", "PER-MRS-MD-BUCKLER-1958",
+        ):
+            self.assertIn(entity_id, entities)
+
+        for parcel_id in ("A", "A1", "A2", "B", "C"):
+            entity = entities["PLC-PARCEL-" + parcel_id]
+            self.assertEqual(entity["entity_kind"], "parcel")
+            self.assertIn("not a verified title boundary", entity["notes"])
+
+        allowed_basis = {
+            "document_wording", "catalogue_interpretation",
+            "family_account", "secondary_source", "modern_analysis", "unknown"
+        }
+        allowed_verification = {"verified", "provisional", "unverified", "not_assessed"}
+        rel_ids = set()
+        for relation in relationships:
+            self.assertNotIn(relation["relationship_id"], rel_ids)
+            rel_ids.add(relation["relationship_id"])
+            self.assertRegex(relation["source_ev"], r"^EV-\\d{4}$")
+            self.assertIn(relation["entity_id"], entities)
+            self.assertIn(relation["assertion_basis"], allowed_basis)
+            self.assertIn(relation["verification_state"], allowed_verification)
+            self.assertTrue(relation.get("assertion_text") or relation.get("source_note"))
+            self.assertTrue(relation.get("source_note"))
+
+
 if __name__ == "__main__":
     unittest.main()
