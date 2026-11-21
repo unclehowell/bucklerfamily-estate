@@ -109,6 +109,26 @@ class HtmlMetadataEnrichmentTests(unittest.TestCase):
         self.assertTrue(audit["og_url_matches_expected"])
         self.assertTrue(audit["structured_data_matches_record"])
 
+    def test_wiki_alias_uses_preferred_research_canonical(self):
+        page = """<html><head>
+        <title>EV-0004 — Wiki alias</title>
+        <link rel="canonical" href="https://bucklerfamily.estate/research/evidence/ev-0004-record/">
+        <meta property="og:url" content="https://bucklerfamily.estate/research/evidence/ev-0004-record/">
+        </head><body>Wiki alias page content.</body></html>"""
+        md, _ = extract_record_metadata("EV-0004", "/wiki/evidence/ev-0004-record/", page)
+        self.assertEqual(md["canonical_url"], "https://bucklerfamily.estate/research/evidence/ev-0004-record/")
+        audit = __import__("json").loads(md["metadata_audit_json"])
+        self.assertTrue(audit["canonical_matches_expected"])
+        self.assertTrue(audit["og_url_matches_expected"])
+
+    def test_access_is_not_inferred_from_generic_status(self):
+        page = """<html><head><title>EV-0005 — Record</title></head><body>
+        <table><tr><th>Status</th><td>Catalogue text read; source not inspected.</td></tr></table>
+        </body></html>"""
+        md, _ = extract_record_metadata("EV-0005", "/research/evidence/ev-0005-record/", page)
+        self.assertEqual(md["inspection_state"], "catalogue_only")
+        self.assertEqual(md["access_state"], "unknown")
+
     def test_existing_unrelated_jsonld_is_preserved_and_record_schema_added(self):
         source = """<html><head><title>EV-0003 — Sample</title>
         <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Site"}</script>
