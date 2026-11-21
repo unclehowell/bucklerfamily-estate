@@ -263,10 +263,10 @@ def _states(status, evidence_label, access_note=None):
         availability = "reference_located"
     elif re.search(r"\bpartly held\b|\bpartially held\b", combined):
         availability = "partly_held"
-    elif re.search(r"\bcopy held\b|\bheld\b", combined):
-        availability = "copy_held"
     elif re.search(r"\bnot held\b|\bno copy\b|\bnot in custody\b|\bunavailable\b", combined):
         availability = "unavailable"
+    elif re.search(r"\bcopy held\b|\bheld\b", combined):
+        availability = "copy_held"
     else:
         availability = "unknown"
 
