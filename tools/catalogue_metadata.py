@@ -827,8 +827,9 @@ def validate_relationship_registry(doc, known_evs):
         label_point = item.get("label_point")
         geometry_type = optional_text(item.get("geometry_type"))
         has_spatial_data = geometry is not None or label_point is not None
-        if has_spatial_data and (not optional_text(item.get("crs"))):
-            raise ValueError("spatial entity %s needs a declared CRS" % entity_id)
+        crs = optional_text(item.get("crs"))
+        if has_spatial_data and (not crs or not re.fullmatch(r"EPSG:\d{4,6}", crs, re.I)):
+            raise ValueError("spatial entity %s needs a declared EPSG CRS (for example EPSG:27700 or EPSG:4326)" % entity_id)
         if has_spatial_data and not optional_text(item.get("transformation_method")):
             raise ValueError("spatial entity %s needs an explicit transformation_method (use 'none' if untransformed)" % entity_id)
         if has_spatial_data and "positional_uncertainty_m" not in item:
@@ -856,9 +857,9 @@ def validate_relationship_registry(doc, known_evs):
         clean_entities.append({
             "entity_id": entity_id, "entity_type": entity_type, "entity_kind": entity_kind,
             "preferred_name": name, "disambiguator": disambiguator,
-            "aliases_json": json.dumps(item.get("aliases", []), ensure_ascii=False),
+            "aliases_json": json.dumps(aliases, ensure_ascii=False),
             "parent_entity_id": optional_text(item.get("parent_entity_id")),
-            "crs": optional_text(item.get("crs")),
+            "crs": crs,
             "geometry_type": geometry_type,
             "geometry_json": json.dumps(geometry, ensure_ascii=False) if geometry is not None else None,
             "label_point_json": json.dumps(label_point, ensure_ascii=False) if label_point is not None else None,
@@ -873,6 +874,19 @@ def validate_relationship_registry(doc, known_evs):
         parent_id = entity.get("parent_entity_id")
         if parent_id and parent_id not in entity_ids:
             raise ValueError("entity %s points to an unknown parent_entity_id" % entity["entity_id"])
+        if parent_id == entity["entity_id"]:
+            raise ValueError("entity %s cannot be its own parent" % entity["entity_id"])
+
+    # Reject cycles in the place/entity hierarchy rather than silently accepting them.
+    parent_map = {entity["entity_id"]: entity.get("parent_entity_id") for entity in clean_entities}
+    for start_id in parent_map:
+        seen = set()
+        current = start_id
+        while current and current in parent_map:
+            if current in seen:
+                raise ValueError("entity hierarchy contains a parent cycle at %s" % current)
+            seen.add(current)
+            current = parent_map[current]
 
     clean_relationships = []
     relation_ids = set()
@@ -893,8 +907,27 @@ def validate_relationship_registry(doc, known_evs):
         if entity_id and entity_id not in entity_ids:
             raise ValueError("relationship %s points to an unknown entity_id" % rel_id)
         date_precision = optional_text(item.get("date_precision")) or "unknown"
-        if date_precision not in {"day", "month", "year", "year_range", "approximate", "unknown", "unparsed"}:
+        if date_precision not in {"day", "month", "year", "year_range", "range", "approximate", "unknown", "unparsed"}:
             raise ValueError("relationship %s has an uncontrolled date_precision" % rel_id)
+        date_start = optional_text(item.get("date_start"))
+        date_end = optional_text(item.get("date_end"))
+        if date_precision in {"day", "month", "year", "approximate"}:
+            parsed_start = parse_date_range(date_start)
+            if not date_start or parsed_start["date_precision"] not in {date_precision, "day" if date_precision == "day" else date_precision}:
+                raise ValueError("relationship %s has a date_start inconsistent with date_precision" % rel_id)
+            if date_precision == "approximate" and date_end:
+                raise ValueError("relationship %s approximate dates must not invent date_end" % rel_id)
+            if date_precision != "approximate" and date_end and date_end != date_start:
+                raise ValueError("relationship %s single-date precision cannot have differing bounds" % rel_id)
+        elif date_precision in {"year_range", "range"}:
+            if not date_start or not date_end or date_start > date_end:
+                raise ValueError("relationship %s range dates need ordered date_start and date_end" % rel_id)
+            if date_precision == "year_range" and not (
+                re.fullmatch(r"\d{4}", date_start) and re.fullmatch(r"\d{4}", date_end)
+            ):
+                raise ValueError("relationship %s year_range must use year-only bounds" % rel_id)
+        elif date_start or date_end:
+            raise ValueError("relationship %s cannot have date bounds with %s precision" % (rel_id, date_precision))
         assertion_text = optional_text(item.get("assertion_text"))
         source_note = optional_text(item.get("source_note"))
         if not assertion_text and not source_note:
@@ -905,8 +938,8 @@ def validate_relationship_registry(doc, known_evs):
             "relationship_id": rel_id, "source_ev": source_ev, "target_ev": target_ev,
             "entity_id": entity_id, "relation_type": relation_type,
             "role": optional_text(item.get("role")),
-            "date_start": optional_text(item.get("date_start")),
-            "date_end": optional_text(item.get("date_end")),
+            "date_start": date_start,
+            "date_end": date_end,
             "date_precision": date_precision,
             "assertion_basis": basis,
             "assertion_text": assertion_text,
