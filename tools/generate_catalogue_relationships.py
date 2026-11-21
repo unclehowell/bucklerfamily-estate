@@ -556,14 +556,17 @@ def main():
         if current != rendered:
             current_lines, generated_lines = current.splitlines(), rendered.splitlines()
             limit = max(len(current_lines), len(generated_lines))
+            shown = 0
             for index in range(limit):
                 before = current_lines[index] if index < len(current_lines) else "<missing>"
                 after = generated_lines[index] if index < len(generated_lines) else "<missing>"
                 if before != after:
-                    print(f"registry first difference at line {index + 1}")
-                    print("committed: " + before[:300])
-                    print("generated: " + after[:300])
-                    break
+                    print(f"registry difference at line {index + 1}")
+                    print("committed: " + before[:500])
+                    print("generated: " + after[:500])
+                    shown += 1
+                    if shown >= 25:
+                        break
             raise SystemExit("catalogue relationship registry is stale; regenerate and commit the snapshot")
         print(f"catalogue relationships OK: {len(generated['entities'])} entities, {len(generated['relationships'])} source-qualified links")
         return
