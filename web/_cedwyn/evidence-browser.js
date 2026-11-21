@@ -131,6 +131,11 @@
       if (r.provenance_text) field(metaBox, 'Catalogue provenance', r.provenance_text, '');
       if (r.catalogued_at) field(metaBox, 'Catalogue entry date', r.catalogued_at, 'catalogued_at');
       if (r.analysis_date_text) field(metaBox, 'Analysis date (separate from source date)', r.analysis_date_text, '');
+      if (r.analysis_date_start || r.analysis_date_end) {
+        field(metaBox, 'Normalized analysis-date bounds (precision retained)',
+          (r.analysis_date_start || '?') + (r.analysis_date_end && r.analysis_date_end !== r.analysis_date_start ? ' to ' + r.analysis_date_end : ''),
+          r.analysis_date_precision || 'unknown');
+      }
       if (r.updated_at) field(metaBox, 'Explicit page update date', r.updated_at, 'updated_at');
       if (r.canonical_url) link(metaBox, r.canonical_url, 'Canonical record URL');
       if (r.shows_text) field(metaBox, 'Catalogue explanation · “Shows” (not source wording)', r.shows_text, '');
@@ -393,7 +398,7 @@
       if (mode === 'artifacts') {
         var metadataColumns = hasCatalogueMetadata
           ? "em.source_date_text, em.source_date_start, em.source_date_end, em.source_date_precision, em.source_date_sort, " +
-            "em.analysis_date_text, em.catalogued_at, em.updated_at, em.record_type, em.record_type_label, " +
+            "em.analysis_date_text, em.analysis_date_start, em.analysis_date_end, em.analysis_date_precision, em.catalogued_at, em.updated_at, em.record_type, em.record_type_label, " +
             "em.evidence_label, em.status_text, em.availability_state, em.inspection_state, em.verification_state, " +
             "em.access_state, em.completeness_state, em.holder_text, em.repository_text, em.reference_text, " +
             "em.repository_reference_text, em.access_note, em.provenance_text, em.shows_text, em.does_not_show_text, " +
