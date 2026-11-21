@@ -552,8 +552,19 @@ def main():
     generated = build()
     rendered = json.dumps(generated, ensure_ascii=False, indent=2) + "\n"
     if args.check:
-        if not OUT.is_file() or OUT.read_text(encoding="utf-8") != rendered:
-            raise SystemExit("catalogue relationship registry is stale; run tools/generate_catalogue_relationships.py")
+        current = OUT.read_text(encoding="utf-8") if OUT.is_file() else ""
+        if current != rendered:
+            current_lines, generated_lines = current.splitlines(), rendered.splitlines()
+            limit = max(len(current_lines), len(generated_lines))
+            for index in range(limit):
+                before = current_lines[index] if index < len(current_lines) else "<missing>"
+                after = generated_lines[index] if index < len(generated_lines) else "<missing>"
+                if before != after:
+                    print(f"registry first difference at line {index + 1}")
+                    print("committed: " + before[:300])
+                    print("generated: " + after[:300])
+                    break
+            raise SystemExit("catalogue relationship registry is stale; regenerate and commit the snapshot")
         print(f"catalogue relationships OK: {len(generated['entities'])} entities, {len(generated['relationships'])} source-qualified links")
         return
     OUT.write_text(rendered, encoding="utf-8")
