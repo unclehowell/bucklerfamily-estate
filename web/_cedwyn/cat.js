@@ -64,6 +64,9 @@
     'type Query { stats: Stats themes: [Theme] theme(id: String!): Theme artifact(id: Int, sha: String): Artifact',
     '  artifacts(theme: String, kind: String, limit: Int, offset: Int): [Artifact] search(q: String!, theme: String, limit: Int): [Hit]',
     '  artifactAssessment(ev: String!): ArtifactAssessment artifactAssessments(q: String, limit: Int, offset: Int): [ArtifactAssessment]',
+    '  evidenceMetadata(ev: String!): EvidenceMetadata evidenceSourceRefs(ev: String!): [EvidenceSourceRef]',
+    '  catalogueEntity(id: String!): CatalogueEntity catalogueEntities(type: String, q: String, limit: Int): [CatalogueEntity]',
+    '  evidenceRelationships(ev: String!): [EvidenceRelationship]',
     '  observation(id: String!): Observation observations(q: String, theme: String, limit: Int, offset: Int): [Observation]',
     '  node(id: String!): Node nodes(kind: String!, limit: Int): [Node] capture(url: String!): Capture }',
     'type Stats { artifacts: Int blobs: Int edges: Int nodes: Int themes: Int captures: Int }',
@@ -71,6 +74,10 @@
     'type Artifact { id: Int sha: String kind: String mime: String bytes: Int title: String yearMin: Int yearMax: Int hasBlob: Boolean url: String',
     '  locations: [Location] dataUri: String text: String edges(rel: String): [Edge] backlinks: [Edge] }',
     'type ArtifactAssessment { ev: String artifactId: Int description: String descriptionStatus: String transcript: String transcriptStatus: String interpretation: String interpretationStatus: String sourceVerificationStatus: String limitations: String updatedAt: String }',
+    'type EvidenceMetadata { ev: String sourceDateText: String sourceDateStart: String sourceDateEnd: String sourceDatePrecision: String sourceDateSort: String analysisDateText: String analysisDateStart: String analysisDateEnd: String analysisDatePrecision: String cataloguedAt: String updatedAt: String recordType: String recordTypeLabel: String evidenceLabel: String statusText: String availabilityState: String inspectionState: String verificationState: String accessState: String completenessState: String holderText: String repositoryText: String referenceText: String repositoryReferenceText: String accessNote: String provenanceText: String showsText: String doesNotShowText: String canonicalUrl: String htmlCanonicalUrl: String htmlTitle: String metaDescription: String ogTitle: String ogDescription: String ogUrl: String pageModifiedAt: String structuredDataPresent: Boolean metadataAuditJson: String }',
+    'type EvidenceSourceRef { sourceRefId: String ev: String seq: Int holder: String repository: String reference: String repositoryReferenceText: String sourceUrl: String accessNote: String provenanceNote: String sourceText: String }',
+    'type CatalogueEntity { entityId: String entityType: String entityKind: String preferredName: String disambiguator: String aliases: [String] parentEntityId: String crs: String geometryType: String geometryJson: String labelPointJson: String transformationMethod: String positionalUncertaintyM: Float geometrySourceEv: String notes: String }',
+    'type EvidenceRelationship { relationshipId: String sourceEv: String targetEv: String entityId: String relationType: String role: String dateStart: String dateEnd: String datePrecision: String assertionBasis: String assertionText: String verificationState: String sourceNote: String }',
     'type Observation { id: String slug: String seq: Int title: String theme: String observationType: String status: String summary: String analysis: String limits: String testQuestions: [String] relatedPage: String pagePath: String updatedAt: String refs: [ObservationRef] }',
     'type ObservationRef { observationId: String ev: String path: String role: String note: String artifactId: Int title: String }',
     'type Location { theme: String path: String url: String }',
@@ -84,6 +91,60 @@
       transcript: r.transcript, transcriptStatus: r.transcript_status, interpretation: r.interpretation,
       interpretationStatus: r.interpretation_status, sourceVerificationStatus: r.source_verification_status,
       limitations: r.limitations, updatedAt: r.updated_at };
+  }
+  function EvidenceMetadata(r) {
+    return r && {
+      ev: r.ev, sourceDateText: r.source_date_text, sourceDateStart: r.source_date_start,
+      sourceDateEnd: r.source_date_end, sourceDatePrecision: r.source_date_precision,
+      sourceDateSort: r.source_date_sort, analysisDateText: r.analysis_date_text,
+      analysisDateStart: r.analysis_date_start, analysisDateEnd: r.analysis_date_end,
+      analysisDatePrecision: r.analysis_date_precision, cataloguedAt: r.catalogued_at,
+      updatedAt: r.updated_at, recordType: r.record_type, recordTypeLabel: r.record_type_label,
+      evidenceLabel: r.evidence_label, statusText: r.status_text,
+      availabilityState: r.availability_state, inspectionState: r.inspection_state,
+      verificationState: r.verification_state, accessState: r.access_state,
+      completenessState: r.completeness_state, holderText: r.holder_text,
+      repositoryText: r.repository_text, referenceText: r.reference_text,
+      repositoryReferenceText: r.repository_reference_text, accessNote: r.access_note,
+      provenanceText: r.provenance_text, showsText: r.shows_text,
+      doesNotShowText: r.does_not_show_text, canonicalUrl: r.canonical_url,
+      htmlCanonicalUrl: r.html_canonical_url, htmlTitle: r.html_title,
+      metaDescription: r.meta_description, ogTitle: r.og_title,
+      ogDescription: r.og_description, ogUrl: r.og_url,
+      pageModifiedAt: r.page_modified_at, structuredDataPresent: !!r.structured_data_present,
+      metadataAuditJson: r.metadata_audit_json
+    };
+  }
+  function EvidenceSourceRef(r) {
+    return r && {
+      sourceRefId: r.source_ref_id, ev: r.ev, seq: r.seq, holder: r.holder,
+      repository: r.repository, reference: r.reference,
+      repositoryReferenceText: r.repository_reference_text, sourceUrl: r.source_url,
+      accessNote: r.access_note, provenanceNote: r.provenance_note, sourceText: r.source_text
+    };
+  }
+  function CatalogueEntity(r) {
+    if (!r) return null;
+    var aliases = [];
+    try { aliases = JSON.parse(r.aliases_json || '[]'); } catch (_) {}
+    return {
+      entityId: r.entity_id, entityType: r.entity_type, entityKind: r.entity_kind,
+      preferredName: r.preferred_name, disambiguator: r.disambiguator, aliases: aliases,
+      parentEntityId: r.parent_entity_id, crs: r.crs, geometryType: r.geometry_type,
+      geometryJson: r.geometry_json, labelPointJson: r.label_point_json,
+      transformationMethod: r.transformation_method,
+      positionalUncertaintyM: r.positional_uncertainty_m,
+      geometrySourceEv: r.geometry_source_ev, notes: r.notes
+    };
+  }
+  function EvidenceRelationship(r) {
+    return r && {
+      relationshipId: r.relationship_id, sourceEv: r.source_ev, targetEv: r.target_ev,
+      entityId: r.entity_id, relationType: r.relation_type, role: r.role,
+      dateStart: r.date_start, dateEnd: r.date_end, datePrecision: r.date_precision,
+      assertionBasis: r.assertion_basis, assertionText: r.assertion_text,
+      verificationState: r.verification_state, sourceNote: r.source_note
+    };
   }
   function ObservationRef(r) {
     return r && { observationId: r.observation_id, ev: r.ev, path: r.path, role: r.role, note: r.note,
@@ -116,6 +177,27 @@
         .then(function (rs) { return rs.map(function (r) { return { theme: r.theme, path: r.path, snippet: r.snip, artifact: function () { return artifact({ id: r.aid }); } }; }); }); },
     artifactAssessment: function (a) {
       return q1('SELECT * FROM artifact_assessments WHERE lower(ev)=lower(?)', [a.ev]).then(Assessment);
+    },
+    evidenceMetadata: function (a) {
+      return q1('SELECT * FROM evidence_metadata WHERE lower(ev)=lower(?)', [a.ev]).then(EvidenceMetadata);
+    },
+    evidenceSourceRefs: function (a) {
+      return qa('SELECT * FROM evidence_source_refs WHERE lower(ev)=lower(?) ORDER BY seq', [a.ev]).then(function (rs) { return rs.map(EvidenceSourceRef); });
+    },
+    catalogueEntity: function (a) {
+      return q1('SELECT * FROM catalogue_entities WHERE entity_id=?', [a.id]).then(CatalogueEntity);
+    },
+    catalogueEntities: function (a) {
+      var q = String(a.q || '').trim().toLowerCase(), type = a.type || null;
+      var where = [], params = [];
+      if (type) { where.push('entity_type=?'); params.push(type); }
+      if (q) { where.push('(lower(preferred_name) LIKE ? OR lower(disambiguator) LIKE ? OR lower(aliases_json) LIKE ?)'); params.push('%'+q+'%','%'+q+'%','%'+q+'%'); }
+      var sql = 'SELECT * FROM catalogue_entities' + (where.length ? ' WHERE ' + where.join(' AND ') : '') + ' ORDER BY preferred_name LIMIT ?';
+      params.push(Math.min(Math.max(+(a.limit || 100), 1), 500));
+      return qa(sql, params).then(function (rs) { return rs.map(CatalogueEntity); });
+    },
+    evidenceRelationships: function (a) {
+      return qa('SELECT * FROM evidence_relationships WHERE lower(source_ev)=lower(?) OR lower(target_ev)=lower(?) ORDER BY relation_type,relationship_id', [a.ev, a.ev]).then(function (rs) { return rs.map(EvidenceRelationship); });
     },
     artifactAssessments: function (a) {
       var q = String(a.q || '').trim().toLowerCase(), lim = Math.min(Math.max(+(a.limit || 50), 1), 200);
