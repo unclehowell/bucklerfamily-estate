@@ -56,6 +56,11 @@ class DatePrecisionTests(unittest.TestCase):
         self.assertEqual(_states("Not held", "", "")[0], "unavailable")
         self.assertEqual(_states("Not located", "", "")[0], "not_located")
 
+    def test_unambiguous_legacy_access_and_inspection_terms_are_migrated(self):
+        self.assertEqual(_states("paywalled", "", "")[3], "paywalled")
+        self.assertEqual(_states("catalogue-only", "", "")[1], "catalogue_only")
+        self.assertEqual(_states("online", "", "")[3], "unknown")
+
 
 
 class VisibleBodyTextTests(unittest.TestCase):
