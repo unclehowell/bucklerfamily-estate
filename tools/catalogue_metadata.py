@@ -169,6 +169,40 @@ class _RecordParser(HTMLParser):
             self._script_parts.append(data)
 
 
+class _VisibleBodyTextParser(HTMLParser):
+    """Collect visible body text, excluding head, scripts, styles and hidden templates."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.in_body = False
+        self.skip_depth = 0
+        self.parts = []
+
+    def handle_starttag(self, tag, attrs):
+        tag = tag.lower()
+        if tag == "body":
+            self.in_body = True
+        if self.in_body and tag in {"script", "style", "noscript", "template"}:
+            self.skip_depth += 1
+
+    def handle_endtag(self, tag):
+        tag = tag.lower()
+        if self.in_body and tag in {"script", "style", "noscript", "template"} and self.skip_depth:
+            self.skip_depth -= 1
+        if tag == "body":
+            self.in_body = False
+
+    def handle_data(self, data):
+        if self.in_body and not self.skip_depth:
+            self.parts.append(data)
+
+
+def visible_body_text_length(html_text):
+    parser = _VisibleBodyTextParser()
+    parser.feed(html_text or "")
+    parser.close()
+    return len(re.sub(r"\s+", " ", " ".join(parser.parts)).strip())
+
+
 def _row(parser, *labels):
     for label in labels:
         key = re.sub(r"[^a-z0-9]+", " ", label.lower()).strip()
@@ -392,7 +426,7 @@ def extract_record_metadata(ev, page_path, html_text):
         "og_description_present": bool(og_description),
         "og_url_present": bool(og_url),
         "og_url_matches_expected": bool(og_url and og_url.rstrip("/") == expected_canonical.rstrip("/")),
-        "server_rendered_text_present": bool(html_text and len(re.sub(r"<[^>]+>", " ", html_text)) > 500),
+        "server_rendered_text_present": visible_body_text_length(html_text) > 500,
         "structured_data_present": bool(parser.jsonld),
         "structured_data_valid": all(_valid_json(x) for x in parser.jsonld) if parser.jsonld else False,
         "structured_data_matches_record": structured_matches_record,
