@@ -115,10 +115,6 @@ jobs:
         run: python3 tools/page_journal.py dist || echo "::warning::page journal step did not complete"
       - name: Privacy scrub (sources only on public pages; fails on any surviving working-process attribution)
         run: python3 tools/privacy_scrub.py dist
-      - name: Catalogue database (chunked)
-        run: python3 tools/build_db.py dist
-      - name: Verify the built SQLite catalogue and hierarchy
-        run: python3 tools/test_built_evidence_db.py dist
       - name: Outbound-link guard (rewrite any link the parser missed), then strict test
         run: |
           python3 tools/check_links.py dist --fix
@@ -180,6 +176,22 @@ jobs:
         run: python3 tools/apex_root.py bff/public dist || echo "::warning::apex root step did not complete"
       - name: Fit the Cloudflare Pages 20,000-file limit (tools/pages_fit.py; fails the build while still over, so no silent Pages refusal - P-PAGES-20K-FILES)
         run: python3 tools/pages_fit.py dist
+      # Build the central DB only after every HTML/link/navigation/size rewrite. This keeps
+      # artifact hashes, extracted evidence text and the DB's source-page references aligned.
+      - name: Catalogue database (after all page mutations; chunked)
+        run: python3 tools/build_db.py dist
+      - name: Verify the built SQLite catalogue, source graph and page-hash parity
+        run: python3 tools/test_built_evidence_db.py dist
+      - name: Final Cloudflare Pages file-count guard (including catalogue DB chunks)
+        run: |
+          python3 - <<'PY'
+          import os, sys
+          files = sum(len(names) for _, _, names in os.walk('dist'))
+          print('final deploy file count including central database:', files)
+          if files > 20000:
+              print('::error::final output exceeds Cloudflare Pages 20,000-file limit')
+              sys.exit(1)
+          PY
       - name: Measure
         if: always()
         run: |
