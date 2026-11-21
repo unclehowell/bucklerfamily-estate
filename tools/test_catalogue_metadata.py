@@ -263,6 +263,26 @@ class RelationshipValidationTests(unittest.TestCase):
         self.assertEqual(relations[0]["relation_type"], "tenanted_by")
         self.assertIsNone(relations[0]["target_ev"])
 
+    def test_approximate_relationship_year_keeps_precision_separate_from_bound(self):
+        _, relations = validate_relationship_registry({
+            "entities": [{
+                "entity_id": "PLC-0001", "entity_type": "place", "entity_kind": "farm",
+                "preferred_name": "Great House Farm"
+            }],
+            "relationships": [{
+                "relationship_id": "REL-0001", "source_ev": "EV-0001",
+                "entity_id": "PLC-0001", "relation_type": "mentions",
+                "date_start": "1841", "date_end": None, "date_precision": "approximate",
+                "assertion_basis": "catalogue_interpretation",
+                "verification_state": "provisional",
+                "assertion_text": "A c.1841 tithe record refers to this place.",
+                "source_note": "EV-0001, tithe apportionment, landowner/occupier columns."
+            }]
+        }, {"EV-0001"})
+        self.assertEqual(relations[0]["date_start"], "1841")
+        self.assertIsNone(relations[0]["date_end"])
+        self.assertEqual(relations[0]["date_precision"], "approximate")
+
     def test_relationship_without_pinpointed_source_support_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "assertion_text or a source_note"):
             validate_relationship_registry({
