@@ -44,6 +44,12 @@ def parse_date_range(value):
     s = raw.replace("–", "-").replace("—", "-").replace("−", "-")
     s = re.sub(r"\s+", " ", s).strip()
 
+    approximate = re.fullmatch(r"(?:c(?:irca)?\.?|ca\.?|about|approximately)\s*(\d{4})", s, re.I)
+    if approximate and _valid_year(approximate.group(1)):
+        # Keep the nominal year for chronological sorting but explicitly mark it approximate.
+        return {"date_start": approximate.group(1), "date_end": None,
+                "date_precision": "approximate", "date_sort": approximate.group(1)}
+
     m = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", s)
     if m:
         try:
@@ -251,12 +257,16 @@ def _states(status, evidence_label, access_note=None):
     # Do not infer online/on-site accessibility from a generic status string.
     access_combined = access_text
 
-    if re.search(r"\bnot held\b|\bno copy\b|\bnot in custody\b", combined):
-        availability = "not_held"
+    if re.search(r"\bnot located\b|\bnot found\b|\bunable to locate\b|\bcould not locate\b", combined):
+        availability = "not_located"
+    elif re.search(r"\breference located\b|\breference found\b|\bcatalogue entry located\b|\bcatalogue reference found\b", combined):
+        availability = "reference_located"
     elif re.search(r"\bpartly held\b|\bpartially held\b", combined):
         availability = "partly_held"
-    elif re.search(r"\bheld\b", combined):
-        availability = "held"
+    elif re.search(r"\bcopy held\b|\bheld\b", combined):
+        availability = "copy_held"
+    elif re.search(r"\bnot held\b|\bno copy\b|\bnot in custody\b|\bunavailable\b", combined):
+        availability = "unavailable"
     else:
         availability = "unknown"
 
@@ -719,7 +729,7 @@ def validate_relationship_registry(doc, known_evs):
         if entity_id and entity_id not in entity_ids:
             raise ValueError("relationship %s points to an unknown entity_id" % rel_id)
         date_precision = optional_text(item.get("date_precision")) or "unknown"
-        if date_precision not in {"day", "month", "year", "year_range", "unknown", "unparsed"}:
+        if date_precision not in {"day", "month", "year", "year_range", "approximate", "unknown", "unparsed"}:
             raise ValueError("relationship %s has an uncontrolled date_precision" % rel_id)
         assertion_text = optional_text(item.get("assertion_text"))
         source_note = optional_text(item.get("source_note"))
