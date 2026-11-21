@@ -458,6 +458,79 @@ def _valid_json(value):
         return False
 
 
+
+def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
+    """Add record-specific SEO metadata to generated evidence pages, preserving page content."""
+    from html import escape
+    metadata = metadata or {}
+    canonical = CANONICAL_BASE + (page_path if page_path.startswith("/") else "/" + page_path)
+    canonical = canonical.rstrip("/") + "/"
+    title = optional_text(metadata.get("html_title")) or str(ev)
+    description = optional_text(metadata.get("meta_description"))
+    if not description:
+        type_label = optional_text(metadata.get("record_type_label"))
+        label = optional_text(metadata.get("evidence_label"))
+        description = "Evidence catalogue record %s: %s%s. Catalogue description, source wording and interpretation are kept distinct." % (
+            ev, title,
+            (" — " + type_label) if type_label else ((" — " + label) if label else "")
+        )
+    description = re.sub(r"\s+", " ", description).strip()[:300]
+    escaped_description = escape(description, quote=True)
+    escaped_title = escape(title, quote=True)
+    escaped_url = escape(canonical, quote=True)
+
+    def upsert_meta(source, key_name, key_value, content):
+        attr = re.escape(key_name)
+        value = re.escape(key_value)
+        pattern = re.compile(
+            r"<meta\b(?=[^>]*\b" + attr + r"\s*=\s*(['\"])" + value + r"\1)[^>]*>",
+            re.I
+        )
+        tag = '<meta %s="%s" content="%s">' % (key_name, key_value, content)
+        if pattern.search(source):
+            return pattern.sub(lambda _: tag, source, count=1)
+        return source
+
+    def upsert_canonical(source):
+        pattern = re.compile(
+            r"<link\b(?=[^>]*\brel\s*=\s*(['\"])canonical\1)[^>]*>",
+            re.I
+        )
+        tag = '<link rel="canonical" href="%s">' % escaped_url
+        if pattern.search(source):
+            return pattern.sub(lambda _: tag, source, count=1)
+        return source
+
+    head_match = re.search(r"<head\b[^>]*>", html_text, re.I)
+    if not head_match:
+        return html_text, {"updated": False, "reason": "missing_head"}
+    head_end = head_match.end()
+    head = html_text[:]
+    head = upsert_canonical(head)
+    head = upsert_meta(head, "name", "description", escaped_description)
+    head = upsert_meta(head, "property", "og:title", escaped_title)
+    head = upsert_meta(head, "property", "og:description", escaped_description)
+    head = upsert_meta(head, "property", "og:url", escaped_url)
+
+    parser = _RecordParser()
+    parser.feed(head)
+    parser.close()
+    if not parser.jsonld:
+        structured = json.dumps({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "identifier": ev,
+            "name": title,
+            "description": description,
+            "url": canonical,
+        }, ensure_ascii=False).replace("</", "<\\/")
+        tag = '<script type="application/ld+json">%s</script>' % structured
+        marker = re.search(r"</head\s*>", head, re.I)
+        if marker:
+            head = head[:marker.start()] + tag + head[marker.start():]
+    updated = head != html_text
+    return head, {"updated": updated, "canonical_url": canonical, "description": description}
+
 def validate_relationship_registry(doc, known_evs):
     """Validate explicit entity and relationship records; never auto-merge names."""
     entities = doc.get("entities", [])
