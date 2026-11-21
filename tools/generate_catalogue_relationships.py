@@ -384,7 +384,7 @@ def build():
             if not ev_id(source):
                 continue
             reg.relation(
-                source, target, "cited_in", role="source citation in working parcel-model event",
+                source, target, "cited_in",
                 basis="modern_analysis", verification="provisional",
                 role=f"source citation in working parcel event: {event.get('title', 'an event')}",
                 text=(
