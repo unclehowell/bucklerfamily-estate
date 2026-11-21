@@ -459,7 +459,7 @@ def extract_record_metadata(ev, page_path, html_text):
     ) if metadata[k]]
     source_urls = _external_urls(
         parser, expected_canonical,
-        {"repository reference", "repository", "reference", "archive reference", "source reference"}
+        {"holder", "repository", "repository reference", "reference", "archive reference", "source reference", "provenance", "source provenance"}
     )
     source_refs = []
     if source_text_parts or source_urls:
