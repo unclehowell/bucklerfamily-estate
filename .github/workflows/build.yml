@@ -46,7 +46,7 @@ jobs:
         with: { node-version: 20 }
       - name: Fast preflight before the full archive rewrite
         run: |
-          python3 -m py_compile tools/ebook_reader_deploy.py tools/test_ebook_reader_deploy.py tools/site.py tools/headlines.py tools/test_reader_rollout.py tools/test_parcel_stories.py tools/sections.py tools/catalogue_metadata.py tools/test_catalogue_metadata.py tools/build_db.py tools/section_dbs.py tools/evidence_observations.py tools/title_theory.py tools/test_evidence_hierarchy.py tools/selfcontain.py tools/test_agent_loader.py tools/test_evidence_pages.py
+          python3 -m py_compile tools/ebook_reader_deploy.py tools/test_ebook_reader_deploy.py tools/site.py tools/headlines.py tools/test_reader_rollout.py tools/test_parcel_stories.py tools/sections.py tools/catalogue_metadata.py tools/generate_catalogue_relationships.py tools/test_catalogue_metadata.py tools/test_built_evidence_db.py tools/build_db.py tools/section_dbs.py tools/evidence_observations.py tools/title_theory.py tools/test_evidence_hierarchy.py tools/selfcontain.py tools/test_agent_loader.py tools/test_evidence_pages.py
           node --check web/_cedwyn/agent-tools.js
           node --check web/_cedwyn/parcel-panel.js
           node --check web/_cedwyn/evidence-browser.js
@@ -59,6 +59,7 @@ jobs:
           node --check tools/test_evidence_browser_client.js
           node tools/test_evidence_browser_client.js
           python3 tools/test_catalogue_metadata.py
+          python3 tools/generate_catalogue_relationships.py --check
           python3 tools/test_evidence_hierarchy.py
           python3 tools/test_agent_loader.py
           python3 tools/test_evidence_pages.py
