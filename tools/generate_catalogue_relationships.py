@@ -298,7 +298,7 @@ def build():
         ("PER-JOHN-WILLIAMS-JUROR-1908", "John Williams", "Person described as a Bute court-leet juror and family member in an 1908 newspaper report; not merged by surname alone."),
         ("PER-JOHN-WILLIAMS-TENANT-1916", "John Williams", "Tenant named in the 1916 tenancy recital in the 1987 Court of Appeal judgment; underlying tenancy instrument not held."),
         ("PER-JOHN-WILLIAMS-LESSEE-1939", "John Williams", "Lessee named in the 18 May 1939 WGR agreement for 5.30 acres; the plan is described as fields only, without the farmhouse."),
-        ("PER-FREDERICK-BUCKLER-TENANT-1949", "Frederick Buckler", "Tenant in the 1949 surrender/regrant as recited by the Court of Appeal; alleged new tenancy was unwritten."),
+        ("PER-FREDERICK-BUCKLER-TENANT-1949", "Frederick Buckler", "Tenant in the 1949 surrender/regrant as recited by the Court of Appeal; the regrant is described as unwritten and its legal nature is not independently established."),
         ("PER-MARY-WILLIAMS", "Mary Williams", "Mary Williams named in the 1974 pleading and 1983 death-index record; kept distinct from the 1958 “Mrs M. D. Buckler” speaker unless a record establishes that identity."),
         ("PER-MRS-MD-BUCKLER-1958", "Mrs M. D. Buckler", "Speaker at 1958 Leckwith Common/planning events as reported in the press; not merged with Mary Williams by surname or family assumption."),
         ("PER-ALFRED-THOMAS-1927", "Alfred Thomas", "Alfred Thomas, 1st Baron Pontypridd, whose death is recorded as 14 December 1927; Mary Williams’s recollection of a 1928 payment does not establish that he personally received it."),
