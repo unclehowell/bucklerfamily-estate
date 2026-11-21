@@ -213,7 +213,9 @@ def _states(status, evidence_label, access_note=None):
     label = (evidence_label or "").lower()
     access_text = (access_note or "").lower()
     combined = s + " " + label
-    access_combined = combined + " " + access_text
+    # Access is deliberately derived only from the dedicated access-note field.
+    # Do not infer online/on-site accessibility from a generic status string.
+    access_combined = access_text
 
     if re.search(r"\bnot held\b|\bno copy\b|\bnot in custody\b", combined):
         availability = "not_held"
@@ -347,6 +349,11 @@ def extract_record_metadata(ev, page_path, html_text):
         page_path += "/"
     expected_canonical = CANONICAL_BASE + page_path
     html_canonical = optional_text(parser.canonical)
+    if html_canonical:
+        canonical_parts = urlparse(html_canonical)
+        base_parts = urlparse(CANONICAL_BASE)
+        if canonical_parts.scheme == base_parts.scheme and canonical_parts.netloc == base_parts.netloc and canonical_parts.path:
+            expected_canonical = html_canonical
     html_title = optional_text("".join(parser.title))
     meta_description = optional_text(parser.meta.get("description"))
     og_title = optional_text(parser.meta.get("og:title"))
