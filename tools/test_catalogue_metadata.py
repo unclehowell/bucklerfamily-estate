@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from catalogue_metadata import ensure_catalogue_html_metadata, ensure_evidence_alias_redirects, extract_record_metadata, parse_date_range, validate_relationship_registry, visible_body_text_length, _states
+from catalogue_metadata import ensure_catalogue_html_metadata, ensure_evidence_alias_redirects, extract_record_metadata, parse_date_range, validate_relationship_registry, visible_body_text_length, _record_type, _states
 
 
 class DatePrecisionTests(unittest.TestCase):
@@ -50,6 +50,27 @@ class DatePrecisionTests(unittest.TestCase):
         for value in ("c. 1841", "ca. 1841", "about 1841", "approximately 1841"):
             with self.subTest(value=value):
                 self.assertEqual(parse_date_range(value)["date_precision"], "approximate")
+
+    def test_explicit_date_ranges_preserve_both_bounds(self):
+        for value, start, end in (
+            ("17 May - 23 Dec 1938", "1938-05-17", "1938-12-23"),
+            ("17-23 May 1938", "1938-05-17", "1938-05-23"),
+            ("Nov 1982 - Feb 1983", "1982-11", "1983-02"),
+        ):
+            with self.subTest(value=value):
+                got = parse_date_range(value)
+                self.assertEqual(got["date_start"], start)
+                self.assertEqual(got["date_end"], end)
+                self.assertEqual(got["date_precision"], "range")
+
+    def test_record_type_is_not_file_type_or_evidence_grade(self):
+        self.assertEqual(_record_type("law and title note"), "legal_analysis")
+        self.assertEqual(_record_type("press reports and archive catalogue"), "composite_record")
+        self.assertEqual(_record_type("Archive catalogue text"), "archival_catalogue")
+
+    def test_status_distinguishes_search_result_only_and_incompleteness(self):
+        self.assertEqual(_states("READ (search-result text, page images not seen)", "", "")[1], "search_result_only")
+        self.assertEqual(_states("not complete", "", "")[4], "partial")
 
     def test_availability_distinguishes_reference_from_copy(self):
         self.assertEqual(_states("Reference located", "", "")[0], "reference_located")
