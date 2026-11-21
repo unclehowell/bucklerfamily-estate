@@ -568,7 +568,8 @@ def ensure_evidence_alias_redirects(dist_path, page_candidates):
         wiki = [item for item in candidates if item[0] == 1]
         if not research or not wiki:
             continue
-        target = "/" + research[0][1].lstrip("/")
+        target_relative = min(research, key=lambda item: item[1])[1]
+        target = "/" + target_relative.lstrip("/")
         target = target.rsplit("/index.html", 1)[0].rstrip("/") + "/"
         for _priority, relative_path, _page_file in wiki:
             source = "/" + relative_path.lstrip("/")
