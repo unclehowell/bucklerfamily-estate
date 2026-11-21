@@ -503,6 +503,12 @@ def extract_record_metadata(ev, page_path, html_text):
             "repository_reference_text": _field_state(optional_text(combined_row["value"])),
             "access_note": _field_state(optional_text(access_row["value"])),
             "provenance_text": _field_state(optional_text(provenance_row["value"])),
+            "summary_text": _field_state(metadata["summary_text"]),
+            "shows_text": _field_state(metadata["shows_text"]),
+            "does_not_show_text": _field_state(metadata["does_not_show_text"]),
+            "record_type_label": _field_state(type_label),
+            "evidence_label": _field_state(evidence_label),
+            "status_text": _field_state(status_text),
         }, ensure_ascii=False, sort_keys=True),
     }
 
