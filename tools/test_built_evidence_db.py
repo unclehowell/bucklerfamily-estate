@@ -46,6 +46,7 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
         "evidence_catalogue": 81,
         "evidence_text": 1,
         "artifact_assessments": 81,
+        "evidence_metadata": 81,
         "observations": 3,
         "observation_refs": 18,
     }
@@ -73,6 +74,44 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
         raise SystemExit("FAIL: EV-0617 does not resolve to its built artifact text and assessment")
     if not row["description_status"] or not row["interpretation_status"]:
         raise SystemExit("FAIL: assessment states are missing on the real evidence row")
+
+    metadata = con.execute(
+        """SELECT source_date_text, source_date_start, source_date_end, source_date_precision,
+                  source_date_sort, analysis_date_text, analysis_date_precision,
+                  catalogued_at, updated_at, availability_state, inspection_state,
+                  verification_state, access_state, completeness_state, canonical_url,
+                  metadata_audit_json, field_states_json
+             FROM evidence_metadata WHERE ev=?""",
+        ("EV-0617",)
+    ).fetchone()
+    if not metadata:
+        raise SystemExit("FAIL: EV-0617 has no normalized metadata row")
+    if metadata["source_date_precision"] not in ("day", "month", "year", "year_range", "unknown", "unparsed"):
+        raise SystemExit("FAIL: source date precision is not a controlled value")
+    if metadata["source_date_sort"] and "-00" in metadata["source_date_sort"]:
+        raise SystemExit("FAIL: pseudo-date leaked into normalized source_date_sort")
+    expected_canonical = "https://bucklerfamily.estate" + row["path"]
+    if metadata["canonical_url"] != expected_canonical:
+        raise SystemExit("FAIL: canonical URL is not derived from the canonical apex route")
+    audit = json.loads(metadata["metadata_audit_json"] or "{}")
+    if not audit.get("canonical_matches_expected") or not audit.get("structured_data_matches_record"):
+        raise SystemExit("FAIL: generated evidence-page metadata does not pass canonical/structured-data audit")
+    field_states = json.loads(metadata["field_states_json"] or "{}")
+    if any(value not in ("present", "unknown", "withheld", "not_applicable") for value in field_states.values()):
+        raise SystemExit("FAIL: metadata field state is outside the controlled vocabulary")
+    bad_dates = con.execute(
+        """SELECT count(*) FROM evidence_metadata
+            WHERE source_date_sort LIKE '%-00-%'
+               OR source_date_start LIKE '%-00-%'
+               OR source_date_end LIKE '%-00-%'"""
+    ).fetchone()[0]
+    if bad_dates:
+        raise SystemExit(f"FAIL: {bad_dates} invalid pseudo-dates were normalized")
+    # All normalized tables must be present and queryable, including empty manually curated relations.
+    con.execute("SELECT * FROM evidence_source_refs WHERE ev=? LIMIT 2", ("EV-0617",)).fetchall()
+    con.execute("SELECT * FROM evidence_relationships WHERE source_ev=? OR target_ev=? LIMIT 2",
+                ("EV-0617", "EV-0617")).fetchall()
+    con.execute("SELECT * FROM catalogue_entities LIMIT 2").fetchall()
 
     # The site-level loader must be present on a nested evidence page, not only the theme home.
     evidence_page = DIST / "research" / "evidence" / "ev-0617-twelve-year-limitation-rule-1879-1940" / "index.html"
@@ -147,5 +186,7 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
         "level_1_record": "EV-0617",
         "level_2_observation": "OBS-0001",
         "observation_reference_count": len(refs),
-        "catalogue_metadata_rows": len(meta)
+        "catalogue_metadata_rows": len(meta),
+        "normalized_record_metadata": True,
+        "invalid_pseudo_dates": int(bad_dates)
     }, ensure_ascii=False))
