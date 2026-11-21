@@ -80,7 +80,7 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
                   source_date_sort, analysis_date_text, analysis_date_precision,
                   catalogued_at, updated_at, availability_state, inspection_state,
                   verification_state, access_state, completeness_state, canonical_url,
-                  metadata_audit_json, field_states_json
+                  html_canonical_url, metadata_audit_json, field_states_json
              FROM evidence_metadata WHERE ev=?""",
         ("EV-0617",)
     ).fetchone()
@@ -90,9 +90,10 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
         raise SystemExit("FAIL: source date precision is not a controlled value")
     if metadata["source_date_sort"] and "-00" in metadata["source_date_sort"]:
         raise SystemExit("FAIL: pseudo-date leaked into normalized source_date_sort")
-    expected_canonical = "https://bucklerfamily.estate" + row["path"]
-    if metadata["canonical_url"] != expected_canonical:
-        raise SystemExit("FAIL: canonical URL is not derived from the canonical apex route")
+    if not metadata["canonical_url"] or not metadata["canonical_url"].startswith("https://bucklerfamily.estate/"):
+        raise SystemExit("FAIL: canonical URL is not on the apex domain")
+    if metadata["canonical_url"] != metadata["html_canonical_url"]:
+        raise SystemExit("FAIL: database canonical URL does not match the page's preferred canonical route")
     audit = json.loads(metadata["metadata_audit_json"] or "{}")
     if not audit.get("canonical_matches_expected") or not audit.get("structured_data_matches_record"):
         raise SystemExit("FAIL: generated evidence-page metadata does not pass canonical/structured-data audit")
