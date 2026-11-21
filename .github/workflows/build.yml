@@ -31,7 +31,7 @@ permissions:
 concurrency:
   # Production builds retain one serialized publisher queue. A PR dry run has its own per-PR
   # queue so it can validate the built database without blocking or being starved by production publishing.
-  group: ${{ github.event_name == 'pull_request' && format('build-cedwyn-pr-{0}', github.event.pull_request.number) || 'build-cedwyn-story-image-refresh' }}
+  group: ${{ github.event_name == 'pull_request' && format('build-cedwyn-pr-{0}-{1}', github.event.pull_request.number, github.event.pull_request.head.sha) || 'build-cedwyn-story-image-refresh' }}
   # A newer commit supersedes an older non-publishing PR dry run. Production builds retain
   # cancel-in-progress=false and therefore keep their serialized publish queue.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
