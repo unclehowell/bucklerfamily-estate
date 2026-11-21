@@ -208,10 +208,12 @@ def _record_type(label):
     return "other"
 
 
-def _states(status, evidence_label):
+def _states(status, evidence_label, access_note=None):
     s = (status or "").lower()
     label = (evidence_label or "").lower()
+    access_text = (access_note or "").lower()
     combined = s + " " + label
+    access_combined = combined + " " + access_text
 
     if re.search(r"\bnot held\b|\bno copy\b|\bnot in custody\b", combined):
         availability = "not_held"
@@ -242,17 +244,17 @@ def _states(status, evidence_label):
     else:
         verification = "unknown"
 
-    if "paywall" in combined or "paywalled" in combined:
+    if "paywall" in access_combined or "paywalled" in access_combined:
         access = "paywalled"
-    elif "appointment" in combined:
+    elif "appointment" in access_combined:
         access = "appointment_required"
-    elif "restricted" in combined or "closed to the public" in combined:
+    elif "restricted" in access_combined or "closed to the public" in access_combined:
         access = "restricted"
-    elif "view free" in combined or "open access" in combined or "freely available" in combined:
-        access = "open"
-    elif "view at" in combined or "consult at" in combined or "reading room" in combined:
+    elif re.search(r"\bview(?:ed)?(?:\s+free)?\s+at\b|\bconsult at\b|\breading room\b|\bin person\b", access_combined):
         access = "on_site"
-    elif "online" in combined:
+    elif re.search(r"\bopen access\b|\bfreely available online\b|\bview free online\b|\bdownload free\b|\bpublicly accessible online\b", access_combined):
+        access = "open"
+    elif "online" in access_combined or "web access" in access_combined:
         access = "online"
     else:
         access = "unknown"
@@ -338,7 +340,7 @@ def extract_record_metadata(ev, page_path, html_text):
     type_label = optional_text(type_row["value"])
     evidence_label = optional_text(label_row["value"])
     status_text = optional_text(status_row["value"])
-    availability, inspection, verification, access, completeness = _states(status_text, evidence_label)
+    availability, inspection, verification, access, completeness = _states(status_text, evidence_label, optional_text(access_row["value"]))
 
     page_path = page_path if page_path.startswith("/") else "/" + page_path
     if not page_path.endswith("/"):
