@@ -30,6 +30,13 @@ def slug_id(value):
     return value[:76]
 
 
+def english_value(value):
+    """Extract the explicitly supplied English value from multilingual source fields."""
+    if isinstance(value, dict):
+        return value.get("en") or next((v for v in value.values() if isinstance(v, str) and v.strip()), "")
+    return value if isinstance(value, str) else ""
+
+
 def date_fields(value):
     """Use only explicit precision already expressed in source data."""
     text = str(value or "").strip()
@@ -355,7 +362,7 @@ def build():
                     source, "ANALYSIS-TITLE-CHAIN", "cited_in", role=role,
                     basis=basis, verification=verification,
                     text=(
-                        "Title-chain row: " + str(row.get("doc", "")).strip()
+                        "Title-chain row: " + str(english_value(row.get("doc", ""))).strip()
                         + " The row preserves the source classification and its limitations; "
                         "this citation is not a finding of title, ownership, parcel extent or legal effect."
                     ), note=f"data/title-chain.json#{section}[{idx}]"
