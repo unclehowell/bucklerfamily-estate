@@ -1,0 +1,6 @@
+{
+  "schema": "cedwyn_catalogue_relationships/v1",
+  "policy": "Entities are explicit, disambiguated records. Never merge people by surname alone or places solely because names overlap. Relationships distinguish owner, occupier, tenant, patron and rector; retain the source wording, assertion basis and verification state. Spatial geometry must state its CRS, geometry type, transformation method and positional uncertainty. An empty registry means no relationship has yet been curated; it does not mean no relationship exists.",
+  "entities": [],
+  "relationships": []
+}
