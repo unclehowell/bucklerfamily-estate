@@ -179,12 +179,28 @@ class RelationshipValidationTests(unittest.TestCase):
                 "relationship_id": "REL-0001", "source_ev": "EV-0001",
                 "entity_id": "PER-0001", "relation_type": "tenanted_by",
                 "assertion_basis": "document_wording", "verification_state": "provisional",
+                "assertion_text": "The record identifies the named person as tenant.",
+                "source_note": "EV-0001, tenancy clause; page 2.",
                 "date_start": "1916", "date_end": "1928", "date_precision": "year_range"
             }]
         }, {"EV-0001"})
         self.assertEqual(len(entities), 2)
         self.assertEqual(relations[0]["relation_type"], "tenanted_by")
         self.assertIsNone(relations[0]["target_ev"])
+
+    def test_relationship_without_pinpointed_source_support_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "assertion_text or a source_note"):
+            validate_relationship_registry({
+                "entities": [{
+                    "entity_id": "PER-0001", "entity_type": "person",
+                    "preferred_name": "John Williams", "disambiguator": "tenant in an identified lease"
+                }],
+                "relationships": [{
+                    "relationship_id": "REL-0001", "source_ev": "EV-0001",
+                    "entity_id": "PER-0001", "relation_type": "tenanted_by",
+                    "assertion_basis": "document_wording"
+                }]
+            }, {"EV-0001"})
 
     def test_person_without_disambiguator_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "disambiguator"):
