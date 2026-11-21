@@ -93,6 +93,7 @@ class PageMetadataTests(unittest.TestCase):
         <tr><th>Reference</th><td>DX/123/4 <a href="https://archives.example.org/item/123">catalogue</a> <a href="https://archives.example.org/repository">repository</a></td></tr>
         <tr><th>Access</th><td>View free at the archive.</td></tr>
         <tr><th>Provenance</th><td>Catalogue entry read on 21 November 2026.</td></tr>
+        <tr><th>Summary</th><td>This catalogue entry identifies a public meeting report.</td></tr>
         <tr><th>Related entries</th><td><a href="/research/evidence/ev-0002/">EV-0002</a></td></tr>
         </table><p class="meta">Evidence register · added 2026-11-21</p>
         <p><strong>Shows:</strong> The report records a public meeting.</p>
@@ -110,6 +111,7 @@ class PageMetadataTests(unittest.TestCase):
         self.assertEqual(md["reference_text"], "DX/123/4 catalogue repository")
         self.assertEqual(__import__("json").loads(md["field_states_json"])["holder_text"], "unknown")
         self.assertEqual(__import__("json").loads(md["field_states_json"])["reference_text"], "present")
+        self.assertIn("public meeting report", md["summary_text"])
         self.assertIn("public meeting", md["shows_text"])
         self.assertIn("original minutes", md["does_not_show_text"])
         self.assertEqual(md["canonical_url"], "https://bucklerfamily.estate/research/evidence/ev-0001-sample/")
