@@ -255,6 +255,127 @@ for _ev, (_, _epath) in sorted(_ev_pages.items()):
         VALUES(?,?,?,NULL,NULL,'[]','Not yet assessed in data/evidence-grades.json',?)''',
         (_ev, _aid, _page_path, (_title_row[0] if _title_row else _epath)))
 
+# Normalized record metadata: preserve raw source wording and leave ambiguous values NULL.
+from catalogue_metadata import extract_record_metadata, validate_relationship_registry
+con.executescript("""
+CREATE TABLE IF NOT EXISTS evidence_metadata(
+ ev TEXT PRIMARY KEY,
+ source_date_text TEXT, source_date_start TEXT, source_date_end TEXT,
+ source_date_precision TEXT NOT NULL DEFAULT 'unknown', source_date_sort TEXT,
+ analysis_date_text TEXT, analysis_date_start TEXT, analysis_date_end TEXT,
+ analysis_date_precision TEXT NOT NULL DEFAULT 'unknown',
+ catalogued_at TEXT, updated_at TEXT,
+ record_type TEXT NOT NULL DEFAULT 'unknown', record_type_label TEXT,
+ evidence_label TEXT, status_text TEXT,
+ availability_state TEXT NOT NULL DEFAULT 'unknown',
+ inspection_state TEXT NOT NULL DEFAULT 'unknown',
+ verification_state TEXT NOT NULL DEFAULT 'unknown',
+ access_state TEXT NOT NULL DEFAULT 'unknown',
+ completeness_state TEXT NOT NULL DEFAULT 'unknown',
+ holder_text TEXT, repository_text TEXT, reference_text TEXT,
+ repository_reference_text TEXT, access_note TEXT, provenance_text TEXT,
+ shows_text TEXT, does_not_show_text TEXT,
+ canonical_url TEXT, html_canonical_url TEXT, html_title TEXT,
+ meta_description TEXT, og_title TEXT, og_description TEXT, og_url TEXT,
+ page_modified_at TEXT, structured_data_present INTEGER NOT NULL DEFAULT 0,
+ metadata_audit_json TEXT NOT NULL DEFAULT '{}'
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS evidence_metadata_date_sort ON evidence_metadata(source_date_sort);
+CREATE TABLE IF NOT EXISTS evidence_source_refs(
+ source_ref_id TEXT PRIMARY KEY, ev TEXT NOT NULL, seq INTEGER NOT NULL,
+ holder TEXT, repository TEXT, reference TEXT, repository_reference_text TEXT,
+ source_url TEXT, access_note TEXT, provenance_note TEXT, source_text TEXT,
+ UNIQUE(ev, seq)
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS evidence_source_refs_ev ON evidence_source_refs(ev);
+CREATE TABLE IF NOT EXISTS catalogue_entities(
+ entity_id TEXT PRIMARY KEY, entity_type TEXT NOT NULL, entity_kind TEXT NOT NULL,
+ preferred_name TEXT NOT NULL, disambiguator TEXT NOT NULL DEFAULT '',
+ aliases_json TEXT NOT NULL DEFAULT '[]', parent_entity_id TEXT,
+ crs TEXT, geometry_type TEXT, geometry_json TEXT, label_point_json TEXT,
+ transformation_method TEXT, positional_uncertainty_m REAL,
+ geometry_source_ev TEXT, notes TEXT
+) WITHOUT ROWID;
+CREATE TABLE IF NOT EXISTS evidence_relationships(
+ relationship_id TEXT PRIMARY KEY, source_ev TEXT NOT NULL,
+ target_ev TEXT, entity_id TEXT, relation_type TEXT NOT NULL, role TEXT,
+ date_start TEXT, date_end TEXT, date_precision TEXT NOT NULL DEFAULT 'unknown',
+ assertion_basis TEXT NOT NULL DEFAULT 'unknown', assertion_text TEXT,
+ verification_state TEXT NOT NULL DEFAULT 'not_assessed', source_note TEXT,
+ CHECK ((target_ev IS NOT NULL) != (entity_id IS NOT NULL))
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS evidence_relationships_source ON evidence_relationships(source_ev);
+CREATE INDEX IF NOT EXISTS evidence_relationships_target ON evidence_relationships(target_ev);
+CREATE INDEX IF NOT EXISTS evidence_relationships_entity ON evidence_relationships(entity_id);
+""")
+
+_metadata_fields = (
+    "source_date_text", "source_date_start", "source_date_end", "source_date_precision", "source_date_sort",
+    "analysis_date_text", "analysis_date_start", "analysis_date_end", "analysis_date_precision",
+    "catalogued_at", "updated_at", "record_type", "record_type_label", "evidence_label", "status_text",
+    "availability_state", "inspection_state", "verification_state", "access_state", "completeness_state",
+    "holder_text", "repository_text", "reference_text", "repository_reference_text", "access_note",
+    "provenance_text", "shows_text", "does_not_show_text", "canonical_url", "html_canonical_url",
+    "html_title", "meta_description", "og_title", "og_description", "og_url", "page_modified_at",
+    "structured_data_present", "metadata_audit_json"
+)
+con.execute(
+    "INSERT OR REPLACE INTO evidence_metadata(ev," + ",".join(_metadata_fields) + ") VALUES(" +
+    ",".join("?" for _ in range(len(_metadata_fields) + 1)) + ")"
+    .replace("INSERT OR REPLACE INTO evidence_metadata(ev,", "INSERT OR REPLACE INTO evidence_metadata(ev,", 1)
+)
+# Replace the prepared statement above with a stable parameterized insert for each catalogue page.
+_metadata_sql = "INSERT OR REPLACE INTO evidence_metadata(ev," + ",".join(_metadata_fields) + ") VALUES(" + ",".join("?" for _ in range(len(_metadata_fields) + 1)) + ")"
+for _ev, _rawpath in con.execute("SELECT ev,path FROM evidence_catalogue ORDER BY ev").fetchall():
+    _page_path = _rawpath if str(_rawpath).startswith("/") else "/" + str(_rawpath)
+    _page_file = DIST / (_page_path.rstrip("/") + "/index.html").lstrip("/")
+    _page_html = _page_file.read_text("utf-8", errors="replace") if _page_file.is_file() else ""
+    _md, _src = extract_record_metadata(_ev, _page_path, _page_html)
+    con.execute(_metadata_sql, (_ev,) + tuple(_md.get(k) for k in _metadata_fields))
+    if _src:
+        con.execute("""INSERT OR REPLACE INTO evidence_source_refs
+            (source_ref_id,ev,seq,holder,repository,reference,repository_reference_text,
+             source_url,access_note,provenance_note,source_text)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?)""", tuple(_src.get(k) for k in (
+                "source_ref_id", "ev", "seq", "holder", "repository", "reference",
+                "repository_reference_text", "source_url", "access_note", "provenance_note", "source_text"
+            )))
+
+# Explicit people, places and assertion relationships. No name-based merging or inferred links.
+_relationship_path = ROOT / "data" / "catalogue-relationships.json"
+if _relationship_path.exists():
+    _relationship_doc = json.loads(_relationship_path.read_text(encoding="utf-8"))
+    _known_evs = {r[0] for r in con.execute("SELECT ev FROM evidence_catalogue").fetchall()}
+    _entities, _relationships = validate_relationship_registry(_relationship_doc, _known_evs)
+    for _entity in _entities:
+        con.execute("""INSERT OR REPLACE INTO catalogue_entities
+            (entity_id,entity_type,entity_kind,preferred_name,disambiguator,aliases_json,parent_entity_id,
+             crs,geometry_type,geometry_json,label_point_json,transformation_method,positional_uncertainty_m,
+             geometry_source_ev,notes)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", tuple(_entity[k] for k in (
+                "entity_id","entity_type","entity_kind","preferred_name","disambiguator","aliases_json",
+                "parent_entity_id","crs","geometry_type","geometry_json","label_point_json",
+                "transformation_method","positional_uncertainty_m","geometry_source_ev","notes"
+            )))
+        node("entity:" + _entity["entity_id"], _entity["entity_type"], _entity["preferred_name"])
+    for _rel in _relationships:
+        con.execute("""INSERT OR REPLACE INTO evidence_relationships
+            (relationship_id,source_ev,target_ev,entity_id,relation_type,role,date_start,date_end,
+             date_precision,assertion_basis,assertion_text,verification_state,source_note)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)""", tuple(_rel[k] for k in (
+                "relationship_id","source_ev","target_ev","entity_id","relation_type","role",
+                "date_start","date_end","date_precision","assertion_basis","assertion_text",
+                "verification_state","source_note"
+            )))
+        _source = con.execute("SELECT artifact_id FROM evidence_catalogue WHERE ev=?", (_rel["source_ev"],)).fetchone()
+        if _source and _source[0]:
+            if _rel["target_ev"]:
+                _target = con.execute("SELECT artifact_id FROM evidence_catalogue WHERE ev=?", (_rel["target_ev"],)).fetchone()
+                if _target and _target[0]:
+                    edge("a:" + str(_source[0]), _rel["relation_type"], "a:" + str(_target[0]))
+            elif _rel["entity_id"]:
+                edge("a:" + str(_source[0]), _rel["relation_type"], "entity:" + _rel["entity_id"])
+
 # Level 1: neutral description, transcript and interpretation are separate assessment fields.
 con.execute('''CREATE TABLE IF NOT EXISTS artifact_assessments(
  ev TEXT PRIMARY KEY, artifact_id INTEGER, description TEXT NOT NULL DEFAULT '',
@@ -525,7 +646,9 @@ stats = dict(artifacts=cnt('SELECT count(*) FROM artifacts'), locations=cnt('SEL
              fts_rows=cnt('SELECT count(*) FROM fts'), captures=cnt('SELECT count(*) FROM captures'), cites=n_ext, themes=len(TIDS),
              layer_items=n_layer_items, layer_refs=n_layer_refs, layer_deps=n_layer_deps,
              evidence_records=cnt('SELECT count(*) FROM evidence_catalogue'), evidence_texts=cnt('SELECT count(*) FROM evidence_text'),
-             artifact_assessments=cnt('SELECT count(*) FROM artifact_assessments'), observations=cnt('SELECT count(*) FROM observations'), observation_refs=cnt('SELECT count(*) FROM observation_refs'),
+             artifact_assessments=cnt('SELECT count(*) FROM artifact_assessments'), evidence_metadata=cnt('SELECT count(*) FROM evidence_metadata'),
+             evidence_source_refs=cnt('SELECT count(*) FROM evidence_source_refs'), catalogue_entities=cnt('SELECT count(*) FROM catalogue_entities'),
+             evidence_relationships=cnt('SELECT count(*) FROM evidence_relationships'), observations=cnt('SELECT count(*) FROM observations'), observation_refs=cnt('SELECT count(*) FROM observation_refs'),
              parcel_stories=cnt('SELECT count(*) FROM estate_parcels'), parcel_events=cnt('SELECT count(*) FROM parcel_events'),
              parcel_models=cnt('SELECT count(*) FROM estate_parcel_model'), parcel_model_events=cnt('SELECT count(*) FROM estate_parcel_model_events'),
               title_theories=cnt('SELECT count(*) FROM title_theories'), title_theory_hypotheses=cnt('SELECT count(*) FROM title_theory_hypotheses'),
