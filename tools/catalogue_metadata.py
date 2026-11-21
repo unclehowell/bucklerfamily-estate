@@ -391,6 +391,9 @@ def extract_record_metadata(ev, page_path, html_text):
 
     source_date_text = optional_text(date_row["value"])
     parsed_date = parse_date_range(source_date_text)
+    summary_text = optional_text(summary_row["value"]) or _first_paragraph_value(parser.paragraphs, {"summary", "catalogue summary", "public summary"})
+    shows_text = optional_text(shows_row["value"]) or _first_paragraph_value(parser.paragraphs, {"shows", "what it shows"})
+    does_not_show_text = optional_text(does_not_show_row["value"]) or _first_paragraph_value(parser.paragraphs, {"does not show", "doesn't show", "what it does not show"})
     type_label = optional_text(type_row["value"])
     evidence_label = optional_text(label_row["value"])
     status_text = optional_text(status_row["value"])
@@ -481,9 +484,9 @@ def extract_record_metadata(ev, page_path, html_text):
         "repository_reference_text": optional_text(combined_row["value"]),
         "access_note": optional_text(access_row["value"]),
         "provenance_text": optional_text(provenance_row["value"]),
-        "summary_text": optional_text(summary_row["value"]) or _first_paragraph_value(parser.paragraphs, {"summary", "catalogue summary", "public summary"}),
-        "shows_text": optional_text(shows_row["value"]) or _first_paragraph_value(parser.paragraphs, {"shows", "what it shows"}),
-        "does_not_show_text": optional_text(does_not_show_row["value"]) or _first_paragraph_value(parser.paragraphs, {"does not show", "doesn't show", "what it does not show"}),
+        "summary_text": summary_text,
+        "shows_text": shows_text,
+        "does_not_show_text": does_not_show_text,
         "canonical_url": expected_canonical,
         "html_canonical_url": html_canonical,
         "html_title": html_title,
@@ -503,9 +506,9 @@ def extract_record_metadata(ev, page_path, html_text):
             "repository_reference_text": _field_state(optional_text(combined_row["value"])),
             "access_note": _field_state(optional_text(access_row["value"])),
             "provenance_text": _field_state(optional_text(provenance_row["value"])),
-            "summary_text": _field_state(metadata["summary_text"]),
-            "shows_text": _field_state(metadata["shows_text"]),
-            "does_not_show_text": _field_state(metadata["does_not_show_text"]),
+            "summary_text": _field_state(summary_text),
+            "shows_text": _field_state(shows_text),
+            "does_not_show_text": _field_state(does_not_show_text),
             "record_type_label": _field_state(type_label),
             "evidence_label": _field_state(evidence_label),
             "status_text": _field_state(status_text),
