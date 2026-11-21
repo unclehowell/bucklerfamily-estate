@@ -276,6 +276,20 @@ def _first_paragraph_value(paragraphs, labels):
     return None
 
 
+def _field_state(value):
+    """Return a controlled missing-value state without discarding original wording."""
+    if value is None or not str(value).strip():
+        return "unknown"
+    text = str(value).strip().lower()
+    if re.search(r"\\bwithheld\\b|\\bredacted\\b", text):
+        return "withheld"
+    if re.search(r"\\bnot applicable\\b|\\bn/?a\\b", text):
+        return "not_applicable"
+    if re.search(r"\\bunknown\\b|\\bnot known\\b|\\bnot recorded\\b|\\bnot stated\\b", text):
+        return "unknown"
+    return "present"
+
+
 def _catalogued_date(paragraphs):
     for paragraph in paragraphs:
         if not paragraph:
@@ -398,6 +412,16 @@ def extract_record_metadata(ev, page_path, html_text):
         "page_modified_at": modified,
         "structured_data_present": 1 if parser.jsonld else 0,
         "metadata_audit_json": json.dumps(audit, ensure_ascii=False, sort_keys=True),
+        "field_states_json": json.dumps({
+            "source_date_text": _field_state(source_date_text),
+            "analysis_date_text": _field_state(analysis_date_text),
+            "holder_text": _field_state(optional_text(holder_row["value"])),
+            "repository_text": _field_state(optional_text(repository_row["value"])),
+            "reference_text": _field_state(optional_text(reference_row["value"])),
+            "repository_reference_text": _field_state(optional_text(combined_row["value"])),
+            "access_note": _field_state(optional_text(access_row["value"])),
+            "provenance_text": _field_state(optional_text(provenance_row["value"])),
+        }, ensure_ascii=False, sort_keys=True),
     }
 
     source_text_parts = [metadata[k] for k in (
@@ -458,25 +482,41 @@ def validate_relationship_registry(doc, known_evs):
             raise ValueError("place entity %s has an unsupported place kind" % entity_id)
         geometry = item.get("geometry")
         label_point = item.get("label_point")
-        if geometry is not None and (not item.get("crs") or not item.get("geometry_type")):
+        geometry_type = optional_text(item.get("geometry_type"))
+        if geometry is not None and (not item.get("crs") or not geometry_type):
             raise ValueError("spatial entity %s needs CRS and geometry_type" % entity_id)
+        if geometry is not None and geometry_type not in {
+            "Point", "MultiPoint", "LineString", "MultiLineString",
+            "Polygon", "MultiPolygon", "GeometryCollection"
+        }:
+            raise ValueError("spatial entity %s has an unsupported GeoJSON geometry_type" % entity_id)
         if geometry is not None and not isinstance(geometry, (dict, list)):
             raise ValueError("geometry for %s must be a JSON object or array" % entity_id)
+        uncertainty = item.get("positional_uncertainty_m")
+        if uncertainty is not None and (isinstance(uncertainty, bool) or not isinstance(uncertainty, (int, float)) or uncertainty < 0):
+            raise ValueError("spatial entity %s has invalid positional_uncertainty_m" % entity_id)
+        if item.get("geometry_source_ev") and item.get("geometry_source_ev") not in known_evs:
+            raise ValueError("spatial entity %s cites an unknown geometry_source_ev" % entity_id)
         clean_entities.append({
             "entity_id": entity_id, "entity_type": entity_type, "entity_kind": entity_kind,
             "preferred_name": name, "disambiguator": disambiguator,
             "aliases_json": json.dumps(item.get("aliases", []), ensure_ascii=False),
             "parent_entity_id": optional_text(item.get("parent_entity_id")),
             "crs": optional_text(item.get("crs")),
-            "geometry_type": optional_text(item.get("geometry_type")),
+            "geometry_type": geometry_type,
             "geometry_json": json.dumps(geometry, ensure_ascii=False) if geometry is not None else None,
             "label_point_json": json.dumps(label_point, ensure_ascii=False) if label_point is not None else None,
             "transformation_method": optional_text(item.get("transformation_method")),
-            "positional_uncertainty_m": item.get("positional_uncertainty_m"),
+            "positional_uncertainty_m": uncertainty,
             "geometry_source_ev": optional_text(item.get("geometry_source_ev")),
             "notes": optional_text(item.get("notes")),
         })
         entity_ids.add(entity_id)
+
+    for entity in clean_entities:
+        parent_id = entity.get("parent_entity_id")
+        if parent_id and parent_id not in entity_ids:
+            raise ValueError("entity %s points to an unknown parent_entity_id" % entity["entity_id"])
 
     clean_relationships = []
     relation_ids = set()
