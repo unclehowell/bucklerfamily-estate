@@ -89,7 +89,15 @@ function buildContext(opts) {
       if (sql.includes("pragma_table_info('artifact_assessments')")) return [{ name: 'ev' }, { name: 'csscpsg_json' }];
       if (sql.includes("pragma_table_info('evidence_metadata')")) return [{ name: 'ev' }, { name: 'field_states_json' }];
       if (sql.includes("pragma_table_info('evidence_relationships')")) return [{ name: 'relationship_id' }];
+      if (sql.includes("pragma_table_info('evidence_source_refs')")) return [{ name: 'source_ref_id' }];
       if (sql.includes('SUM(CASE WHEN')) return [{ total: 1, described: 1, transcribed: 0, interpreted: 1 }];
+      if (sql.includes('FROM evidence_source_refs')) return [{
+        source_ref_id: 'EV-0001:SRC-001', ev: 'EV-0001', seq: 1,
+        holder: null, repository: 'Court archive', reference: 'CC/1955/14',
+        repository_reference_text: null, source_url: 'https://archives.example.org/cc-1955-14',
+        access_note: 'Catalogue online.', provenance_note: 'Catalogue only.',
+        source_text: 'Court archive | CC/1955/14'
+      }];
       if (sql.includes('FROM evidence_catalogue ec')) return [row];
       return [];
     }
@@ -154,6 +162,10 @@ async function main() {
     'missing-value state semantics should render');
   assert.equal(findAll(results, n => n.textContent === 'HTML / search metadata audit').length, 1,
     'HTML metadata audit should render');
+  assert.equal(findAll(results, n => n.textContent === 'Structured repository / source references').length, 1,
+    'structured source references should render');
+  assert.equal(findAll(results, n => n.href === 'https://archives.example.org/cc-1955-14').length, 1,
+    'the cited repository URL should be linked');
   assert.ok(findAll(results, n => n.textContent === 'Structured data identifies this record: present / matches').length === 1,
     'record-specific structured data audit should render');
 
