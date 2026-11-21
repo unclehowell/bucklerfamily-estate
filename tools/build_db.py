@@ -296,7 +296,7 @@ CREATE TABLE IF NOT EXISTS evidence_metadata(
  completeness_state TEXT NOT NULL DEFAULT 'unknown',
  holder_text TEXT, repository_text TEXT, reference_text TEXT,
  repository_reference_text TEXT, access_note TEXT, provenance_text TEXT,
- shows_text TEXT, does_not_show_text TEXT,
+ summary_text TEXT, shows_text TEXT, does_not_show_text TEXT,
  canonical_url TEXT, html_canonical_url TEXT, html_title TEXT,
  meta_description TEXT, og_title TEXT, og_description TEXT, og_url TEXT,
  page_modified_at TEXT, structured_data_present INTEGER NOT NULL DEFAULT 0,
@@ -338,7 +338,7 @@ _metadata_fields = (
     "catalogued_at", "updated_at", "record_type", "record_type_label", "evidence_label", "status_text",
     "availability_state", "inspection_state", "verification_state", "access_state", "completeness_state",
     "holder_text", "repository_text", "reference_text", "repository_reference_text", "access_note",
-    "provenance_text", "shows_text", "does_not_show_text", "canonical_url", "html_canonical_url",
+    "provenance_text", "summary_text", "shows_text", "does_not_show_text", "canonical_url", "html_canonical_url",
     "html_title", "meta_description", "og_title", "og_description", "og_url", "page_modified_at",
     "structured_data_present", "metadata_audit_json", "field_states_json"
 )
