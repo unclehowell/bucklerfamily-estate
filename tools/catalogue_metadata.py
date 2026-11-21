@@ -281,14 +281,13 @@ def _field_state(value):
     if value is None or not str(value).strip():
         return "unknown"
     text = str(value).strip().lower()
-    if re.search(r"\bwithheld\\b|\\bredacted\\b", text):
+    if re.search(r"\bwithheld\b|\bredacted\b", text):
         return "withheld"
-    if re.search(r"\bnot applicable\\b|\\bn/?a\\b", text):
+    if re.search(r"\bnot applicable\b|\bn/?a\b", text):
         return "not_applicable"
-    if re.search(r"\bunknown\\b|\\bnot known\\b|\\bnot recorded\\b|\\bnot stated\\b", text):
+    if re.search(r"\bunknown\b|\bnot known\b|\bnot recorded\b|\bnot stated\b", text):
         return "unknown"
     return "present"
-
 
 def _catalogued_date(paragraphs):
     for paragraph in paragraphs:
