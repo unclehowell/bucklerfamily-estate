@@ -365,7 +365,8 @@ def build():
                         "Title-chain row: " + str(english_value(row.get("doc", ""))).strip()
                         + " The row preserves the source classification and its limitations; "
                         "this citation is not a finding of title, ownership, parcel extent or legal effect."
-                    ), note=f"data/title-chain.json#{section}[{idx}]"
+                    ), note=f"data/title-chain.json#{section}[{idx}]",
+                    date_text=english_value(row.get("date"))
                 )
 
     for idx, ref in enumerate(title_theory.get("evidence_refs", [])):
