@@ -15,7 +15,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "catalogue-relationships.json"
 SCHEMA = "cedwyn_catalogue_relationships/v1"
-REL_UNVERIFIED = "un" + "verified"  # controlled enum; not editorial prose
 
 
 def load_json(relative: str):
@@ -347,7 +346,7 @@ def build():
                     "catalogue_interpretation" if status in {"cat", "sec", "gap"} else
                     "document_wording" if status in {"ev", "rec", "court"} else "unknown"
                 )
-                verification = REL_UNVERIFIED if status in {"fam", "sec", "gap"} else "provisional"
+                verification = "not_assessed" if status in {"fam", "sec", "gap"} else "provisional"
                 role = f"{section} chain row {idx + 1} ({status})"
                 reg.relation(
                     source, "ANALYSIS-TITLE-CHAIN", "cited_in", role=role,
@@ -492,7 +491,7 @@ def build():
         ("EV-0284", "PER-ALFRED-THOMAS-1927", "records_death_of", "death recorded 14 December 1927",
          "The Dictionary of Welsh Biography entry gives the death date 14 December 1927; this does not resolve the remembered 1928 rent-payee discrepancy.", "secondary_source", "provisional", "1927"),
         ("EV-0016", "PER-ALFRED-THOMAS-1927", "names_as_rent_payee", "1928 rent payment in family account",
-         "Mary Williams's account records that she saw a receipt for a 1928 rent payment “to Alfred Thomas”; the receipt is not located and Alfred died in 1927. The actual payee is unresolved.", "family_account", REL_UNVERIFIED, "1928"),
+         "Mary Williams's account records that she saw a receipt for a 1928 rent payment “to Alfred Thomas”; the receipt is not located and Alfred died in 1927. The actual payee is unresolved.", "family_account", "not_assessed", "1928"),
     ]
     for source, target, rel, role, assertion, basis, verification, dt in person_links:
         reg.relation(source, target, rel, role=role, basis=basis, verification=verification,
@@ -522,7 +521,7 @@ def build():
         ("EV-0080", "ORG-BP-PROPERTIES", "mentions", "party to Court of Appeal proceedings",
          "The 1987 judgment records BP Properties Ltd as the claimant; this is a party designation, not independent proof of the original title instrument.", "document_wording", "provisional", "1987"),
         ("EV-0284", "ORG-CARDIFF-CORPORATION", "mentions", "reported beneficiary of Thomas estate",
-         "A secondary transcription describes an unofficial report that the bulk of Alfred Thomas's property was left to Cardiff Corporation; neither the original will nor any Llandough transfer is established.", "secondary_source", REL_UNVERIFIED, "1927"),
+         "A secondary transcription describes an unofficial report that the bulk of Alfred Thomas's property was left to Cardiff Corporation; neither the original will nor any Llandough transfer is established.", "secondary_source", "not_assessed", "1927"),
     ]
     for source, target, rel, role, assertion, basis, verification, dt in org_links:
         reg.relation(source, target, rel, role=role, basis=basis, verification=verification,
@@ -535,7 +534,7 @@ def build():
     reg.relation(
         "EV-0006", "ORG-DANIEL-THOMAS-AND-SON", "mentions",
         role="counterparty named in family account of reported 1877 agreement",
-        basis="family_account", verification=REL_UNVERIFIED,
+        basis="family_account", verification="not_assessed",
         text="Mary Williams's reported account names Daniel Thomas & Son in a 1877 agreement; the agreement and plan are unlocated, so its terms, extent and legal effect remain unestablished.",
         note="data/title-chain.json#freehold[14]; data/parcel-stories.json#model_events"
     )
