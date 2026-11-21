@@ -80,7 +80,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Generic name-index term; not assumed to be BP Pension Trust."
+      "notes": "Generic catalogue/name-index phrase; not assumed to be the BP Pension Trust."
     },
     {
       "entity_id": "ORG-BP-PENSION-TRUST",
@@ -90,7 +90,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Separate trust entity; not merged with BP Properties Ltd."
+      "notes": "Separate trust entity named in the title-chain record; not merged with BP Properties Ltd."
     },
     {
       "entity_id": "ORG-BP-PROPERTIES",
@@ -102,7 +102,7 @@
         "BP Properties Limited"
       ],
       "parent_entity_id": null,
-      "notes": "Distinct from BP Pension Trust and BP Trustees."
+      "notes": "Distinct legal entity from BP Pension Trust and BP Trustees."
     },
     {
       "entity_id": "ORG-BP-TRUSTEES",
@@ -112,7 +112,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Trustee designation retained separately."
+      "notes": "Trustee designation retained separately; not treated as the same legal person as BP Properties Ltd."
     },
     {
       "entity_id": "ORG-BUTE-ESTATE",
@@ -124,7 +124,7 @@
         "Marquess of Bute’s estate"
       ],
       "parent_entity_id": null,
-      "notes": "Estate/business designation, not a particular Marquess as a person."
+      "notes": "Estate/business designation in catalogue and title-chain sources; not the personal identity of a particular Marquess."
     },
     {
       "entity_id": "ORG-CADW",
@@ -134,7 +134,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Historic environment service."
+      "notes": "Historic environment service; not merged with Welsh Government as a legal entity."
     },
     {
       "entity_id": "ORG-CARDIFF-CORPORATION",
@@ -144,7 +144,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Reported beneficiary in a secondary account of Alfred Thomas's estate; no Llandough transfer established."
+      "notes": "Recipient in a secondary, unofficial report about Alfred Thomas’s estate; no Llandough land transfer is established."
     },
     {
       "entity_id": "ORG-DANIEL-THOMAS-AND-SON",
@@ -154,7 +154,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Named in Mary Williams's account of reported 1877 Bute agreement; instrument and plan remain unlocated."
+      "notes": "Named in Mary Williams's account of the reported 1877 Bute agreement; instrument and plan remain unlocated."
     },
     {
       "entity_id": "ORG-DWR-CYMRU",
@@ -176,7 +176,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Repository named in source references."
+      "notes": "Repository named in source references; repository identity does not imply ownership of the records."
     },
     {
       "entity_id": "ORG-GLAMORGAN-COUNTY-COUNCIL",
@@ -186,7 +186,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Historic local authority."
+      "notes": "Historic local authority; kept distinct from successor/local authorities."
     },
     {
       "entity_id": "ORG-HENEB",
@@ -199,7 +199,7 @@
         "GGAT"
       ],
       "parent_entity_id": null,
-      "notes": "Successor-name description in the project nomenclature."
+      "notes": "Successor-name relationship retained as a descriptive alias only where the index expressly records it."
     },
     {
       "entity_id": "ORG-HM-LAND-REGISTRY",
@@ -211,7 +211,7 @@
         "Land Registry"
       ],
       "parent_entity_id": null,
-      "notes": "Registration authority; register entry is not the underlying conveyance."
+      "notes": "Registration authority; register entries are not themselves the underlying conveyance."
     },
     {
       "entity_id": "ORG-LINKLATERS-PAINES",
@@ -221,7 +221,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Exact historical firm wording in source index; not silently equated with a later entity."
+      "notes": "Firm name as used in source nomenclature; later firm identity is not inferred beyond the index."
     },
     {
       "entity_id": "ORG-LLANDOUGH-COMMUNITY-COUNCIL",
@@ -231,7 +231,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Community council, distinct from county and borough councils."
+      "notes": "Community council name as indexed; not merged with county or borough councils."
     },
     {
       "entity_id": "ORG-LOOSEMORES",
@@ -241,7 +241,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Firm designation in the solicitor name index; not merged with other firms."
+      "notes": "Firm designation in the title-chain/solicitor name index; not merged with other legal firms."
     },
     {
       "entity_id": "ORG-MOUNTJOY-LTD",
@@ -251,7 +251,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Company named in press and archive catalogue; company history and transaction role remain source-qualified."
+      "notes": "Company named in press and archive-catalogue material. 1922 formation and later identity/transactions are source-qualified; no Llandough deed is established by the name alone."
     },
     {
       "entity_id": "ORG-NLW",
@@ -288,7 +288,7 @@
         "Coflein"
       ],
       "parent_entity_id": null,
-      "notes": "Institution/catalogue name grouping."
+      "notes": "Institution/catalogue name grouping in project nomenclature."
     },
     {
       "entity_id": "ORG-TNA",
@@ -301,7 +301,7 @@
         "TNA Discovery"
       ],
       "parent_entity_id": null,
-      "notes": "Archive catalogue provider; not the underlying source."
+      "notes": "Archive catalogue provider; catalogue description remains distinct from the underlying record."
     },
     {
       "entity_id": "ORG-VALE-OF-GLAMORGAN-COUNCIL",
@@ -313,7 +313,7 @@
         "Vale of Glamorgan Borough Council"
       ],
       "parent_entity_id": null,
-      "notes": "Local authority designation."
+      "notes": "Local authority identified by this source wording."
     },
     {
       "entity_id": "ORG-WELSH-GOVERNMENT",
@@ -323,7 +323,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Kept distinct from former Welsh Office and Cadw."
+      "notes": "Kept distinct from the former Welsh Office and Cadw."
     },
     {
       "entity_id": "ORG-WELSH-OFFICE",
@@ -333,7 +333,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": null,
-      "notes": "Kept distinct from Welsh Government."
+      "notes": "Kept distinct from the later Welsh Government."
     },
     {
       "entity_id": "ORG-WESTERN-GROUND-RENTS",
@@ -346,14 +346,14 @@
         "WESTERN GROUND RENTS LIMITED"
       ],
       "parent_entity_id": null,
-      "notes": "Nomenclature-index grouping; exact corporate continuity should be checked against company records."
+      "notes": "Company name variants grouped in the project nomenclature index; exact corporate continuity is subject to company records."
     },
     {
       "entity_id": "PER-ALFRED-THOMAS-1927",
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "Alfred Thomas",
-      "disambiguator": "Alfred Thomas, 1st Baron Pontypridd, death recorded 14 December 1927; remembered 1928 payment does not establish personal receipt.",
+      "disambiguator": "Alfred Thomas, 1st Baron Pontypridd, whose death is recorded as 14 December 1927; Mary Williams’s recollection of a 1928 payment does not establish that he personally received it.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -373,7 +373,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "John Gedrick",
-      "disambiguator": "Name in 1824 plan 19 reference table; best reading of a screen photograph, exact identity not independently established.",
+      "disambiguator": "Name in the 1824 plan 19 reference table; best reading of a screen photograph, exact identity not independently established.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -383,7 +383,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "John Williams",
-      "disambiguator": "Bute court-leet juror/family member in a 1908 newspaper report; not merged by surname alone.",
+      "disambiguator": "Person described as a Bute court-leet juror and family member in an 1908 newspaper report; not merged by surname alone.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -393,7 +393,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "John Williams",
-      "disambiguator": "Lessee named in 1939 WGR agreement for 5.30 acres; plan described as fields only.",
+      "disambiguator": "Lessee named in the 18 May 1939 WGR agreement for 5.30 acres; the plan is described as fields only, without the farmhouse.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -403,7 +403,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "John Williams",
-      "disambiguator": "Named in provisional 1872–76 poor-rate reading; identity with other same-name entries not established.",
+      "disambiguator": "Person named in provisional 1872–76 poor-rate reading; identity with the tithe occupier or later residents not established.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -413,7 +413,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "John Williams",
-      "disambiguator": "Reported living at Great House, Llandough in a November 1891 court report; not merged with other same-name entries.",
+      "disambiguator": "Person reported living at Great House, Llandough in a November 1891 court report; not merged with other John Williams entries.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -423,7 +423,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "John Williams",
-      "disambiguator": "Tenant in 1916 tenancy recital in the 1987 Court of Appeal judgment; underlying instrument not held.",
+      "disambiguator": "Tenant named in the 1916 tenancy recital in the 1987 Court of Appeal judgment; underlying tenancy instrument not held.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -433,7 +433,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "John Williams",
-      "disambiguator": "Named as occupier of 36 tithe plots c.1841; not merged with later same-name entries.",
+      "disambiguator": "Person named as occupier of 36 tithe plots c.1841; not merged with later same-name entries.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -443,7 +443,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "Mary Williams",
-      "disambiguator": "Named in 1974 pleading and 1983 death-index record; kept distinct from 1958 “Mrs M. D. Buckler” absent an identity record.",
+      "disambiguator": "Mary Williams named in the 1974 pleading and 1983 death-index record; kept distinct from the 1958 “Mrs M. D. Buckler” speaker unless a record establishes that identity.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -453,7 +453,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "Mrs M. D. Buckler",
-      "disambiguator": "Speaker at 1958 Leckwith Common/planning events as reported in press; not merged with Mary Williams by surname.",
+      "disambiguator": "Speaker at 1958 Leckwith Common/planning events as reported in the press; not merged with Mary Williams by surname or family assumption.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -463,7 +463,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "The Revd James Evans",
-      "disambiguator": "Name in tithe apportionment landowner/glebe column c.1841; no wider biography inferred.",
+      "disambiguator": "Name in the tithe apportionment landowner/glebe column c.1841; entity represents the exact name in that source, not a complete biography.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -473,7 +473,7 @@
       "entity_type": "person",
       "entity_kind": "unknown",
       "preferred_name": "Thomas Williams",
-      "disambiguator": "“late Thos. Williams” on 1824 plan 19 reference table; not merged with later John Williams entries.",
+      "disambiguator": "“late Thos. Williams” on the 1824 plan 19 reference table; relationship to later John Williams entries is not inferred.",
       "aliases": [],
       "parent_entity_id": null,
       "notes": null
@@ -488,7 +488,7 @@
         "Cedwyn"
       ],
       "parent_entity_id": null,
-      "notes": "Research label for the wider Llandough/Leckwith landscape; not a finding that a single legally constituted Cedwyn estate has been proved."
+      "notes": "Project research label for the wider Llandough/Leckwith landscape; not an assertion that a single legally constituted Cedwyn estate has been proved."
     },
     {
       "entity_id": "PLC-COWBRIDGE",
@@ -511,7 +511,7 @@
         "Leckwith Woods"
       ],
       "parent_entity_id": "PLC-CEDWYN-LANDSCAPE",
-      "notes": "Wider woodland reference; exact boundaries and historic name identity require source-by-source checking."
+      "notes": "Wider woodland reference; the exact boundary and identity of historic wood names require source-by-source checking."
     },
     {
       "entity_id": "PLC-GREAT-HOUSE-COWBRIDGE",
@@ -534,7 +534,7 @@
         "Lecwydd"
       ],
       "parent_entity_id": null,
-      "notes": "Wider landscape locator; historic spellings are not parcel identifiers."
+      "notes": "Wider landscape locator; historic spellings belong to a place-name index and are not parcel identifiers."
     },
     {
       "entity_id": "PLC-LLANDOUGH-COWBRIDGE",
@@ -569,7 +569,7 @@
         "Llandough-juxta-Penarth"
       ],
       "parent_entity_id": null,
-      "notes": "Parish/village locator; not the Llandough near Cowbridge."
+      "notes": "Parish/village locator for the Tŷ Mawr research; not the Llandough near Cowbridge."
     },
     {
       "entity_id": "PLC-MANOR-LLANDOUGH",
@@ -579,7 +579,7 @@
       "disambiguator": "",
       "aliases": [],
       "parent_entity_id": "PLC-LLANDOUGH-PENARTH",
-      "notes": "Manorial lordship is distinct from the farm, farmhouse, occupied land and individual parcels."
+      "notes": "Manorial lordship is kept distinct from the farm, farmhouse, occupied land and individual parcels."
     },
     {
       "entity_id": "PLC-PARCEL-A",
@@ -647,7 +647,7 @@
         "Cedwyn"
       ],
       "parent_entity_id": "PLC-LLANDOUGH-PENARTH",
-      "notes": "Former manorial house/farm named as “Cedfin or Ty Mawr Farm” in the 1824 survey; aliases do not make every later reference or adjoining holding identical."
+      "notes": "Former manorial house/farm named as “Cedfin or Ty Mawr Farm” in the 1824 survey. The exact aliases do not make all later catalogue references or adjoining holdings identical."
     }
   ],
   "relationships": [
