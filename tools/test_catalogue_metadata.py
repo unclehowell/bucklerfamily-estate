@@ -55,7 +55,7 @@ class PageMetadataTests(unittest.TestCase):
         <tr><th>Evidence label</th><td>CONTEMPORANEOUS PRESS REPORT</td></tr>
         <tr><th>Status</th><td>READ (catalogue text); original newspaper not yet seen.</td></tr>
         <tr><th>Repository</th><td>Glamorgan Archives</td></tr>
-        <tr><th>Reference</th><td>DX/123/4 <a href="https://archives.example.org/item/123">catalogue</a></td></tr>
+        <tr><th>Reference</th><td>DX/123/4 <a href="https://archives.example.org/item/123">catalogue</a> <a href="https://archives.example.org/repository">repository</a></td></tr>
         <tr><th>Access</th><td>View free at the archive.</td></tr>
         <tr><th>Provenance</th><td>Catalogue entry read on 21 November 2026.</td></tr>
         <tr><th>Related entries</th><td><a href="/research/evidence/ev-0002/">EV-0002</a></td></tr>
@@ -79,8 +79,11 @@ class PageMetadataTests(unittest.TestCase):
         self.assertIn("original minutes", md["does_not_show_text"])
         self.assertEqual(md["canonical_url"], "https://bucklerfamily.estate/research/evidence/ev-0001-sample/")
         self.assertEqual(md["catalogued_at"], "2026-11-21")
-        self.assertIsNotNone(src)
-        self.assertEqual(src["source_url"], "https://archives.example.org/item/123")
+        self.assertEqual(len(src), 2)
+        self.assertEqual({item["source_url"] for item in src}, {
+            "https://archives.example.org/item/123",
+            "https://archives.example.org/repository"
+        })
 
 
 class HtmlMetadataEnrichmentTests(unittest.TestCase):
