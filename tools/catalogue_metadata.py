@@ -612,6 +612,12 @@ def validate_relationship_registry(doc, known_evs):
         geometry_type = optional_text(item.get("geometry_type"))
         if geometry is not None and (not item.get("crs") or not geometry_type):
             raise ValueError("spatial entity %s needs CRS and geometry_type" % entity_id)
+        if geometry is not None and not optional_text(item.get("transformation_method")):
+            raise ValueError("spatial entity %s needs an explicit transformation_method (use 'none' if untransformed)" % entity_id)
+        if geometry is not None and "positional_uncertainty_m" not in item:
+            raise ValueError("spatial entity %s must state positional_uncertainty_m; use null when unknown" % entity_id)
+        if geometry is not None and (not item.get("geometry_source_ev") or item.get("geometry_source_ev") not in known_evs):
+            raise ValueError("spatial entity %s needs a known geometry_source_ev" % entity_id)
         if geometry is not None and geometry_type not in {
             "Point", "MultiPoint", "LineString", "MultiLineString",
             "Polygon", "MultiPolygon", "GeometryCollection"
@@ -663,6 +669,9 @@ def validate_relationship_registry(doc, known_evs):
             raise ValueError("relationship %s points to an unknown target_ev" % rel_id)
         if entity_id and entity_id not in entity_ids:
             raise ValueError("relationship %s points to an unknown entity_id" % rel_id)
+        date_precision = optional_text(item.get("date_precision")) or "unknown"
+        if date_precision not in {"day", "month", "year", "year_range", "unknown", "unparsed"}:
+            raise ValueError("relationship %s has an uncontrolled date_precision" % rel_id)
         if relation_type not in RELATION_TYPES or basis not in ASSERTION_BASES or verification not in VERIFICATION_STATES:
             raise ValueError("relationship %s has an uncontrolled relation, assertion basis or verification state" % rel_id)
         clean_relationships.append({
@@ -671,7 +680,7 @@ def validate_relationship_registry(doc, known_evs):
             "role": optional_text(item.get("role")),
             "date_start": optional_text(item.get("date_start")),
             "date_end": optional_text(item.get("date_end")),
-            "date_precision": optional_text(item.get("date_precision")) or "unknown",
+            "date_precision": date_precision,
             "assertion_basis": basis,
             "assertion_text": optional_text(item.get("assertion_text")),
             "verification_state": verification,
