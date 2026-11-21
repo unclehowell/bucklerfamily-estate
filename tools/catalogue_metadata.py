@@ -16,12 +16,18 @@ import re
 
 
 CANONICAL_BASE = "https://bucklerfamily.estate"
-ENTITY_TYPES = {"person", "place", "organization", "institution", "legal_body", "document"}
+ENTITY_TYPES = {"person", "place", "organization", "institution", "legal_body", "document", "observation", "analysis"}
 PLACE_KINDS = {"parish", "manor", "farm", "church", "parcel", "landscape", "building", "other", "unknown"}
 RELATION_TYPES = {
     "owned_by", "occupied_by", "tenanted_by", "patron_of", "rector_of",
     "located_in", "part_of", "depicts", "transcribes", "analyses",
-    "derived_from", "cites", "mentions", "same_source_as", "other",
+    "derived_from", "cites", "cited_in", "catalogued_as", "records_name_for_place",
+    "lists_tenant", "lists_occupier", "lists_landowner", "lists_ratepayer", "reports_resident",
+    "records_juror", "recites_tenant", "lists_lessee", "records_pleading_party",
+    "addresses_correspondence_to", "records_death_of", "names_as_rent_payee",
+    "mentions", "same_source_as", "transferred_from", "transferred_to",
+    "names_seller", "names_buyer", "names_transferor", "names_transferee",
+    "grants_rights_to", "other",
 }
 ASSERTION_BASES = {"document_wording", "catalogue_interpretation", "family_account", "modern_analysis", "unknown"}
 VERIFICATION_STATES = {"verified", "provisional", "unverified", "not_assessed"}
@@ -38,19 +44,59 @@ def _valid_year(value):
 
 
 def parse_date_range(value):
-    """Return partial ISO bounds without inventing month/day components."""
+    """Return date bounds with source precision; never manufacture missing components."""
     raw = optional_text(value)
+    empty = {"date_start": None, "date_end": None, "date_precision": "unknown", "date_sort": None}
     if not raw:
-        return {"date_start": None, "date_end": None, "date_precision": "unknown", "date_sort": None}
+        return empty
     s = raw.replace("–", "-").replace("—", "-").replace("−", "-")
     s = re.sub(r"\s+", " ", s).strip()
 
+    months = {
+        "jan": 1, "january": 1, "feb": 2, "february": 2, "mar": 3, "march": 3,
+        "apr": 4, "april": 4, "may": 5, "jun": 6, "june": 6, "jul": 7, "july": 7,
+        "aug": 8, "august": 8, "sep": 9, "sept": 9, "september": 9, "oct": 10,
+        "october": 10, "nov": 11, "november": 11, "dec": 12, "december": 12,
+    }
+    month_pattern = "(?:" + "|".join(sorted(months, key=len, reverse=True)) + ")"
+
     approximate = re.fullmatch(r"(?:c(?:irca)?\.?|ca\.?|about|approximately)\s*(\d{4})", s, re.I)
     if approximate and _valid_year(approximate.group(1)):
-        # Keep the nominal year for chronological sorting but explicitly mark it approximate.
-        return {"date_start": approximate.group(1), "date_end": None,
-                "date_precision": "approximate", "date_sort": approximate.group(1)}
+        year = approximate.group(1)
+        return {"date_start": year, "date_end": None, "date_precision": "approximate", "date_sort": year}
 
+    # Explicit full-date ranges: 17 May - 23 Dec 1938 or 17-23 May 1938.
+    m = re.fullmatch(r"(\d{1,2})\s+(" + month_pattern + r")\s*-\s*(\d{1,2})\s+(" + month_pattern + r")\s+(\d{4})", s, re.I)
+    if m and _valid_year(m.group(5)):
+        try:
+            start = date(int(m.group(5)), months[m.group(2).lower()], int(m.group(1)))
+            end = date(int(m.group(5)), months[m.group(4).lower()], int(m.group(3)))
+            if start <= end:
+                return {"date_start": start.isoformat(), "date_end": end.isoformat(),
+                        "date_precision": "range", "date_sort": start.isoformat()}
+        except ValueError:
+            pass
+
+    m = re.fullmatch(r"(\d{1,2})\s*-\s*(\d{1,2})\s+(" + month_pattern + r")\s+(\d{4})", s, re.I)
+    if m and _valid_year(m.group(4)):
+        try:
+            start = date(int(m.group(4)), months[m.group(3).lower()], int(m.group(1)))
+            end = date(int(m.group(4)), months[m.group(3).lower()], int(m.group(2)))
+            if start <= end:
+                return {"date_start": start.isoformat(), "date_end": end.isoformat(),
+                        "date_precision": "range", "date_sort": start.isoformat()}
+        except ValueError:
+            pass
+
+    # Month ranges: Nov 1982 - Feb 1983.
+    m = re.fullmatch(r"(" + month_pattern + r")\s+(\d{4})\s*-\s*(" + month_pattern + r")\s+(\d{4})", s, re.I)
+    if m and _valid_year(m.group(2)) and _valid_year(m.group(4)):
+        start = "%04d-%02d" % (int(m.group(2)), months[m.group(1).lower()])
+        end = "%04d-%02d" % (int(m.group(4)), months[m.group(3).lower()])
+        if start <= end:
+            return {"date_start": start, "date_end": end, "date_precision": "range", "date_sort": start}
+
+    # Valid ISO day/month, and conventional written day/month dates.
     m = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", s)
     if m:
         try:
@@ -71,12 +117,6 @@ def parse_date_range(value):
     if m and _valid_year(m.group(1)):
         return {"date_start": s, "date_end": s, "date_precision": "year", "date_sort": s}
 
-    months = {
-        "jan": 1, "january": 1, "feb": 2, "february": 2, "mar": 3, "march": 3,
-        "apr": 4, "april": 4, "may": 5, "jun": 6, "june": 6, "jul": 7, "july": 7,
-        "aug": 8, "august": 8, "sep": 9, "sept": 9, "september": 9, "oct": 10,
-        "october": 10, "nov": 11, "november": 11, "dec": 12, "december": 12,
-    }
     m = re.fullmatch(r"(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})", s)
     if m and m.group(2).lower() in months and _valid_year(m.group(3)):
         try:
@@ -219,33 +259,39 @@ def _row(parser, *labels):
 
 
 def _record_type(label):
+    """Classify documentary content, never the digital file format or evidence grade."""
     if not label:
         return "unknown"
-    s = label.lower()
-    if "catalogue" in s or "administrative history" in s:
-        return "archival_catalogue"
-    if "judgment" in s or "judgement" in s:
-        return "court_judgment"
-    if s.startswith("law") or "legislation" in s or "enacted text" in s:
+    s = re.sub(r"\s+", " ", label.lower()).strip()
+    if "law" in s and ("note" in s or "analysis" in s or "research" in s):
+        return "legal_analysis"
+    if "legislation" in s or "enacted text" in s or "statute" in s:
         return "legislation"
-    if "press" in s or "newspaper" in s:
-        return "press_report"
-    if "manorial" in s:
-        return "manorial_record_group"
-    if "correspondence" in s or "letter" in s or "email" in s:
-        return "correspondence"
-    if "deed" in s or "conveyance" in s:
-        return "deed_or_conveyance"
-    if "map" in s or "plan" in s or "survey" in s:
-        return "cartographic_record"
-    if "photograph" in s or "photo" in s:
-        return "photograph"
-    if "analysis" in s or "research artifact" in s or "research analysis" in s:
-        return "research_analysis"
-    if "testimony" in s or "witness" in s or "family account" in s:
-        return "testimony"
+    kinds = []
+    checks = [
+        ("archival_catalogue", ("catalogue", "administrative history")),
+        ("court_judgment", ("judgment", "judgement")),
+        ("press_report", ("press", "newspaper")),
+        ("manorial_record_group", ("manorial", "court leet", "court baron")),
+        ("correspondence", ("correspondence", "letter", "email")),
+        ("deed_or_conveyance", ("deed", "conveyance", "instrument")),
+        ("cartographic_record", ("map", "plan", "survey", "tithe apportionment")),
+        ("photograph", ("photograph", "photo")),
+        ("research_analysis", ("analysis", "research artifact", "research analysis", "analysis table")),
+        ("testimony", ("testimony", "witness", "family account")),
+        ("press_report", ("press report", "newspaper report")),
+    ]
+    for code, terms in checks:
+        if any(term in s for term in terms) and code not in kinds:
+            kinds.append(code)
+    if len(kinds) > 1:
+        return "composite_record"
+    if kinds:
+        return kinds[0]
     if "record" in s:
         return "published_record"
+    if "law" in s or "legal" in s:
+        return "legal_reference"
     return "other"
 
 
@@ -254,11 +300,10 @@ def _states(status, evidence_label, access_note=None):
     label = (evidence_label or "").lower()
     access_text = (access_note or "").lower()
     combined = s + " " + label
-    # Access is deliberately derived only from the dedicated access-note field.
-    # Do not infer online/on-site accessibility from a generic status string.
+    # Access is a separate dimension. Only the access field or an explicit
+    # legacy paywall/appointment/restriction phrase can populate it.
     access_combined = access_text
     if not access_combined or access_combined in {"unknown", "pending", "not stated"}:
-        # Migrate only explicit access terms from the legacy status field.
         if re.search(r"\bpaywall(?:ed)?\b|\bappointment required\b|\brestricted access\b|\baccess restricted\b|\bopen access\b|\bonline only\b|\breading room access\b", combined):
             access_combined = combined
 
@@ -277,10 +322,14 @@ def _states(status, evidence_label, access_note=None):
 
     if re.search(r"\bcatalogue[- ]only\b", combined) or ("catalogue text" in combined and re.search(r"\bread\b|\bentries read\b", combined)):
         inspection = "catalogue_only"
+    elif re.search(r"\bsearch[- ]result text\b|\bsearch results text\b|\bsearch-result transcript\b", combined):
+        inspection = "search_result_only"
     elif re.search(r"\bpartly read\b|\bpartially read\b", combined):
         inspection = "partly_read"
-    elif re.search(r"\bnot yet seen\b|\bnot inspected\b|\bnot seen\b", combined):
+    elif re.search(r"\bnot yet seen\b|\bnot inspected\b|\bnot seen\b|\boriginal (?:document|instrument|image|page) not seen\b", combined):
         inspection = "not_inspected"
+    elif re.search(r"\bocr text\b|\btranscription only\b|\btranscribed text\b", combined) and re.search(r"\bimage not seen\b|\bpage image not seen\b|\boriginal not seen\b|\bnot checked\b", combined):
+        inspection = "transcription_only"
     elif re.match(r"^\s*read\b", s) or s.strip() == "read":
         inspection = "read_in_full"
     else:
@@ -288,7 +337,7 @@ def _states(status, evidence_label, access_note=None):
 
     if re.search(r"\bnot verified\b|\bnot independently verified\b|\bnot verified independently\b", combined):
         verification = "unverified"
-    elif "provisional" in combined:
+    elif "provisional" in combined or "working" in combined:
         verification = "provisional"
     elif re.search(r"\bverified\b|\bconfirmed\b", combined):
         verification = "verified"
@@ -305,12 +354,12 @@ def _states(status, evidence_label, access_note=None):
         access = "on_site"
     elif re.search(r"\bopen access\b|\bfreely available online\b|\bview free online\b|\bdownload free\b|\bpublicly accessible online\b", access_combined):
         access = "open"
-    elif "online" in access_combined or "web access" in access_combined:
+    elif re.search(r"\bonline only\b|\bonline access\b|\bavailable online\b|\bweb access\b", access_combined):
         access = "online"
     else:
         access = "unknown"
 
-    if re.search(r"\bpartial(?:ly)?\b|\bpartly\b|\btruncated\b|\bincomplete\b", combined):
+    if re.search(r"\bnot complete\b|\bincomplete\b|\bpartial(?:ly)?\b|\bpartly\b|\btruncated\b", combined):
         completeness = "partial"
     elif re.search(r"\bcomplete\b|\bfull text held\b", combined):
         completeness = "complete"
