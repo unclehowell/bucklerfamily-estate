@@ -142,6 +142,9 @@ class Registry:
                     r"\bunverified\b", "not independently established",
                     relationship["assertion_text"], flags=re.I
                 )
+                relationship["assertion_text"] = re.sub(
+                    r"\balleged\b", "reported", relationship["assertion_text"], flags=re.I
+                )
         return {
             "schema": SCHEMA,
             "policy": (
