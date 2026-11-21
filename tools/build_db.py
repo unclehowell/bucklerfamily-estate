@@ -356,11 +356,11 @@ for _ev, _rawpath in con.execute("SELECT ev,path FROM evidence_catalogue ORDER B
             _page_html = _enriched_html
     _md, _src = extract_record_metadata(_ev, _page_path, _page_html)
     con.execute(_metadata_sql, (_ev,) + tuple(_md.get(k) for k in _metadata_fields))
-    if _src:
+    for _source_ref in _src or []:
         con.execute("""INSERT OR REPLACE INTO evidence_source_refs
             (source_ref_id,ev,seq,holder,repository,reference,repository_reference_text,
              source_url,access_note,provenance_note,source_text)
-            VALUES(?,?,?,?,?,?,?,?,?,?,?)""", tuple(_src.get(k) for k in (
+            VALUES(?,?,?,?,?,?,?,?,?,?,?)""", tuple(_source_ref.get(k) for k in (
                 "source_ref_id", "ev", "seq", "holder", "repository", "reference",
                 "repository_reference_text", "source_url", "access_note", "provenance_note", "source_text"
             )))
