@@ -452,22 +452,23 @@ def extract_record_metadata(ev, page_path, html_text):
         parser, expected_canonical,
         {"repository reference", "repository", "reference", "archive reference", "source reference"}
     )
-    source_ref = None
+    source_refs = []
     if source_text_parts or source_urls:
-        source_ref = {
-            "source_ref_id": ev + ":SRC-1",
-            "ev": ev,
-            "seq": 1,
-            "holder": metadata["holder_text"],
-            "repository": metadata["repository_text"],
-            "reference": metadata["reference_text"],
-            "repository_reference_text": metadata["repository_reference_text"],
-            "source_url": source_urls[0] if source_urls else None,
-            "access_note": metadata["access_note"],
-            "provenance_note": metadata["provenance_text"],
-            "source_text": " | ".join(source_text_parts) or None,
-        }
-    return metadata, source_ref
+        for index, source_url in enumerate(source_urls or [None], start=1):
+            source_refs.append({
+                "source_ref_id": "%s:SRC-%03d" % (ev, index),
+                "ev": ev,
+                "seq": index,
+                "holder": metadata["holder_text"],
+                "repository": metadata["repository_text"],
+                "reference": metadata["reference_text"],
+                "repository_reference_text": metadata["repository_reference_text"],
+                "source_url": source_url,
+                "access_note": metadata["access_note"],
+                "provenance_note": metadata["provenance_text"],
+                "source_text": " | ".join(source_text_parts) or None,
+            })
+    return metadata, source_refs
 
 
 def _valid_json(value):
