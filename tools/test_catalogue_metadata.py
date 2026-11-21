@@ -117,7 +117,8 @@ class HtmlMetadataEnrichmentTests(unittest.TestCase):
         enriched, _ = ensure_catalogue_html_metadata(
             "EV-0003", "/research/evidence/ev-0003-sample/", source, md
         )
-        self.assertIn('"@type": "WebSite"', enriched)
+        self.assertIn('"@type":"WebSite"', enriched)
+        self.assertIn('"@type": "CreativeWork"', enriched)
         self.assertIn('"identifier": "EV-0003"', enriched)
         final_md, _ = extract_record_metadata(
             "EV-0003", "/research/evidence/ev-0003-sample/", enriched
