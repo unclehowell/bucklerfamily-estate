@@ -120,8 +120,12 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
         raise SystemExit("FAIL: metadata field state is outside the controlled vocabulary")
     # Audit every record page's SEO/structured-data contract, not only the sample row.
     all_meta = con.execute(
-        """SELECT ev,html_title,meta_description,canonical_url,html_canonical_url,metadata_audit_json
-             FROM evidence_metadata ORDER BY ev"""
+        """SELECT em.ev,em.html_title,em.meta_description,em.canonical_url,em.html_canonical_url,
+                  em.metadata_audit_json,ec.path,ec.artifact_id,a.sha
+             FROM evidence_metadata em
+             LEFT JOIN evidence_catalogue ec ON ec.ev=em.ev
+             LEFT JOIN artifacts a ON a.id=ec.artifact_id
+             ORDER BY em.ev"""
     ).fetchall()
     for item in all_meta:
         if not item["html_title"] or item["ev"].lower() not in item["html_title"].lower():
@@ -135,6 +139,19 @@ with tempfile.TemporaryDirectory(prefix="cedwyn-db-check-") as td:
                     "structured_data_matches_record", "title_unique", "description_unique", "canonical_url_unique"):
             if not item_audit.get(key):
                 raise SystemExit(f"FAIL: {item['ev']} metadata audit {key} is false or missing")
+        # The artifact digest must describe the final HTML after link, navigation,
+        # privacy and file-fit rewrites—not an earlier intermediate page.
+        if item["artifact_id"] is not None:
+            if not item["sha"] or not item["path"]:
+                raise SystemExit(f"FAIL: {item['ev']} has an artifact ID but no path or SHA")
+            page_path = DIST / str(item["path"]).lstrip("/") / "index.html"
+            if not page_path.is_file():
+                raise SystemExit(f"FAIL: {item['ev']} final HTML page is missing: {page_path}")
+            final_sha = hashlib.sha256(page_path.read_bytes()).hexdigest()
+            if final_sha != item["sha"]:
+                raise SystemExit(
+                    f"FAIL: stale artifact hash for {item['ev']}: {item['sha']} != {final_sha}"
+                )
 
     # Every graph edge must resolve to an existing EV and entity, and must have provenance.
     dangling = con.execute(
