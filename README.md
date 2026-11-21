@@ -44,6 +44,35 @@ The private `unclehowell/datro` security/technology project is outside the Buckl
 9. **Outbound-link test** (`tools/check_links.py`): the build fails if any external `<a>`/`<area>` href or form action survives,
    or if the excluded YouTube channel appears anywhere.
 
+## Normalized catalogue metadata and relationships (catalogue metadata v1)
+
+The central build adds four normalized tables alongside the existing Level 1 assessment model:
+
+- `evidence_metadata` stores the original date wording and separate normalized date bounds/precision; distinct analysis, catalogue-entry and explicit page-update dates; a controlled record-type code plus its original label; five separate status dimensions; the original status wording; canonical URL and HTML/search metadata audit results.
+- `evidence_source_refs` separates holder, repository, reference, external source URL, access note and provenance note. The source wording remains available; extraction does not certify that a referenced original has been inspected.
+- `catalogue_entities` holds disambiguated people, places, organizations, institutions, legal bodies and document entities. Places have a separate kind (parish, manor, farm, church, parcel, landscape, building or other).
+- `evidence_relationships` connects an evidence record to another EV record or a disambiguated entity. Relationship types include `owned_by`, `occupied_by`, `tenanted_by`, `patron_of`, `rector_of`, `located_in`, `transcribes`, `analyses` and `derived_from`. Each relationship retains its assertion basis (document wording, catalogue interpretation, family account or modern analysis), date precision and verification state.
+
+### Date and status rules
+
+- `source_date_text` preserves the source page's date wording. Normalized bounds and `source_date_precision` are populated only for unambiguous day, month, year or year-range values. Invalid forms such as `1824-00-00`, mixed dates and uncertain strings remain unparsed, with no invented day or month and no `source_date_sort`.
+- `analysis_date_*`, `catalogued_at` and `updated_at` are separate. A catalogue-entry date or page-modified date is never substituted for the source date.
+- Availability, inspection, verification, access and completeness are five independent controlled states. The original status wording remains stored alongside them. An `unknown` state means the catalogue has not established the answer; it does not mean the source does not exist.
+- Optional text fields use SQL `NULL` when absent, never an empty string as a second missing-value convention. `field_states_json` distinguishes `present`, `unknown`, `withheld` and `not_applicable` while retaining the literal wording where one was supplied.
+- `artifacts.kind` describes the digital file representation (for example page, image or document). `evidence_metadata.record_type` describes the catalogue record's historical/documentary class. The old `kind`, `data.type` and `data.label` vocabularies are not blindly merged or bulk-rewritten; the normalized record-type code and source label are the public contract for this catalogue layer.
+
+### HTML/search metadata
+
+Before the central build hashes pages and stores BLOBs, every selected EV page receives a record-ID title, record-specific meta description, apex canonical URL, Open Graph title/description/URL and record-specific Schema.org `CreativeWork` JSON-LD. Existing unrelated JSON-LD is preserved and the EV record schema is added alongside it where needed. The HTML audit checks title/record ID, uniqueness of title/description/canonical URL, canonical and Open Graph URL agreement, server-rendered text, JSON validity and record identity, related links and explicit date fields. The Wiki alias for an EV page uses the preferred Research route as canonical when both routes exist.
+
+These changes do not make a catalogue entry equivalent to an inspected original. They do not invent a historical date when a page contains several candidate dates, nor do they infer a relationship from a shared surname or place-name.
+
+### Manual curation boundary
+
+`data/catalogue-relationships.json` is the reviewed authoring registry. It is intentionally empty until each person, place, tenure role, spatial geometry and cross-record relationship has an identifiable source and a documented basis. A person requires a disambiguator; a place name alone is not a unique identifier. Spatial geometry requires CRS, geometry type, transformation method, declared positional uncertainty (a null value means not quantified) and a known source EV. Do not add parcel boundaries or ownership/tenancy claims from a map label or surname match alone.
+
+The browser and GraphQL layer expose these fields, and the section-database builder carries them into relevant read-only slices. The public change takes effect only when this branch is merged and deployed. It does not itself verify every underlying document or populate the still-empty relationship registry.
+
 ## Evidence hierarchy (Level 1 and Level 2)
 
 - **Level 1 — Artifacts:** `evidence_catalogue` identifies the source entry and links it to a built artifact. `artifact_assessments` keeps a neutral description, transcript/transcription status, interpretation, source-verification status and limitations as separate fields. `data/artifact-assessments.json` seeds only reviewed working entries; every discovered EV page receives an explicit `not_assessed` default until a reviewer enters a value. A blank transcript is not an assertion that the source lacks text.
