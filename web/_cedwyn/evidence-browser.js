@@ -101,7 +101,7 @@
           (r.source_date_start || '?') + (r.source_date_end && r.source_date_end !== r.source_date_start ? ' to ' + r.source_date_end : ''),
           r.source_date_precision);
       }
-      field(metaBox, 'Record type', r.record_type_label, r.record_type);
+      field(metaBox, 'Record type (catalogue classification, not file format)', r.record_type_label, r.record_type);
       field(metaBox, 'Evidence label', r.evidence_label, '');
       field(metaBox, 'Availability', r.availability_state, '');
       field(metaBox, 'Inspection state', r.inspection_state, '');
@@ -109,6 +109,20 @@
       field(metaBox, 'Access state', r.access_state, '');
       field(metaBox, 'Completeness state', r.completeness_state, '');
       if (r.status_text) field(metaBox, 'Original status wording (retained)', r.status_text, '');
+      if (r.field_states_json) {
+        var fieldStates = null;
+        try { fieldStates = JSON.parse(r.field_states_json); } catch (_) {}
+        if (fieldStates) {
+          var stateDetails = el('details', 'cw-eb-existing');
+          stateDetails.appendChild(el('summary', '', 'Missing-value semantics · null values are not silently converted to empty strings'));
+          var stateList = el('ul', '');
+          Object.keys(fieldStates).forEach(function (key) {
+            stateList.appendChild(el('li', '', key.replace(/_/g, ' ') + ': ' + fieldStates[key]));
+          });
+          stateDetails.appendChild(stateList);
+          metaBox.appendChild(stateDetails);
+        }
+      }
       if (r.holder_text) field(metaBox, 'Holder', r.holder_text, '');
       if (r.repository_text) field(metaBox, 'Repository', r.repository_text, '');
       if (r.reference_text) field(metaBox, 'Reference', r.reference_text, '');
@@ -135,6 +149,10 @@
             og_url_matches_expected: 'Open Graph URL matches expected URL',
             server_rendered_text_present: 'Server-rendered page text',
             structured_data_present: 'Structured data', structured_data_valid: 'Structured data parses',
+            structured_data_matches_record: 'Structured data identifies this record',
+            title_unique: 'Title unique within the EV register',
+            description_unique: 'Meta description unique within the EV register',
+            canonical_url_unique: 'Canonical URL unique within the EV register',
             related_links_present: 'Related-record links', explicit_source_date_present: 'Explicit source-date field',
             page_modified_date_present: 'Explicit page-modified date'
           };
@@ -355,7 +373,7 @@
             "em.access_state, em.completeness_state, em.holder_text, em.repository_text, em.reference_text, " +
             "em.repository_reference_text, em.access_note, em.provenance_text, em.shows_text, em.does_not_show_text, " +
             "em.canonical_url, em.html_canonical_url, em.html_title, em.meta_description, em.og_title, " +
-            "em.og_description, em.og_url, em.page_modified_at, em.structured_data_present, em.metadata_audit_json, "
+            "em.og_description, em.og_url, em.page_modified_at, em.structured_data_present, em.metadata_audit_json, em.field_states_json, "
           : "";
         var metadataJoin = hasCatalogueMetadata ? "LEFT JOIN evidence_metadata em ON em.ev=ec.ev " : "";
         var base = "SELECT ec.ev, ec.title, ec.path, ec.evidence_grade, ec.independent_origin_id, ec.grade_note, " +
