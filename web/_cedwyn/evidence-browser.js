@@ -426,8 +426,7 @@
             });
           }
           if (hasRelationships) {
-          var marks = ids.map(function () { return '?'; }).join(',');
-          var relRows = await db.query(
+            var relRows = await db.query(
             "SELECT er.*, ce.preferred_name AS entity_name, ce.disambiguator AS entity_disambiguator, " +
             "target.title AS target_title, source.title AS source_title " +
             "FROM evidence_relationships er " +
