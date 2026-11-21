@@ -11,6 +11,7 @@ from datetime import date
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 import json
+import math
 import re
 
 
@@ -644,6 +645,58 @@ def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
     updated = head != html_text
     return head, {"updated": updated, "canonical_url": canonical, "description": description}
 
+def _valid_position(value):
+    return (
+        isinstance(value, list) and len(value) in (2, 3) and
+        all(
+            not isinstance(part, bool) and isinstance(part, (int, float)) and math.isfinite(float(part))
+            for part in value
+        )
+    )
+
+
+def _valid_line(value):
+    return isinstance(value, list) and len(value) >= 2 and all(_valid_position(p) for p in value)
+
+
+def _valid_polygon(value):
+    if not isinstance(value, list) or not value:
+        return False
+    for ring in value:
+        if not isinstance(ring, list) or len(ring) < 4:
+            return False
+        if not all(_valid_position(p) for p in ring) or ring[0] != ring[-1]:
+            return False
+    return True
+
+
+def _valid_geojson_geometry(value, expected_type=None):
+    if not isinstance(value, dict):
+        return False
+    geometry_type = value.get("type")
+    if expected_type and geometry_type != expected_type:
+        return False
+    coordinates = value.get("coordinates")
+    if geometry_type == "Point":
+        return _valid_position(coordinates)
+    if geometry_type == "MultiPoint":
+        return isinstance(coordinates, list) and bool(coordinates) and all(_valid_position(p) for p in coordinates)
+    if geometry_type == "LineString":
+        return _valid_line(coordinates)
+    if geometry_type == "MultiLineString":
+        return isinstance(coordinates, list) and bool(coordinates) and all(_valid_line(line) for line in coordinates)
+    if geometry_type == "Polygon":
+        return _valid_polygon(coordinates)
+    if geometry_type == "MultiPolygon":
+        return isinstance(coordinates, list) and bool(coordinates) and all(_valid_polygon(poly) for poly in coordinates)
+    if geometry_type == "GeometryCollection":
+        geometries = value.get("geometries")
+        return isinstance(geometries, list) and bool(geometries) and all(
+            _valid_geojson_geometry(geometry) for geometry in geometries
+        )
+    return False
+
+
 def validate_relationship_registry(doc, known_evs):
     """Validate explicit entity and relationship records; never auto-merge names."""
     entities = doc.get("entities", [])
@@ -669,23 +722,30 @@ def validate_relationship_registry(doc, known_evs):
         geometry = item.get("geometry")
         label_point = item.get("label_point")
         geometry_type = optional_text(item.get("geometry_type"))
-        if geometry is not None and (not item.get("crs") or not geometry_type):
-            raise ValueError("spatial entity %s needs CRS and geometry_type" % entity_id)
-        if geometry is not None and not optional_text(item.get("transformation_method")):
+        has_spatial_data = geometry is not None or label_point is not None
+        if has_spatial_data and (not optional_text(item.get("crs"))):
+            raise ValueError("spatial entity %s needs a declared CRS" % entity_id)
+        if has_spatial_data and not optional_text(item.get("transformation_method")):
             raise ValueError("spatial entity %s needs an explicit transformation_method (use 'none' if untransformed)" % entity_id)
-        if geometry is not None and "positional_uncertainty_m" not in item:
+        if has_spatial_data and "positional_uncertainty_m" not in item:
             raise ValueError("spatial entity %s must state positional_uncertainty_m; use null when unknown" % entity_id)
-        if geometry is not None and (not item.get("geometry_source_ev") or item.get("geometry_source_ev") not in known_evs):
+        if has_spatial_data and (not item.get("geometry_source_ev") or item.get("geometry_source_ev") not in known_evs):
             raise ValueError("spatial entity %s needs a known geometry_source_ev" % entity_id)
-        if geometry is not None and geometry_type not in {
-            "Point", "MultiPoint", "LineString", "MultiLineString",
-            "Polygon", "MultiPolygon", "GeometryCollection"
-        }:
-            raise ValueError("spatial entity %s has an unsupported GeoJSON geometry_type" % entity_id)
-        if geometry is not None and not isinstance(geometry, (dict, list)):
-            raise ValueError("geometry for %s must be a JSON object or array" % entity_id)
+        if geometry is not None:
+            if geometry_type not in {
+                "Point", "MultiPoint", "LineString", "MultiLineString",
+                "Polygon", "MultiPolygon", "GeometryCollection"
+            }:
+                raise ValueError("spatial entity %s has an unsupported GeoJSON geometry_type" % entity_id)
+            if not _valid_geojson_geometry(geometry, geometry_type):
+                raise ValueError("spatial entity %s has invalid GeoJSON geometry or type mismatch" % entity_id)
+        if label_point is not None and not _valid_geojson_geometry(label_point, "Point"):
+            raise ValueError("spatial entity %s label_point must be a valid GeoJSON Point, separate from its boundary geometry" % entity_id)
         uncertainty = item.get("positional_uncertainty_m")
-        if uncertainty is not None and (isinstance(uncertainty, bool) or not isinstance(uncertainty, (int, float)) or uncertainty < 0):
+        if uncertainty is not None and (
+            isinstance(uncertainty, bool) or not isinstance(uncertainty, (int, float)) or
+            not math.isfinite(float(uncertainty)) or uncertainty < 0
+        ):
             raise ValueError("spatial entity %s has invalid positional_uncertainty_m" % entity_id)
         if item.get("geometry_source_ev") and item.get("geometry_source_ev") not in known_evs:
             raise ValueError("spatial entity %s cites an unknown geometry_source_ev" % entity_id)
