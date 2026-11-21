@@ -820,6 +820,10 @@ def validate_relationship_registry(doc, known_evs):
             raise ValueError("entity %s needs a supported entity_type and preferred_name" % entity_id)
         if entity_type == "person" and not disambiguator:
             raise ValueError("person entity %s needs a disambiguator; never merge by surname alone" % entity_id)
+        raw_aliases = item.get("aliases", [])
+        if not isinstance(raw_aliases, list) or any(not optional_text(alias) for alias in raw_aliases):
+            raise ValueError("entity %s aliases must be an array of non-empty strings" % entity_id)
+        aliases = list(dict.fromkeys(optional_text(alias) for alias in raw_aliases))
         entity_kind = optional_text(item.get("entity_kind")) or "unknown"
         if entity_type == "place" and entity_kind not in PLACE_KINDS:
             raise ValueError("place entity %s has an unsupported place kind" % entity_id)
