@@ -486,15 +486,15 @@ def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
     metadata = metadata or {}
     canonical = CANONICAL_BASE + (page_path if page_path.startswith("/") else "/" + page_path)
     canonical = canonical.rstrip("/") + "/"
-    title = optional_text(metadata.get("html_title")) or str(ev)
-    description = optional_text(metadata.get("meta_description"))
-    if not description:
-        type_label = optional_text(metadata.get("record_type_label"))
-        label = optional_text(metadata.get("evidence_label"))
-        description = "Evidence catalogue record %s: %s%s. Catalogue description, source wording and interpretation are kept distinct." % (
-            ev, title,
-            (" — " + type_label) if type_label else ((" — " + label) if label else "")
-        )
+    title = optional_text(metadata.get("html_title")) or "Evidence catalogue record"
+    if str(ev).lower() not in title.lower():
+        title = str(ev) + " — " + title
+    type_label = optional_text(metadata.get("record_type_label"))
+    label = optional_text(metadata.get("evidence_label"))
+    description = "Evidence catalogue record %s: %s%s. Catalogue description, source wording and interpretation are kept distinct." % (
+        ev, title,
+        (" — " + type_label) if type_label else ((" — " + label) if label else "")
+    )
     description = re.sub(r"\s+", " ", description).strip()[:300]
     escaped_description = escape(description, quote=True)
     escaped_title = escape(title, quote=True)
@@ -533,6 +533,12 @@ def ensure_catalogue_html_metadata(ev, page_path, html_text, metadata=None):
         return html_text, {"updated": False, "reason": "missing_head"}
     head_end = head_match.end()
     head = html_text[:]
+    title_pattern = re.compile(r"<title\b[^>]*>.*?</title\s*>", re.I | re.S)
+    title_tag = "<title>%s</title>" % escaped_title
+    if title_pattern.search(head):
+        head = title_pattern.sub(lambda _: title_tag, head, count=1)
+    else:
+        head = insert_head_tag(head, title_tag)
     head = upsert_canonical(head)
     head = upsert_meta(head, "name", "description", escaped_description)
     head = upsert_meta(head, "property", "og:title", escaped_title)
