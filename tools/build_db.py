@@ -14,7 +14,7 @@ CFG = json.load(open(ROOT / 'themes.json'))
 DIST = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else 'dist')
 OUT = DIST / 'db'; OUT.mkdir(parents=True, exist_ok=True)
 # Enrich canonical evidence pages before artifacts are hashed or copied into BLOBs.
-from catalogue_metadata import extract_record_metadata, ensure_catalogue_html_metadata
+from catalogue_metadata import extract_record_metadata, ensure_catalogue_html_metadata, ensure_evidence_alias_redirects
 _ev_page_candidates = {}
 for _candidate in DIST.rglob("index.html"):
     _relative = "/" + _candidate.relative_to(DIST).as_posix()
@@ -24,6 +24,7 @@ for _candidate in DIST.rglob("index.html"):
     _ev = _match.group(2).upper()
     _priority = 0 if _match.group(1).lower() == "research" else 1
     _ev_page_candidates.setdefault(_ev, []).append((_priority, _relative, _candidate))
+_evidence_alias_redirects = ensure_evidence_alias_redirects(DIST, _ev_page_candidates)
 for _ev, _candidates in sorted(_ev_page_candidates.items()):
     _canonical_relative = min(_candidates, key=lambda x: (x[0], x[1]))[1]
     _canonical_path = _canonical_relative.rsplit("/index.html", 1)[0] + "/"
