@@ -2,14 +2,14 @@
   "audit": "Cedwyn internal HTML/CSS links and fragments",
   "pages_scanned": 14739,
   "references_checked": {
-    "resource": 367283,
-    "nav": 703762
+    "resource": 367284,
+    "nav": 703768
   },
-  "database_backed_paths": 7727,
-  "unique_missing_destinations": 2426,
-  "missing_references": 74555,
-  "missing_navigation_references": 48059,
-  "missing_resource_references": 26496,
+  "database_backed_paths": 7728,
+  "unique_missing_destinations": 2430,
+  "missing_references": 74660,
+  "missing_navigation_references": 48064,
+  "missing_resource_references": 26596,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
   "form_or_endpoint_actions_not_checked": {
@@ -337,6 +337,33 @@
           "from": "/forensic/linklaters/",
           "attribute": "a[href]",
           "url": "/forensic/wiki/editing-protocol/"
+        }
+      ]
+    },
+    {
+      "kind": "resource",
+      "path": "/fb/m/social.js",
+      "references": 99,
+      "examples": [
+        {
+          "from": "/fb/timeline.html",
+          "attribute": "script[src]",
+          "url": "/fb/m/social.js"
+        },
+        {
+          "from": "/fb/about.html",
+          "attribute": "script[src]",
+          "url": "/fb/m/social.js"
+        },
+        {
+          "from": "/fb/photos.html",
+          "attribute": "script[src]",
+          "url": "/fb/m/social.js"
+        },
+        {
+          "from": "/fb/p/p-1939-05.html",
+          "attribute": "script[src]",
+          "url": "/fb/m/social.js"
         }
       ]
     },
@@ -775,7 +802,7 @@
     {
       "kind": "nav",
       "path": "/research/>*.html",
-      "references": 35,
+      "references": 36,
       "examples": [
         {
           "from": "/research/evidence/ev-0039-wgr-tenancy-offers-1959-1965/",
@@ -4036,33 +4063,6 @@
           "from": "/docs/ghf_wiki/rg_agentindex/latest/html/en/1-record.html",
           "attribute": "a[href]",
           "url": "/research/scrutiny-and-accountability/master-scrutiny-issue-register/forensic-register-additions-a-106-to-a-115-8-october-2026/"
-        }
-      ]
-    },
-    {
-      "kind": "nav",
-      "path": "/research/scrutiny-and-accountability/master-scrutiny-issue-register/forensic-register-additions-a-116-to-a-120-8-october-2026/",
-      "references": 5,
-      "examples": [
-        {
-          "from": "/research/agent-index/",
-          "attribute": "a[href]",
-          "url": "/research/scrutiny-and-accountability/master-scrutiny-issue-register/forensic-register-additions-a-116-to-a-120-8-october-2026/"
-        },
-        {
-          "from": "/research/evidence/ev-0020-western-ground-rents-rental-books/",
-          "attribute": "a[href]",
-          "url": "/research/scrutiny-and-accountability/master-scrutiny-issue-register/forensic-register-additions-a-116-to-a-120-8-october-2026/"
-        },
-        {
-          "from": "/docs/ghf_wiki/rg_agentindex/latest/html/en/1-record.html",
-          "attribute": "a[href]",
-          "url": "/research/scrutiny-and-accountability/master-scrutiny-issue-register/forensic-register-additions-a-116-to-a-120-8-october-2026/"
-        },
-        {
-          "from": "/docs/ghf_wiki/rg_forensicregisteradditionsa116toa1208octo/latest/html/en/",
-          "attribute": "a[href]",
-          "url": "/research/scrutiny-and-accountability/master-scrutiny-issue-register/forensic-register-additions-a-116-to-a-120-8-october-2026/"
         }
       ]
     }
