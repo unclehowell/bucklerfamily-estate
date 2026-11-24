@@ -13,6 +13,29 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 CFG = json.load(open(ROOT / 'themes.json'))
 DIST = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else 'dist')
 OUT = DIST / 'db'; OUT.mkdir(parents=True, exist_ok=True)
+# Enrich canonical evidence pages before artifacts are hashed or copied into BLOBs.
+from catalogue_metadata import extract_record_metadata, ensure_catalogue_html_metadata, ensure_evidence_alias_redirects
+_ev_page_candidates = {}
+for _candidate in DIST.rglob("index.html"):
+    _relative = "/" + _candidate.relative_to(DIST).as_posix()
+    _match = re.match(r"^/(research|wiki)/evidence/(ev-[0-9]{4})-[^/]+/index[.]html$", _relative, re.I)
+    if not _match:
+        continue
+    _ev = _match.group(2).upper()
+    _priority = 0 if _match.group(1).lower() == "research" else 1
+    _ev_page_candidates.setdefault(_ev, []).append((_priority, _relative, _candidate))
+_evidence_alias_redirects = ensure_evidence_alias_redirects(DIST, _ev_page_candidates)
+for _ev, _candidates in sorted(_ev_page_candidates.items()):
+    _canonical_relative = min(_candidates, key=lambda x: (x[0], x[1]))[1]
+    _canonical_path = _canonical_relative.rsplit("/index.html", 1)[0] + "/"
+    for _priority, _relative, _candidate in _candidates:
+        _html = _candidate.read_text("utf-8", errors="replace")
+        _page_path = _relative.rsplit("/index.html", 1)[0] + "/"
+        _md, _ = extract_record_metadata(_ev, _page_path, _html)
+        _md["canonical_url"] = "https://bucklerfamily.estate" + _canonical_path
+        _enriched, _result = ensure_catalogue_html_metadata(_ev, _canonical_path, _html, _md)
+        if _result.get("updated"):
+            _candidate.write_text(_enriched, encoding="utf-8")
 DBF = pathlib.Path('cedwyn.sqlite3'); DBF.unlink(missing_ok=True)
 CHUNK = int(os.environ.get('DB_CHUNK', 256 * 1024))   # Pages serves whole files (no Range), so each chunk file = one request; 256 KB since stage 3 (theme pages read single files from the DB)
 BLOB_MAX = int(os.environ.get('BLOB_MAX', 2_500_000)); BLOB_TOTAL = int(os.environ.get('BLOB_TOTAL', 700_000_000))
@@ -254,6 +277,151 @@ for _ev, (_, _epath) in sorted(_ev_pages.items()):
         (ev, artifact_id, path, evidence_grade, independent_origin_id, aliases_json, grade_note, title)
         VALUES(?,?,?,NULL,NULL,'[]','Not yet assessed in data/evidence-grades.json',?)''',
         (_ev, _aid, _page_path, (_title_row[0] if _title_row else _epath)))
+
+# Normalized record metadata: preserve raw source wording and leave ambiguous values NULL.
+from catalogue_metadata import validate_relationship_registry
+con.executescript("""
+CREATE TABLE IF NOT EXISTS evidence_metadata(
+ ev TEXT PRIMARY KEY,
+ source_date_text TEXT, source_date_start TEXT, source_date_end TEXT,
+ source_date_precision TEXT NOT NULL DEFAULT 'unknown', source_date_sort TEXT,
+ analysis_date_text TEXT, analysis_date_start TEXT, analysis_date_end TEXT,
+ analysis_date_precision TEXT NOT NULL DEFAULT 'unknown',
+ catalogued_at TEXT, updated_at TEXT,
+ record_type TEXT NOT NULL DEFAULT 'unknown', record_type_label TEXT,
+ evidence_label TEXT, status_text TEXT,
+ availability_state TEXT NOT NULL DEFAULT 'unknown',
+ inspection_state TEXT NOT NULL DEFAULT 'unknown',
+ verification_state TEXT NOT NULL DEFAULT 'unknown',
+ access_state TEXT NOT NULL DEFAULT 'unknown',
+ completeness_state TEXT NOT NULL DEFAULT 'unknown',
+ holder_text TEXT, repository_text TEXT, reference_text TEXT,
+ repository_reference_text TEXT, access_note TEXT, provenance_text TEXT,
+ summary_text TEXT, shows_text TEXT, does_not_show_text TEXT,
+ canonical_url TEXT, html_canonical_url TEXT, html_title TEXT,
+ meta_description TEXT, og_title TEXT, og_description TEXT, og_url TEXT,
+ page_modified_at TEXT, structured_data_present INTEGER NOT NULL DEFAULT 0,
+ metadata_audit_json TEXT NOT NULL DEFAULT '{}',
+ field_states_json TEXT NOT NULL DEFAULT '{}'
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS evidence_metadata_date_sort ON evidence_metadata(source_date_sort);
+CREATE TABLE IF NOT EXISTS evidence_source_refs(
+ source_ref_id TEXT PRIMARY KEY, ev TEXT NOT NULL, seq INTEGER NOT NULL,
+ holder TEXT, repository TEXT, reference TEXT, repository_reference_text TEXT,
+ source_url TEXT, access_note TEXT, provenance_note TEXT, source_text TEXT,
+ UNIQUE(ev, seq)
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS evidence_source_refs_ev ON evidence_source_refs(ev);
+CREATE TABLE IF NOT EXISTS catalogue_entities(
+ entity_id TEXT PRIMARY KEY, entity_type TEXT NOT NULL, entity_kind TEXT NOT NULL,
+ preferred_name TEXT NOT NULL, disambiguator TEXT NOT NULL DEFAULT '',
+ aliases_json TEXT NOT NULL DEFAULT '[]', parent_entity_id TEXT,
+ crs TEXT, geometry_type TEXT, geometry_json TEXT, label_point_json TEXT,
+ transformation_method TEXT, positional_uncertainty_m REAL,
+ geometry_source_ev TEXT, notes TEXT
+) WITHOUT ROWID;
+CREATE TABLE IF NOT EXISTS evidence_relationships(
+ relationship_id TEXT PRIMARY KEY, source_ev TEXT NOT NULL,
+ target_ev TEXT, entity_id TEXT, relation_type TEXT NOT NULL, role TEXT,
+ date_start TEXT, date_end TEXT, date_precision TEXT NOT NULL DEFAULT 'unknown',
+ assertion_basis TEXT NOT NULL DEFAULT 'unknown', assertion_text TEXT,
+ verification_state TEXT NOT NULL DEFAULT 'not_assessed', source_note TEXT,
+ CHECK ((target_ev IS NOT NULL) != (entity_id IS NOT NULL))
+) WITHOUT ROWID;
+CREATE INDEX IF NOT EXISTS evidence_relationships_source ON evidence_relationships(source_ev);
+CREATE INDEX IF NOT EXISTS evidence_relationships_target ON evidence_relationships(target_ev);
+CREATE INDEX IF NOT EXISTS evidence_relationships_entity ON evidence_relationships(entity_id);
+""")
+
+_metadata_fields = (
+    "source_date_text", "source_date_start", "source_date_end", "source_date_precision", "source_date_sort",
+    "analysis_date_text", "analysis_date_start", "analysis_date_end", "analysis_date_precision",
+    "catalogued_at", "updated_at", "record_type", "record_type_label", "evidence_label", "status_text",
+    "availability_state", "inspection_state", "verification_state", "access_state", "completeness_state",
+    "holder_text", "repository_text", "reference_text", "repository_reference_text", "access_note",
+    "provenance_text", "summary_text", "shows_text", "does_not_show_text", "canonical_url", "html_canonical_url",
+    "html_title", "meta_description", "og_title", "og_description", "og_url", "page_modified_at",
+    "structured_data_present", "metadata_audit_json", "field_states_json"
+)
+# One normalized metadata row per EV record; absent page fields remain NULL/unknown.
+_metadata_sql = "INSERT OR REPLACE INTO evidence_metadata(ev," + ",".join(_metadata_fields) + ") VALUES(" + ",".join("?" for _ in range(len(_metadata_fields) + 1)) + ")"
+for _ev, _rawpath in con.execute("SELECT ev,path FROM evidence_catalogue ORDER BY ev").fetchall():
+    _page_path = _rawpath if str(_rawpath).startswith("/") else "/" + str(_rawpath)
+    _page_file = DIST / (_page_path.rstrip("/") + "/index.html").lstrip("/")
+    _page_html = _page_file.read_text("utf-8", errors="replace") if _page_file.is_file() else ""
+    _initial_md, _initial_src = extract_record_metadata(_ev, _page_path, _page_html)
+    if _page_file.is_file():
+        _enriched_html, _head_result = ensure_catalogue_html_metadata(_ev, _page_path, _page_html, _initial_md)
+        if _head_result.get("updated"):
+            _page_file.write_text(_enriched_html, encoding="utf-8")
+            _page_html = _enriched_html
+    _md, _src = extract_record_metadata(_ev, _page_path, _page_html)
+    con.execute(_metadata_sql, (_ev,) + tuple(_md.get(k) for k in _metadata_fields))
+    for _source_ref in _src or []:
+        con.execute("""INSERT OR REPLACE INTO evidence_source_refs
+            (source_ref_id,ev,seq,holder,repository,reference,repository_reference_text,
+             source_url,access_note,provenance_note,source_text)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?)""", tuple(_source_ref.get(k) for k in (
+                "source_ref_id", "ev", "seq", "holder", "repository", "reference",
+                "repository_reference_text", "source_url", "access_note", "provenance_note", "source_text"
+            )))
+
+
+# Audit title/description/canonical uniqueness across the complete EV register.
+_title_rows = con.execute("SELECT ev,html_title,meta_description,canonical_url,metadata_audit_json FROM evidence_metadata").fetchall()
+_title_counts, _description_counts, _canonical_counts = {}, {}, {}
+for _row in _title_rows:
+    if _row[1]:
+        _key = _row[1].strip().casefold()
+        _title_counts[_key] = _title_counts.get(_key, 0) + 1
+    if _row[2]:
+        _key = _row[2].strip().casefold()
+        _description_counts[_key] = _description_counts.get(_key, 0) + 1
+    if _row[3]:
+        _key = _row[3].rstrip("/").casefold()
+        _canonical_counts[_key] = _canonical_counts.get(_key, 0) + 1
+for _row in _title_rows:
+    _audit = json.loads(_row[4] or "{}")
+    _audit["title_unique"] = bool(_row[1] and _title_counts.get(_row[1].strip().casefold()) == 1)
+    _audit["description_unique"] = bool(_row[2] and _description_counts.get(_row[2].strip().casefold()) == 1)
+    _audit["canonical_url_unique"] = bool(_row[3] and _canonical_counts.get(_row[3].rstrip("/").casefold()) == 1)
+    con.execute("UPDATE evidence_metadata SET metadata_audit_json=? WHERE ev=?",
+                (json.dumps(_audit, ensure_ascii=False, sort_keys=True), _row[0]))
+
+# Explicit people, places and assertion relationships. No name-based merging or inferred links.
+_relationship_path = ROOT / "data" / "catalogue-relationships.json"
+if _relationship_path.exists():
+    _relationship_doc = json.loads(_relationship_path.read_text(encoding="utf-8"))
+    _known_evs = {r[0] for r in con.execute("SELECT ev FROM evidence_catalogue").fetchall()}
+    _entities, _relationships = validate_relationship_registry(_relationship_doc, _known_evs)
+    for _entity in _entities:
+        con.execute("""INSERT OR REPLACE INTO catalogue_entities
+            (entity_id,entity_type,entity_kind,preferred_name,disambiguator,aliases_json,parent_entity_id,
+             crs,geometry_type,geometry_json,label_point_json,transformation_method,positional_uncertainty_m,
+             geometry_source_ev,notes)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", tuple(_entity[k] for k in (
+                "entity_id","entity_type","entity_kind","preferred_name","disambiguator","aliases_json",
+                "parent_entity_id","crs","geometry_type","geometry_json","label_point_json",
+                "transformation_method","positional_uncertainty_m","geometry_source_ev","notes"
+            )))
+        node("entity:" + _entity["entity_id"], _entity["entity_type"], _entity["preferred_name"])
+    for _rel in _relationships:
+        con.execute("""INSERT OR REPLACE INTO evidence_relationships
+            (relationship_id,source_ev,target_ev,entity_id,relation_type,role,date_start,date_end,
+             date_precision,assertion_basis,assertion_text,verification_state,source_note)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)""", tuple(_rel[k] for k in (
+                "relationship_id","source_ev","target_ev","entity_id","relation_type","role",
+                "date_start","date_end","date_precision","assertion_basis","assertion_text",
+                "verification_state","source_note"
+            )))
+        _source = con.execute("SELECT artifact_id FROM evidence_catalogue WHERE ev=?", (_rel["source_ev"],)).fetchone()
+        if _source and _source[0]:
+            if _rel["target_ev"]:
+                _target = con.execute("SELECT artifact_id FROM evidence_catalogue WHERE ev=?", (_rel["target_ev"],)).fetchone()
+                if _target and _target[0]:
+                    edge("a:" + str(_source[0]), _rel["relation_type"], "a:" + str(_target[0]))
+            elif _rel["entity_id"]:
+                edge("a:" + str(_source[0]), _rel["relation_type"], "entity:" + _rel["entity_id"])
 
 # Level 1: neutral description, transcript and interpretation are separate assessment fields.
 con.execute('''CREATE TABLE IF NOT EXISTS artifact_assessments(
@@ -525,7 +693,9 @@ stats = dict(artifacts=cnt('SELECT count(*) FROM artifacts'), locations=cnt('SEL
              fts_rows=cnt('SELECT count(*) FROM fts'), captures=cnt('SELECT count(*) FROM captures'), cites=n_ext, themes=len(TIDS),
              layer_items=n_layer_items, layer_refs=n_layer_refs, layer_deps=n_layer_deps,
              evidence_records=cnt('SELECT count(*) FROM evidence_catalogue'), evidence_texts=cnt('SELECT count(*) FROM evidence_text'),
-             artifact_assessments=cnt('SELECT count(*) FROM artifact_assessments'), observations=cnt('SELECT count(*) FROM observations'), observation_refs=cnt('SELECT count(*) FROM observation_refs'),
+             artifact_assessments=cnt('SELECT count(*) FROM artifact_assessments'), evidence_metadata=cnt('SELECT count(*) FROM evidence_metadata'),
+             evidence_source_refs=cnt('SELECT count(*) FROM evidence_source_refs'), catalogue_entities=cnt('SELECT count(*) FROM catalogue_entities'),
+             evidence_relationships=cnt('SELECT count(*) FROM evidence_relationships'), observations=cnt('SELECT count(*) FROM observations'), observation_refs=cnt('SELECT count(*) FROM observation_refs'),
              parcel_stories=cnt('SELECT count(*) FROM estate_parcels'), parcel_events=cnt('SELECT count(*) FROM parcel_events'),
              parcel_models=cnt('SELECT count(*) FROM estate_parcel_model'), parcel_model_events=cnt('SELECT count(*) FROM estate_parcel_model_events'),
               title_theories=cnt('SELECT count(*) FROM title_theories'), title_theory_hypotheses=cnt('SELECT count(*) FROM title_theory_hypotheses'),

@@ -44,6 +44,33 @@ const row = {
   transcript: '', transcript_status: 'not_assessed',
   interpretation: 'Interpretation kept separate.', interpretation_status: 'assessed',
   source_verification_status: 'reviewed', limitations: 'Underlying order copy not independently inspected.',
+  source_date_text: '1955', source_date_start: '1955', source_date_end: '1955',
+  source_date_precision: 'year', source_date_sort: '1955',
+  analysis_date_text: null, catalogued_at: '2026-11-21', updated_at: null,
+  record_type: 'court_judgment', record_type_label: 'Judgment',
+  evidence_label: 'COURT JUDGMENT', status_text: 'Catalogue text read; original order not inspected.',
+  availability_state: 'unknown', inspection_state: 'catalogue_only',
+  verification_state: 'provisional', access_state: 'online', completeness_state: 'partial',
+  holder_text: null, repository_text: 'Court archive', reference_text: 'CC/1955/14',
+  repository_reference_text: null, access_note: 'Catalogue online.',
+  provenance_text: 'Catalogue entry, not original instrument.',
+  summary_text: 'A catalogue summary, explicitly attributed to the catalogue.',
+  shows_text: 'What the judgment records.',
+  does_not_show_text: 'The original order itself.',
+  canonical_url: 'https://bucklerfamily.estate/research/evidence/ev-0001-order/',
+  html_canonical_url: null, html_title: 'EV-0001 — 1955 possession order entry',
+  meta_description: 'Evidence catalogue record EV-0001.',
+  og_title: null, og_description: null, og_url: null, page_modified_at: null,
+  structured_data_present: 1,
+  metadata_audit_json: JSON.stringify({
+    title_present: true, title_contains_record_id: true, description_present: true,
+    canonical_present: true, canonical_matches_expected: true, og_title_present: true,
+    og_description_present: true, og_url_present: true, og_url_matches_expected: true,
+    structured_data_present: true, structured_data_valid: true,
+    structured_data_matches_record: true, title_unique: true,
+    description_unique: true, canonical_url_unique: true
+  }),
+  field_states_json: JSON.stringify({ holder_text: 'unknown', repository_text: 'present', reference_text: 'present' }),
   csscpsg_json: JSON.stringify({
     schema: 'csscpsg/1',
     scores: { S1: 1, S2: 2, S3: 0, S4: 1, S5: 2, S6: 0 },
@@ -60,8 +87,18 @@ function buildContext(opts) {
   const db = {
     query: async (sql) => {
       state.queries.push(sql);
-      if (sql.includes('pragma_table_info')) return [{ name: 'ev' }, { name: 'csscpsg_json' }];
+      if (sql.includes("pragma_table_info('artifact_assessments')")) return [{ name: 'ev' }, { name: 'csscpsg_json' }];
+      if (sql.includes("pragma_table_info('evidence_metadata')")) return [{ name: 'ev' }, { name: 'field_states_json' }];
+      if (sql.includes("pragma_table_info('evidence_relationships')")) return [{ name: 'relationship_id' }];
+      if (sql.includes("pragma_table_info('evidence_source_refs')")) return [{ name: 'source_ref_id' }];
       if (sql.includes('SUM(CASE WHEN')) return [{ total: 1, described: 1, transcribed: 0, interpreted: 1 }];
+      if (sql.includes('FROM evidence_source_refs')) return [{
+        source_ref_id: 'EV-0001:SRC-001', ev: 'EV-0001', seq: 1,
+        holder: null, repository: 'Court archive', reference: 'CC/1955/14',
+        repository_reference_text: null, source_url: 'https://archives.example.org/cc-1955-14',
+        access_note: 'Catalogue online.', provenance_note: 'Catalogue only.',
+        source_text: 'Court archive | CC/1955/14'
+      }];
       if (sql.includes('FROM evidence_catalogue ec')) return [row];
       return [];
     }
@@ -118,6 +155,24 @@ async function main() {
   const s1 = findAll(csBoxes[0], n => (n.textContent || '').startsWith('S1 Scope: 1'));
   assert.equal(s1.length, 1, 'S1 score line rendered with reasoning');
   assert.ok(ok.registry['[data-coverage]'].textContent.includes('1 records'), 'coverage line populated');
+  assert.equal(findAll(results, n => n.textContent === 'Structured record metadata · separate from source interpretation').length, 1,
+    'normalized record metadata should render');
+  assert.equal(findAll(results, n => n.textContent === 'Catalogue summary (labelled catalogue text, not original source wording)').length, 1,
+    'explicit catalogue summaries should render with attribution');
+  assert.equal(findAll(results, n => n.textContent.includes('A catalogue summary, explicitly attributed to the catalogue.')).length, 1,
+    'catalogue summary text should render');
+  assert.equal(findAll(results, n => n.textContent === 'Availability').length, 1,
+    'separate availability state should render');
+  assert.equal(findAll(results, n => n.textContent === 'Missing-value semantics · null values are not silently converted to empty strings').length, 1,
+    'missing-value state semantics should render');
+  assert.equal(findAll(results, n => n.textContent === 'HTML / search metadata audit').length, 1,
+    'HTML metadata audit should render');
+  assert.equal(findAll(results, n => n.textContent === 'Structured repository / source references').length, 1,
+    'structured source references should render');
+  assert.equal(findAll(results, n => n.href === 'https://archives.example.org/cc-1955-14').length, 1,
+    'the cited repository URL should be linked');
+  assert.ok(findAll(results, n => n.textContent === 'Structured data identifies this record: present / matches').length === 1,
+    'record-specific structured data audit should render');
 
   // Genuine client failure: the designed degradation must survive.
   const bad = buildContext({ clientSucceeds: false });
