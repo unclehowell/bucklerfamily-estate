@@ -23,6 +23,4 @@ concurrency:
 jobs:
   full-site-validation:
     name: Full generated-site build (no publish)
-    uses: ./.github/workflows/build.yml
-    with:
-      dry_run: true
+    uses: ./.github/workflows/site-build-core.yml
