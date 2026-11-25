@@ -2,6 +2,13 @@ name: build-cedwyn
 # Builds cedwyn.bucklerfamily.estate from the mirrored theme branches: assemble -> rewrite -> site -> catalogue DB -> outbound-link test,
 # then commits the result to branch `site` (served by the Cloudflare Pages project "cedwyn"). Never touches datro. — Sion's Tab agent
 on:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: "Validate the complete build without publishing site or build reports"
+        required: false
+        type: boolean
+        default: true
   workflow_dispatch:
     inputs:
       dry_run:
@@ -27,7 +34,9 @@ jobs:
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
-        with: { ref: main, fetch-depth: 1 }
+        with:
+          ref: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || 'main' }}
+          fetch-depth: 1
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - name: Fast preflight before the full archive rewrite
