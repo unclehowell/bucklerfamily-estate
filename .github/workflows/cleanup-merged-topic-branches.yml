@@ -1,0 +1,94 @@
+name: Clean merged topic branches
+
+on:
+  pull_request:
+    types: [closed]
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: merged-topic-branch-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    name: Delete safely merged topic branches
+    if: github.event_name == 'push' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove merged branches no longer in use
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const repository = `${owner}/${repo}`;
+            const protectedBranches = new Set(["main", "site", "agents", "library"]);
+            const protectedPrefixes = ["archive/", "release/", "migration/"];
+            const isProtected = (name) =>
+              protectedBranches.has(name) ||
+              protectedPrefixes.some((prefix) => name.startsWith(prefix));
+
+            // Any open PR using a branch as either its head or base keeps it.
+            const openPRs = await github.paginate(github.rest.pulls.list, {
+              owner, repo, state: "open", per_page: 100
+            });
+            const activeRefs = new Set();
+            for (const pr of openPRs) {
+              activeRefs.add(pr.head.ref);
+              activeRefs.add(pr.base.ref);
+            }
+
+            let mergedPRs;
+            if (context.eventName === "pull_request") {
+              const pr = context.payload.pull_request;
+              mergedPRs = pr.merged ? [pr] : [];
+            } else {
+              mergedPRs = await github.paginate(github.rest.pulls.list, {
+                owner, repo, state: "closed", sort: "updated",
+                direction: "desc", per_page: 100
+              });
+            }
+
+            // Keep the most recent merged PR record for each source branch.
+            const candidates = new Map();
+            for (const pr of mergedPRs) {
+              if (!pr.merged_at) continue;
+              if (pr.head.repo?.full_name !== repository) continue;
+              if (pr.base.repo?.full_name !== repository) continue;
+              const branch = pr.head.ref;
+              if (!branch || isProtected(branch) || activeRefs.has(branch)) continue;
+              const current = candidates.get(branch);
+              if (!current || new Date(pr.merged_at) > new Date(current.merged_at)) {
+                candidates.set(branch, pr);
+              }
+            }
+
+            let deleted = 0;
+            let skipped = 0;
+            for (const [branch, pr] of candidates) {
+              try {
+                const current = await github.rest.repos.getBranch({ owner, repo, branch });
+                // Do not delete a branch that was reused or advanced after its PR merged.
+                if (current.data.commit.sha !== pr.head.sha) {
+                  core.info(`Keeping ${branch}: branch advanced after PR #${pr.number} merged.`);
+                  skipped++;
+                  continue;
+                }
+                await github.rest.git.deleteRef({ owner, repo, ref: `heads/${branch}` });
+                core.info(`Deleted merged topic branch ${branch} (PR #${pr.number}).`);
+                deleted++;
+              } catch (error) {
+                if (error.status === 404) {
+                  core.info(`Keeping ${branch}: branch no longer exists.`);
+                } else {
+                  core.warning(`Could not delete ${branch} (PR #${pr.number}): ${error.message}`);
+                }
+                skipped++;
+              }
+            }
+
+            core.info(`Branch cleanup complete: ${deleted} deleted, ${skipped} kept/skipped, ${candidates.size} candidates.`);
