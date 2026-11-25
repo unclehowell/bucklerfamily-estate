@@ -24,6 +24,7 @@ jobs:
       - name: Send OIDC-authenticated GitHub event to Cedwyn flow watch
         env:
           FLOW_EVENT_URL: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/flow-event
+          FLOW_HEALTH_URL: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/flow-health.json
         run: |
           set -euo pipefail
           TOKEN_JSON="$(curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=cedwyn-flow-watch")"
@@ -39,3 +40,29 @@ jobs:
           # reconciliation it just ran. Validate that result directly instead
           # of issuing a second GET which can race with another check.
           printf '%s' "$EVENT_RESPONSE" | python3 -c 'import json,sys; x=json.load(sys.stdin); assert x.get("accepted") is True; c=x.get("check") or {}; assert c.get("ok") is True; skipped=c.get("skipped") == "check_already_running"; assert skipped or (c.get("checked_at") and c.get("status") in ("HEALTHY","DEGRADED","CRITICAL")); print("Cedwyn flow-watch:", "check already running" if skipped else c["status"], "issues:", c.get("issue_count", "n/a"))'
+      - name: Smoke-test public flow-health JSON endpoint
+        env:
+          FLOW_HEALTH_URL: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/flow-health.json
+        run: |
+          set -euo pipefail
+          HEADERS_FILE="$(mktemp)"
+          BODY_FILE="$(mktemp)"
+          HTTP_STATUS="$(curl -sS --retry 2 --retry-all-errors --retry-delay 1 --max-time 20 \
+            -D "$HEADERS_FILE" -o "$BODY_FILE" -w '%{http_code}' "$FLOW_HEALTH_URL")"
+          BODY_BYTES="$(wc -c < "$BODY_FILE" | tr -d ' ')"
+          CONTENT_TYPE="$(grep -i '^content-type:' "$HEADERS_FILE" | tail -n 1 | tr -d '\r' | cut -d: -f2- | xargs || true)"
+          printf 'Flow-health GET: HTTP %s; content-type=%s; body-bytes=%s\\n' "$HTTP_STATUS" "${CONTENT_TYPE:-missing}" "$BODY_BYTES"
+          python3 - "$HTTP_STATUS" "$CONTENT_TYPE" "$BODY_BYTES" "$BODY_FILE" <<'PY'
+          import json, sys
+          status, content_type, body_bytes, body_path = sys.argv[1:]
+          assert status == "200", f"flow-health HTTP status {status}; content-type={content_type}; body-bytes={body_bytes}"
+          assert int(body_bytes) > 0, "flow-health returned an empty body"
+          with open(body_path, encoding="utf-8") as handle:
+              payload = json.load(handle)
+          assert payload.get("schema") == "cedwyn.flow-watch/1.0", "unexpected flow-health schema"
+          assert payload.get("checked_at"), "flow-health checked_at is missing"
+          assert payload.get("status") in ("HEALTHY", "DEGRADED", "CRITICAL"), "flow-health status is missing or invalid"
+          assert isinstance(payload.get("issues_count"), int), "flow-health issues_count must be an integer"
+          assert isinstance(payload.get("current_issues"), list), "flow-health current_issues must be an array"
+          print("Public flow-health:", payload["status"], "issues:", payload["issues_count"])
+          PY
