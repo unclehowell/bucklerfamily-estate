@@ -48,7 +48,9 @@ need(has(r"^permissions:\s*\n\s+contents:\s*read", PR), "PR caller must be conte
 need(not has(r"^\s+contents:\s*write\s*$", PR), "PR caller must not request contents: write")
 need("Publish to branch site" not in PR and "Reports to main" not in PR,
      "PR caller must not include publisher steps")
+need(has(r"^  pull_request:\s*$", PR), "PR gate must trigger for pull requests to main")
+need(not has(r"^    paths:", PR), "PR guard checks must not disappear on docs-only PRs")
 need("tools/**" in PR and "web/**" in PR and "data/**" in PR,
-     "full PR build must cover site, tool and data changes")
+     "full PR build must cover site, tool and data changes through the changed-path classifier")
 
 print("Build workflow contract: PASS (read-only generator; separate guarded publisher; content-only full PR build)")
