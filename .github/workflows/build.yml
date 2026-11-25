@@ -54,20 +54,47 @@ jobs:
         env:
           TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
           U="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          if git ls-remote --exit-code --heads "$U" site >/dev/null; then git clone -q --depth 1 -b site "$U" pub; else mkdir pub && git -C pub init -q -b site && git -C pub remote add origin "$U"; fi
+          if git ls-remote --exit-code --heads "$U" site >/dev/null; then
+            git clone -q --depth 1 -b site "$U" pub
+          else
+            mkdir pub
+            git -C pub init -q -b site
+            git -C pub remote add origin "$U"
+          fi
           rsync -a --delete --exclude .git dist/ pub/
-          cd pub && git config user.name "cedwyn-bot" && git config user.email "cedwyn-bot@users.noreply.github.com"
-          git add -A && git commit -q -m "Build from main ${GITHUB_SHA::7} — Sion's Tab agent" && git push -q origin site || echo "nothing to publish"
+          cd pub
+          git config user.name "cedwyn-bot"
+          git config user.email "cedwyn-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Generated site is unchanged; no site commit is required."
+            exit 0
+          fi
+          git commit -q -m "Build from main ${GITHUB_SHA::7} — Sion's Tab agent"
+          git push origin site
       - name: Reports to main
         if: ${{ always() && inputs.dry_run != true }}
         env:
           TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
           git clone -q --depth 1 -b main "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" rep
           mkdir -p rep/reports
           cp dist/_cedwyn/reports/*.json rep/reports/ 2>/dev/null || true
           cp dist/db/stats.json rep/reports/db.json 2>/dev/null || true
-          for f in _assemble_report.json _rewrite_report.json _outbound_test.json _outbound_fix.json; do if [ -f dist/$f ]; then cp dist/$f rep/reports/; fi; done
-          cd rep && git config user.name "cedwyn-bot" && git config user.email "cedwyn-bot@users.noreply.github.com"
-          git add reports && git commit -q -m "Build reports — Sion's Tab agent" && git pull -q --rebase origin main || true; git push -q origin main || echo "no report change"
+          for f in _assemble_report.json _rewrite_report.json _outbound_test.json _outbound_fix.json; do
+            if [ -f "dist/$f" ]; then cp "dist/$f" rep/reports/; fi
+          done
+          cd rep
+          git config user.name "cedwyn-bot"
+          git config user.email "cedwyn-bot@users.noreply.github.com"
+          git add reports
+          if git diff --cached --quiet; then
+            echo "Build reports are unchanged; no report commit is required."
+            exit 0
+          fi
+          git commit -q -m "Build reports — Sion's Tab agent"
+          git pull --rebase origin main
+          git push origin main
