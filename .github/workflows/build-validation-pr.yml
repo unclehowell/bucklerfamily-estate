@@ -13,6 +13,7 @@ on:
       - ".github/workflows/build.yml"
       - ".github/workflows/site-build-core.yml"
       - ".github/workflows/build-validation-pr.yml"
+      - ".github/scripts/**"
 
 permissions:
   contents: read
@@ -22,6 +23,52 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect whether site content requires a full build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      content: ${{ steps.filter.outputs.content }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Classify changed paths
+        id: filter
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --name-only HEAD^1 HEAD > changed-files.txt
+          cat changed-files.txt
+          if grep -Eq '^(tools/|web/|data/|themes\\.json$|split-repos\\.json$|sections\\.lock$)' changed-files.txt; then
+            echo "content=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "content=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  workflow-contract:
+    name: Validate workflow syntax and privilege separation
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Parse workflow YAML
+        run: ruby -e 'require "yaml"; ARGV.each { |path| YAML.parse_file(path) }' .github/workflows/build.yml .github/workflows/site-build-core.yml .github/workflows/build-validation-pr.yml
+      - name: Verify read-only generator and isolated publisher
+        run: python3 .github/scripts/check_build_workflow_contract.py
+
   full-site-validation:
     name: Full generated-site build (no publish)
+    needs: [changes, workflow-contract]
+    if: needs.changes.outputs.content == 'true'
     uses: ./.github/workflows/site-build-core.yml
+    permissions:
+      contents: read
