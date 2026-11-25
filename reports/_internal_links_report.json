@@ -1,15 +1,15 @@
 {
   "audit": "Cedwyn internal HTML/CSS links and fragments",
-  "pages_scanned": 14739,
+  "pages_scanned": 14740,
   "references_checked": {
-    "resource": 367284,
-    "nav": 703768
+    "resource": 367301,
+    "nav": 704430
   },
-  "database_backed_paths": 7728,
+  "database_backed_paths": 7729,
   "unique_missing_destinations": 2430,
-  "missing_references": 74660,
-  "missing_navigation_references": 48064,
-  "missing_resource_references": 26596,
+  "missing_references": 74664,
+  "missing_navigation_references": 48066,
+  "missing_resource_references": 26598,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
   "form_or_endpoint_actions_not_checked": {
@@ -19,7 +19,7 @@
     {
       "kind": "nav",
       "path": "/hive/",
-      "references": 14707,
+      "references": 14708,
       "examples": [
         {
           "from": "/404.html",
@@ -46,7 +46,7 @@
     {
       "kind": "nav",
       "path": "/mcp/",
-      "references": 14703,
+      "references": 14704,
       "examples": [
         {
           "from": "/404.html",
@@ -73,7 +73,7 @@
     {
       "kind": "resource",
       "path": "/blog/rss.xml",
-      "references": 11973,
+      "references": 11974,
       "examples": [
         {
           "from": "/chess/404.html",
@@ -100,7 +100,7 @@
     {
       "kind": "resource",
       "path": "/blog/atom.xml",
-      "references": 11973,
+      "references": 11974,
       "examples": [
         {
           "from": "/chess/404.html",
@@ -127,7 +127,7 @@
     {
       "kind": "nav",
       "path": "/subscribe/",
-      "references": 11254,
+      "references": 11255,
       "examples": [
         {
           "from": "/",
@@ -802,7 +802,7 @@
     {
       "kind": "nav",
       "path": "/research/>*.html",
-      "references": 36,
+      "references": 35,
       "examples": [
         {
           "from": "/research/evidence/ev-0039-wgr-tenancy-offers-1959-1965/",
