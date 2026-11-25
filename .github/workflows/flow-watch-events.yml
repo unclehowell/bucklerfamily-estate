@@ -46,18 +46,35 @@ jobs:
           set -euo pipefail
           HEADERS_FILE="$(mktemp)"
           BODY_FILE="$(mktemp)"
-          CURL_META="$(curl -sS --retry 2 --retry-all-errors --retry-delay 1 --max-time 20 \
-            -D "$HEADERS_FILE" -o "$BODY_FILE" -w '\\n%{http_code}\\n%{redirect_url}' "$FLOW_HEALTH_URL")"
-          HTTP_STATUS="$(printf '%s\\n' "$CURL_META" | tail -n 2 | head -n 1)"
-          REDIRECT_URL="$(printf '%s\\n' "$CURL_META" | tail -n 1)"
+          STATUS_FILE="$(mktemp)"
+          curl -sS --retry 2 --retry-all-errors --retry-delay 1 --max-time 20 \
+            -D "$HEADERS_FILE" -o "$BODY_FILE" -w '%{http_code}' "$FLOW_HEALTH_URL" > "$STATUS_FILE"
+          HTTP_STATUS="$(cat "$STATUS_FILE")"
           BODY_BYTES="$(wc -c < "$BODY_FILE" | tr -d ' ')"
-          CONTENT_TYPE="$(grep -i '^content-type:' "$HEADERS_FILE" | tail -n 1 | tr -d '\\r' | cut -d: -f2- | xargs || true)"
-          LOCATION="$(grep -i '^location:' "$HEADERS_FILE" | tail -n 1 | tr -d '\\r' | cut -d: -f2- | xargs || true)"
-          printf 'Flow-health GET: HTTP %s; content-type=%s; body-bytes=%s; location=%s; redirect_url=%s\\n' "$HTTP_STATUS" "${CONTENT_TYPE:-missing}" "$BODY_BYTES" "${LOCATION:-none}" "${REDIRECT_URL:-none}"
-          python3 - "$HTTP_STATUS" "$CONTENT_TYPE" "$BODY_BYTES" "$LOCATION" "$REDIRECT_URL" "$BODY_FILE" <<'PY'
-          import json, sys
-          status, content_type, body_bytes, location, redirect_url, body_path = sys.argv[1:]
-          assert status == "200", f"flow-health HTTP status {status}; content-type={content_type}; body-bytes={body_bytes}; location={location}; redirect_url={redirect_url}"
+          python3 - "$HTTP_STATUS" "$BODY_BYTES" "$HEADERS_FILE" "$BODY_FILE" <<'PY'
+          import json, re, sys
+          status, body_bytes, headers_path, body_path = sys.argv[1:]
+          raw = open(headers_path, encoding="latin-1").read()
+          blocks = [b for b in re.split(r"\r?\n\r?\n", raw) if b.strip()]
+          parsed = []
+          for block in blocks:
+              lines = block.splitlines()
+              if not lines or not lines[0].startswith("HTTP/"):
+                  continue
+              fields = {}
+              for line in lines[1:]:
+                  if ":" in line:
+                      key, value = line.split(":", 1)
+                      fields[key.strip().lower()] = value.strip()
+              parsed.append((lines[0], fields))
+          for status_line, fields in parsed:
+              print("Flow-health response:", status_line,
+                    "content-type=", fields.get("content-type", "missing"),
+                    "location=", fields.get("location", "none"),
+                    "server=", fields.get("server", "unknown"),
+                    "cf-ray=", fields.get("cf-ray", "unknown"),
+                    "body-bytes=", body_bytes)
+          assert status == "200", f"flow-health HTTP status {status}; body-bytes={body_bytes}"
           assert int(body_bytes) > 0, "flow-health returned an empty body"
           with open(body_path, encoding="utf-8") as handle:
               payload = json.load(handle)
