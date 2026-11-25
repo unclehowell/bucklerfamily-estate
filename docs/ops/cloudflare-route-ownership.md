@@ -68,7 +68,7 @@ After any Pages domain, DNS or Worker-route change:
 4. Trigger or inspect the OIDC-authenticated flow-watch event signal and require `accepted: true`, `check.ok: true` and a valid health result.
 5. Do not log the health payload's issue records or other D1 details; the workflow should report only the overall state and count.
 
-Verified main-branch run on 25 November 2026: [flow-watch event signal #45563031943](https://github.com/unclehowell/bucklerfamily.estate/actions/runs/45563031943). It reported an accepted event, `HEALTHY / 0 issues`, and a public GET returning HTTP 200 JSON (5,393 bytes).
+Source: GitHub Actions, *Cedwyn flow-watch event signal*, run #45563031943 (25 November 2026): https://github.com/unclehowell/bucklerfamily.estate/actions/runs/45563031943. It reported an accepted event, `HEALTHY / 0 issues`, and a public GET returning HTTP 200 JSON (5,393 bytes).
 
 ## 6. Operational boundaries
 
