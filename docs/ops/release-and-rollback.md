@@ -91,7 +91,7 @@ Authorization: Bearer <CLOUDFLARE_API_TOKEN>
 
 Use the **previous successful production deployment ID** as `{deployment_id}`. The required token permission is **Pages Write**. Do not put tokens in the repository, issue text, workflow logs or chat.
 
-Official reference: [Cloudflare — Roll back a Pages deployment](https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/deployments/methods/rollback/).
+Source: Cloudflare, *Roll back a Pages deployment* (API reference, accessed 25 November 2026): https://developers.cloudflare.com/api/resources/pages/subresources/projects/subresources/deployments/methods/rollback/.
 
 ### 3.3 Verify rollback
 
