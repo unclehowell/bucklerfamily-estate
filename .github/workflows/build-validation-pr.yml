@@ -3,17 +3,6 @@ name: Full site build validation (pull requests)
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "tools/**"
-      - "web/**"
-      - "data/**"
-      - "themes.json"
-      - "split-repos.json"
-      - "sections.lock"
-      - ".github/workflows/build.yml"
-      - ".github/workflows/site-build-core.yml"
-      - ".github/workflows/build-validation-pr.yml"
-      - ".github/scripts/**"
 
 permissions:
   contents: read
