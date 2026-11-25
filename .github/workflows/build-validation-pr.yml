@@ -1,0 +1,30 @@
+name: Full site build validation (pull requests)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "tools/**"
+      - "web/**"
+      - "data/**"
+      - "themes.json"
+      - "split-repos.json"
+      - "sections.lock"
+      - ".github/workflows/build.yml"
+      - ".github/workflows/build-validation-pr.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: full-site-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  full-site-validation:
+    name: Full generated-site build (no publish)
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+    with:
+      dry_run: true
