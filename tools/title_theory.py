@@ -104,7 +104,15 @@ table{border-collapse:collapse;width:100%;margin:1rem 0}th,td{padding:.45rem .6r
 <p>""" + esc(doc.get("scope", {}).get("distinction")) + """</p>
 <table><tbody><tr><th>1939 agreement</th><td>""" + esc(doc.get("scope", {}).get("1939_parcel_b")) + """</td></tr>
 <tr><th>Parcel A</th><td>""" + esc(doc.get("scope", {}).get("parcel_a")) + """</td></tr>
-<tr><th>Parcel C</th><td>""" + esc(doc.get("scope", {}).get("parcel_c")) + """</td></tr></tbody></table>
+<tr><th>Parcel C</th><td>""" + esc(doc.get("scope", {}).get("parcel_c")) + """</td></tr>
+<tr><th>1916 / 1928 “whole farm”</th><td>""" + esc(doc.get("scope", {}).get("historical_whole_farm")) + """</td></tr>
+<tr><th>Frederick’s tenancy / Mary’s occupation</th><td>""" + esc(doc.get("scope", {}).get("tenancy_separation")) + """</td></tr>
+<tr><th>1928 parcel change</th><td>""" + esc(doc.get("scope", {}).get("1928_parcel_change")) + """</td></tr>
+<tr><th>1949 position</th><td>""" + esc(doc.get("scope", {}).get("1949_position")) + """</td></tr>
+<tr><th>1955 order and execution</th><td>""" + esc(doc.get("scope", {}).get("1955_order_and_execution")) + """</td></tr>
+<tr><th>1962 order issue</th><td>""" + esc(doc.get("scope", {}).get("1962_order_issue")) + """</td></tr>
+<tr><th>1982–87 registration issue</th><td>""" + esc(doc.get("scope", {}).get("registration_issue")) + """</td></tr>
+</tbody></table>
 <h2 id="if-true">If the leading hypothesis were true, it would explain…</h2><ol>""" + "".join("<li>" + esc(x) + "</li>" for x in doc.get("executive_if_true", [])) + """</ol>
 <h2>Mechanism, stage by stage</h2><p>Each stage states the proposition, what it would explain if true, the alternative and the artifacts to test. Dates do not establish motive.</p>
 """ + "".join(stages) + """
