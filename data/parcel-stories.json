@@ -1,7 +1,7 @@
 {
   "schema": "cedwyn_parcel_stories/v1",
-  "updated_at": "2026-10-30",
-  "description": "Parent-source data for public parcel-story slots and the provisional A1/A2/B/C working parcel model. The chronology records the conflict between Alfred Thomas’s death in December 1927 and Mary Williams’s recollection of a rent payment to him in 1928, alongside the unverified Cardiff Corporation bequest report and probate lead. Keep the death, missing receipt, estate report and parcel-title inference as separate evidence strands.",
+  "updated_at": "2026-11-25",
+  "description": "Parent-source data for the provisional A1/A2/B/C parcel model. Corrected baseline: Frederick Buckler’s agricultural tenancy relates to Parcel B only; there was no tenancy of Parcel A. Mary Williams’s occupation and ownership claim to A2 were independent. The 1939 WGR–John Williams agreement/plan is associated with Parcel B only and its signature, execution and consideration are disputed. For 1955, distinguish the asserted legal scope of Order 14 (Parcel B only) from the physical taking (Parcel B, Parcel C and northern woodland A1); the farmhouse and garden (A2) remained occupied by Mary. These are the family’s corrected research positions; original instruments and plans remain the test.",
   "map_reference": {
     "image_path": "/parcels/poster.jpg",
     "image_role": "Photograph of a tithe schedule page, not a geographic map or selected parcel polygon",
@@ -16,40 +16,40 @@
       "parent_id": null,
       "label": "Parcel A — north woods plus house and garden",
       "status": "working_interpretation",
-      "description": "Current working model: Parcel A comprises A1 (the north woods) and A2 (the house, buildings and garden). The green south of the house is outside Parcel A. The 1928 family understanding of freehold is a testimony-based interpretation to test against the 1877 arrangement and Thomas estate/probate records.",
-      "limits": "Analytical reconstruction, not yet a surveyed boundary. The 1877 instrument and plan remain essential to confirming extent and title."
+      "description": "Current working model: Parcel A comprises A1 (the northern woodland) and A2 (the farmhouse, buildings and garden). The green south of the house is outside Parcel A and is modelled separately as Parcel C. The family’s position is that the 1928 operation of a term in the 1877 agreement changed the relevant parcel interests and that Mary’s A2 occupation was an independent ownership claim, not a tenancy derived from Frederick.",
+      "limits": "Analytical reconstruction, not a surveyed boundary or final legal determination. The original 1877 instrument, plan, 1928 evidence and title instruments remain essential to confirming extent and legal effect."
     },
     {
       "model_id": "A1",
       "parent_id": "A",
       "label": "A1 — north woods",
       "status": "working_interpretation",
-      "description": "The current model places the woods north of Mary Williams’s house within Parcel A as A1. The family/working account associates this ground with a 1955 taking, but the original order, writ, execution return and 1961 woodland deed must be compared before fixing the legal or physical extent.",
-      "limits": "Do not assume that the wording “whole farm” proves that the order included A1; distinguish the order’s target from what was physically taken."
+      "description": "The current model places the northern woodland within Parcel A as A1. The family’s corrected reconstruction is that this woodland was physically taken on 4 July 1955, but was outside the asserted legal scope of Order 14, which concerned Parcel B only. The physical taking must not be confused with the land legally covered by the order.",
+      "limits": "Compare the original 1955 order, warrant, execution return and 1961 woodland deed. Do not infer that A1 was included in Order 14 merely because the later account uses “whole farm”."
     },
     {
       "model_id": "A2",
       "parent_id": "A",
       "label": "A2 — house, buildings and garden",
       "status": "working_interpretation",
-      "description": "The farmhouse, buildings and garden are analysed as A2, the house part of Parcel A. The family’s reported 1928 freehold understanding and the later separate registration of the farmhouse are central to the current theory.",
-      "limits": "The exact instrument, boundary, legal effect of the 1928 event and the relevant 1982–83 registration file remain to be verified. Alfred Thomas’s death is dated 14 December 1927 by the Dictionary of Welsh Biography, which creates a date/payee discrepancy with Mary Williams’s recollection of a 1928 payment “to Alfred Thomas”. Payment to an executor, estate or agent, a receipt still naming Alfred, or a remembered date/payee error are possibilities, not findings. The reported Cardiff Corporation bequest remains a secondary, unofficial press transcription; the will and grant have not been inspected, and no Llandough land transfer to the Corporation is established."
+      "description": "The farmhouse, buildings and garden are A2, the house part of Parcel A. The family’s position is that Mary occupied and asserted ownership independently; there was no tenancy of Parcel A. A2 was not physically taken in the 4 July 1955 taking and was outside the asserted scope of Order 14.",
+      "limits": "The original 1877 instrument, 1928 evidence, 1955 order and execution return, 1962 pleadings/order and 1982–83 registration files must be examined. Do not infer that Frederick’s Parcel B tenancy governed Mary’s A2 occupation."
     },
     {
       "model_id": "B",
       "parent_id": null,
       "label": "Parcel B — eastern/right-hand fields",
       "status": "working_interpretation",
-      "description": "The current interpretation treats Parcel B as the eastern/right-hand agricultural fields covered by the 1939 WGR–John Williams tenancy plan and as the intended subject of the 1955 Order 14 action.",
-      "limits": "The later phrase “whole farm” is ambiguous in this reconstruction. The original order and execution return are needed to establish its extent and what was taken. The allegation that the 1939 agreement was fraudulent remains unproven."
+      "description": "Parcel B is the eastern/right-hand agricultural fields. The 1939 WGR–John Williams agreement and plan are associated with Parcel B only. Frederick Buckler’s 2 February 1949 agricultural tenancy related to Parcel B, not Parcel A.",
+      "limits": "The 1939 agreement’s attributed signature, execution, provenance and consideration/payment are disputed. The family alleges a signature mismatch and non-payment; neither forgery nor fraud is established without the original and corroborating evidence. The 1955 Order 14 is understood by the family to have had Parcel B as its legal scope."
     },
     {
       "model_id": "C",
       "parent_id": null,
       "label": "Parcel C — green south of the house",
       "status": "working_interpretation",
-      "description": "The green south of Mary Williams’s house is treated as a separate parcel, Parcel C, outside Parcel A. The possibility that Williams held title or a possessory interest in C is an open question, not an established fact.",
-      "limits": "Check the village-green VG41 application and map, the 1955 writ/return and relevant conveyances. Do not fold C back into Parcel A."
+      "description": "Parcel C is the green south of Mary Williams’s house, separate from Parcel A and not included in the 1939 Parcel B agreement. The family’s corrected reconstruction places C among the land physically taken on 4 July 1955, although the asserted legal scope of Order 14 was Parcel B only.",
+      "limits": "Check the VG41 application and map, the 1955 order/warrant/return and relevant conveyances. Do not fold C into Parcel A or assume physical taking proves it was within the order."
     }
   ],
   "model_events": [
@@ -57,10 +57,10 @@
       "model_id": "A1",
       "seq": 1,
       "date_text": "4 July 1955 (scope disputed)",
-      "title": "North woods and the 1955 taking",
-      "details": "The current working account places the north woods in A1 and associates them with a 1955 taking. At the same time, the working interpretation treats Order 14 as directed at Parcel B. The original order, writ, execution return and 1961 woodland deed must resolve how the wording, intended parcel and physical taking relate.",
+      "title": "Northern woodland physically taken in 1955; order scope disputed",
+      "details": "The family’s corrected reconstruction is that the northern woodland (A1) was physically taken on 4 July 1955, although the legal scope of Order 14 was Parcel B only. The order’s phrase “whole farm” must be read against the 1916 definition and the reported 1928 change arising from the 1877 agreement term. The original order, warrant, execution return and 1961 woodland deed must be compared.",
       "event_type": "possession / parcel-scope question",
-      "status": "Working account; primary execution record required",
+      "status": "Family’s corrected reconstruction; original order and execution records required",
       "source_evs": [
         "EV-0032",
         "EV-0034"
@@ -124,9 +124,9 @@
       "seq": 2,
       "date_text": "2 February 1949",
       "title": "Surrender and re-grant of the agricultural tenancy",
-      "details": "The later Court of Appeal account describes John Williams’s agricultural tenancy as surrendered and a new yearly tenancy for Frederick beginning on 2 February 1949. Read against the 1939 plan, the current working interpretation places this transaction on Parcel B. Whether this was part of a coordinated strategy affecting the separate house parcel is not established by the date or transaction alone.",
+      "details": "Frederick Buckler’s 2 February 1949 agricultural tenancy is placed on Parcel B only, consistently with the separate 1939 Parcel B plan. It does not establish a tenancy of Parcel A or affect Mary’s independent occupation/ownership claim to A2. Separate 1949 attempts to make Mary’s occupation permissive are said by the family to have failed and must be assessed on their own documents.",
       "event_type": "tenancy / parcel-scope question",
-      "status": "Court-history lead; original instrument and exact extent remain to be checked",
+      "status": "Family’s corrected parcel allocation; original tenancy/termination papers and 1949 correspondence required",
       "source_evs": [
         "EV-0023"
       ],
@@ -160,10 +160,10 @@
       "model_id": "B",
       "seq": 5,
       "date_text": "4 July 1955 (scope disputed)",
-      "title": "Order 14 and the phrase “whole farm”",
-      "details": "The current working interpretation is that the order was directed at Parcel B, the eastern/right-hand fields. Its later-described “whole farm” wording must not be treated as proof that Parcel A was included. The original order and execution return are needed to establish both its legal scope and the ground physically taken; the separate reasons given for leaving the house and garden undisturbed must not replace Mary’s asserted ownership.",
+      "title": "Order 14: Parcel B legal scope; wider physical taking on 4 July 1955",
+      "details": "The family’s corrected reconstruction distinguishes the legal scope of WGR’s 1955 Order 14, understood as Parcel B only, from the physical taking on 4 July 1955, said to comprise Parcel B, Parcel C and the northern woodland (A1). The farmhouse and garden (A2) were not taken and remained occupied by Mary asserting ownership. The words “whole farm” in the order were not geographically explained and must be read against the 1916 meaning and the reported 1928 change under the 1877 agreement. The original order, warrant, plan and execution return are required to test this reconstruction.",
       "event_type": "court / parcel-scope question",
-      "status": "Interpretation under test; original order and execution return required",
+      "status": "Corrected family reconstruction; primary instruments and execution return still to be examined",
       "source_evs": [
         "EV-0032",
         "EV-0034",
