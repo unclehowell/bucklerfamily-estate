@@ -24,7 +24,5 @@ jobs:
   full-site-validation:
     name: Full generated-site build (no publish)
     uses: ./.github/workflows/build.yml
-    permissions:
-      contents: read
     with:
       dry_run: true
