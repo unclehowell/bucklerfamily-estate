@@ -10,8 +10,8 @@
   "status",
   "page"
  ],
- "synced_utc": "2026-11-25T00:56:16Z",
- "count": 84,
+ "synced_utc": "2026-11-25T14:41:45Z",
+ "count": 85,
  "not_in_central": [],
  "items": {
   "EV-0001": {
@@ -40,6 +40,15 @@
    "date_sort": "1916-02-00",
    "status": "PENDING",
    "page": "/research/evidence/ev-0014-bute-tenancy-john-williams-1916/"
+  },
+  "EV-0015": {
+   "id": "EV-0015",
+   "kind": "evidence",
+   "title": "Drain agreement and plan between John, Marquis of Bute and James Pelham Stuart Corbett",
+   "date_display": "15 May 1924",
+   "date_sort": "1924-05-15",
+   "status": "PENDING",
+   "page": null
   },
   "EV-0016": {
    "id": "EV-0016",
