@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Send OIDC-authenticated GitHub event to Cedwyn flow watch
         env:
-          FLOW_EVENT_URL: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/flow-event
+          FLOW_EVENT_URL: https://bucklerfamily.estate/x78s8jej33i8f8rrj4is88/flow-event
         run: |
           set -euo pipefail
           TOKEN_JSON="$(curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=cedwyn-flow-watch")"
@@ -41,7 +41,7 @@ jobs:
           printf '%s' "$EVENT_RESPONSE" | python3 -c 'import json,sys; x=json.load(sys.stdin); assert x.get("accepted") is True; c=x.get("check") or {}; assert c.get("ok") is True; skipped=c.get("skipped") == "check_already_running"; assert skipped or (c.get("checked_at") and c.get("status") in ("HEALTHY","DEGRADED","CRITICAL")); print("Cedwyn flow-watch:", "check already running" if skipped else c["status"], "issues:", c.get("issue_count", "n/a"))'
       - name: Smoke-test public flow-health JSON endpoint
         env:
-          FLOW_HEALTH_URL: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/flow-health.json
+          FLOW_HEALTH_URL: https://bucklerfamily.estate/x78s8jej33i8f8rrj4is88/flow-health.json
         run: |
           set -euo pipefail
           HEADERS_FILE="$(mktemp)"
