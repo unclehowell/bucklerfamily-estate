@@ -2,8 +2,8 @@
   "audit": "Cedwyn internal HTML/CSS links and fragments",
   "pages_scanned": 14741,
   "references_checked": {
-    "resource": 367315,
-    "nav": 704485
+    "resource": 367316,
+    "nav": 704486
   },
   "database_backed_paths": 7730,
   "unique_missing_destinations": 2431,
