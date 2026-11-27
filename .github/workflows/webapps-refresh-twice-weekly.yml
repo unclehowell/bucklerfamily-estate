@@ -1,10 +1,7 @@
 name: webapps-refresh-twice-weekly
-# bucklerfamily-estate#19. Mon + Thu early morning: snapshots the central catalogue (data/core, served by /api/catalogue) and
-# dispatches ONE build-cedwyn run in this repository on main if none is queued or running; the build's "Data views" step regenerates every
-# webapp's data from data/core. Writes resync/refresh/ on branch evidence-resync. Never edits a record, never merges.
-# Optional LLM triage: with an NVIDIA_API_KEY (tried first), ANTHROPIC_API_KEY or OPENAI_API_KEY repo secret, labels up to
-# 40 review candidates that have no label yet; a provider answering 401/429 or timing out falls through to the next, and
-# the run never fails on it. — Sion's Tab agent
+# bucklerfamily-estate#27. Mon + Thu: snapshot the central catalogue, then dispatch one central site build if none is running.
+# Refresh snapshots and candidate text are held only in the private operations repository (OPS_REPO_TOKEN required).
+# Optional NVIDIA/Anthropic/OpenAI keys label existing review candidates; this workflow never promotes a candidate or merges.
 on:
   schedule:
     - cron: '40 6 * * 1,4'   # 06:40 UTC Monday and Thursday (06:40 London in winter, 07:40 in summer)
@@ -26,12 +23,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      ISSUE: '19'
+      ISSUE: '27'
     steps:
-      - name: Data branch (tiny orphan branch)
-        uses: actions/checkout@v4
-        with: { ref: evidence-resync, path: data, fetch-depth: 1 }
-      - name: Script from this commit
+      - name: Bootstrap private data branch
+        env:
+          OPS_REPO: ${{ vars.OPS_REPO || 'unclehowell/bucklerfamily-ops-private' }}
+          OPS_REPO_TOKEN: ${{ secrets.OPS_REPO_TOKEN }}
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/bootstrap-data-branch.sh" -o bootstrap.sh
+          bash bootstrap.sh data
+      - name: Scripts from this commit
         run: |
           curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/refresh.py" -o refresh.py
           curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/evidence-resync/resync.py" -o resync.py
@@ -53,7 +54,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add resync
           if git diff --cached --quiet; then exit 0; fi
-          git commit -q -m "resync: webapps refresh snapshot $(date -u +%F) (bucklerfamily-estate#19) — Sion's Tab agent"
+          git commit -q -m "resync: webapps refresh snapshot $(date -u +%F) (bucklerfamily-estate#27) — Sion's Tab agent"
           for i in 1 2 3; do git pull -q --rebase origin evidence-resync && git push origin HEAD:evidence-resync && exit 0; sleep 5; done; exit 1
       - name: Note on the tracking issue
         env:

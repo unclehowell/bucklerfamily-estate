@@ -1,0 +1,40 @@
+name: validate-gmail-review
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/evidence-resync/**"
+      - ".github/workflows/evidence-resync-daily.yml"
+      - ".github/workflows/webapps-refresh-twice-weekly.yml"
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public workflow source
+        uses: actions/checkout@v4
+      - name: Compile Python scripts
+        run: |
+          python3 -m py_compile \
+            .github/evidence-resync/gmail_export.py \
+            .github/evidence-resync/resync.py \
+            .github/evidence-resync/refresh.py
+      - name: Check bootstrap shell syntax
+        run: bash -n .github/evidence-resync/bootstrap-data-branch.sh
+      - name: Redaction and attachment smoke tests
+        run: |
+          python3 - <<'PY'
+          import sys
+          sys.path.insert(0, ".github/evidence-resync")
+          import gmail_export as g
+          clean = g.scrub("Please reply to sample.person@example.org or call 029 2012 3456. Regards")
+          assert "sample.person@example.org" not in clean
+          assert "029 2012 3456" not in clean
+          assert g.PRIVATE_CONTEXT.search("private family circumstances")
+          assert not g.safe({"holder":"Council", "title":"Reply", "summary":"The alleged facts are true"})
+          plain, rich, attachment = g.text_from_parts({"filename":"private.pdf","mimeType":"application/pdf","body":{"data":"ignored"}})
+          assert attachment and not plain and not rich
+          assert g.parse_json('{"in_scope": true}') == {"in_scope": True}
+          print("Gmail triage safety smoke tests passed")
+          PY
