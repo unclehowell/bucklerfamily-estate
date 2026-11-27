@@ -338,7 +338,7 @@ const ready = () => window.__w3d ? Promise.resolve(window.__w3d) : new Promise(r
   const loopL = el('label', 'tloption'); const loop = el('input'); loop.type = 'checkbox'; loop.checked = true; loopL.append(loop, 'Loop');
   const parL = el('label', 'tloption'); const parOn = el('input'); parOn.type = 'checkbox'; parOn.checked = true; parL.append(parOn, 'Parcels');
   let narrationOn = true, audioUnlocked = false, currentEvent = -1, voiceSequence = 0;
-  const VOICE_ENDPOINT = 'https://cedwyn-timelapse-voice.righteous.workers.dev/speak';
+  const VOICE_ENDPOINT = 'https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcedwyn-timelapse-voice.righteous.workers.dev%2Fspeak';
   const voiceAudio = el('audio'); voiceAudio.id = 'tlvoiceaudio'; voiceAudio.preload = 'none'; voiceAudio.crossOrigin = 'anonymous';
   voiceAudio.playsInline = true; voiceAudio.setAttribute('playsinline', ''); voiceAudio.setAttribute('webkit-playsinline', '');
   voiceAudio.addEventListener('error', () => { narrationStatus.textContent = 'Audio failed to load · tap Hear headline to retry'; hearNowBtn.textContent = '🔊 Retry'; });
