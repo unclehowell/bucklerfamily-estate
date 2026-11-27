@@ -20,7 +20,6 @@ on:
       - "sections.lock"
       - ".github/workflows/build.yml"
       - ".github/workflows/site-build-core.yml"
-      - ".github/workflows/build-validation-pr.yml"
 
 permissions:
   contents: read

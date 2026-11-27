@@ -3,17 +3,6 @@ name: Full site build validation (pull requests)
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "tools/**"
-      - "web/**"
-      - "data/**"
-      - "themes.json"
-      - "split-repos.json"
-      - "sections.lock"
-      - ".github/workflows/build.yml"
-      - ".github/workflows/site-build-core.yml"
-      - ".github/workflows/build-validation-pr.yml"
-      - ".github/scripts/**"
 
 permissions:
   contents: read
@@ -43,7 +32,7 @@ jobs:
           set -euo pipefail
           git diff --name-only HEAD^1 HEAD > changed-files.txt
           cat changed-files.txt
-          if grep -Eq '^(tools/|web/|data/|themes\\.json$|split-repos\\.json$|sections\\.lock$)' changed-files.txt; then
+          if grep -Eq '^(tools/|web/|data/|themes\.json$|split-repos\.json$|sections\.lock$)' changed-files.txt; then
             echo "content=true" >> "$GITHUB_OUTPUT"
           else
             echo "content=false" >> "$GITHUB_OUTPUT"
