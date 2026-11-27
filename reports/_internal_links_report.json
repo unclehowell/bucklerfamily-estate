@@ -2,13 +2,13 @@
   "audit": "Cedwyn internal HTML/CSS links and fragments",
   "pages_scanned": 14741,
   "references_checked": {
-    "resource": 367316,
-    "nav": 704487
+    "resource": 367320,
+    "nav": 704490
   },
-  "database_backed_paths": 7730,
+  "database_backed_paths": 7734,
   "unique_missing_destinations": 2431,
-  "missing_references": 74668,
-  "missing_navigation_references": 48070,
+  "missing_references": 74669,
+  "missing_navigation_references": 48071,
   "missing_resource_references": 26598,
   "unique_broken_fragments": 2541,
   "broken_fragment_references": 4911,
@@ -802,7 +802,7 @@
     {
       "kind": "nav",
       "path": "/research/>*.html",
-      "references": 35,
+      "references": 36,
       "examples": [
         {
           "from": "/research/evidence/ev-0039-wgr-tenancy-offers-1959-1965/",
