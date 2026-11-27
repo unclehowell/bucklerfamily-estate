@@ -1,7 +1,7 @@
 {
  "schema": "cedwyn-core/0.1.0",
  "note": "Additive screening and missing-record entries arising from the 3 November 2026 book-evidence flywheel. Existing records are not rewritten. Screening leads feed the Kissed Frogs view when their scope disposition is not in_scope. missing_record entries feed the dedicated Negative Finds view. Negative screens describe only bounded searches; they are not proof that a record or relationship never existed. Retrieval stage is stated separately from what the underlying item establishes.",
- "updated": "2026-11-03",
+ "updated": "2026-11-27",
  "records": [
   {
    "id": "KF-51",
@@ -692,6 +692,75 @@
    "public": true,
    "updated": "2026-11-03",
    "rev": 1
+  },
+  {
+   "id": "KF-56",
+   "kind": "screening_lead",
+   "slug": "kf-56-1440-isabel-countess-warwick-inquisition",
+   "title": "1440 inquisition post mortem of Isabel, Countess of Warwick — lordship of Glamorgan and “Landogh” fees",
+   "date": {
+    "display": "3 Nov 1440",
+    "sort": 1440
+   },
+   "place_text": "Lordship of Glamorgan; Cogan, Leckwith and Cosmeston; separate and unresolved “Llandough” fee references",
+   "provenance": {
+    "holder": "Mapping the Medieval Countryside (E-CIPM)",
+    "reference": "E-CIPM 25-330, inquisition at Gloucester, 3 Nov 1440; TNA C 139/96/3 mm. 45–46 and E 149/169/6 m. 9",
+    "date": "2026-11-27",
+    "obtained": "Published calendar text read; original manuscript not inspected; reviewed 27 Nov 2026"
+   },
+   "scope": {
+    "disposition": "out_of_scope",
+    "label": "Out of scope",
+    "reason": "A lordship-level inquisition, not a record identifying Tŷ Mawr / Great House Farm / Cedfin, a Williams family holding, or a particular parcel. The Leckwith and Cogan entries are manorial context only. The separate “Llandough” fee references do not establish a link to Llandough-juxta-Penarth or to the house.",
+    "tags": [
+     "1440",
+     "E-CIPM-25-330",
+     "lordship-of-Glamorgan",
+     "Leckwith",
+     "Cogan",
+     "Landogh",
+     "out-of-scope"
+    ]
+   },
+   "detail": [
+    {
+     "heading": "Record screened",
+     "text": "E-CIPM 25-330, the inquisition post mortem of Isabel, Countess of Warwick, held at Gloucester on 3 November 1440. The writ is dated 29 December 1439. The published calendar identifies the TNA manuscript references as C 139/96/3 mm. 45–46 and E 149/169/6 m. 9.",
+     "form": "term"
+    },
+    {
+     "heading": "What the calendar records",
+     "text": "The calendar describes castles, lordships, manors, lands, tenements, knights’ fees and advowsons as parcel of the lordship of Glamorgan and held of the king in chief. Among the named manors are Cogan, Leckwith and Cosmeston. It separately lists Cogan’s two knights’ fees, formerly held by John Cogan, at £20; and Dinas Powys’s three and a quarter fees, formerly held by John de Somery, at £30.",
+     "form": "term"
+    },
+    {
+     "heading": "The separate “Llandough” fee entries",
+     "text": "One entry reads “Llandough-juxta-Barry or Llandough-juxta-Cowbridge (Landogh)”, a knight’s fee formerly held by the heirs of John de Wynton, valued at £20. The calendar separately lists “Llandough-juxta-Cowbridge and St Mary Church”, a knight’s fee formerly held by Adam le Waleys, valued at £30. The first place identification is unresolved in the calendar; neither entry is identified as Llandough-juxta-Penarth.",
+     "form": "term"
+    },
+    {
+     "heading": "Why it is out of scope",
+     "text": "The inquisition does not name Tŷ Mawr / Great House Farm / Cedfin, the Williams family, a farm parcel, or a conveyance or occupation of the house. The appearance of Leckwith and Cogan as manors within the wider lordship does not identify any particular property within them. The two separate “Llandough” fee references cannot be assigned to the Penarth-side parish on this source alone.",
+     "form": "term"
+    },
+    {
+     "heading": "Source limit",
+     "text": "The published calendar text was read. The underlying manuscript was not inspected. This card screens the source’s relevance to the Tŷ Mawr property-identification question; it does not dispute the calendar’s account of the manors and fees.",
+     "form": "term"
+    }
+   ],
+   "sources": [
+    {
+     "text": "Mapping the Medieval Countryside, E-CIPM 25-330, “Isabel, Countess of Warwick” (calendar text; manuscript not inspected).",
+     "href": null
+    }
+   ],
+   "related": [],
+   "public": true,
+   "updated": "2026-11-27",
+   "rev": 1,
+   "reworded": false
   }
  ]
 }
