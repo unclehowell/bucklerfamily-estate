@@ -37,6 +37,10 @@ jobs:
           node --check web/_cedwyn/parcel-modal.js
           node --check web/_cedwyn/landing-map-views.js
           node --check web/_cedwyn/ghf/basecamp.js
+      - name: WebMCP tool smoke tests
+        run: |
+          node tools/test_agent_tools.js
+          node tools/test_agent_webmcp.js
       - name: Structured data validity
         run: |
           python -m json.tool data/artifact-assessments.json > /dev/null

@@ -107,7 +107,7 @@ async function main() {
   const api = window.__cedwynWebMCP;
   assert.ok(api && typeof api.run === 'function', 'agent fallback API should be available');
   assert.equal(clientLoads, 0, 'catalogue client should load lazily, not on every page view');
-  for (const name of ['search_central_evidence_catalogue', 'get_central_evidence_record',
+  for (const name of ['get_cedwyn_agent_principles', 'search_central_evidence_catalogue', 'get_central_evidence_record',
     'search_central_observations', 'get_central_observation']) {
     assert.ok(api.tools.includes(name), 'missing tool: ' + name);
   }

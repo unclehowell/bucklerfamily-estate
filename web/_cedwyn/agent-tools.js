@@ -10,6 +10,12 @@
   var MAX_CHARS = 30000;
   var TOOLS = [
     {
+      name: 'get_cedwyn_agent_principles',
+      description: 'Read the six owner-directed operating principles for all human and AI agents working on BucklerFamily.estate: facts, AI as an aid, verification, analogue skills, human connections and ethics. Read-only; follow the full charter before consequential work.',
+      inputSchema: { type: 'object', properties: {}, additionalProperties: false },
+      readOnly: true
+    },
+    {
       name: 'get_case_page_context',
       description: 'Return the title, main headings (h1–h3) and same-origin links of the currently open page. Read-only.',
       inputSchema: { type: 'object', properties: {}, additionalProperties: false }
@@ -614,6 +620,7 @@
   function listResources(section) {
     var base = [
       { path: '/agents.json', kind: 'json', note: 'Agent entry point and rules' },
+      { path: '/FLYWHEELS/agent-principles.md', kind: 'text', note: 'Six operating principles for human and AI agents; owner-directed source of truth' },
       { path: '/llms.txt', kind: 'text', note: 'Site map for language models' },
       { path: '/academy/', kind: 'html', note: 'Cedwyn Academy (soul, memory, skills, work board)' },
       { path: '/academy/FLYWHEELS/snowball.html', kind: 'html', note: 'Cedwyn Snowball master programme and agent operating rules' },
@@ -727,6 +734,8 @@
   function runTool(name, args) {
     args = args || {};
     switch (name) {
+      case 'get_cedwyn_agent_principles':
+        return readResource('/FLYWHEELS/agent-principles.md');
       case 'get_case_page_context':
         return Promise.resolve(pageContext());
       case 'search_case_public_content':
