@@ -1,7 +1,7 @@
 {
- "pages": 6248,
- "glossary_links": 16702,
- "name_links": 20563,
+ "pages": 6249,
+ "glossary_links": 16703,
+ "name_links": 20574,
  "themes": {
   "accounts": 1,
   "argentina": 2,
@@ -25,7 +25,7 @@
   "gifts": 1,
   "hubspot": 1,
   "infographic": 2,
-  "kissed-frogs": 56,
+  "kissed-frogs": 57,
   "language-forensics": 1,
   "maps": 2,
   "meeting": 2,
@@ -65,6 +65,6 @@
  "variants": 98,
  "public_variants": 82,
  "agents_link": "/academy/",
- "agent_blocks_hidden": 23527,
- "agent_pages": 11242
+ "agent_blocks_hidden": 23529,
+ "agent_pages": 11243
 }
