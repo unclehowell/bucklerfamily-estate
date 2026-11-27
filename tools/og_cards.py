@@ -313,9 +313,20 @@ def page(p, rel, dist, themes, cards, n, added, untouched, samples):
     cm = CANON.search(head_clean)
     if cm:
         cu = attrs(cm.group(0)).get('href', '')
-        if cu.startswith('/') and not cu.startswith('//'):   # 30 Oct 2026: a relative canonical becomes absolute (same address) - Sion's Tab agent
-            cu = BASE + cu; head_clean = head_clean.replace(cm.group(0), '<link rel="canonical" href="%s">' % esc(cu), 1)
+        # Relative canonicals and legacy Cedwyn-host canonicals are normalised to the public apex.
+        # Other absolute canonicals are preserved: an explicitly external canonical is not silently claimed.
+        if cu.startswith('/') and not cu.startswith('//'):
+            cu = BASE + cu
+        elif cu.startswith(('https://cedwyn.bucklerfamily.estate/', 'http://cedwyn.bucklerfamily.estate/',
+                            'https://www.bucklerfamily.estate/', 'http://www.bucklerfamily.estate/')):
+            parts = cu.split('/', 3)
+            cu = BASE + ('/' + parts[3] if len(parts) > 3 and parts[3] else '/')
+        if cu != attrs(cm.group(0)).get('href', ''):
+            head_clean = head_clean.replace(cm.group(0), '<link rel="canonical" href="%s">' % esc(cu), 1)
         if cu.startswith(BASE + '/'): url = cu
+    else:
+        # Every indexable page needs an explicit canonical, not just an Open Graph URL.
+        head_clean += '<link rel="canonical" href="%s">' % esc(url)
     name = webapp_name(sec, theme)
     title = share_title(name)
     book = item_title(sec, rel_dir, head_clean)
