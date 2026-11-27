@@ -10,15 +10,15 @@ import {
 /**
  * Based on "A Practical Analytic Model for Daylight"
  * aka The Preetham Model, the de facto standard analytic skydome model
- * https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fwww.researchgate.net%2Fpublication%2F220720443_A_Practical_Analytic_Model_for_Daylight
+ * https://www.researchgate.net/publication/220720443_A_Practical_Analytic_Model_for_Daylight
  *
  * First implemented by Simon Wallner
- * https://cedwyn.bucklerfamily.estate/wayback/go/?u=http%3A%2F%2Fsimonwallner.at%2Fproject%2Fatmospheric-scattering%2F
+ * http://simonwallner.at/project/atmospheric-scattering/
  *
  * Improved by Martin Upitis
- * https://cedwyn.bucklerfamily.estate/wayback/go/?u=http%3A%2F%2Fblenderartists.org%2Fforum%2Fshowthread.php%3F245954-preethams-sky-impementation-HDR
+ * http://blenderartists.org/forum/showthread.php?245954-preethams-sky-impementation-HDR
  *
- * Three.js integration by zz85 https://cedwyn.bucklerfamily.estate/wayback/go/?u=http%3A%2F%2Ftwitter.com%2Fblurspline
+ * Three.js integration by zz85 http://twitter.com/blurspline
 */
 
 class Sky extends Mesh {
