@@ -7,7 +7,8 @@ const base = {
   source_system: "gmail",
   source_id: "gmail-message-123",
   occurred_at: "2026-11-28T05:00:00Z",
-  actor: "gmail-ingress"
+  actor: "gmail-ingress",
+  content_sha256: "a".repeat(64)
 };
 
 test("metadata events default to private and receive stable source idempotency", () => {
@@ -48,5 +49,7 @@ test("related IDs are allow-listed, bounded and deduplicated", () => {
 
 test("content hash and internal artifact references are validated", () => {
   assert.throws(() => normalizeEvent({ ...base, content_sha256: "not-hash" }), /invalid_content_sha256/);
+  const noHash = { ...base }; delete noHash.content_sha256;
+  assert.throws(() => normalizeEvent(noHash), /invalid_content_sha256/);
   assert.throws(() => normalizeEvent({ ...base, artifact_ref: "https://example.com/private.pdf" }), /invalid_artifact_ref/);
 });
