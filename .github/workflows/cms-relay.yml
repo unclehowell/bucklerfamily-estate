@@ -1,6 +1,6 @@
 name: cedwyn-cms-relay
-# Commits the queued publishes of the private editor (cedwyn.bucklerfamily.estate/admin/, source on branch cms) with this
-# repo's own Actions token, through the same engine and guards, then starts build-cedwyn. Never force-pushes. — Sion's Tab agent
+# Drains the estate editor queue through the multi-repository engine. The Worker performs stale/guard checks.
+# The cross-repository token is optional; if absent, GITHUB_TOKEN can write only to the platform repo.
 on:
   schedule:
     - cron: '*/5 * * * *'
@@ -17,11 +17,12 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with: { ref: cms, fetch-depth: 1 }
+        with: { ref: main, fetch-depth: 1 }
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
       - name: Commit queued publishes
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          CMS_CROSS_REPO_TOKEN: ${{ secrets.CMS_CROSS_REPO_TOKEN }}
           CMS_RELAY_KEY: ${{ secrets.CMS_RELAY_KEY }}
-        run: node relay/relay.mjs drain --via token
+        run: node workers/cedwyn-cms/relay/relay.mjs drain --via token

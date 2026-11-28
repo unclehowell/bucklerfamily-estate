@@ -1,0 +1,28 @@
+name: cedwyn-cms source contract
+
+on:
+  pull_request:
+    paths:
+      - "workers/cedwyn-cms/**"
+      - ".github/workflows/cms-relay.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check Worker and engine module syntax
+        run: |
+          cp workers/cedwyn-cms/engine.js /tmp/cedwyn-cms-engine.mjs
+          cp workers/cedwyn-cms/index.js /tmp/cedwyn-cms-index.mjs
+          node --check /tmp/cedwyn-cms-engine.mjs
+          node --check /tmp/cedwyn-cms-index.mjs
+          node --check workers/cedwyn-cms/relay/relay.mjs
+      - name: Check multi-repository source contract
+        run: node --test workers/cedwyn-cms/source-contract.test.mjs
