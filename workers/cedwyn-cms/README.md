@@ -16,7 +16,7 @@ The estate CMS no longer reads or writes `unclehowell/cedwyn`.
 
 ## Access requirements
 
-The optional `CMS_CROSS_REPO_TOKEN` Actions secret, or the encrypted optional token stored by the editor, must grant Contents write access to each repository being edited. The fallback GitHub Actions token has access only to this platform repository; it is not falsely treated as cross-repository authority. If no cross-repository write permission exists, the job fails safely and retains the draft rather than writing to the wrong repository.
+The relay authenticates to the Worker with a GitHub Actions OIDC token scoped to audience `bucklerfamily-estate-cms-relay`, repository `unclehowell/bucklerfamily-estate`, ref `refs/heads/main`, and the exact successor CMS relay workflow. The Worker verifies the token against GitHub's published JWKS. This removes the need for a duplicate `CMS_RELAY_KEY` Actions secret. App-repository writes still require the optional encrypted GitHub token stored by the editor to grant Contents write access to the selected app repo. The platform Actions token is used only for the central site build. If a selected app repo denies access, the relay retains the queue item and draft for retry rather than writing to the wrong repository.
 
 ## Data and rollback
 
