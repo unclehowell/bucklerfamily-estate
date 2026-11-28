@@ -42,6 +42,19 @@ const tokenGhFor = repo => {
   return E.tokenGh(token);
 };
 const ghForRepo = repo => via === 'token' ? tokenGhFor(repo) : connectedGh;
+async function relayHeaders() {
+  if (process.env.CMS_RELAY_KEY) return { 'x-relay-key': process.env.CMS_RELAY_KEY };
+  const requestUrl = process.env.ACTIONS_ID_TOKEN_REQUEST_URL;
+  const requestToken = process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
+  if (!requestUrl || !requestToken) throw new Error('GitHub Actions OIDC token endpoint is unavailable');
+  const url = new URL(requestUrl);
+  url.searchParams.set('audience', 'bucklerfamily-estate-cms-relay');
+  const response = await fetch(url, { headers: { authorization: 'Bearer ' + requestToken } });
+  if (!response.ok) throw new Error('GitHub Actions OIDC token request failed: HTTP ' + response.status);
+  const payload = await response.json();
+  if (!payload.value) throw new Error('GitHub Actions OIDC response contained no token');
+  return { authorization: 'Bearer ' + payload.value };
+}
 const buildGh = via === 'token' ? tokenGhFor(E.PLATFORM_REPO) : connectedGh;
 async function compartment(id) {
   const h = await E.heads(E.PLATFORM_REPO);
@@ -50,8 +63,8 @@ async function compartment(id) {
 }
 async function dispatchBuild() { const r = await buildGh('POST', `/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches`, { ref: 'main' }); console.log('build dispatch', r.status); }
 if (cmd === 'drain') {
-  const key = process.env.CMS_RELAY_KEY; if (!key) { console.log('::warning::CMS_RELAY_KEY not set'); process.exit(0); }
-  const r = await fetch(WORKER + '/admin/api/relay/jobs', { headers: { 'x-relay-key': key, 'user-agent': 'cedwyn-cms-relay' } });
+  const authHeaders = await relayHeaders();
+  const r = await fetch(WORKER + '/admin/api/relay/jobs', { headers: { ...authHeaders, 'user-agent': 'cedwyn-cms-relay' } });
   // never fail the scheduled run (a red run every 5 minutes mails the repo owner): warn and stop
   if (!r.ok || !(r.headers.get('content-type') || '').includes('json')) { console.log(`::warning::editor not answering the relay yet (${r.status})`); process.exit(0); }
   const { jobs } = await r.json(); let built = false; console.log('queued jobs:', jobs.length);
@@ -65,7 +78,7 @@ if (cmd === 'drain') {
       console.log('::warning::write permission unavailable for ' + repo + '; queue item retained for a credential with permission');
       break;
     }
-    const p = await fetch(WORKER + '/admin/api/relay/result', { method: 'POST', headers: { 'x-relay-key': key, 'content-type': 'application/json' }, body: JSON.stringify({ key: job.key, result: res }) });
+    const p = await fetch(WORKER + '/admin/api/relay/result', { method: 'POST', headers: { ...authHeaders, 'content-type': 'application/json' }, body: JSON.stringify({ key: job.key, result: res }) });
     console.log('  reported', p.status); if (res.ok && res.commit && !job.compartment.nobuild) built = true;
   }
   if (built) await dispatchBuild();   // commits made with the Actions token do not start other workflows on their own
