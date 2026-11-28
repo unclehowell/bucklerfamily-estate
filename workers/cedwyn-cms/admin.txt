@@ -112,8 +112,8 @@ async function openComp(id,folder){
   app.innerHTML=`<div class="card">Loading files…</div>`;
   let t=await api('tree?c='+encodeURIComponent(id));
   if(t.rate_limited){   // GitHub's anonymous limit hit on the server: list from this phone instead (60 an hour per address)
-    const r=await fetch(`https://api.github.com/repos/unclehowell/cedwyn/git/trees/${t.head}?recursive=1`);const j=await r.json();
-    t.files=(j.tree||[]).filter(x=>x.type==='blob'&&x.path.startsWith(c.prefix)&&(!c.only||new RegExp(c.only).test(x.path))&&(c.branch!=='main'||c.only||x.path.startsWith('web/'))).map(x=>({path:x.path,sha:x.sha,size:x.size}));
+    const r=await fetch(`https://api.github.com/repos/${c.repo||'unclehowell/bucklerfamily-estate'}/git/trees/${t.head}?recursive=1`);const j=await r.json();
+    t.files=(j.tree||[]).filter(x=>x.type==='blob'&&x.path.startsWith(c.prefix||'')&&(!c.only||new RegExp(c.only).test(x.path))&&((c.repo&&c.repo!=='unclehowell/bucklerfamily-estate')||c.branch!=='main'||c.only||x.path.startsWith('web/'))).map(x=>({path:x.path,sha:x.sha,size:x.size}));
   }
   if(t.error&&!t.files){app.innerHTML=`<div class="err">${esc(t.error)}</div>`;return}
   const drafts=DRAFTS[id]||{};const news=Object.keys(drafts).filter(p=>!t.files.some(f=>f.path===p)).map(p=>({path:p,size:0,isnew:1}));
