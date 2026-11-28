@@ -99,12 +99,14 @@ async function enqueue(env, job, ctx) {
   job.key = inv() + '-' + Math.random().toString(36).slice(2, 7); job.status = 'queued'; job.created = new Date().toISOString(); job.created_ms = Date.now();
   await env.CMS.put('q:' + job.key, JSON.stringify(job), { expirationTtl: 30 * 86400 });
   const tok = await ghToken(env);
-  if (tok) {   // direct path: commit now, then ask the site build to run (theme branches don't trigger it on their own)
-    const res = await E.commit(E.tokenGh(tok), job); await finishJob(env, job, res);
+  if (tok) {
+    const res = await E.commit(E.tokenGh(tok), job);
+    // Never consume queued work when the stored credential cannot read the selected app repository.
+    if (!res.ok && /^ref read (401|403|404)\\b/.test(res.error || '')) return job;
+    await finishJob(env, job, res);
     if (res.ok && res.commit && !job.compartment.nobuild) ctx.waitUntil(E.tokenGh(tok)('POST', `/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches`, { ref: 'main' }));
-    return job;
   }
-  return job;   // relay path: the cedwyn-cms workflow (every 5 min, or run on demand) picks it up
+  return job;   // Cloudflare Cron retries queued work using the same encrypted editor token
 }
 // ---- Mailing list (cedwyn-list Worker owns signup/confirm/broadcast; this screen reads/edits the same D1 tables) ----
 const EMAIL_RE = /^[^\s@<>,;"]{1,64}@[^\s@<>,;"]{1,190}\.[a-z]{2,24}$/i;
@@ -164,6 +166,29 @@ async function listApi(req, env, path, url, m) {
   return json({ error: 'not found' }, 404);
 }
 
+
+async function drainQueue(env) {
+  const token = await ghToken(env);
+  const queued = (await listJobs(env, 'q:', 10)).reverse();
+  if (!queued.length) return { ok: true, processed: 0, queued: 0 };
+  if (!token) return { ok: false, reason: 'github_write_token_unavailable', processed: 0, queued: queued.length };
+  const gh = E.tokenGh(token);
+  let processed = 0, built = false;
+  for (const job of queued) {
+    const repo = job.compartment.repo || E.PLATFORM_REPO;
+    const res = await E.commit(gh, job);
+    if (!res.ok && /^ref read (401|403|404)\b/.test(res.error || '')) {
+      return { ok: false, reason: 'repository_write_access_unavailable', repository: repo, processed, queued: queued.length - processed };
+    }
+    await finishJob(env, job, res);
+    processed++;
+    if (res.ok && res.commit && !job.compartment.nobuild) built = true;
+  }
+  let build = null;
+  if (built) build = await gh('POST', \`/repos/\${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches\`, { ref: 'main' });
+  return { ok: true, processed, queued: 0, build_status: build?.status ?? null };
+}
+
 async function api(req, env, ctx, path) {
   const url = new URL(req.url); const m = req.method;
   if (path === 'login' && m === 'POST') {
@@ -175,6 +200,7 @@ async function api(req, env, ctx, path) {
   if (path === 'logout') return json({ ok: true }, 200, { 'set-cookie': 'cms_s=; Path=/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=0' });
   if (path.startsWith('relay/')) {   // the repo's relay workflow (holds CMS_RELAY_KEY as an Actions secret)
     if (!env.CMS_RELAY_KEY || !eq(req.headers.get('x-relay-key') || '', env.CMS_RELAY_KEY)) return json({ error: 'no' }, 403);
+    if (path === 'relay/drain' && m === 'POST') return json(await drainQueue(env));
     if (path === 'relay/jobs') {
       const queued = (await listJobs(env, 'q:', 10)).reverse();
       for (const job of queued) if (!job.compartment.repo) {
@@ -256,6 +282,9 @@ async function api(req, env, ctx, path) {
   return json({ error: 'not found' }, 404);
 }
 export default {
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(drainQueue(env).catch(err => console.error('CMS queue drain failed:', String(err && err.message || err).slice(0, 200))));
+  },
   async fetch(req, env, ctx) {
     const url = new URL(req.url);
     if (url.pathname !== '/admin' && !url.pathname.startsWith('/admin/')) return fetch(req);   // never answer for the public site (e.g. /administrator)
