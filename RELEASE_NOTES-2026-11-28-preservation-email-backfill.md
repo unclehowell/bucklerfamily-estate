@@ -10,7 +10,7 @@ Branch: feature/issue-85-preservation-email-backfill
   - EV-2051 — Treescene, 17 September 2026 (public-safe extract; five original attachments not copied).
   - EV-2052 — Companies House, 10 October 2026 (verbatim public-safe transcript).
   - EV-2053 — BP Legal, 16 October 2026 (sender email address redacted).
-- Added public-safe transcript backfills for EV-1922, EV-1926, EV-1933, EV-1940 and EV-1947. EV-1922 and EV-1926 are verbatim; EV-1933 is an extract omitting quoted earlier correspondence and a project redirect; EV-1940 and EV-1947 omit a project redirect.
+- Added public-safe transcript backfills for EV-1516, EV-1922, EV-1926, EV-1933, EV-1940 and EV-1947. EV-1516 is the 28 September multi-recipient preservation notice; its sender email address is redacted and its one original attachment is not reproduced. EV-1922 and EV-1926 are verbatim; EV-1933 is an extract omitting quoted earlier correspondence and a project redirect; EV-1940 and EV-1947 omit a project redirect.
 - Updated the email index, redaction flags, part count and email archive README. The archive now contains 1,147 email records across 25 parts.
 
 ## Integrity and privacy
