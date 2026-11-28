@@ -3,8 +3,8 @@ const SITES = ["bucklerfamily.estate", "www.bucklerfamily.estate", "wayback.buck
 const PAGES = ["wayback", "bpvsbuckler", "2026-10-22", "ghf-independent-review", "ghf-primary-records", "ghf-public-authorities", "bucklerfamilyfarm", "ghf-app"];
 // --- Daily webapp refresh, Cloudflare half (even live "N of 59" slots). Owner ask 11 Nov 2026: every webapp refreshed daily
 // from the central DB, only when its data changed; odd slots on GitHub Actions, even slots on this Worker's cron (04:35 UTC).
-// For each even app in unclehowell/cedwyn main .github/daily-refresh/apps.json: changed if its repo's main (mirror mode: its old
-// branch) has a commit newer than the live build (/_cedwyn/reports/build.json built_at) minus margin_minutes; central-view apps
+// For each even app in the successor .github/daily-refresh/apps.json: changed if its dedicated repo's main has a commit newer than
+// the live build (/_cedwyn/reports/build.json built_at) minus margin_minutes; central-view apps
 // also when data/core changed. Reads public commit feeds only (no token). The verdict is kept in KV and served at
 // /daily-refresh.json; the GitHub half (webapps-daily-odd.yml, 05:25 UTC) reads it and runs at most ONE site build. — Sion's Tab agent
 const DR_CRON = '35 4 * * *';
