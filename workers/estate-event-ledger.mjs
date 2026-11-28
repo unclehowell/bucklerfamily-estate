@@ -85,8 +85,8 @@ export function normalizeEvent(input, now = new Date().toISOString(), idFactory 
     sourceUrl = parsed.toString();
   }
 
-  const contentHash = input.content_sha256 ?? null;
-  if (contentHash !== null && (typeof contentHash !== "string" || !/^[a-f0-9]{64}$/i.test(contentHash))) {
+  const contentHash = input.content_sha256;
+  if (typeof contentHash !== "string" || !/^[a-f0-9]{64}$/i.test(contentHash)) {
     throw new Error("invalid_content_sha256");
   }
 
@@ -137,7 +137,16 @@ async function tokenMatches(provided, expected) {
 }
 
 async function persistEvent(db, event) {
-  const insert = await db.prepare(`
+  const existingBefore = await db.prepare(
+    "SELECT event_id, content_sha256 FROM event_log WHERE source_system = ? AND source_id = ? LIMIT 1"
+  ).bind(event.source_system, event.source_id).first();
+
+  if (existingBefore) {
+    if (existingBefore.content_sha256 !== event.content_sha256) throw new Error("source_id_content_conflict");
+    return { duplicate: true, event_id: existingBefore.event_id };
+  }
+
+  const insert = db.prepare(`
     INSERT INTO event_log (
       event_id, event_type, source_system, source_id, source_url, occurred_at, ingested_at,
       actor, related_ids_json, content_sha256, privacy_class, idempotency_key,
@@ -149,24 +158,29 @@ async function persistEvent(db, event) {
     event.occurred_at, event.ingested_at, event.actor, event.related_ids_json,
     event.content_sha256, event.privacy_class, event.idempotency_key,
     event.processing_state, event.supersedes_event_id, event.artifact_ref
-  ).run();
+  );
 
-  if ((insert.meta?.changes ?? 0) > 0) {
-    await db.prepare(`
-      INSERT INTO event_jobs (job_id, event_id, work_type, state, attempt_count, created_at, updated_at)
-      VALUES (?, ?, 'classify', 'pending', 0, ?, ?)
-      ON CONFLICT(event_id, work_type) DO NOTHING
-    `).bind(crypto.randomUUID(), event.event_id, event.ingested_at, event.ingested_at).run();
-    return { duplicate: false, event_id: event.event_id };
-  }
+  // D1 batch is transactional. The SELECT form links the outbox row to the persisted event ID,
+  // including a same-source concurrent insert, without trusting the caller's generated ID.
+  const enqueue = db.prepare(`
+    INSERT INTO event_jobs (job_id, event_id, work_type, state, attempt_count, created_at, updated_at)
+    SELECT ?, event_id, 'classify', 'pending', 0, ?, ?
+    FROM event_log
+    WHERE source_system = ? AND source_id = ?
+    ON CONFLICT(event_id, work_type) DO NOTHING
+  `).bind(
+    crypto.randomUUID(), event.ingested_at, event.ingested_at, event.source_system, event.source_id
+  );
 
-  const existing = await db.prepare(
+  const results = await db.batch([insert, enqueue]);
+  const stored = await db.prepare(
     "SELECT event_id, content_sha256 FROM event_log WHERE source_system = ? AND source_id = ? LIMIT 1"
   ).bind(event.source_system, event.source_id).first();
 
-  if (!existing) throw new Error("duplicate_readback_failed");
-  if ((existing.content_sha256 ?? null) !== (event.content_sha256 ?? null)) throw new Error("source_id_content_conflict");
-  return { duplicate: true, event_id: existing.event_id };
+  if (!stored) throw new Error("duplicate_readback_failed");
+  if (stored.content_sha256 !== event.content_sha256) throw new Error("source_id_content_conflict");
+  const inserted = (results?.[0]?.meta?.changes ?? 0) > 0;
+  return { duplicate: !inserted, event_id: stored.event_id };
 }
 
 export default {
