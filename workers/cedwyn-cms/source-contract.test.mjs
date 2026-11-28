@@ -29,7 +29,10 @@ test("writes and reads use the compartment repository; shared builds use the pla
   assert.ok(worker.includes("E.rawAt(c.repo || E.PLATFORM_REPO"));
   assert.ok(worker.includes("/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches"));
   assert.ok(admin.includes("/repos/${c.repo||'unclehowell/bucklerfamily-estate'}/git/trees/"));
-  assert.ok(relay.includes("E.commit(gh, job)"));
+  assert.ok(relay.includes("E.commit(ghForRepo(repo), job)"));
+  assert.ok(relay.includes("repo === E.PLATFORM_REPO ? (centralToken || appToken) : (appToken || centralToken)"));
+  assert.ok(relay.includes("queue item retained for a credential with permission"));
+  assert.ok(relay.includes("/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches"));
 });
 
 test("central site data and sandbox remain confined to platform-owned paths", () => {
@@ -40,6 +43,8 @@ test("central site data and sandbox remain confined to platform-owned paths", ()
 
 test("the relay now checks out the successor main branch and preserves relay auth", () => {
   assert.ok(workflow.includes("ref: main"));
+  assert.ok(workflow.includes("push:"));
+  assert.ok(workflow.includes("workers/cedwyn-cms/**"));
   assert.ok(!workflow.includes("ref: cms"));
   assert.ok(workflow.includes("CMS_RELAY_KEY"));
   assert.ok(workflow.includes("CMS_CROSS_REPO_TOKEN"));
