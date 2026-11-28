@@ -101,7 +101,7 @@ async function enqueue(env, job, ctx) {
   const tok = await ghToken(env);
   if (tok) {   // direct path: commit now, then ask the site build to run (theme branches don't trigger it on their own)
     const res = await E.commit(E.tokenGh(tok), job); await finishJob(env, job, res);
-    if (res.ok && res.commit && !job.compartment.nobuild) ctx.waitUntil(E.tokenGh(tok)('POST', `/repos/${repo}/actions/workflows/build.yml/dispatches`, { ref: 'main' }));
+    if (res.ok && res.commit && !job.compartment.nobuild) ctx.waitUntil(E.tokenGh(tok)('POST', `/repos/${job.compartment.repo || E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches`, { ref: 'main' }));
     return job;
   }
   return job;   // relay path: the cedwyn-cms workflow (every 5 min, or run on demand) picks it up
