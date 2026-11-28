@@ -26,7 +26,7 @@ export async function rawAt(repo, ref, path) {   // immutable when ref is a comm
   return new Uint8Array(await r.arrayBuffer());
 }
 export async function heads(repo = PLATFORM_REPO) {   // branch heads for the selected source repository
-  const r = await fetch(\`https://github.com/\${repo}.git/info/refs?service=git-upload-pack\`, { headers: { 'user-agent': 'git/2.43.0' } });
+  const r = await fetch(`https://github.com/\${repo}.git/info/refs?service=git-upload-pack`, { headers: { 'user-agent': 'git/2.43.0' } });
   if (!r.ok) throw new Error('refs ' + r.status + ' ' + repo);
   const t = await r.text(); const out = {};
   for (const m of t.matchAll(/([0-9a-f]{40}) refs\/heads\/([^\s\0]+)/g)) out[m[2]] = m[1];
