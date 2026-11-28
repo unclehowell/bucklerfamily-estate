@@ -52,6 +52,10 @@ test("the relay now checks out the successor main branch and preserves relay aut
 });
 
 test("legacy queues fail closed and pre-migration publishes cannot be reverted into another repository", () => {
+  assert.ok(worker.includes("async scheduled(controller, env, ctx)"));
+  assert.ok(worker.includes("drainQueue(env)"));
+  assert.ok(worker.includes("repository_write_access_unavailable"));
+  assert.ok(worker.includes("Never consume queued work when the stored credential cannot read the selected app repository."));
   assert.ok(worker.includes("legacy single-repository draft"));
   assert.ok(worker.includes("if (!last.repo)"));
 });
