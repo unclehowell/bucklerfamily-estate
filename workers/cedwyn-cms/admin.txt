@@ -243,3 +243,5 @@ async function history(){title('Recent publishes');const j=await api('jobs');
   if(last)$('#undo').onclick=async()=>{if(!confirm('Undo "'+last.summary+'"?'))return;const r=await api('revert',{method:'POST',body:{commit:last.commit}});$('#ur').innerHTML=r.error?`<div class="err">${esc(r.error)}</div>`:`<div class="ok">Undo ${r.job.status==='done'?'committed':'queued'}.</div>`}}
 start();
 </script></body></html>
+
+<!-- Source: private CMS admin interface migrated into the estate platform on 28 November 2026. -->
