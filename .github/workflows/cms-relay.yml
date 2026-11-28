@@ -2,6 +2,11 @@ name: cedwyn-cms-relay
 # Drains the estate editor queue through the multi-repository engine. The Worker performs stale/guard checks.
 # The cross-repository token is optional; if absent, GITHUB_TOKEN can write only to the platform repo.
 on:
+  push:
+    branches: [main]
+    paths:
+      - "workers/cedwyn-cms/**"
+      - ".github/workflows/cms-relay.yml"
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
