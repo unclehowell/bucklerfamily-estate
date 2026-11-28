@@ -6,10 +6,9 @@ const engine = readFileSync(new URL("./engine.js", import.meta.url), "utf8");
 const worker = readFileSync(new URL("./index.js", import.meta.url), "utf8");
 const admin = readFileSync(new URL("./admin.txt", import.meta.url), "utf8");
 const relay = readFileSync(new URL("./relay/relay.mjs", import.meta.url), "utf8");
-const workflow = readFileSync(new URL("../../.github/workflows/cms-relay.yml", import.meta.url), "utf8");
 
 test("CMS source has no dependency on the retired central repository", () => {
-  for (const [name, text] of [["engine", engine], ["worker", worker], ["admin UI", admin], ["relay", relay], ["workflow", workflow]]) {
+  for (const [name, text] of [["engine", engine], ["worker", worker], ["admin UI", admin]]) {
     assert.doesNotMatch(text, /unclehowell\/cedwyn(?:\/|["'\x60 ]|$)/, name);
     assert.doesNotMatch(text, /raw\.githubusercontent\.com\/unclehowell\/cedwyn\//, name);
   }
@@ -41,14 +40,13 @@ test("central site data and sandbox remain confined to platform-owned paths", ()
   assert.ok(engine.includes("=== PLATFORM_REPO && c.branch === 'main'"));
 });
 
-test("the relay now checks out the successor main branch and preserves relay auth", () => {
-  assert.ok(workflow.includes("ref: main"));
-  assert.ok(workflow.includes("push:"));
-  assert.ok(workflow.includes("workers/cedwyn-cms/**"));
-  assert.ok(!workflow.includes("ref: cms"));
-  assert.ok(workflow.includes("CMS_RELAY_KEY"));
-  assert.ok(workflow.includes("CMS_CROSS_REPO_TOKEN"));
-  assert.ok(workflow.includes("workers/cedwyn-cms/relay/relay.mjs"));
+test("native Cron drains queued work through the encrypted CMS token without an external relay", () => {
+  assert.ok(worker.includes("async scheduled(controller, env, ctx)"));
+  assert.ok(worker.includes("const token = await ghToken(env)"));
+  assert.ok(worker.includes("const queued = (await listJobs(env, 'q:', 10)).reverse()"));
+  assert.ok(worker.includes("repository_write_access_unavailable"));
+  assert.ok(worker.includes("ref read (401|403|404)\\\\b"));
+  assert.ok(worker.includes("Never consume queued work when the stored credential cannot read the selected app repository."));
 });
 
 test("legacy queues fail closed and pre-migration publishes cannot be reverted into another repository", () => {
