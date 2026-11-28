@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """peekaboo_sync.py - pull Peekaboo's own small database from the central catalogue. - Cedwyn editors
 
-Reads the central catalogue (data/core/records/*.json on unclehowell/cedwyn) and writes data/peekaboo.json with only the
+Reads the central catalogue (data/core/records/*.json on unclehowell/bucklerfamily-estate) and writes data/peekaboo.json with only the
 fields this webapp shows. A record is picked when its scope.tags carry "peekaboo" or its id is listed in tools/picks.json;
 picks.json adds the short "said / found / why" lines. Records that are missing or not public are left out and listed in
 the output's "skipped". It then renders the same entries into index.html (between the PEEKABOO markers) so the page reads
@@ -13,7 +13,7 @@ with no JavaScript and agents can read it as plain HTML.
 """
 import json, os, re, sys, html, datetime as dt, urllib.request, urllib.parse
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REPO = 'unclehowell/cedwyn'
+REPO = 'unclehowell/bucklerfamily-estate'
 UA = {'User-Agent': 'cedwyn-peekaboo-sync'}
 import codecs
 # the editorial gate's word list, kept ROT13-encoded so this public file does not itself carry the words
