@@ -51,7 +51,7 @@ test("the relay now checks out the successor main branch and preserves relay aut
   assert.ok(worker.includes("verifyGithubActionsToken"));
   assert.ok(worker.includes("claims.workflow_ref !== 'unclehowell/bucklerfamily-estate/.github/workflows/cms-relay.yml@refs/heads/main'"));
   assert.ok(relay.includes("ACTIONS_ID_TOKEN_REQUEST_URL"));
-  assert.ok(relay.includes("audience=bucklerfamily-estate-cms-relay"));
+  assert.ok(relay.includes("searchParams.set('audience', 'bucklerfamily-estate-cms-relay')"));
   assert.ok(workflow.includes("CMS_CROSS_REPO_TOKEN"));
   assert.ok(workflow.includes("workers/cedwyn-cms/relay/relay.mjs"));
 });
