@@ -1,14 +1,14 @@
 {
  "schema": "cedwyn_export/v1",
- "built_utc": "2026-11-28T18:31:19Z",
+ "built_utc": "2026-11-28T19:29:30Z",
  "database": {
   "bytes": 925360128,
-  "sha256": "2c986d24a68e482d4a2e7caeebad1220ef4e21f9d6d6e2700c5dbaa8b9009de0",
+  "sha256": "862d31bf223bf690b937503205219742507ebaed74d0bd854e0f235fdaacae78",
   "chunks_url_prefix": "/db/cedwyn.sqlite3.",
   "chunk_config": "/db/config.json",
   "stats": "/db/stats.json",
   "rebuild": "/db/export/fetch-full.sh",
-  "db_version": "2c986d24a68e"
+  "db_version": "862d31bf223b"
  },
  "tables": {
   "artifact_assessments": {
@@ -63,7 +63,7 @@
    ]
   },
   "edges": {
-   "rows": 531894,
+   "rows": 531893,
    "columns": [
     "src",
     "rel",
@@ -481,8 +481,8 @@
   },
   {
    "path": "/db/export/artifacts.csv.gz",
-   "bytes": 1254281,
-   "sha256": "7dceaeeb24aa1d1e64ae903648b3f66a5d83fb6a6fa92cf03a56327364d47f87"
+   "bytes": 1254284,
+   "sha256": "04f58dc341d3b387689c2a60d2859948865c02f0899228f5de997fa629e90a54"
   },
   {
    "path": "/db/export/captures.csv.gz",
@@ -491,18 +491,18 @@
   },
   {
    "path": "/db/export/cedwyn-data.json.gz",
-   "bytes": 2764427,
-   "sha256": "aa18a757a6070987f1321c96f58b0726211bb44c0a942d7d345032476f86be98"
+   "bytes": 2764448,
+   "sha256": "7d58215f52ef36092f0aa9d2f2f44e27bdf971e11ccbec357bd2eeb1f4e8c6cd"
   },
   {
    "path": "/db/export/cedwyn-metadata.sqlite3.gz",
-   "bytes": 9344093,
-   "sha256": "c6345bcc5b400f947e7a5f2e30a650760ef93661b8d6049f2ec402eb73bf20c6"
+   "bytes": 9343772,
+   "sha256": "c6c3e29884b3b557d7d8790a1d202ea518645e82b2436ad2ccbfd54d221592e1"
   },
   {
    "path": "/db/export/edges.csv.gz",
-   "bytes": 1492919,
-   "sha256": "9a06f0f8066479e4b3bfd0bd780027001bc3d7a6c135ed2bf4b0d9f4bf5eb249"
+   "bytes": 1492913,
+   "sha256": "6add7a6bc612219c72b989b9f74bca6d4837243d40f7be2b43d6d9b11414f64f"
   },
   {
    "path": "/db/export/estate_parcel_model.csv.gz",
@@ -547,12 +547,12 @@
   {
    "path": "/db/export/fetch-full.sh",
    "bytes": 561,
-   "sha256": "958726ab1eba2eca658f17d292fe32b4be7c93aab038772d397412923f3553c2"
+   "sha256": "2ec0742f8ae671ddee2877c71335de5c9dc3766e3e8271094f37ab7dc3e52d6d"
   },
   {
    "path": "/db/export/fts.csv.gz",
-   "bytes": 8597104,
-   "sha256": "7f027bd75c5be766ccaf7bb76e1c64b9f1fe892508a973640326faa9a6ff77c2"
+   "bytes": 8597102,
+   "sha256": "9effc12accc6c5119348bfabc5430a336339063b98f77ac4af935ded617fdcd2"
   },
   {
    "path": "/db/export/layer_deps.csv.gz",
@@ -577,12 +577,12 @@
   {
    "path": "/db/export/locations.csv.gz",
    "bytes": 358307,
-   "sha256": "665ebc81b9c420a3522cd34906f890670651f663d8a0cad7878e29e97f2cb9fa"
+   "sha256": "9d2a1bc3c833457042db850da31e701e545f6a5804ff8c98eb7be94bf0017eef"
   },
   {
    "path": "/db/export/meta.csv.gz",
-   "bytes": 297,
-   "sha256": "92b9e8cfca0bf6ad90b210bca933830eb0b26048654b604332d5eb881a99bfe0"
+   "bytes": 299,
+   "sha256": "7f204c23c033bcaa9aacf55d22a596279630efd718e86d40919a359e4d830582"
   },
   {
    "path": "/db/export/nodes.csv.gz",
@@ -612,337 +612,337 @@
   {
    "path": "/db/export/sections/accounts.json.gz",
    "bytes": 1135,
-   "sha256": "94f15b167230cb0759522f21684cc7ba1d7e1b896fcdb9f63ef4829272a4c215"
+   "sha256": "9704ebf15ff7cb5e740f9a1ca39cee926fd20b26eeb425f54b1aa9c90b68f48f"
   },
   {
    "path": "/db/export/sections/analytics.json.gz",
    "bytes": 968,
-   "sha256": "7272515b9a0e29b46cecf49715d47afd067eaa26ad32923d5bbf844caca465d8"
+   "sha256": "d6d12250661219a9e411ccc6d86e7af9c4117977c76fba4a6b9d2c77e1a0a458"
   },
   {
    "path": "/db/export/sections/app.json.gz",
    "bytes": 2389,
-   "sha256": "91d60dbd149f6e706fa3eed58cb3f811a3cbbda40641bf94cd0549fd211663f3"
+   "sha256": "423100462002a43ecf122373598f2a9b311e2e14495db036e2351aa69d6aff0c"
   },
   {
    "path": "/db/export/sections/argentina-3d.json.gz",
    "bytes": 2299,
-   "sha256": "a4df72a9fb8a515dde1f15b0b1a4fe9a1f99a0947f08a026b307c1cc8ea987fd"
+   "sha256": "85d23eaaa6c67e4cd8d4b56dd0020cf03896c9cb6a704d5190efcf31b2d5012c"
   },
   {
    "path": "/db/export/sections/authorities.json.gz",
    "bytes": 1382,
-   "sha256": "a979b2615fc34e945d3afe2cd6d208816d4f2e7a25a1dd1b0d80866fa2ec652c"
+   "sha256": "873c01ca3b1194ce94c0fa7c6f653b58c1fc7f19e46005827c2723d85b94fae4"
   },
   {
    "path": "/db/export/sections/bloculous.json.gz",
    "bytes": 1683,
-   "sha256": "597ec9a9beb3180185da87c390bfc87aa3ba36a5c72bc6264f758dabde655067"
+   "sha256": "2a9e69a7075aedf6f6109025c1fbc8c5f499744efa411864241f78d864ce67ac"
   },
   {
    "path": "/db/export/sections/blog.json.gz",
    "bytes": 528,
-   "sha256": "f98332f21d08324f454cf30b6efb5d1fa8a6f9df2afd5e6c69f905147a428446"
+   "sha256": "f30cea73938c35f95fcbf11e508e73e6d0663854072cbd3745c12acf0d5700cc"
   },
   {
    "path": "/db/export/sections/chat.json.gz",
    "bytes": 1175,
-   "sha256": "4b0b8ae7aa1185bc4a7dbb35c3408cc9066a521ebccaed60a948ae15c3309bb6"
+   "sha256": "4fc327e6578a31c57bbdb36f3d4c5a25003dcaa46ea28babd6a1ff7cda0818a2"
   },
   {
    "path": "/db/export/sections/chess.json.gz",
    "bytes": 4177,
-   "sha256": "077af5d302712525036b3feb9f43acfd1f3c1fd7007c137e1d9f894dc4aeb613"
+   "sha256": "b9cd5195b1efb3af7819c2bf0584846a7890b180bbf55f98209e351676a4cd4e"
   },
   {
    "path": "/db/export/sections/chubut-h3.json.gz",
    "bytes": 1480,
-   "sha256": "c893baa35f3e604e6c3ce55cf623f180f0c55418dfa1aea07222d7702c794fbf"
+   "sha256": "ec623c91df5ba5e25196a66adf3866cf52e392e5cf305022b0d9849031f95888"
   },
   {
    "path": "/db/export/sections/cloudflare.json.gz",
    "bytes": 945,
-   "sha256": "16b4f48b3e9cdbaf1485f6446526ce66eee56e502349c50a2667a8004f7b9c6e"
+   "sha256": "6fd71ef125b68e05af741089e033e604386be36ef1957d00480905e94c51506e"
   },
   {
    "path": "/db/export/sections/courtdrills.json.gz",
    "bytes": 1052,
-   "sha256": "0741d7958f607b7d6fe50fafc5399eee6e6d80af4818763018f0196158f7d725"
+   "sha256": "82dd9f085f0dbdd181eb034bc31d91ab64ab2323d0f18c8dbcd5c7451444509d"
   },
   {
    "path": "/db/export/sections/csscpsg.json.gz",
    "bytes": 1686,
-   "sha256": "5a62d41bc0bb96ccc2c8613d1360750d4b2d095144b9c7aabcbfa82c136786e3"
+   "sha256": "cbff9ff77d8c43fc553641bba32e998271bf319bc2eab6e996cfc545efbd185c"
   },
   {
    "path": "/db/export/sections/cyberspace.json.gz",
    "bytes": 754,
-   "sha256": "6e26205752b8add38df976ca82eb82607222ecce10102e8e3c4609282efa91ae"
+   "sha256": "d91a605ac0c0d850f0844bf7236be1720f934ddb7e3ee29d8bef19f83f16cbdb"
   },
   {
    "path": "/db/export/sections/dartboard.json.gz",
    "bytes": 13003,
-   "sha256": "45454d0ac6cd2731b92e5dab78cd6ced29153001fbb51f3d9789b5c3acba5daa"
+   "sha256": "a2efa9033f5cfb0d828aef9ea03b3fb26291bb447d4f9461a29e132f394b848c"
   },
   {
    "path": "/db/export/sections/directory.json.gz",
    "bytes": 24471,
-   "sha256": "887b2b3659f759cb0433267e5c9661fa62a62f832d3335e29fa8e1da27529613"
+   "sha256": "1ed6776859e8f10ac0c1e64b413de44b213a7b19aecb12cfa26c3cb448fb6ea3"
   },
   {
    "path": "/db/export/sections/docs.json.gz",
-   "bytes": 562264,
-   "sha256": "154d9de7ab90f88d5b29c2c616501b29deee6c38e5c211975acd3a3252eccc3d"
+   "bytes": 562267,
+   "sha256": "9163fd278ac5b814be5084a8c13610b5229e358ef877cc7b8e51c68efb44fde8"
   },
   {
    "path": "/db/export/sections/documentary.json.gz",
    "bytes": 3914,
-   "sha256": "71682ce8f7da22afe54bc8b7e1a7af4cc00529d4d94644be0ee89d295bc33e95"
+   "sha256": "bc67c748cba65204187d44ddd417fc4f3e239ff7762bcb8842d11e229aee8a38"
   },
   {
    "path": "/db/export/sections/ebooks.json.gz",
-   "bytes": 17822,
-   "sha256": "f29d131b911fe4fceff60411e04fede3ab25bfb410f6503a872344aaaf091b4e"
+   "bytes": 17821,
+   "sha256": "d1cd75f9515a7c4533bedbda65b3ee16836af881fa3b828ca142a655dbc67ed9"
   },
   {
    "path": "/db/export/sections/email.json.gz",
    "bytes": 108992,
-   "sha256": "27adcafabe0f33dcec1e2bff937cb6d24c81b082153ee1973a8e6d531eb2987d"
+   "sha256": "d7a14d8cfdd2bdfc909239cb23d2350e3d2487ac372f8a73f801134d1fe0ca39"
   },
   {
    "path": "/db/export/sections/emails.json.gz",
    "bytes": 826,
-   "sha256": "42b18f6428eee3ac0dbab153f40e9d72886971a7fd160aa0551a6f4a49eaccf0"
+   "sha256": "4330fc53fa781027bbce15ff46f1e04a88ffd89cb68087d2df9b9afce7fdf824"
   },
   {
    "path": "/db/export/sections/erp.json.gz",
    "bytes": 1262,
-   "sha256": "2ecad91e9a398b8ec42ecb780b2ad4d0a6ecd0d84d8b474e0b89b60bf02086af"
+   "sha256": "51cb938d88f978f8c74cebba22b2a5499e920c29d5444474437483e8bb62ea5e"
   },
   {
    "path": "/db/export/sections/estate.json.gz",
    "bytes": 718,
-   "sha256": "83864e7ce4e9a4db93719572cb817c1dccfbd7ca2ec04e75b04757a04daf9bb9"
+   "sha256": "1c22dcfaf7d5b512becd8a69c6b291e14873805358712f4b070573d94bdf501f"
   },
   {
    "path": "/db/export/sections/familytree.json.gz",
    "bytes": 575,
-   "sha256": "eb8276d42f9c3c3e25c84bd25b944b1915c00503bc0e92d3dcf2fee3ce88ef7d"
+   "sha256": "03718ce2f5f1457a617eec89c4dab596e92afc55c67d2db4f695276639f2ba6a"
   },
   {
    "path": "/db/export/sections/fb.json.gz",
    "bytes": 46426,
-   "sha256": "58d45d41399190e626cd38bb4acfad757378dc51905b22b17c2f88bde8b0795f"
+   "sha256": "779c20d6dec767f3fe84f10755967ae7cec5daff4df798da77cdb70cd0314875"
   },
   {
    "path": "/db/export/sections/fb2.json.gz",
    "bytes": 18360,
-   "sha256": "90eee36924ab25412efc6964b3265015a21e674ca1ce2fb89adb2ef2c5e7b4ac"
+   "sha256": "d06ab05a19065c65a08526a14ff245e521d4bada0e253df13444bfc9a1e265b7"
   },
   {
    "path": "/db/export/sections/fcg.json.gz",
    "bytes": 15313,
-   "sha256": "092903d923029d999563dab0a991aeeb6db4df3a6c8f6015c56816da3081e8e1"
+   "sha256": "6c81fa2b196388d15f412589fa8c98e131a0b38dc750c0fade2ada3a91787a24"
   },
   {
    "path": "/db/export/sections/forensic.json.gz",
    "bytes": 11662,
-   "sha256": "a9382c64c000d79e6c0a7e657417c024ed39d395d2bfea142939822cd2fa4f2e"
+   "sha256": "71c87998df4fb8fc4390026d3ed7ddd06f9adb3ece9e9d68bb5b480bd8b1c04d"
   },
   {
    "path": "/db/export/sections/gifts.json.gz",
    "bytes": 524,
-   "sha256": "fcfef4e1b9af7467a313f03fff3f7ecd30f8b3a223d16cb7675fb8ab56d65e96"
+   "sha256": "f0576447dfc501445e376abb4aff5d6f092b0511f2db327395e1f163a546013f"
   },
   {
    "path": "/db/export/sections/infographic.json.gz",
    "bytes": 2600,
-   "sha256": "1273af7f92fbac2280e25701d21047c89564e71e674ea834573302d1f031588c"
+   "sha256": "d1553c4cbc750b2c58acfda72e6c0cdbcdb32a7ffd3f1abcf3541770556a9130"
   },
   {
    "path": "/db/export/sections/kissed-frogs.json.gz",
-   "bytes": 8898,
-   "sha256": "6158e5a44a35a65d571249f16e0d1e71d85bfcee67f2c6b4921bfa10747e0510"
+   "bytes": 8899,
+   "sha256": "f4a768874190ce1719897fa130285fb18eae35207c55f8171303cac9d0e61e0a"
   },
   {
    "path": "/db/export/sections/language-forensics.json.gz",
    "bytes": 590,
-   "sha256": "75ed05bede45131dde4b2b140c518c4348e5bcd76247ebe67a9225751141f746"
+   "sha256": "c88fb9aef8f4fc1d3b57553e8882ffa688139893b016977930cd5da8c22d2b0e"
   },
   {
    "path": "/db/export/sections/maps.json.gz",
    "bytes": 10952,
-   "sha256": "1998202a912a19b74dd8b045a64f0e9c3f708c37d2b5a0eed9887ebf0d89d520"
+   "sha256": "d87d4dea410ee8a4f047eb1c9eaf67d56decafc2f2e1255dabf089bd621a9ac7"
   },
   {
    "path": "/db/export/sections/meeting.json.gz",
    "bytes": 2068,
-   "sha256": "e1c88e61fcd2f8d70e3ea77de029fa5ddbc5385554e72e7cc231ddbb24f4f2cd"
+   "sha256": "4b40bf09ef00ab895e15ef7ff4ada6388f80f72317fd01e9376a017cc6c1a5c5"
   },
   {
    "path": "/db/export/sections/military.json.gz",
    "bytes": 996,
-   "sha256": "c5fd9efa57afa0ac6728a6d870f95344212a5bf1b534c21f2fe2e3f3ab610d1d"
+   "sha256": "f2a5d6ce39bfb2868c71ac269631f74d39c3f36af9ae6093eca972b3207bb87a"
   },
   {
    "path": "/db/export/sections/molt.json.gz",
    "bytes": 551,
-   "sha256": "002260877c301cd50a28ff7204ffe4e70d70eda0620c37f12b98b0d772150dd2"
+   "sha256": "686e3c657898ad97965364b547f8fc8547d02e348f55da2ddb3c8837291ffc84"
   },
   {
    "path": "/db/export/sections/mr-wolf.json.gz",
    "bytes": 1693,
-   "sha256": "cf30921ac1f6883c582a97e5666b1798787b14e620ef7f6efede1616a8f23455"
+   "sha256": "154ec8eeebc81575e9a190df47ecc6046c399c459ac5d62829ba4a9c9adfb217"
   },
   {
    "path": "/db/export/sections/nft-art.json.gz",
    "bytes": 47140,
-   "sha256": "8942df5bf5836124751a667f9305ca3ce7990513ac486b791cc44a2d502de4e4"
+   "sha256": "137cdeda7c6a29be5ee5eefe25370ae3f0799026ed157f9cc004975807335f3d"
   },
   {
    "path": "/db/export/sections/nomenclature.json.gz",
    "bytes": 3385,
-   "sha256": "7d2c4e90c9a5c59d34459477d403f418a67525104bed520dcac478b943240555"
+   "sha256": "72164e8e30ba6522e23f84e2bd52f89a8dbb77e688d97628af78eff2e1f5cfb3"
   },
   {
    "path": "/db/export/sections/oldbill.json.gz",
    "bytes": 985,
-   "sha256": "f7803cf53c5466b8c7ad4b59ba7505e9a92a96b64759c9bafaae887978c173d0"
+   "sha256": "2219d63d8a58b1d270b2ef6c5c86d5c415564ca2bee9b564f8288d411812b32e"
   },
   {
    "path": "/db/export/sections/patagonia.json.gz",
    "bytes": 763,
-   "sha256": "4ac8f143e1deb4c3ff76a5ff051c58574384177bca733283de728b3eb2867b37"
+   "sha256": "cb9de26ad05e436077b8df6aab6b4ac5031891a54a72bed69168d70e949631fc"
   },
   {
    "path": "/db/export/sections/peekaboo.json.gz",
    "bytes": 1903,
-   "sha256": "cc7e6387ff8287f2228f67789f48a59fb399983524bf871fc0ac7421bb9dfc4c"
+   "sha256": "f61081a1371a8b59a4a6a6419d4ec419293550cfbcf82fdea0571c2f9b55d4e0"
   },
   {
    "path": "/db/export/sections/piano-hero.json.gz",
    "bytes": 856,
-   "sha256": "240236982c257c5cdcfa7ce277cc0634bd47688e6d53bdd8035492e7ce2669c2"
+   "sha256": "abb97feb4a63bc5e693b08934709748af4cebc67e77c431baa21b95e9a281817"
   },
   {
    "path": "/db/export/sections/preservation.json.gz",
    "bytes": 548,
-   "sha256": "9d03f41c52a79c0523178d1bf5dbb88002edbcf59f6461fd6526bf53eee25285"
+   "sha256": "3eb3fe20b023cf507a085c7cd7697e662b9db92df13112afb1ce1689d4cb5548"
   },
   {
    "path": "/db/export/sections/projects.json.gz",
    "bytes": 17145,
-   "sha256": "889c740b59f25414591dff34283844847770e5f01811c99fe61f0485c2cdee4d"
+   "sha256": "1022cd851ea1db8f13305345256ba05bb6273debd5efc68a8690aa5db702f24b"
   },
   {
    "path": "/db/export/sections/qa.json.gz",
-   "bytes": 53327,
-   "sha256": "4164017ca910ae1e4e70aee32ccf3a3a0b4dcf58447c19427172508c2d43f45d"
+   "bytes": 53323,
+   "sha256": "1563e06a26ad3ce3a3a44216c871deccffeaa9f2998a94d967aa014b29b5ef24"
   },
   {
    "path": "/db/export/sections/records.json.gz",
    "bytes": 1305,
-   "sha256": "0812440e016ddd6e23514c6bb3d2dc90969cf38d394b54610e5e1f4a0613b15b"
+   "sha256": "fde73be919ce10d5e6d3a5e6ee2a366d48389d0f86732a8c3edb31fb4b7eb2d9"
   },
   {
    "path": "/db/export/sections/releases.json.gz",
    "bytes": 611,
-   "sha256": "88deddcd9b8e11d54e7f2eed0f08e85857798240c0e13033d161e166d03b8c84"
+   "sha256": "caf59a544c218748df9e6b370dd7eee7c2f0d2e5deb643f3dd6d6688c7db35b5"
   },
   {
    "path": "/db/export/sections/research.json.gz",
-   "bytes": 162962,
-   "sha256": "2309ae8b6450807ca7ecf9f4719e004259ee171fa898e999bcebc4ad94b64b2c"
+   "bytes": 162973,
+   "sha256": "ba802d172108a731b32f08ba003b76b061815369cefc0996336ce31bb6849166"
   },
   {
    "path": "/db/export/sections/review.json.gz",
    "bytes": 1390,
-   "sha256": "7d61492374cac8926ca3fa6afb66db38fdf21283f872837c1c2803398ceb261b"
+   "sha256": "61cdb40234b4246e5b4e2d2b7b12e0153f88533cf9264bb907238d7545d905bc"
   },
   {
    "path": "/db/export/sections/settings.json.gz",
    "bytes": 569,
-   "sha256": "2d5470e50bd142e81d6cc8b2350f2a63c6901ccb7fad5734effd9e006a2621e9"
+   "sha256": "b231b351ccd00288a8adc28d6bec1af3a33048abdaadcc6e40a97ef7f54449c4"
   },
   {
    "path": "/db/export/sections/shop.json.gz",
    "bytes": 5440,
-   "sha256": "d7a5809f5d8cfd93659eae5b482b66a8f98a66abb51ad996412182d49c2913dd"
+   "sha256": "fe0bdbaf7888f324f4860c69740b54497d2d97ba95ced1867ffaaf5809e281f4"
   },
   {
    "path": "/db/export/sections/spill.json.gz",
    "bytes": 1278,
-   "sha256": "c1849d6bdea6ccd76109b32b2df933f68384fdb7c5f9561085f9f1b04e8fafb1"
+   "sha256": "50e362ee3b31be158633804b8914540a87c2e3b1d9459080d6af014a5e0e3d93"
   },
   {
    "path": "/db/export/sections/story.json.gz",
-   "bytes": 4580,
-   "sha256": "9b62aa08e6af76924c2822ae2d6b69bff86976c9960be2ced92ade7540839807"
+   "bytes": 4578,
+   "sha256": "c6ae9e589e9ac3194dd69c7125245c8dec08da75493391e4e1953364a21c8a81"
   },
   {
    "path": "/db/export/sections/terrain.json.gz",
    "bytes": 3335,
-   "sha256": "726062042f0172aa6965b94fbe446daf315288914f5fdd1102f04b4c7df370ce"
+   "sha256": "da7cac3d5034528c7e6c353c224b1ab6ee03592c738bcbf4d83dd6f7f686ca31"
   },
   {
    "path": "/db/export/sections/that-old-chestnut.json.gz",
-   "bytes": 1559,
-   "sha256": "0db48cc65dd400e08e380507bf4a7b55b67e7f43b8e9ddba7417b3fbc92e6b69"
+   "bytes": 1558,
+   "sha256": "341b0045cf673d44152bedadf08948cfdf410343cb1dd50e1e8e0e41a0ccbf22"
   },
   {
    "path": "/db/export/sections/theories.json.gz",
    "bytes": 1191,
-   "sha256": "19bc80910bf776f8342ade8eed8ffeb58468f91a26af52bbb2e68f6598a933d9"
+   "sha256": "40a90d3cb256f4317fbc72b1c522a50adac627530c5c1814a51086d897a8d84b"
   },
   {
    "path": "/db/export/sections/thousand-cuts.json.gz",
    "bytes": 563,
-   "sha256": "919844b5b42cc7b5461b4287aa2c3327f035b4d590228bb962dc6516ea02b37a"
+   "sha256": "d6a9e910360d2080111b00b1315bea0140a5c539a8449b98b6df0601f6c3dfd3"
   },
   {
    "path": "/db/export/sections/tithe-h3.json.gz",
    "bytes": 2028,
-   "sha256": "ab77deccced100ba02f6400c9ed01fd098019dae4d8277501353b5055067d6b7"
+   "sha256": "a3e5550957fb2808308f20ea3dd18abc76a668a3c3e37432f53b30a0bfa0a954"
   },
   {
    "path": "/db/export/sections/tweak.json.gz",
    "bytes": 650,
-   "sha256": "d65d91870a1ccc0ea28a2d794523dd6d8613186968e93e49832118db000a72d0"
+   "sha256": "8a0cc03f6c6b4e20f9dcad91be1d9158ab3cf7fbcf5ae9ef854d31336652e21e"
   },
   {
    "path": "/db/export/sections/uptime.json.gz",
    "bytes": 408,
-   "sha256": "69353ebfd5cc6eef2d305795df6bef47e046890fd83c8d4ae183f4bb61d0b60e"
+   "sha256": "333a4687505f3bf221162dcaeb2256669a996b34ce1af2015f7e0e34de880c07"
   },
   {
    "path": "/db/export/sections/wales.json.gz",
    "bytes": 3606,
-   "sha256": "0fadaf879e8f0a445bde29780a87eec2c4bdcc03cfff4da3c9bc87156bbccc26"
+   "sha256": "f6bc0ca42c9cafd4c61f1e969c282bc54d62096e9bd3e6b57e2a4d806df55b7d"
   },
   {
    "path": "/db/export/sections/watchtower.json.gz",
    "bytes": 1725,
-   "sha256": "8b0e150a5935bf3129ff9cc3a72507ada7963428308bd25dff48544339e8beed"
+   "sha256": "00935e796f78af1ce025559ddf843cd76715b09b8e6fb6863214c3832916f550"
   },
   {
    "path": "/db/export/sections/wayback.json.gz",
-   "bytes": 368973,
-   "sha256": "a32acfef97ab54988177dfad68de757ca4f267e3cc6fd65fead74944e37e4ff4"
+   "bytes": 368964,
+   "sha256": "39a15ff2b5c76f76d7ad0d6ac3dd6e301c54ffeed7043d22b97b9b84d52796a7"
   },
   {
    "path": "/db/export/sections/wdtk.json.gz",
    "bytes": 2300,
-   "sha256": "ab660b10168ac8c886615fcf780c51660df1bd55204519edd1bbaa40f69f9070"
+   "sha256": "822520706cfa722f4feb3f5c14645d66ce1e1d6d9a30fc9c9521f1065ee7c4b2"
   },
   {
    "path": "/db/export/sections/whattheydontsay.json.gz",
    "bytes": 39694,
-   "sha256": "769c78296b4030d6e8bc0b98e3f131352dbce9c6cf9294b18c41d400d179bdce"
+   "sha256": "5703686084e3e8652c3e36e4876a9982d3e014a1ac33e6522f6b6b39153c071f"
   },
   {
    "path": "/db/export/sections/wiki.json.gz",
    "bytes": 121880,
-   "sha256": "989e4b4f59b374bb704318810078d26ef66539cc42b4b2cb62f187bc927216ca"
+   "sha256": "9fcc49029aefaa164fc334752206e2cd1b77c6e0d646a332dff0236d519cc28b"
   },
   {
    "path": "/db/export/themes.csv.gz",
@@ -1384,5 +1384,5 @@
    "section_db": "/tweak/_db/config.json"
   }
  },
- "seconds": 21.0
+ "seconds": 15.9
 }
