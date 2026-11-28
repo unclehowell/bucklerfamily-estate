@@ -22,7 +22,7 @@ test("CMS compartments derive split application destinations from the central ma
   assert.ok(worker.includes("E.compartments(JSON.parse(E.unutf8(b)), JSON.parse(E.unutf8(m)))"));
 });
 
-test("writes and reads use the compartment repository; shared builds use the platform repository", () => {
+test("reads and writes use the selected compartment repository; central builds use the platform", () => {
   assert.ok(engine.includes("const c = job.compartment, branch = c.branch, repo = c.repo || PLATFORM_REPO"));
   assert.ok(worker.includes("E.rawAt(c.repo || E.PLATFORM_REPO"));
   assert.ok(worker.includes("/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches"));
@@ -35,20 +35,19 @@ test("central site data and sandbox remain confined to platform-owned paths", ()
   assert.ok(engine.includes("=== PLATFORM_REPO && c.branch === 'main'"));
 });
 
-test("native Cron drains queued work through the encrypted CMS token without an external relay", () => {
+test("native Cron drains queued work through the existing encrypted CMS token", () => {
   assert.ok(worker.includes("async scheduled(controller, env, ctx)"));
+  assert.ok(worker.includes("async function drainQueue(env)"));
   assert.ok(worker.includes("const token = await ghToken(env)"));
   assert.ok(worker.includes("const queued = (await listJobs(env, 'q:', 10)).reverse()"));
+  assert.ok(worker.includes("github_write_token_unavailable"));
   assert.ok(worker.includes("repository_write_access_unavailable"));
-  assert.ok(worker.includes("ref read (401|403|404)\\b"));
+  assert.ok(worker.includes("if (!res.ok && /^ref read (401|403|404)\\b/.test(res.error || '')) return job;"));
   assert.ok(worker.includes("Never consume queued work when the stored credential cannot read the selected app repository."));
 });
 
-test("legacy queues fail closed and pre-migration publishes cannot be reverted into another repository", () => {
-  assert.ok(worker.includes("async scheduled(controller, env, ctx)"));
-  assert.ok(worker.includes("drainQueue(env)"));
-  assert.ok(worker.includes("repository_write_access_unavailable"));
-  assert.ok(worker.includes("Never consume queued work when the stored credential cannot read the selected app repository."));
+test("legacy queued drafts fail closed and pre-migration publishes cannot be reverted into another repository", () => {
   assert.ok(worker.includes("legacy single-repository draft"));
   assert.ok(worker.includes("if (!last.repo)"));
+  assert.ok(worker.includes("await env.CMS.put('q:' + job.key"));
 });
