@@ -23,3 +23,5 @@
 7. Only then consider a separate production Worker cutover.
 
 No cron, route, secret, binding, state or production endpoint is changed by this source snapshot.
+
+Source: deployed `ghf-status` Worker export checked on 28 November 2026; successor registry and central catalogue sources in `unclehowell/bucklerfamily-estate`.
