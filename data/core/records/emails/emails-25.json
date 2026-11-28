@@ -4,7 +4,7 @@
   "part": 25,
   "parts": 25,
   "updated": "2026-11-28T21:00:00Z",
-  "note": "Part 25 preservation correspondence backfill (28 November 2026). Four sent emails recovered from Gmail during the catalogue-wide preservation audit. EV-2054 (26 May) is an earlier request in the same Loosemores thread as EV-1922; EV-2051 (17 September) is a public-safe extract and its five attachments are not reproduced; EV-2052 (10 October) and EV-2053 (16 October) are public-safe transcripts with external links/contact details omitted. Original messages and attachments remain in Gmail and are not stored in this repository.",
+  "note": "Part 25 preservation correspondence backfill (28 November 2026). Four sent emails recovered from Gmail during the catalogue-wide preservation audit. EV-2054 (26 May) is an earlier request in the same Loosemores thread as EV-1922; EV-2051 (17 September) is a public-safe extract and its five attachments are not reproduced; EV-2052 is a verbatim public-safe transcript; EV-2053 has the sender email address redacted. Original messages and attachments remain in Gmail and are not stored in this repository.",
   "records": [
     {
       "id": "EV-2054",
@@ -78,8 +78,8 @@
       "public": true,
       "updated": "2026-11-28T21:00:00Z",
       "rev": 1,
-      "transcript_status": "public-safe extract; personal context and contact details omitted",
-      "transcript": "Sirs / Madam,\n\nI am a family descendant connected to Great House Farm, Llandough, Vale of Glamorgan, and an heir of the family historically associated with the property.\n\nI am researching historical litigation and events surrounding Great House Farm, Llandough, including BP Properties Ltd v Buckler [1987] EWCA Civ 2 and earlier proceedings.\n\nI would be grateful if your firm could check whether any archived material survives, including case files, attendance notes, instructions / briefs, witness statements, counsel papers, title investigations, deeds packets, land correspondence, licence letters, photographs, maps / plans, press files, internal memoranda, storage references, archive indexes and destruction schedules / logs.\n\nI understand retention periods may have expired. If files no longer exist, I would be grateful for confirmation of whether records once existed, the approximate destruction date, the retention policy applied and any successor archive location or off-site storage reference.\n\nI am not asserting conclusions as established fact; I am seeking evidence and requesting preservation and disclosure of surviving records so the history can be properly examined.\n\nPlease treat this correspondence as a request to preserve any surviving archival material pending further enquiries.\n\n[Other personal context and contact details omitted from this public-safe extract.]"
+      "transcript_status": "public-safe extract; exact preservation request reproduced; personal narrative, video link and personal identifiers omitted",
+      "transcript": "Sirs / Madam,\n\nI am a family descendant connected to Great House Farm, Llandough, Vale of Glamorgan, and an heir of the family historically associated with the property.\nI am researching historical litigation and events surrounding:\n\nBP Properties Ltd v Buckler [1987] EWCA Civ 2\n\nEarlier proceedings involving Great House Farm\n\nProceedings involving Mrs Mary Williams / Mrs Frederick Buckler\n\nLicence correspondence circa 1974\n\nGreat House Farm, Llandough near Penarth\n\nBP Properties Ltd / BP Pension Trust / related entities where relevant.\n\nI would be grateful if your firm could check whether any archived material survives, including but not limited to:\n\nCase files\nAttendance notes\nInstructions / briefs\nWitness statements\nCounsel papers\nTitle investigations\nDeeds packets\nLand correspondence\nLicence letters\nPhotographs\nMaps / plans\nPress files\nInternal memoranda\nStorage references\nArchive indexes\nDestruction schedules / destruction logs\n\nI understand retention periods may have expired. If files no longer exist, I would be grateful for confirmation of whether records once existed, approximate destruction date, retention policy applied, and any successor archive location or off-site storage reference.\n\nPlease treat this correspondence as a request to preserve any surviving archival material pending further enquiries.\n\n[Personal family narrative, allegations, video link and personal identifiers omitted from this public-safe extract.]"
     },
     {
       "id": "EV-2051",
@@ -153,8 +153,8 @@
       "public": true,
       "updated": "2026-11-28T21:00:00Z",
       "rev": 1,
-      "transcript_status": "public-safe extract; surrounding ownership narrative omitted; five attachments not reproduced",
-      "transcript": "Forest of Cardiff,\n\nI am writing concerning the woodland area at Great House Farm / Tŷ Mawr Farm, Llandough-juxta-Penarth, near St Dochdwy's Church and the later Church View Close development.\n\n[Other ownership-history and personal context from the original message is omitted from this public-safe extract.]\n\nPlease preserve any historical records you hold concerning this land, including correspondence, agreements, plans, invoices, photographs and instructions from landowners or developers.\n\nI would be grateful for a substantive response and for confirmation that relevant historical records will be retained pending resolution of the ownership issue.\n\n[Public-safe extract from the sent email. The original message included five attachments, which are not reproduced here.]"
+      "transcript_status": "public-safe extract; preservation request paragraphs reproduced verbatim; ownership allegations and five attachments omitted",
+      "transcript": "Forest of Cardiff,\n\nI am writing concerning the woodland area at Great House Farm / Tŷ Mawr Farm, Llandough-juxta-Penarth, near St Dochdwy's Church and the later Church View Close development.\n\n[Other ownership-history and personal context from the original message is omitted from this public-safe extract.]\n\nPlease therefore confirm:\n\n   12. Please preserve any historical records you hold concerning this land, including correspondence, agreements, plans, invoices, photographs and instructions from landowners or developers.\n\nFor clarity, this correspondence is intended to put Forest of Cardiff on notice that ownership of the land is disputed.\n\nI would be grateful for a substantive response and for confirmation that relevant historical records will be retained pending resolution of the ownership issue.\n\nRegards,\n\nSion Buckler (Ret'd Sergeant)\nRoyal Signals Cyber/Electronic Warfare Professional and Life Member\n\n[The original message included five attachments, which are not reproduced here.]"
     },
     {
       "id": "EV-2052",
@@ -222,14 +222,14 @@
         "dedupe_key": "preservation-backfill-2026-10-10-companies-house",
         "origin": "gmail_sent_recovery",
         "transcript_public": true,
-        "redactions": 1,
+        "redactions": 0,
         "ev": ""
       },
       "public": true,
       "updated": "2026-11-28T21:00:00Z",
       "rev": 1,
-      "transcript_status": "public-safe transcript; contact details omitted",
-      "transcript": "Dear Companies House,\n\nI request, under the Companies Act and in light of the current temporary pause on destruction of dissolved-company files, the complete surviving files (or certified copies / digital images) for:\n\n- Western Ground Rents Ltd\n- BP Properties Ltd\n- Ideal Homes Wales (and any Ideal Homes company that held an interest in land at Llandough / Great House Farm)\n\nThese files are required for a live title and registration investigation concerning Great House Farm / Tŷ Mawr, Llandough. Please confirm preservation of any surviving material and the earliest supply or inspection date.\n\nYours faithfully,\n\nSion Buckler (Ret'd Sergeant)\nRoyal Signals Cyber/Electronic Warfare Professional and Life Member"
+      "transcript_status": "verbatim public-safe transcript",
+      "transcript": "Dear Companies House,\n\nI request, under the Companies Act and in light of the current temporary pause on destruction of dissolved-company files, the complete surviving files (or certified copies / digital images) for:\n\n- Western Ground Rents Ltd\n- BP Properties Ltd\n- Ideal Homes Wales (and any Ideal Homes company that held an interest in land at Llandough / Great House Farm)\n\nThese files are required for a live title and registration investigation concerning Great House Farm / Tý Mawr, Llandough. Please confirm preservation of any surviving material and the earliest supply or inspection date.\n\nYours faithfully,\n\nSion Buckler (Ret'd Sergeant)\nRoyal Signals Cyber/Electronic Warfare Professional and Life Member"
     },
     {
       "id": "EV-2053",
@@ -303,8 +303,8 @@
       "public": true,
       "updated": "2026-11-28T21:00:00Z",
       "rev": 1,
-      "transcript_status": "public-safe transcript; external project links and contact details omitted",
-      "transcript": "Dear Sirs,\n\nI write as Sion Buckler. The original message included links to the public working evidence catalogue, title and chronology index, and long-term archive; those external addresses are omitted from this public-safe transcript.\n\nBP Properties Ltd v Buckler concerned Great House Farm (Tŷ Mawr), Llandough-juxta-Penarth. Possession was obtained on 29 November 1988; the outbuildings were demolished on 30 November 1988 and the farmhouse on 5–6 December 1988. Before considering any litigation, I am exhausting all non-litigious avenues and placing preservation notices with every party that may hold records or artefacts.\n\nIf your firm acted for BP Properties Ltd, the BP Pension Trust or any related entity in that matter, please preserve and do not destroy any client files, correspondence, court bundles, title documents, photographs, plans or other material relating to Great House Farm / Tŷ Mawr for 1969 to present. Please confirm in writing whether you hold any such material and that a preservation hold is in place.\n\nKind regards,\n\nSion Buckler (Ret'd Sergeant)\nRoyal Signals Cyber/Electronic Warfare Professional and Life Member"
+      "transcript_status": "public-safe transcript; sender email address redacted",
+      "transcript": "Dear Sirs,\n\nI write as Sion Buckler. The public working evidence catalogue is at https://greathousefarmwiki.wordpress.com, with the title and chronology index at https://dartboard.bucklerfamily.estate and the long-term archive at https://wayback.bucklerfamily.estate.\n\nBP Properties Ltd v Buckler concerned Great House Farm (Tŷ Mawr), Llandough-juxta-Penarth. Possession was obtained on 29 November 1988; the outbuildings were demolished on 30 November 1988 and the farmhouse on 5–6 December 1988. Before considering any litigation, I am exhausting all non-litigious avenues and placing preservation notices with every party that may hold records or artefacts.\n\nIf your firm acted for BP Properties Ltd, the BP Pension Trust or any related entity in that matter, please preserve and do not destroy any client files, correspondence, court bundles, title documents, photographs, plans or other material relating to Great House Farm / Tŷ Mawr for 1969 to present. Please confirm in writing whether you hold any such material and that a preservation hold is in place.\n\nKind regards,\n\nSion Buckler\n(Ret'd Sergeant)\nRoyal Signals Cyber/Electronic Warfare Professional and Life Member\n[email address redacted]"
     }
   ]
 }
