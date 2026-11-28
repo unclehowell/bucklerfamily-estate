@@ -10,10 +10,10 @@ This is the first bounded implementation step of the event-sourced research arch
 - Maximum request body is 16 KiB.
 - Original email/document bodies, attachment bytes, drafts, contact data and credentials are rejected rather than copied into the ledger.
 - Unknown fields fail closed.
-- Source identity is idempotent on `(source_system, source_id)`.
+- A SHA-256 hash of the source bytes/canonical source payload is mandatory. Source identity is idempotent on `(source_system, source_id)`.
 - Replayed events with the same content hash return the original event ID; the same source ID with a different hash returns HTTP 409 for quarantine/review.
 - Privacy defaults to `private`; there is no public event-read endpoint.
-- Successful ingest writes an `event_log` row and a pending `classify` job in one D1 workflow path.
+- Successful ingest writes an `event_log` row and a pending `classify` job in one transactional D1 batch.
 - The event record contains provenance references, IDs and hashes, never the raw source payload.
 - `GET /health` reveals only service/schema identity, not bindings, database IDs or state.
 
