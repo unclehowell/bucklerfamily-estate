@@ -164,6 +164,33 @@ async function listApi(req, env, path, url, m) {
   return json({ error: 'not found' }, 404);
 }
 
+
+async function verifyGithubActionsToken(token) {
+  try {
+    const parts = String(token || '').split('.');
+    if (parts.length !== 3) return false;
+    const decode = s => JSON.parse(atob(s.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - s.length % 4) % 4)));
+    const header = decode(parts[0]), claims = decode(parts[1]);
+    const now = Math.floor(Date.now() / 1000);
+    if (header.alg !== 'RS256' || !header.kid) return false;
+    if (claims.iss !== 'https://token.actions.githubusercontent.com') return false;
+    if (claims.aud !== 'bucklerfamily-estate-cms-relay') return false;
+    if (!claims.exp || claims.exp <= now || (claims.nbf && claims.nbf > now + 60)) return false;
+    if (claims.repository !== 'unclehowell/bucklerfamily-estate') return false;
+    if (claims.repository_owner !== 'unclehowell' || claims.ref !== 'refs/heads/main') return false;
+    if (claims.workflow_ref !== 'unclehowell/bucklerfamily-estate/.github/workflows/cms-relay.yml@refs/heads/main') return false;
+    const jwksResponse = await fetch('https://token.actions.githubusercontent.com/.well-known/jwks', { cf: { cacheTtl: 300 } });
+    if (!jwksResponse.ok) return false;
+    const jwks = await jwksResponse.json();
+    const jwk = (jwks.keys || []).find(k => k.kid === header.kid && k.use === 'sig' && k.kty === 'RSA');
+    if (!jwk) return false;
+    const publicKey = await crypto.subtle.importKey('jwk', jwk, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']);
+    const signature = Uint8Array.from(atob(parts[2].replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - parts[2].length % 4) % 4)), c => c.charCodeAt(0));
+    const signed = new TextEncoder().encode(parts[0] + '.' + parts[1]);
+    return await crypto.subtle.verify('RSASSA-PKCS1-v1_5', publicKey, signature, signed);
+  } catch { return false; }
+}
+
 async function api(req, env, ctx, path) {
   const url = new URL(req.url); const m = req.method;
   if (path === 'login' && m === 'POST') {
@@ -174,7 +201,10 @@ async function api(req, env, ctx, path) {
   }
   if (path === 'logout') return json({ ok: true }, 200, { 'set-cookie': 'cms_s=; Path=/admin; HttpOnly; Secure; SameSite=Strict; Max-Age=0' });
   if (path.startsWith('relay/')) {   // the repo's relay workflow (holds CMS_RELAY_KEY as an Actions secret)
-    if (!env.CMS_RELAY_KEY || !eq(req.headers.get('x-relay-key') || '', env.CMS_RELAY_KEY)) return json({ error: 'no' }, 403);
+    const secretRelayOk = !!env.CMS_RELAY_KEY && eq(req.headers.get('x-relay-key') || '', env.CMS_RELAY_KEY);
+    const bearer = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
+    const oidcRelayOk = bearer ? await verifyGithubActionsToken(bearer) : false;
+    if (!secretRelayOk && !oidcRelayOk) return json({ error: 'relay_authentication_failed' }, 403);
     if (path === 'relay/jobs') {
       const queued = (await listJobs(env, 'q:', 10)).reverse();
       for (const job of queued) if (!job.compartment.repo) {
