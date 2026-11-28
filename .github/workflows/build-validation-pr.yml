@@ -14,6 +14,9 @@ on:
       - ".github/workflows/site-build-core.yml"
       - ".github/workflows/build-validation-pr.yml"
       - ".github/scripts/**"
+      - ".github/daily-refresh/**"
+      - "workers/ghf-status/**"
+      - "workers/agent-ready/**"
 
 permissions:
   contents: read
@@ -64,6 +67,10 @@ jobs:
         run: ruby -e 'require "yaml"; ARGV.each { |path| YAML.parse_file(path) }' .github/workflows/build.yml .github/workflows/site-build-core.yml .github/workflows/build-validation-pr.yml
       - name: Verify read-only generator and isolated publisher
         run: python3 .github/scripts/check_build_workflow_contract.py
+      - name: Verify daily refresh registry and Worker source contracts
+        run: |
+          python3 .github/scripts/check_daily_refresh_registry.py
+          node --test workers/ghf-status/source-contract.test.mjs workers/agent-ready/source-contract.test.mjs workers/estate-event-ledger.test.mjs
 
   full-site-validation:
     name: Full generated-site build (no publish)

@@ -92,7 +92,7 @@ def main():
     synced, done = [], set()
     for x in todo:
         rp = x.get("repo", "")
-        if x.get("mode") == "mirror" or not rp.startswith("unclehowell/") or rp in done:
+        if x.get("mode") == "mirror" or x.get("deploy") == "repo" or not rp.startswith("unclehowell/") or rp in done:
             continue
         done.add(rp)
         if DRY:
