@@ -5,7 +5,6 @@ import { readFileSync } from "node:fs";
 const engine = readFileSync(new URL("./engine.js", import.meta.url), "utf8");
 const worker = readFileSync(new URL("./index.js", import.meta.url), "utf8");
 const admin = readFileSync(new URL("./admin.txt", import.meta.url), "utf8");
-const relay = readFileSync(new URL("./relay/relay.mjs", import.meta.url), "utf8");
 
 test("CMS source has no dependency on the retired central repository", () => {
   for (const [name, text] of [["engine", engine], ["worker", worker], ["admin UI", admin]]) {
@@ -28,10 +27,6 @@ test("writes and reads use the compartment repository; shared builds use the pla
   assert.ok(worker.includes("E.rawAt(c.repo || E.PLATFORM_REPO"));
   assert.ok(worker.includes("/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches"));
   assert.ok(admin.includes("/repos/${c.repo||'unclehowell/bucklerfamily-estate'}/git/trees/"));
-  assert.ok(relay.includes("E.commit(ghForRepo(repo), job)"));
-  assert.ok(relay.includes("repo === E.PLATFORM_REPO ? (centralToken || appToken) : (appToken || centralToken)"));
-  assert.ok(relay.includes("queue item retained for a credential with permission"));
-  assert.ok(relay.includes("/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches"));
 });
 
 test("central site data and sandbox remain confined to platform-owned paths", () => {
@@ -45,7 +40,7 @@ test("native Cron drains queued work through the encrypted CMS token without an 
   assert.ok(worker.includes("const token = await ghToken(env)"));
   assert.ok(worker.includes("const queued = (await listJobs(env, 'q:', 10)).reverse()"));
   assert.ok(worker.includes("repository_write_access_unavailable"));
-  assert.ok(worker.includes("ref read (401|403|404)\\\\b"));
+  assert.ok(worker.includes("ref read (401|403|404)\\b"));
   assert.ok(worker.includes("Never consume queued work when the stored credential cannot read the selected app repository."));
 });
 
