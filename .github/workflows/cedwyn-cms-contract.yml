@@ -19,8 +19,10 @@ jobs:
           node-version: 20
       - name: Check Worker and engine module syntax
         run: |
-          node --check --input-type=module < workers/cedwyn-cms/engine.js
-          node --check --input-type=module < workers/cedwyn-cms/index.js
+          cp workers/cedwyn-cms/engine.js /tmp/cedwyn-cms-engine.mjs
+          cp workers/cedwyn-cms/index.js /tmp/cedwyn-cms-index.mjs
+          node --check /tmp/cedwyn-cms-engine.mjs
+          node --check /tmp/cedwyn-cms-index.mjs
           node --check workers/cedwyn-cms/relay/relay.mjs
       - name: Check multi-repository source contract
         run: node --test workers/cedwyn-cms/source-contract.test.mjs
