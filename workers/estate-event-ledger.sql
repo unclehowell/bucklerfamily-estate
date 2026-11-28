@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS event_log (
   ingested_at TEXT NOT NULL,
   actor TEXT NOT NULL,
   related_ids_json TEXT NOT NULL DEFAULT '{}',
-  content_sha256 TEXT,
+  content_sha256 TEXT NOT NULL,
   privacy_class TEXT NOT NULL DEFAULT 'private' CHECK (privacy_class IN ('private','public')),
   idempotency_key TEXT NOT NULL UNIQUE,
   processing_state TEXT NOT NULL DEFAULT 'received' CHECK (processing_state IN ('received','queued','processing','complete','quarantined','failed')),
