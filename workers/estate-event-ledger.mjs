@@ -51,6 +51,9 @@ function relatedIds(value) {
  */
 export function normalizeEvent(input, now = new Date().toISOString(), idFactory = () => crypto.randomUUID()) {
   if (!input || typeof input !== "object" || Array.isArray(input)) throw new Error("invalid_event");
+  // Validate the related-ID key allow-list before recursively screening forbidden names:
+  // an unknown key such as "email" is a schema error, not evidence that a payload body was supplied.
+  const validatedRelatedIds = relatedIds(input.related_ids);
   if (hasForbiddenKey(input)) throw new Error("payload_content_not_accepted");
 
   const allowed = new Set([
@@ -102,7 +105,7 @@ export function normalizeEvent(input, now = new Date().toISOString(), idFactory 
 
   const occurredAt = isoTimestamp(input.occurred_at, "occurred_at");
   const ingestedAt = isoTimestamp(now, "ingested_at");
-  const related = relatedIds(input.related_ids);
+  const related = validatedRelatedIds;
 
   return {
     event_id: idFactory(),
