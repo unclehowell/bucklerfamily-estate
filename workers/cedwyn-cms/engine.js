@@ -26,16 +26,16 @@ export async function rawAt(repo, ref, path) {   // immutable when ref is a comm
   return new Uint8Array(await r.arrayBuffer());
 }
 export async function heads(repo = PLATFORM_REPO) {   // branch heads for the selected source repository
-  const r = await fetch(`https://github.com/${repo}.git/info/refs?service=git-upload-pack`, { headers: { 'user-agent': 'git/2.43.0' } });
+  const r = await fetch(\`https://github.com/\${repo}.git/info/refs?service=git-upload-pack\`, { headers: { 'user-agent': 'git/2.43.0' } });
   if (!r.ok) throw new Error('refs ' + r.status + ' ' + repo);
   const t = await r.text(); const out = {};
-  for (const m of t.matchAll(/([0-9a-f]{40}) refs\\/heads\\/([^\\s\\0]+)/g)) out[m[2]] = m[1];
+  for (const m of t.matchAll(/([0-9a-f]{40}) refs\/heads\/([^\s\0]+)/g)) out[m[2]] = m[1];
   return out;
 }
 // ---- compartments: one theme = one (branch, folder); an edit may only touch its own compartment's files ----
 export function compartments(themes, manifest) {
   const out = [], apps = manifest && Array.isArray(manifest.apps) ? manifest.apps : [];
-  const slug = value => String(value || '').replace(/^\\/+|\\/+$/g, '').split('/').pop();
+  const slug = value => String(value || '').replace(/^\/+|\/+$/g, '').split('/').pop();
   const appFor = t => apps.find(a => a.mode === 'split-repo' && a.repo && !/coming-soon/i.test(a.repo)
     && (slug(a.page) === t.id || (t.branch && a.old_branch === t.branch) || a.old_branch === 'section/' + t.id));
   for (const t of themes.themes || []) {
@@ -47,7 +47,7 @@ export function compartments(themes, manifest) {
     } else if (t.layer) {
       Object.assign(c, { repo: PLATFORM_REPO, branch: 'main', prefix: 'web/' + t.id + '/', serve: '' });
     } else if (t.branch) {
-      const pre = (t.dir || '').replace(/^\\/+|\\/+$/g, '');
+      const pre = (t.dir || '').replace(/^\/+|\/+$/g, '');
       Object.assign(c, { repo: PLATFORM_REPO, branch: t.branch, prefix: pre ? pre + '/' : '', serve: pre ? pre + '/' : '' });
       if (t.wp_copy || t.crawl_first) c.note = 'Rebuilt from a crawl of its live site; edits here may not show.';
       if (t.build) c.note = 'Built by its own build step from this branch; preview shows the source only.';
@@ -57,14 +57,14 @@ export function compartments(themes, manifest) {
     out.push(c);
   }
   out.push({ id: 'sandbox', title: 'Sandbox (practise here; not part of the site)', repo: PLATFORM_REPO, branch: 'main',
-    prefix: 'workers/cedwyn-cms/sandbox/', only: /^workers\\/cedwyn-cms\\/sandbox\\/.+$/.source, serve: '', nobuild: true, live: '/admin/' });
+    prefix: 'workers/cedwyn-cms/sandbox/', only: /^workers\/cedwyn-cms\/sandbox\/.+$/.source, serve: '', nobuild: true, live: '/admin/' });
   out.push({ id: 'site-data', title: 'Site data (main: themes.json and the JSON rule files)', repo: PLATFORM_REPO, branch: 'main',
-    prefix: '', only: /^[^/]+\\.json$/.source, live: '/' });
+    prefix: '', only: /^[^/]+\.json$/.source, live: '/' });
   return out;
 }
 export function inCompartment(c, path) {
   if (!c || c.readonly) return false;
-  if (!path || path.includes('..') || path.startsWith('/') || path.includes('\\\\') || /(^|\\/)\\.git(\\/|$)/.test(path)) return false;
+  if (!path || path.includes('..') || path.startsWith('/') || path.includes('\\') || /(^|\/)\.git(\/|$)/.test(path)) return false;
   if (path.startsWith('.github/')) return false;
   if (c.only && !new RegExp(c.only).test(path)) return false;
   if (!path.startsWith(c.prefix || '')) return false;
