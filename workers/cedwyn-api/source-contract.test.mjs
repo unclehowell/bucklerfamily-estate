@@ -39,6 +39,6 @@ test("history URLs and commit queries use the repository attached to each candid
 });
 
 test("shared journal and guestbook assets use the successor platform", () => {
-  assert.match(source, /bucklerfamily-estate\/main\/data\/journal\/pages\.json/);
+  assert.match(source, /PLATFORM_REPO \+ "\/main\/data\/journal\/pages\.json"/);
   assert.match(source, /bucklerfamily-estate\/main\/web\/_cedwyn\/guestbook\/gb\.js/);
 });
