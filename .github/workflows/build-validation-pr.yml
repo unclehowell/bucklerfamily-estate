@@ -70,7 +70,7 @@ jobs:
       - name: Verify daily refresh registry and Worker source contracts
         run: |
           python3 .github/scripts/check_daily_refresh_registry.py
-          node --test workers/ghf-status/source-contract.test.mjs workers/agent-ready/source-contract.test.mjs
+          node --test workers/ghf-status/source-contract.test.mjs workers/agent-ready/source-contract.test.mjs workers/estate-event-ledger.test.mjs
 
   full-site-validation:
     name: Full generated-site build (no publish)
