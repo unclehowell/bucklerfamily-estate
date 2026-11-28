@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "workers/cedwyn-cms/**"
-      - ".github/workflows/cms-relay.yml"
+      - ".github/workflows/cedwyn-cms-contract.yml"
 
 permissions:
   contents: read
@@ -23,6 +23,5 @@ jobs:
           cp workers/cedwyn-cms/index.js /tmp/cedwyn-cms-index.mjs
           node --check /tmp/cedwyn-cms-engine.mjs
           node --check /tmp/cedwyn-cms-index.mjs
-          node --check workers/cedwyn-cms/relay/relay.mjs
       - name: Check multi-repository source contract
         run: node --test workers/cedwyn-cms/source-contract.test.mjs
