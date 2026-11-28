@@ -102,7 +102,7 @@ async function enqueue(env, job, ctx) {
   if (tok) {
     const res = await E.commit(E.tokenGh(tok), job);
     // Never consume queued work when the stored credential cannot read the selected app repository.
-    if (!res.ok && /^ref read (401|403|404)\\b/.test(res.error || '')) return job;
+    if (!res.ok && /^ref read (401|403|404)\b/.test(res.error || '')) return job;
     await finishJob(env, job, res);
     if (res.ok && res.commit && !job.compartment.nobuild) ctx.waitUntil(E.tokenGh(tok)('POST', `/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches`, { ref: 'main' }));
   }
