@@ -35,13 +35,20 @@ function caGh() {   // the connected GitHub account through Tab's connected-apps
     return { status: 0, body: 'connected apps did not answer' };
   };
 }
-const gh = via === 'token' ? E.tokenGh(appToken || centralToken) : caGh();
+const connectedGh = via === 'token' ? null : caGh();
+const tokenGhFor = repo => {
+  const token = repo === E.PLATFORM_REPO ? (centralToken || appToken) : (appToken || centralToken);
+  if (!token) throw new Error('no GitHub credential available for ' + repo);
+  return E.tokenGh(token);
+};
+const ghForRepo = repo => via === 'token' ? tokenGhFor(repo) : connectedGh;
+const buildGh = via === 'token' ? tokenGhFor(E.PLATFORM_REPO) : connectedGh;
 async function compartment(id) {
   const h = await E.heads(E.PLATFORM_REPO);
   const [t, m] = await Promise.all([E.rawAt(E.PLATFORM_REPO, h.main, 'themes.json'), E.rawAt(E.PLATFORM_REPO, h.main, 'split-repos.json')]);
   const c = E.compartments(JSON.parse(E.unutf8(t)), JSON.parse(E.unutf8(m))).find(x => x.id === id); if (!c) throw new Error('no compartment ' + id); return c;
 }
-async function dispatchBuild() { const r = await gh('POST', `/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches`, { ref: 'main' }); console.log('build dispatch', r.status); }
+async function dispatchBuild() { const r = await buildGh('POST', `/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches`, { ref: 'main' }); console.log('build dispatch', r.status); }
 if (cmd === 'drain') {
   const key = process.env.CMS_RELAY_KEY; if (!key) { console.log('::warning::CMS_RELAY_KEY not set'); process.exit(0); }
   const r = await fetch(WORKER + '/admin/api/relay/jobs', { headers: { 'x-relay-key': key, 'user-agent': 'cedwyn-cms-relay' } });
@@ -49,7 +56,15 @@ if (cmd === 'drain') {
   if (!r.ok || !(r.headers.get('content-type') || '').includes('json')) { console.log(`::warning::editor not answering the relay yet (${r.status})`); process.exit(0); }
   const { jobs } = await r.json(); let built = false; console.log('queued jobs:', jobs.length);
   for (const job of jobs) {
-    const res = await E.commit(gh, job); console.log(job.key, job.summary, '->', res.ok ? (res.commit || 'nothing') : res.error);
+    const repo = job.compartment.repo || E.PLATFORM_REPO;
+    const res = await E.commit(ghForRepo(repo), job);
+    console.log(job.key, job.summary, '->', res.ok ? (res.commit || 'nothing') : res.error);
+    // A permission/ref-read failure is not a completed job. Keep the queue item and its draft intact
+    // until a cross-repository writer is available; never consume it with the platform-only token.
+    if (!res.ok && /^ref read (401|403|404)\\b/.test(res.error || '')) {
+      console.log('::warning::write permission unavailable for ' + repo + '; queue item retained for a credential with permission');
+      break;
+    }
     const p = await fetch(WORKER + '/admin/api/relay/result', { method: 'POST', headers: { 'x-relay-key': key, 'content-type': 'application/json' }, body: JSON.stringify({ key: job.key, result: res }) });
     console.log('  reported', p.status); if (res.ok && res.commit && !job.compartment.nobuild) built = true;
   }
@@ -57,7 +72,7 @@ if (cmd === 'drain') {
 } else if (cmd === 'check' || cmd === 'publish') {
   const b = JSON.parse(readFileSync(args[1], 'utf8')); const c = await compartment(b.compartment);
   const job = { compartment: c, files: b.files, confirm: opt('confirm') || b.confirm, message: E.message(b.author || 'Tab', b.summary) };
-  const res = await E.commit(gh, job, { dry: cmd === 'check' });
+  const res = await E.commit(ghForRepo(c.repo || E.PLATFORM_REPO), job, { dry: cmd === 'check' });
   console.log(JSON.stringify(res, null, 1));
   if (cmd === 'publish' && res.ok && res.commit && !c.nobuild && (c.branch !== 'main' || via === 'token')) await dispatchBuild();
   process.exit(res.ok ? 0 : 2);
