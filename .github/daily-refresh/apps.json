@@ -1,6 +1,6 @@
 {
   "schema": "cedwyn-daily-refresh/1.0",
-  "note": "Daily change-gated webapp refresh (owner ask 11 Nov 2026). Odd live N-of-59 slots are checked by GitHub Actions (webapps-daily-odd.yml), even slots by the Cloudflare Worker ghf-status cron. Apps without a live number use their navigator number. One site build at most per day, only when something changed. — Sion's Tab agent",
+  "note": "Daily change-gated refresh of all dedicated app repositories. The 59 numbered live slots and unnumbered navigation pages are retained; newly registered apps without a selector slot are still tracked by repository and lane. The GitHub and Cloudflare halves check their assigned lanes, and at most one successor site build is dispatched after the combined change verdict.",
   "margin_minutes": 45,
   "apps": [
     {
@@ -780,6 +780,61 @@
       "mode": "split-repo",
       "old_branch": null,
       "lane": "github",
+      "central_view": false,
+      "deploy": "repo"
+    },
+    {
+      "slot": null,
+      "nav_no": null,
+      "app": "gifts",
+      "repo": "unclehowell/cedwyn-gifts",
+      "mode": "split-repo",
+      "old_branch": null,
+      "lane": "cloudflare",
+      "central_view": false,
+      "deploy": "repo"
+    },
+    {
+      "slot": null,
+      "nav_no": null,
+      "app": "erp",
+      "repo": "unclehowell/cedwyn-erp",
+      "mode": "split-repo",
+      "old_branch": null,
+      "lane": "github",
+      "central_view": false,
+      "deploy": "repo"
+    },
+    {
+      "slot": null,
+      "nav_no": null,
+      "app": "military",
+      "repo": "unclehowell/cedwyn-military",
+      "mode": "split-repo",
+      "old_branch": null,
+      "lane": "cloudflare",
+      "central_view": false,
+      "deploy": "repo"
+    },
+    {
+      "slot": null,
+      "nav_no": null,
+      "app": "settings",
+      "repo": "unclehowell/cedwyn-settings",
+      "mode": "split-repo",
+      "old_branch": "theme-settings",
+      "lane": "github",
+      "central_view": false,
+      "deploy": "repo"
+    },
+    {
+      "slot": null,
+      "nav_no": null,
+      "app": "tweak",
+      "repo": "unclehowell/cedwyn-tweak",
+      "mode": "split-repo",
+      "old_branch": null,
+      "lane": "cloudflare",
       "central_view": false,
       "deploy": "repo"
     }
