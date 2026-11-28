@@ -1,7 +1,7 @@
 {
   "schema": "cedwyn-core/0.4.0",
   "collection": "emails",
-  "updated": "2026-11-28T21:00:00Z",
+  "updated": "2026-11-28T22:05:00Z",
   "count": 1147,
   "parts": 25,
   "fields": [
@@ -9312,7 +9312,7 @@
       "gm-1a0ad19d30c2f4f6",
       "",
       1,
-      0
+      5
     ],
     [
       "EV-1420",
@@ -11065,12 +11065,12 @@
       "",
       "Preservation notice — Great House Farm (Tŷ Mawr), Llandough — do not destroy, transfer or dispose",
       "gt-1a0e9e1e5a4586bf",
-      0,
+      1,
       14,
       0,
       "gm-1a0e9f79e1673b53",
       "EV-0493",
-      2,
+      1,
       1
     ],
     [
