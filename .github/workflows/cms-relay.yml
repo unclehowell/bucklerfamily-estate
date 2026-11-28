@@ -13,6 +13,7 @@ on:
 permissions:
   contents: write
   actions: write
+  id-token: write
 concurrency:
   group: cedwyn-cms-relay
   cancel-in-progress: false
@@ -29,5 +30,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           CMS_CROSS_REPO_TOKEN: ${{ secrets.CMS_CROSS_REPO_TOKEN }}
-          CMS_RELAY_KEY: ${{ secrets.CMS_RELAY_KEY }}
         run: node workers/cedwyn-cms/relay/relay.mjs drain --via token
