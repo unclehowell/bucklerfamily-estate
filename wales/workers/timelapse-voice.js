@@ -85,11 +85,19 @@ export default {
       try { const b=await request.json(); id=typeof b.id==="string"?b.id:id; }
       catch { return json({error:"Invalid JSON"},400,origin); }
     }
-    const title=EVENT_TITLES[id];
-    if(!title) return json({error:"Unknown event ID",received:id,valid:Object.keys(EVENT_TITLES)},404,origin);
-    // Say it as a sentence: the "·" separator is read aloud as "star" by the voice model.
-    const text=title.replace(/(\d)–(\d)/g,"$1 to $2").replace(/\s*·\s*/g,", ").replace(/\bWGR\b/g,"W G R").replace(/\bBP\b/g,"B P");
-    const cacheKey=new Request("https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcedwyn-voice-cache.invalid%2Fv4%2F"+encodeURIComponent(id)+"?model=aura1-helios");
+    const headline=EVENT_TITLES[id];
+    if(!headline) return json({error:"Unknown event ID",received:id,valid:Object.keys(EVENT_TITLES)},404,origin);
+    const suppliedYear=(url.searchParams.get("year")||"").slice(0,12);
+    const suppliedTitle=(url.searchParams.get("title")||"").replace(/[\r\n\t]+/g," ").trim().slice(0,180);
+    const suppliedSummary=(url.searchParams.get("summary")||"").replace(/[\r\n\t]+/g," ").trim().slice(0,1400);
+    const title=suppliedTitle || headline.replace(/^(?:By\s+)?\d{4}(?:[–-]\d{2,4})?\s*·\s*/, "");
+    const year=suppliedYear || (headline.match(/^\d{4}/)||["Today"])[0];
+    const narration=[year,title,suppliedSummary].filter(Boolean).join(". ");
+    const text=narration.replace(/(\d)–(\d)/g,"$1 to $2").replace(/\bWGR\b/g,"W G R").replace(/\bBP\b/g,"B P");
+    // Hash the complete spoken text: old year-only clips and prior descriptions cannot be reused.
+    const digest=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text));
+    const cacheHash=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("");
+    const cacheKey=new Request("https://cedwyn.bucklerfamily.estate/wayback/go/?u=https%3A%2F%2Fcedwyn-voice-cache.invalid%2Fv6%2F"+encodeURIComponent(id)+"/"+cacheHash+"?model=aura1-helios");
     const cached=await caches.default.match(cacheKey);
     if(cached) {
       const h=new Headers(cached.headers); h.set("Access-Control-Allow-Origin",origin||"*");

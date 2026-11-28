@@ -1,3 +1,24 @@
+## 0.12.3 — complete spoken event narration (28 Nov 2026)
+
+- Fixes the narration path so each event speaks its year, full event title and complete catalogued description before advancing.
+- Removes the two-sentence / 360-character client truncation; sends the full description (up to 1,400 characters) to the voice Worker.
+- Raises the Worker description limit to 1,400 characters and hashes the complete spoken text into a v6 audio cache key. Old year-only clips and clips from earlier descriptions cannot be replayed.
+- Synchronises both tracked Worker source copies and updates the browser module cache-buster.
+- Keeps event progression locked until narration audio ends or fails.
+
+## 0.12.1 — narration, mobile transport and historical-count qualification (28 Nov 2026)
+
+- Tightens the illustrated guide's mouth envelope response to reduce visible lag against the narration waveform.
+- Clears pending narration and unloads the active clip when automatic narration is switched off, preventing a stale pending flag from blocking event progression.
+- Adds mobile transport-bar width guards for the chronology and Options control.
+- Qualifies the Stewart-plan count: 44 reconstructed outlines from up to 59 apparent numbered references; the numbering is provisional and must not be presented as 59 confirmed parcels. Records the possible 30/50 handwriting ambiguity.
+
+## 0.12.0 — Character guide and narration-locked event rail (27 Nov 2026)
+
+- Replaces the procedural ghost with the user-supplied illustrated character as a floating, camera-facing guide in the 3D world; mouth movement is driven by the live narration waveform.
+- Timeline shows the previous, current and next catalogued event years, with the current year emphasized. Dedicated skip-back and skip-forward controls move between dated events only.
+- Automatic event advancement waits for the current narration audio to finish (or fail) before starting another event. The 5× setting remains the default speed for non-narration dwell; it no longer cuts spoken events short.
+
 ## 0.11.1 — Event narration includes descriptions
 
 - Fixed narration to speak the event year, title and a concise extract from the catalogued event description, rather than the hard-coded headline alone.
