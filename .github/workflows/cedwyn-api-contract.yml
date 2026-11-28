@@ -1,0 +1,22 @@
+name: cedwyn-api source contract
+
+on:
+  pull_request:
+    paths:
+      - "workers/cedwyn-api/**"
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check Worker syntax
+        run: node --check workers/cedwyn-api/index.js
+      - name: Check multi-repository source contract
+        run: node --test workers/cedwyn-api/source-contract.test.mjs
