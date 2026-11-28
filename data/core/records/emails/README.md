@@ -14,13 +14,13 @@ re-padded. Always sort ids by their number, not as text. Ids are never reused.
 - `index.json` — metadata only, one row per record: id, timestamp, direction, correspondent(s), sender as shown, subject line, thread, whether
   the transcript is public, the part that holds the record, attachment count, message id, linked EV request record, redaction count, headers only (1 for subject-access correspondence).
   Read-models (the ERP, the email archive) read this.
-- `emails-01.json` … `emails-24.json` — the records (core schema), in date order, about 350 KB each (parts 24 and 25 are small additive batches).
+- `emails-01.json` … `emails-25.json` — the records (core schema), in date order, about 350 KB each (parts 24 and 25 are small additive batches).
 
 ## Counts (build of 2026-11-28)
 - 1147 records, EV-0906 to EV-2054.
 - Part 24 (EV-2046–EV-2050, 14 Nov 2026): five messages recovered from Gmail Spam and moved to Inbox — Cardiff Council FOI acknowledgements FOI26520, FOI26521, FOI26599, FOI26600, and Victorian Society automatic reply on the Tŷ Mawr casework archive enquiry.
-- Part 25 (EV-2051–EV-2054, 28 Nov 2026): four preservation-request emails recovered from Sent during the catalogue-wide audit — Treescene (17 Sep), Companies House (10 Oct), BP Legal (16 Oct), and an earlier Loosemores request (26 May). The Treescene and Loosemores records are public-safe extracts; original messages and attachments remain in Gmail and are not stored in this repository.
-- Five existing sent records (EV-1922, EV-1926, EV-1933, EV-1940 and EV-1947) received public-safe transcripts recovered from Gmail. EV-1933 omits quoted earlier correspondence.
+- Part 25 (EV-2051–EV-2054, 28 Nov 2026): four preservation-request emails recovered from Sent during the catalogue-wide audit — Treescene (17 Sep), Companies House (10 Oct), BP Legal (16 Oct), and an earlier Loosemores request (26 May). Treescene and the earlier Loosemores email are public-safe extracts; Companies House is verbatim; BP Legal has the sender email address redacted. Original messages and attachments remain in Gmail and are not stored in this repository.
+- Five existing sent records (EV-1922, EV-1926, EV-1933, EV-1940 and EV-1947) received public-safe transcripts recovered from Gmail. EV-1922 and EV-1926 are verbatim; EV-1933 is an extract omitting quoted earlier correspondence and a project redirect; EV-1940 and EV-1947 omit a project redirect.
 - Earlier batch (2026-11-10): 1138 records, EV-0906 to EV-2045: 1056 from the email archive (with its text) and 82 from the case-mail index that the archive does not hold yet (metadata only, transcript "not yet transcribed").
 - Every message is shown. Subject-access correspondence shows its headers only (sender, date, subject line) and no transcript where required. Other transcripts are public. A copy of any original can be requested through the catalogue.
 - Redaction: black-blocked passages are the minimum for public display: email addresses, phone numbers, postal addresses, personal data, names of private individuals, the house word list and the two withheld digit strings, plus the mail-client image tags, numbers and phrases the editorial lint rejects. The originals are not published anywhere in this repository; a copy can be requested through the catalogue.
