@@ -185,7 +185,7 @@ async function drainQueue(env) {
     if (res.ok && res.commit && !job.compartment.nobuild) built = true;
   }
   let build = null;
-  if (built) build = await gh('POST', \`/repos/\${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches\`, { ref: 'main' });
+  if (built) build = await gh('POST', `/repos/${E.PLATFORM_REPO}/actions/workflows/build.yml/dispatches`, { ref: 'main' });
   return { ok: true, processed, queued: 0, build_status: build?.status ?? null };
 }
 
